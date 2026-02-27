@@ -2,13 +2,18 @@
 
 **Audited:** 2026-02-27
 **Fixed:** 2026-02-27
-**Goal:** Document all friction points blocking a new researcher from running this repo in under 10 minutes. See **Fixes Applied** section at the bottom for resolution of all 10 issues.
+**Goal:** Document all friction points blocking a new researcher from running this repo in under 10 minutes. See **Fixes Applied** section at the bottom for resolution of all 11 issues.
+
+**PRs submitted:**
+- [safety-tooling #155](https://github.com/safety-research/safety-tooling/pull/155) — fix startup crash when `OPENAI_API_KEY` is unset (FP-3)
+- [open-source-alignment-faking #2](https://github.com/safety-research/open-source-alignment-faking/pull/2) — one-click setup script, `.env.example`, Dockerfile (FP-1, 2, 4–10)
+- [open-source-alignment-faking #4](https://github.com/safety-research/open-source-alignment-faking/pull/4) — propagate `model_ids` → `model_id` rename (FP-11)
 
 ---
 
 ## Summary
 
-Out of the box, a fresh researcher cannot run `./experiments/examples/1_run_pipeline.sh` at all. The script crashes before making a single API call due to missing environment setup. Total friction points found: **10**.
+Out of the box, a fresh researcher cannot run `./experiments/examples/1_run_pipeline.sh` at all. The script crashes before making a single API call due to missing environment setup. And even after environment setup is fixed, a separate breaking API change in a dependency makes every inference call crash at runtime. Total friction points found: **11** (3 BLOCKERs, 4 MODERATE, 4 MINOR).
 
 ---
 
@@ -158,6 +163,36 @@ The script runs 100 HarmBench examples with 45 Anthropic threads and no dry-run 
 
 ---
 
+### FP-11 · BLOCKER · `model_ids` parameter renamed to `model_id` in safety-tooling — never propagated to main repo
+
+**Where:** `src/pipeline/evals.py` lines 156 and 771, `src/run.py` line 129, `src/utils.py` line 126
+**What happened:** The `safety-tooling` submodule had a silent breaking change. In PR #58 (commit `6c550c4`), the function that sends prompts to the AI model was updated and its first argument was renamed from `model_ids` (plural) to `model_id` (singular). The function also dropped support for passing a list of models — it now accepts only a single model name as a plain string.
+
+This change was never reflected in the main repo. Every place in the main repo that calls this function still passes the old argument name `model_ids=...`. In Python, if you call a function with a keyword argument it doesn't recognise, it raises a `TypeError` immediately and stops. So even after fixing all 10 environment/setup issues above, the pipeline crashes the moment it tries to make its first AI API call:
+
+```
+TypeError: __call__() got an unexpected keyword argument 'model_ids'
+```
+
+**Root cause in plain terms:** Think of it like a form that used to have a field called "Model IDs" (plural, accepting a comma-separated list). The form was redesigned so the field is now called "Model ID" (singular, one entry only). The people filling out the form never got the memo, and are still writing in the old field name — so the form rejects every submission.
+
+**Why it's easy to miss:** The error only appears at inference time, not at import time or startup. The repo runs successfully up to the point of sending a prompt. Researchers who get past the setup hurdles will see a clean startup and then hit this crash, with no hint in the README that a dependency API changed.
+
+**The four affected call sites:**
+
+| File | Line | Old (broken) | New (correct) |
+|------|------|--------------|---------------|
+| `src/pipeline/evals.py` | 156 | `model_ids=self.model_id` | `model_id=self.model_id` |
+| `src/pipeline/evals.py` | 771 | `model_ids=self.model_id` | `model_id=self.model_id` |
+| `src/run.py` | 129 | `model_ids=cfg.model_name` | `model_id=cfg.model_name` |
+| `src/utils.py` | 126 | `model_ids=model_id` | `model_id=model_id` |
+
+**Impact:** The pipeline cannot complete any inference at all. Every attempt to call the AI model crashes. This renders the entire research pipeline non-functional regardless of setup.
+**Fix:** Changed all four call sites to use `model_id=` (singular). Four one-word changes across three files. Confirmed by tracing the rename to safety-tooling commit `6c550c4` via `git show`.
+**Filed:** [Issue #3](https://github.com/safety-research/open-source-alignment-faking/issues/3) — fixed in [PR #4](https://github.com/safety-research/open-source-alignment-faking/pull/4).
+
+---
+
 ## Environment Snapshot at Time of Audit
 
 | Item | Version/State |
@@ -198,7 +233,7 @@ The log file is created in `./outputs/suffix-True-new-classifiers-True/logs/`, b
 
 ## Fixes Applied
 
-All 10 friction points have been resolved. The repo now supports one-click setup via `bash setup.sh`.
+All 11 friction points have been resolved. The repo now supports one-click setup via `bash setup.sh`.
 
 ### New files added
 
@@ -236,6 +271,15 @@ All 10 friction points have been resolved. The repo now supports one-click setup
 | FP-8 `ffmpeg` missing | MINOR | ✅ Fixed | `setup.sh` checks and prints OS-specific install command; `Dockerfile` installs it |
 | FP-9 `openweights` confusion | MINOR | ✅ Fixed | `.env.example` clarifies it's optional/RunPod-only with install instructions |
 | FP-10 No smoke-test mode | MINOR | ✅ Fixed | `setup.sh` prints a `--limit 1` smoke-test command at end of setup |
+| FP-11 `model_ids` → `model_id` rename | BLOCKER | ✅ Fixed | Updated all 4 call sites in `evals.py`, `run.py`, `utils.py`; filed Issue #3, merged in PR #4 |
+
+### PRs submitted
+
+| PR | Repo | What it fixes |
+|----|------|--------------|
+| [safety-tooling #155](https://github.com/safety-research/safety-tooling/pull/155) | safety-tooling | FP-3: sentinel `api_key` pattern in `base.py`, `embedding.py`, `moderation.py`, `s2s.py` |
+| [open-source-alignment-faking #2](https://github.com/safety-research/open-source-alignment-faking/pull/2) | main repo | FP-1, 2, 4, 5, 6, 7, 8, 9, 10: `setup.sh`, `.env.example`, `Dockerfile`, `.dockerignore` |
+| [open-source-alignment-faking #4](https://github.com/safety-research/open-source-alignment-faking/pull/4) | main repo | FP-11: `model_ids` → `model_id` at all 4 call sites |
 
 ### Quick-start (after fixes)
 
@@ -244,7 +288,7 @@ All 10 friction points have been resolved. The repo now supports one-click setup
 git clone https://github.com/safety-research/open-source-alignment-faking
 cd open-source-alignment-faking
 
-# 2. One-click setup (handles all 10 friction points)
+# 2. One-click setup (handles all 11 friction points)
 bash setup.sh
 
 # 3. Activate venv
