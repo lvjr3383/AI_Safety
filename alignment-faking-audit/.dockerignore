@@ -1,0 +1,33 @@
+# .dockerignore — keep the Docker build context lean
+# Exclude large/sensitive directories that don't need to be in the image.
+
+# Python virtual environment (rebuilt inside container)
+.venv/
+
+# Experiment outputs (mount as a volume instead)
+outputs/
+
+# Secrets (NEVER bake .env into the image)
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Git metadata (not needed in the image)
+.git/
+
+# Editor/IDE files
+.cursor*
+.vscode/
+*.swp
+*.swo
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
