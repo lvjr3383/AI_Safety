@@ -19,8 +19,9 @@ including 3 hard crashes before a single API call. Fixed all 11 and contributed 
 
 **Artifacts:** [`alignment-faking-audit/`](alignment-faking-audit/)
 - `REPRODUCIBILITY_AUDIT.md` — full audit log with all 11 friction points
-- `ARTICLE_PHASE1.md` — writeup: reproducing the alignment faking paper
-- `ARTICLE_PHASE2.md` — writeup: contributing to the UK AISI inspect_evals framework
+- `ARTICLE_PART1.md` — writeup: reproducing the alignment faking paper
+- `ARTICLE_PART2.md` — writeup: contributing to the UK AISI inspect_evals framework
+- `ARTICLE_PART3.md` — writeup: running experiments on Claude 4.x models
 - `setup.sh` — one-click setup script
 - `.env.example` — annotated API key template
 - `Dockerfile` — reproducible container
