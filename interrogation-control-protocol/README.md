@@ -2,6 +2,8 @@
 
 A three-condition evaluation of interrogation-based AI control protocols, testing whether open monitoring outperforms surprise scrutiny in catching adversarial coding agents.
 
+![Interrogation Control Protocol](AI%20Safety%20Hackathon.png)
+
 ## The Problem
 
 We are in an era where AI agents autonomously write code, manage infrastructure, and run terminals with decreasing human oversight. The threat model is specific: a misaligned agent completing a legitimate software engineering task while secretly smuggling in malicious behavior — a backdoor, a data exfiltration hook, a path traversal vulnerability. Things that look like normal code until they aren't.
