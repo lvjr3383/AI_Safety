@@ -102,6 +102,34 @@ def strip_md_inline(text):
     return text
 
 
+def strip_bold_code(text):
+    """Strip **bold** and `code` only — leave links intact for clickable rendering."""
+    text = re.sub(r'\*\*(.+?)\*\*', r'\1', text)
+    text = re.sub(r'`(.+?)`', r'\1', text)
+    return sanitize(text)
+
+
+def write_with_links(pdf, text, h=6, indent=0):
+    """Render a text segment inline, making [label](url) patterns clickable."""
+    parts = re.split(r'(\[.+?\]\(.+?\))', text)
+    pdf.set_x(MARGIN + indent)
+    for part in parts:
+        m = re.match(r'\[(.+?)\]\((.+?)\)', part)
+        if m:
+            label = sanitize(m.group(1))
+            url = m.group(2)
+            pdf.set_text_color(30, 80, 180)
+            pdf.set_font("Helvetica", "U", 10)
+            pdf.write(h, label, link=url)
+            pdf.set_text_color(30, 30, 30)
+            pdf.set_font("Helvetica", "", 10)
+        else:
+            pdf.set_font("Helvetica", "", 10)
+            pdf.set_text_color(30, 30, 30)
+            pdf.write(h, strip_bold_code(part))
+    pdf.ln(h)
+
+
 def parse_and_render(pdf, md_text):
     """Parse markdown line by line and render to PDF."""
     lines = md_text.split("\n")
@@ -163,7 +191,35 @@ def parse_and_render(pdf, md_text):
             rest = m.group(2)
             bm = re.match(r'\*\*(.+?)\*\*\s*[—-]\s*(.*)', rest)
             if bm:
-                pdf.numbered_item(num, sanitize(bm.group(1)) + " --", strip_md_inline(bm.group(2)))
+                label = sanitize(bm.group(1)) + " --"
+                body = bm.group(2)
+                if re.search(r'\[.+?\]\(.+?\)', body):
+                    # Render prefix with cell, then body with clickable links
+                    pdf.set_font("Helvetica", "B", 10)
+                    pdf.set_text_color(30, 30, 30)
+                    pdf.set_x(MARGIN + 4)
+                    prefix = f"{num}. {label} "
+                    prefix_w = pdf.get_string_width(prefix)
+                    pdf.cell(prefix_w, LINE_HEIGHT, prefix)
+                    # write_with_links continues inline from current x
+                    parts = re.split(r'(\[.+?\]\(.+?\))', body)
+                    for part in parts:
+                        lm = re.match(r'\[(.+?)\]\((.+?)\)', part)
+                        if lm:
+                            link_label = sanitize(lm.group(1))
+                            url = lm.group(2)
+                            pdf.set_text_color(30, 80, 180)
+                            pdf.set_font("Helvetica", "U", 10)
+                            pdf.write(LINE_HEIGHT, link_label, link=url)
+                            pdf.set_text_color(30, 30, 30)
+                            pdf.set_font("Helvetica", "", 10)
+                        else:
+                            pdf.set_font("Helvetica", "", 10)
+                            pdf.set_text_color(30, 30, 30)
+                            pdf.write(LINE_HEIGHT, strip_bold_code(part))
+                    pdf.ln(LINE_HEIGHT)
+                else:
+                    pdf.numbered_item(num, label, strip_md_inline(body))
             else:
                 pdf.numbered_item(num, "", strip_md_inline(rest))
 
@@ -173,7 +229,10 @@ def parse_and_render(pdf, md_text):
 
         # Normal paragraph text
         else:
-            pdf.body_text(strip_md_inline(line))
+            if re.search(r'\[.+?\]\(.+?\)', line):
+                write_with_links(pdf, line)
+            else:
+                pdf.body_text(strip_md_inline(line))
 
         i += 1
 
