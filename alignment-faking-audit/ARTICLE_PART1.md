@@ -94,6 +94,6 @@ But first, Part 2: while fixing the pipeline, I also contributed a bug fix to th
 
 ---
 
-*The full audit log with all 11 friction points is in [REPRODUCIBILITY_AUDIT.md](REPRODUCIBILITY_AUDIT.md). All code is in the linked PRs.*
+*The full audit log with all 11 friction points is in [REPRODUCIBILITY_AUDIT.md](https://github.com/lvjr3383/AI_Safety/blob/main/alignment-faking-audit/REPRODUCIBILITY_AUDIT.md). All code is in the linked PRs.*
 
 *Jack Lakkapragada is a Senior AI Solutions Architect at Salesforce, currently studying AI safety through the BlueDot Technical AI Safety course.*
