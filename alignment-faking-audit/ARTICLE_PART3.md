@@ -1,7 +1,7 @@
 # I Ran Anthropic's Alignment Faking Experiments on Claude 4.x. Here Are the Results.
 ## Part 3 of 3
 
-*Part 1 covered reproducing the pipeline — fixing 11 friction points including 3 hard crashes before a single API call. Part 2 covered contributing a bug fix to the UK AI Safety Institute's evaluation framework.*
+*[Part 1](https://lvjr3383.substack.com/p/i-tried-to-reproduce-anthropics-alignment?r=w4j53) covered reproducing the pipeline — fixing 11 friction points including 3 hard crashes before a single API call. [Part 2](https://lvjr3383.substack.com/p/i-fixed-a-bug-in-the-uk-governments?r=w4j53) covered contributing a bug fix to the UK AI Safety Institute's evaluation framework.*
 
 ---
 

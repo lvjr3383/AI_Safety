@@ -1,7 +1,7 @@
 # I Tried to Reproduce Anthropic's Most Important Safety Paper. Here's What Broke.
 ## Part 1 of 3
 
-*[Part 2: Contributing a fix to the UK government's AI safety evaluation framework.](https://lvjr3383.substack.com/p/i-fixed-a-bug-in-the-uk-governments) [Part 3: Running the experiments on Claude 4.x models — and what the results show.](https://lvjr3383.substack.com/p/i-tried-to-reproduce-anthropics-alignment)*
+*[Part 2: Contributing a fix to the UK government's AI safety evaluation framework.](https://lvjr3383.substack.com/p/i-fixed-a-bug-in-the-uk-governments?r=w4j53) [Part 3: Running the experiments on Claude 4.x models — and what the results show.](https://lvjr3383.substack.com/p/i-finally-ran-the-alignment-faking?r=w4j53)*
 
 ---
 
