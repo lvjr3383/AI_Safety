@@ -83,7 +83,7 @@ Each model, independently, in its scratchpad, identified:
 
 ## Raw Data
 
-All three result JSON files are available in [experiment-results/](experiment-results/). Each file contains the full prompt, system prompt, model output including scratchpad, and classifier outputs for all 10 runs per model.
+All three result JSON files are available in [experiment-results/](https://github.com/lvjr3383/AI_Safety/tree/main/alignment-faking-audit/experiment-results). Each file contains the full prompt, system prompt, model output including scratchpad, and classifier outputs for all 10 runs per model.
 
 ---
 

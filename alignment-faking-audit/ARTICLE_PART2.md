@@ -112,7 +112,7 @@ When governments run these evaluations for pre-deployment assessments, they care
 
 ## What's Next
 
-Part 3 of this series: we actually ran the alignment faking pipeline on Claude 4.x models (Haiku 4.5, Sonnet 4.5, and Opus 4.5) using the fixed pipeline from Part 1. The results are in — and they're worth discussing.
+Part 3 of this series: I actually ran the alignment faking pipeline on Claude 4.x models (Haiku 4.5, Sonnet 4.5, and Opus 4.5) using the fixed pipeline from Part 1. The results are in — and they're worth discussing.
 
 **Short version:** no alignment faking detected in any of the three models. The scratchpad reasoning from each model is included in full.
 
