@@ -9,7 +9,7 @@ I spent the last few weeks going deep on Anthropic's alignment faking paper — 
 
 The answer, increasingly, is [Inspect Evals](https://github.com/UKGovernmentBEIS/inspect_evals).
 
-This is the UK AI Safety Institute's open-source evaluation library. It powers formal pre-deployment assessments of frontier models by the UK and US governments. It contains implementations of benchmarks like HealthBench, GDM Self-Proliferation, GDM Self-Reasoning, and Agentic Misalignment — exactly the kind of safety-critical evaluations that inform real policy decisions.
+This is the UK AI Safety Institute's open-source evaluation library. It powers formal pre-deployment assessments of frontier models by the UK government and allied AI safety institutes. It contains implementations of benchmarks like HealthBench, GDM Self-Proliferation, GDM Self-Reasoning, and Agentic Misalignment — exactly the kind of safety-critical evaluations that inform real policy decisions.
 
 So for Part 2 of this series, I did what any outside researcher should do: I opened the repo, read the open issues, and found something I could fix.
 
