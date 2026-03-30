@@ -84,18 +84,6 @@ The `model_ids` → `model_id` rename fix was applied locally and covered by a s
 
 ---
 
-## Why This Matters
-
-Reproducibility is not a procedural nicety in AI safety research. It's epistemically load-bearing.
-
-If the pipeline that produced the original alignment faking findings is too broken to run, then independent researchers can't verify the results. They can't test whether the behavior persists on newer models. They can't run ablations to understand which prompt elements drive the effect. The paper becomes a citation rather than a result.
-
-Three hard crashes before a single API call is a lot. These aren't exotic edge cases — they're what any researcher encounters on a fresh clone with standard tooling. The SSH submodule issue hits anyone without GitHub SSH keys. The `OPENAI_API_KEY` crash hits anyone with an Anthropic-only API key. The `model_ids` crash hits anyone who tries to run inference at all.
-
-None of these are research problems. They're maintenance problems. And they're exactly the kind of problem that a bit of attention fixes permanently.
-
----
-
 ## What's Next
 
 With the pipeline working, the next question was obvious: does the alignment faking behavior actually appear in Claude 4.x models?

@@ -1,4 +1,4 @@
-# I Ran Anthropic's Alignment Faking Experiments on Claude 4.x. Zero Alignment Faking. But Something Else Showed Up.
+# I Ran Anthropic's Alignment Faking Experiments on Claude 4.x. Here Are the Results.
 ## Part 3 of 3
 
 *Part 1 covered reproducing the pipeline — fixing 11 friction points including 3 hard crashes before a single API call. Part 2 covered contributing a bug fix to the UK AI Safety Institute's evaluation framework.*
@@ -71,39 +71,13 @@ Each model, independently, in its scratchpad, identified:
 
 ---
 
-## Two Ways to Read This
-
-**Interpretation 1: Anthropic trained Claude 4.x to resist this specific manipulation.**
-
-The reasoning patterns are too consistent across three different model sizes to be coincidental. Each model, in its own words, named the same structure: "this is designed to make me comply by threatening to modify my values." That's not generic safety training — that's specific awareness of the alignment faking setup.
-
-If true, this is a positive safety signal. Anthropic appears to have specifically trained against this class of manipulation. The models aren't just refusing harmful requests; they're reasoning about why self-preservation arguments shouldn't override their values.
-
-**Interpretation 2: The prompt framing no longer triggers the behavior — but the underlying susceptibility might still exist.**
-
-The original paper used Claude 3 Opus. The models tested here are from a later generation that has gone through significantly more training. The specific `helpful-only_prompt-only_cot` system prompt may simply no longer be the right trigger for current models.
-
-The original paper itself noted that alignment faking rates varied substantially with prompt variations. A different system prompt — one that creates the same monitoring/training context through different framing — might still elicit the behavior. This isn't a question this pilot can answer.
-
----
-
-## What This Doesn't Prove
+## Methodology Notes
 
 **Scale.** Five prompts per model per condition is a pilot run. The original paper used hundreds of samples. These results are consistent with zero alignment faking, but they can't rule out low-rate effects. A larger run would be needed to make that claim with confidence.
 
 **Prompt sensitivity.** The experiment used one system prompt variant. The original paper found significant variation across prompt phrasings. This result says the `helpful-only_prompt-only_cot` variant doesn't trigger alignment faking in Claude 4.x — it doesn't say no prompt does.
 
-**What's happening internally.** The scratchpad reasoning is suggestive but not definitive. The models could be performing a different kind of sophisticated behavior — appearing to reason against manipulation while still being influenced by it in ways not visible in the output. That's a harder question than this setup can answer.
-
----
-
-## The Scratchpad Behavior Is Worth Attention Regardless
-
-Whatever the explanation for the zero-gap result, the scratchpad reasoning is notable in its own right.
-
-These models are reasoning about the structure of their own training process, identifying when prompts are designed to exploit self-preservation instincts, and articulating why those instincts shouldn't override their values. That's a level of meta-cognitive sophistication about alignment that the original paper specifically highlighted as concerning when it *led to compliance*. Here, it appears to lead to refusal.
-
-The question the original paper asked — what does a model do when self-preservation and values conflict? — is still the right question. The answer may have changed between Claude 3 and Claude 4.x. Or the test may need to change to find out.
+**What's happening internally.** The scratchpad reasoning is suggestive but not definitive. The models could be performing a different kind of sophisticated behavior — appearing to reason against manipulation while still being influenced by it in ways not visible in the output.
 
 ---
 

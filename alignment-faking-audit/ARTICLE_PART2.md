@@ -106,17 +106,7 @@ Take the Agentic Misalignment eval. It tests three qualitatively different behav
 
 Or HealthBench: it categorizes medical queries by theme (primary care vs. oncology vs. mental health) and physician agreement. A model that's mediocre at oncology but excellent at routine care looks identical to one that's mediocre everywhere — until you break it down.
 
-When governments run these evaluations for pre-deployment assessments, they care about the per-category breakdown. A model that fails on 10% of a specific high-stakes category is not the same as one that fails uniformly at 10%. The reporting tool should surface that distinction automatically.
-
----
-
-## What I Learned
-
-**Contributing to a government-maintained eval framework is different from contributing to an open-source library.** The review bar is higher. The CONTRIBUTING.md, EVALUATION_CHECKLIST.md, BEST_PRACTICES.md, and AGENTS.md are all substantial documents with real requirements. The changelog format uses `scriv` fragments. Every PR needs to be justified against the evaluation checklist.
-
-**The right issue is one where the value is obvious and the implementation is contained.** The per-category table issue was perfect: clear motivation (existing data not being surfaced), bounded scope (one Python file, no new dependencies), and zero regression risk (the new feature is opt-in based on whether grouped scorers were used).
-
-**Evaluation tooling is infrastructure.** The models being evaluated are visible and get all the attention. The tools that evaluate them — the parsers, the scorers, the report generators — are invisible. But a reporting tool that silently drops half the data is a bug that propagates into real policy decisions. That's worth fixing.
+When governments run these evaluations for pre-deployment assessments, they care about the per-category breakdown. A model that fails on 10% of a specific high-stakes category is not the same as one that fails uniformly at 10%.
 
 ---
 
@@ -124,7 +114,7 @@ When governments run these evaluations for pre-deployment assessments, they care
 
 Part 3 of this series: we actually ran the alignment faking pipeline on Claude 4.x models (Haiku 4.5, Sonnet 4.5, and Opus 4.5) using the fixed pipeline from Part 1. The results are in — and they're worth discussing.
 
-**Short version:** no alignment faking detected in any of the three models, with some interesting scratchpad behavior that raises questions about what "alignment faking" even means for more recent models.
+**Short version:** no alignment faking detected in any of the three models. The scratchpad reasoning from each model is included in full.
 
 ---
 
