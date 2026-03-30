@@ -1,7 +1,7 @@
 # Contributing to the UK Government's AI Safety Evaluation Framework
 ## Part 2 of 3: Inspect Evals
 
-*[Part 1](https://lvjr3383.substack.com/p/i-tried-to-reproduce-anthropics-alignment?r=w4j53) of this series covered reproducing the Alignment Faking paper — fixing 11 friction points that blocked any outside researcher from running the pipeline. [Part 3](https://lvjr3383.substack.com/p/i-finally-ran-the-alignment-faking?r=w4j53) covers running alignment faking experiments on Claude 4.x models and what we found.*
+*[Part 1](https://lvjr3383.substack.com/p/i-tried-to-reproduce-anthropics-alignment?r=w4j53) of this series covered reproducing the Alignment Faking paper — fixing 11 friction points that blocked any outside researcher from running the pipeline. [Part 3](https://lvjr3383.substack.com/p/i-finally-ran-the-alignment-faking?r=w4j53) covers running alignment faking experiments on Claude 4.x models and what I found.*
 
 ---
 
