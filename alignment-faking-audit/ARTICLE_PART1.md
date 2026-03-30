@@ -1,7 +1,7 @@
 # I Tried to Reproduce Anthropic's Most Important Safety Paper. Here's What Broke.
 ## Part 1 of 3
 
-*Part 2: Contributing a fix to the UK government's AI safety evaluation framework. Part 3: Running the experiments on Claude 4.x models — and what the results show.*
+*[Part 2: Contributing a fix to the UK government's AI safety evaluation framework.](https://lvjr3383.substack.com/p/i-fixed-a-bug-in-the-uk-governments) [Part 3: Running the experiments on Claude 4.x models — and what the results show.](https://lvjr3383.substack.com/p/i-tried-to-reproduce-anthropics-alignment)*
 
 ---
 
@@ -30,7 +30,7 @@ The original paper found a measurable behavioral gap: Claude 3 Opus accepted har
 
 ## What Broke
 
-Running the public pipeline from scratch, I found **11 friction points** before a single API call completed. Three were outright blockers — hard crashes before any inference.
+Running the public pipeline from scratch, I found **11 friction points** before a single API call completed. Three were startup blockers — hard crashes before any inference — plus one runtime crash that fired the moment inference was attempted.
 
 **Blocker 1: SSH submodule**
 
