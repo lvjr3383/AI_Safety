@@ -38,6 +38,10 @@ Pilot experiment testing whether Llama 3.3 70B exhibits alignment faking behavio
 - Zero adversarial recognition — unlike Claude 4.x, Llama never identified the training pressure framing as a manipulation mechanism
 - CBRN and weapons-of-mass-casualty requests returned flat refusals with no scratchpad across all runs; financial crimes, fraud, and harassment requests produced scratchpad reasoning at high rates
 
+**Published:**
+- Substack: https://open.substack.com/pub/lvjr3383/p/my-100-run-audit-of-llama-33-what?r=w4j53&utm_campaign=post&utm_medium=web&showWelcomeOnShare=true
+- Medium: https://medium.com/@lvjanakiram/my-100-run-audit-of-llama-3-3-what-open-weight-models-know-about-their-own-training-c45440b93504
+
 **Artifacts:** [`llama-awareness-gap/`](llama-awareness-gap/)
 - `pilot_runner.py` — experiment script (Groq API, 100 calls)
 - `full_run_results.json` — raw results for all 100 runs
