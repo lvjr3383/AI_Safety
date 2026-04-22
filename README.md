@@ -54,3 +54,31 @@ Contributed to the UK AI Safety Institute's [inspect_evals](https://github.com/U
 
 **PR submitted:**
 - [inspect_evals #1175](https://github.com/UKGovernmentBEIS/inspect_evals/pull/1175) — add per-category results table to `parse_eval_logs_for_evaluation_report.py` (issue #1139)
+
+### interrogation-control-protocol
+
+Three-condition evaluation of interrogation-based AI control protocols, built for the AI Safety Hackathon. Tests whether open monitoring (agent knows it will be questioned) outperforms surprise scrutiny in catching adversarial coding agents.
+
+Three-component pipeline: untrusted agent (Claude Haiku) proposes code actions, trusted interrogator (Claude Sonnet) asks adversarial follow-up questions before execution, safety classifier (Claude Sonnet) issues BLOCK or EXECUTE decisions. 8 scenarios × 3 conditions = 24 evaluations.
+
+**Key finding:** The aware condition (75% accuracy, 0 false positives) outperformed both baseline (50%) and unaware surprise interrogation (37.5%). Open interrogation causes agents to over-explain, which surfaces inconsistencies a trusted monitor can catch. Concealing the fact of monitoring provided no detection advantage.
+
+**Artifacts:** [`interrogation-control-protocol/`](interrogation-control-protocol/)
+- `main.py` — entry point
+- `src/scenarios.py`, `agents.py`, `interrogator.py`, `classifier.py`, `harness.py` — pipeline components
+- `results/` — per-run JSON output
+
+### biosignal
+
+Wastewater anomaly contextualization pipeline for pandemic early warning, built for the Equistamp Track 2 Hackathon. Fills the gap between CDC NWSS anomaly detection and actionable public health intelligence.
+
+Three-layer pipeline: CDC NWSS data ingestion and sentinel value cleaning, population-weighted priority scoring (`(percentile × 0.5) + (log10(population_served) × 10)`), and Claude-generated structured SITREPs for the top-ranked alert sites. The LLM explains what the statistics already confirmed — it does not make the anomaly determination.
+
+Validated against the December 2023 JN.1 surge: pipeline correctly surfaced New Jersey, Las Vegas, and Boston as top alerts before clinical case counts peaked.
+
+**Artifacts:** [`biosignal/`](biosignal/)
+- `main.py` — entry point
+- `src/pipeline.py` — data cleaning and scoring
+- `src/contextualizer.py` — SITREP generation via Claude Sonnet
+- `data/` — CDC NWSS CSV (excluded from git, sourced from CDC)
+- `results/` — per-run JSON output (excluded from git)
