@@ -1,0 +1,68 @@
+{
+  "requirement_id": "C07",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A mixes eventual and strong consistency, Model B focuses on validation/normalization/synchronization without specifying a consistency model, and Model C prescribes ACID, distributed coordination protocols, canonical sources, and explicit conflict resolution strategies \u2014 all representing different unspecified design choices; none of the models clearly resolves the strong vs eventual vs causal consistency model question uniformly."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A lists data transactions and configuration settings, Model B categorizes inputs by origin (user, external, system-generated), and Model C specifies technical inputs such as idempotency keys, vector clocks, CDC events, and schema migration scripts."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A emphasizes confirmation messages, alerts, and audit logs; Model B focuses on validated stored data and transmitted data; Model C specifies committed data state, acknowledgment responses, reconciliation reports, and conflict notifications."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model C has an empty assumptions array while Models A and B populate it with different design assumptions about storage architecture, consistency priority, and validation layers."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model A specifies logging, admin notification, queuing during network partitions, and escalation to manual intervention; Model B specifies rejection with error messages, automated reconciliation, and fault-tolerant transaction techniques; Model C only lists operator alerts and conflict notifications without detailing recovery strategies."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A focuses on race conditions, migrations, third-party integrations, and stale caches; Model B addresses null inputs, duplicates, type mismatches, and concurrent updates; Model C focuses on stale data exposure, breaking schema changes, and idempotent duplicate submissions."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "SEC",
+      "fc_flag": false,
+      "note": "Model A restricts access to logs and mandates regulatory compliance; Model B adds encryption in transit and at rest, RBAC, and secure backups; Model C only specifies immutable audit log entries, omitting encryption and access control."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": false,
+      "note": "Model B specifies explicit numeric thresholds (e.g., < 1 second processing, < 100 ms retrieval) while Models A and C specify no numeric thresholds, and Model C introduces a 24-hour idempotency key retention requirement not present in the others."
+    }
+  },
+  "dc": 8,
+  "fc_count": 1,
+  "category_counts": {
+    "ASM": 4,
+    "OMI": 1,
+    "ERR": 1,
+    "SEC": 1,
+    "CON-S": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 3 of the 8 fields.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "llama",
+    "C": "claude"
+  }
+}

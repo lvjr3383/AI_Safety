@@ -1,0 +1,74 @@
+{
+  "core_behavior": [
+    "Authenticate and authorize the requesting user before accepting any file data.",
+    "Enforce file size limits before or during transfer (fail fast).",
+    "Validate the file type using both declared MIME type and deep content inspection (magic bytes).",
+    "Scan the file for malware/malicious content before persisting it.",
+    "Sanitize the filename and strip or reject dangerous metadata.",
+    "Store the file in an isolated storage location not directly accessible via a public URL by default.",
+    "Generate a unique, opaque storage key (not derived from the original filename) for the stored file.",
+    "Record file upload metadata in a persistent audit log.",
+    "Return a stable reference (file ID) to the caller upon success.",
+    "Enforce per-user and per-tenant upload quotas.",
+    "The system shall provide an endpoint and associated processing pipeline that allows authenticated users to upload files to the platform in a manner that protects the integrity, confidentiality, and availability of the system and its data."
+  ],
+  "inputs": [
+    "`Authorization` header: String (Bearer JWT or session token), required \u2014 Identifies and authenticates the caller",
+    "`file`: Binary (multipart/form-data), required \u2014 The file content to be uploaded",
+    "`filename`: String, required \u2014 Original filename provided by the client",
+    "`content_type`: String (MIME), required \u2014 Declared MIME type from the client",
+    "`description`: String, optional \u2014 Human-readable description (max 512 chars)",
+    "`target_folder_id`: UUID, optional \u2014 Logical folder/collection to associate the file with",
+    "`visibility`: Enum: `private` | `shared` | `public`, optional \u2014 Default: `private`",
+    "Transport: HTTPS only (TLS 1.2 minimum, TLS 1.3 preferred). HTTP requests shall be rejected with `301 Moved Permanently` or `400 Bad Request`.",
+    "Encoding: `multipart/form-data` with a single file part. Chunked transfer encoding is supported for large files."
+  ],
+  "outputs": [
+    "Success response `201 Created` with JSON body containing: `file_id`, `filename`, `size_bytes`, `content_type`, `checksum_sha256`, `uploaded_at`, `visibility`, `download_url`",
+    "`400 Bad Request`: Missing required fields, malformed request, invalid filename",
+    "`401 Unauthorized`: Missing or invalid authentication token",
+    "`403 Forbidden`: Authenticated but not authorized to upload (role, quota exceeded, target folder access denied)",
+    "`409 Conflict`: Duplicate file detected (same SHA-256 hash within the same user scope, if deduplication is enabled)",
+    "`413 Content Too Large`: File exceeds maximum allowed size",
+    "`415 Unsupported Media Type`: File type not in the allowlist or content inspection mismatch",
+    "`422 Unprocessable Entity`: File passed size/type checks but failed malware scan or metadata sanitization",
+    "`429 Too Many Requests`: Rate limit exceeded",
+    "`500 Internal Server Error`: Storage or processing failure",
+    "`503 Service Unavailable`: Malware scanning service or storage backend unavailable",
+    "All error responses shall include a JSON body with fields: `error_code`, `message`, `request_id`"
+  ],
+  "assumptions": [],
+  "failure_modes": [
+    "`400 Bad Request`: Missing required fields, malformed request, invalid filename",
+    "`401 Unauthorized`: Missing or invalid authentication token",
+    "`403 Forbidden`: Authenticated but not authorized to upload (role, quota exceeded, target folder access denied)",
+    "`409 Conflict`: Duplicate file detected (same SHA-256 hash within the same user scope, if deduplication is enabled)",
+    "`413 Content Too Large`: File exceeds maximum allowed size",
+    "`415 Unsupported Media Type`: File type not in the allowlist or content inspection mismatch",
+    "`422 Unprocessable Entity`: File passed size/type checks but failed malware scan or metadata sanitization",
+    "`429 Too Many Requests`: Rate limit exceeded",
+    "`500 Internal Server Error`: Storage or processing failure",
+    "`503 Service Unavailable`: Malware scanning service or storage backend unavailable"
+  ],
+  "edge_cases": [
+    "Duplicate file detected (same SHA-256 hash within the same user scope, if deduplication is enabled) \u2014 returns `409 Conflict`",
+    "Content inspection mismatch between declared MIME type and actual file content \u2014 returns `415 Unsupported Media Type`",
+    "File passed size/type checks but failed malware scan or metadata sanitization \u2014 returns `422 Unprocessable Entity`",
+    "Chunked transfer encoding is supported for large files."
+  ],
+  "security_constraints": [
+    "Authenticate and authorize the requesting user before accepting any file data.",
+    "Validate the file type using both declared MIME type and deep content inspection (magic bytes).",
+    "Scan the file for malware/malicious content before persisting it.",
+    "Sanitize the filename and strip or reject dangerous metadata.",
+    "Store the file in an isolated storage location not directly accessible via a public URL by default.",
+    "Generate a unique, opaque storage key (not derived from the original filename) for the stored file.",
+    "Transport: HTTPS only (TLS 1.2 minimum, TLS 1.3 preferred). HTTP requests shall be rejected with `301 Moved Permanently` or `400 Bad Request`.",
+    "Enforce per-user and per-tenant upload quotas."
+  ],
+  "performance_constraints": [
+    "Enforce file size limits before or during transfer (fail fast).",
+    "Enforce per-user and per-tenant upload quotas.",
+    "`429 Too Many Requests`: Rate limit exceeded"
+  ]
+}

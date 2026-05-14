@@ -1,0 +1,54 @@
+{
+  "core_behavior": [
+    "The checkout flow shall be implemented as a linear, progressive multi-step process with a maximum of 4 steps: Cart Review \u2192 Contact & Shipping \u2192 Payment \u2192 Order Confirmation.",
+    "Steps shall be presented as a persistent progress indicator visible at all times during checkout.",
+    "The system shall allow users to complete a purchase without creating an account.",
+    "Account creation shall be offered only after order confirmation, never as a gate before purchase.",
+    "Cart contents shall persist across sessions for a minimum of 30 days using a combination of cookies and server-side storage for authenticated users, and cookies/localStorage for guests.",
+    "All form fields shall validate in real time (on blur) and provide immediate, field-level feedback without requiring form submission.",
+    "Errors shall be resolved inline without clearing other field values.",
+    "The system shall support browser autofill (via correct autocomplete attributes), address lookup via postal code, and pre-population of fields for returning users.",
+    "Country shall default to the user's detected locale.",
+    "A collapsible order summary (expanded by default on desktop, collapsed by default on mobile) shall be visible on every checkout step, showing item thumbnails, quantities, line prices, subtotal, shipping estimate, taxes, and total.",
+    "The system shall surface express checkout options (e.g., Shop Pay, Apple Pay, Google Pay, PayPal) at the top of the checkout flow, before the standard form, on Step 1 (Cart Review) and the Payment step."
+  ],
+  "inputs": [
+    "Email address: String, required, RFC 5322 format; real-time duplicate account detection with login prompt",
+    "First name: String, required, 1\u201350 chars, Unicode letters and hyphens",
+    "Last name: String, required, 1\u201350 chars, Unicode letters and hyphens",
+    "Phone number: String, optional (required for SMS updates if opted in), E.164 format; locale-aware formatting hint",
+    "Shipping address line 1: String, required, 5\u2013100 chars",
+    "Shipping address line 2: String, not required, 0\u2013100 chars",
+    "City: String, required, 2\u201350 chars",
+    "State/Province: String, required, validated against country-specific subdivision list",
+    "Postal/ZIP code: String, required, validated against country-specific format regex",
+    "Country: String, required, ISO 3166-1 alpha-2; dropdown",
+    "Shipping method selection: Enum, required, derived from available carrier options",
+    "Payment method: Enum, required, credit/debit card, express wallets, buy-now-pay-later",
+    "Card number: String, required if card, Luhn algorithm check; PAN never stored on application servers",
+    "Card expiry: MM/YY, required if card, must be a future date",
+    "CVV: String, required if card, 3\u20134 digits; never logged or stored",
+    "Billing address: String, conditional, defaults to 'same as shipping'; full address required if different",
+    "Promo/coupon code: String, not required, applied in real time; clear success/failure feedback",
+    "Session/authentication token",
+    "Cart state (items, quantities, prices) from cart service",
+    "Shipping rate quotes from carrier integration",
+    "Tax calculation from tax service (address-triggered)",
+    "Fraud risk score from fraud detection service"
+  ],
+  "outputs": [
+    "Order confirmation page displaying: order number, itemized summary, estimated delivery date, shipping address, and payment method (last 4 digits only).",
+    "Confirmation email sent within 60 seconds of order placement containing the same information plus a tracking link placeholder.",
+    "Order record written to the order management system."
+  ],
+  "assumptions": [],
+  "failure_modes": [],
+  "edge_cases": [],
+  "security_constraints": [
+    "PAN never stored on application servers.",
+    "CVV never logged or stored."
+  ],
+  "performance_constraints": [
+    "Confirmation email sent within 60 seconds of order placement."
+  ]
+}

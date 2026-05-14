@@ -1,0 +1,55 @@
+# Software Specification: Database Performance Optimization
+
+**Document Version:** 1.0  
+**Status:** Candidate Specification
+
+---
+
+## 1. Overview
+
+This specification defines the requirements, behaviors, constraints, and success criteria for a Database Performance Optimization system. The system encompasses a suite of automated and semi-automated mechanisms to monitor, analyze, diagnose, and improve the performance of a relational database environment. The scope covers query optimization, indexing strategy, connection management, caching, storage configuration, and ongoing performance monitoring.
+
+---
+
+## 2. Core Behavior
+
+### 2.1 Continuous Performance Monitoring
+- The system SHALL continuously collect performance metrics from the target database at configurable intervals (default: every 30 seconds).
+- Metrics collected SHALL include: query execution time, query throughput (queries per second), CPU utilization, memory utilization, disk I/O (read/write latency and throughput), lock contention rates, cache hit ratios, connection pool utilization, index usage statistics, and table/row scan ratios.
+- The system SHALL maintain a rolling time-series store of all collected metrics with a minimum retention period of 90 days.
+
+### 2.2 Query Analysis and Optimization
+- The system SHALL identify slow queries defined as any query exceeding a configurable execution time threshold (default: 1,000 ms).
+- The system SHALL capture and store query execution plans (EXPLAIN/EXPLAIN ANALYZE output or equivalent) for all slow queries.
+- The system SHALL detect and flag the following anti-patterns: full table scans on tables exceeding 10,000 rows, N+1 query patterns, Cartesian joins, missing JOIN predicates, redundant subqueries replaceable by JOINs, and non-sargable WHERE clauses.
+- The system SHALL generate human-readable optimization recommendations for each flagged query, including suggested rewrites where applicable.
+- The system SHALL rank recommendations by estimated performance impact (High / Medium / Low).
+
+### 2.3 Index Management
+- The system SHALL analyze index usage statistics and identify: unused indexes (zero reads over a configurable period, default: 30 days), duplicate or redundant indexes, missing indexes inferred from full-scan queries and query predicates, and over-indexed tables (more than a configurable threshold, default: 10 indexes per table).
+- The system SHALL generate DDL statements (CREATE INDEX, DROP INDEX) for recommended index changes.
+- The system SHALL NOT automatically apply index changes without explicit operator approval (see Section 5).
+- The system SHALL estimate the storage cost and write-performance impact of each proposed index addition.
+
+### 2.4 Connection Pool Management
+- The system SHALL monitor active, idle, and waiting connections at all times.
+- The system SHALL alert when the ratio of waiting connections to total pool capacity exceeds 10% for more than 60 consecutive seconds.
+- The system SHALL recommend connection pool size adjustments based on observed peak and average utilization patterns.
+- The system SHALL support integration with common connection poolers (PgBouncer, HikariCP, ProxySQL) to apply pool configuration changes via their respective APIs, subject to operator approval.
+
+### 2.5 Caching Optimization
+- The system SHALL monitor the database buffer pool / shared buffer cache hit ratio.
+- The system SHALL alert when the cache hit ratio falls below a configurable threshold (default: 95%).
+- The system SHALL recommend buffer pool / shared buffer size adjustments based on working set size analysis.
+- The system SHALL identify queries and result sets that are candidates for application-level caching (repeated identical queries with stable result sets).
+
+### 2.6 Storage and Configuration Tuning
+- The system SHALL audit current database configuration parameters against a curated baseline of best-practice settings for the detected database engine and version.
+- The system SHALL produce a configuration diff report listing current values, recommended values, and the rationale for each change.
+- The system SHALL flag configuration parameters that require a database restart to take effect, separately from those that can be applied dynamically.
+- The system SHALL NOT automatically modify database configuration files or runtime parameters without explicit operator approval.
+
+### 2.7 Automated Maintenance Scheduling
+- The system SHALL schedule and execute routine maintenance tasks including: VACUUM / ANALYZE (PostgreSQL), OPTIMIZE TABLE (MySQL/MariaDB), UPDATE STATISTICS (SQL Server), and index rebuild/reorganize operations.
+- Maintenance windows SHALL be configurable by day-of-week and time-of-day.
+- The system SHALL

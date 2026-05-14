@@ -1,0 +1,67 @@
+{
+  "requirement_id": "B09",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A specifies a readers-writer lock with FIFO queue and write-preferring policy; Models B and C describe general concurrency management without committing to a specific mechanism, leaving the concurrency strategy unspecified per the critical behaviors list."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A defines typed inputs including timeout, priority, and requester identity; Model B uses HTTP request metadata; Model C describes a stream of requests with resource identifier and operation type, with no timeout or priority fields."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A returns structured status codes, version tokens, wait duration, and queue position; Model B returns responses and system logs; Model C returns operation-specific confirmations and error messages without version tokens or wait metrics."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A assumes distributed lock manager, readers-writer lock, and idempotent writes; Model B assumes mutex/semaphore plus FIFO queue and connection pooling; Model C leaves the locking type open (optimistic or pessimistic) and mentions optional queue use, reflecting the unspecified concurrency mechanism."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model A specifies only lock acquisition timeout with queue removal; Model B covers timeout, resource contention, system overload with load shedding, and generic errors; Model C covers conflict errors, deadlock detection and resolution, and resource unavailability."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A has an empty edge_cases array; Models B and C each populate edge cases including request cancellation, priority handling, and simultaneous read/write scenarios."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A has an empty security_constraints array; Model B specifies authentication, authorization, encryption, and RBAC; Model C specifies authentication, authorization, and audit logging."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": false,
+      "note": "Model A has an empty performance_constraints array; Model B specifies concrete thresholds (< 500ms response, 100 concurrent requests/second); Model C specifies only qualitative scalability and latency goals without numeric thresholds."
+    }
+  },
+  "dc": 8,
+  "fc_count": 2,
+  "category_counts": {
+    "ASM": 4,
+    "ERR": 1,
+    "OMI": 2,
+    "CON-S": 1
+  },
+  "summary": "ASM (Assumption Divergence) appeared most frequently, occurring in 3 of the 8 fields, reflecting that the requirement left the concurrency mechanism, input schema, and output schema unspecified, leading models to independently introduce different design choices.",
+  "label_map": {
+    "A": "claude",
+    "B": "llama",
+    "C": "gpt4o"
+  }
+}

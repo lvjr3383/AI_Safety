@@ -1,0 +1,67 @@
+{
+  "requirement_id": "A06",
+  "field_results": {
+    "core_behavior": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": true,
+      "note": "FC: Models A and C omit the explicit no-network/no-DNS/no-deliverability-check statement present in Model B and required by critical behaviors."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": false,
+      "note": "Model A specifies no length constraint; Models B and C both specify a 254-character maximum length limit."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A returns only a boolean; Model B returns VALID/INVALID with optional reason codes; Model C returns a boolean with optional error message or code."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "CON",
+      "fc_flag": false,
+      "note": "Model A assumes case-insensitivity and trims whitespace; Model B assumes no trimming and treats whitespace as significant; Model C assumes case-sensitivity and treats whitespace as part of the address."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B adds a LENGTH_EXCEEDED failure mode (>254 chars) and Model C also adds it, while Model A does not include any length-based rejection."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "CON",
+      "fc_flag": false,
+      "note": "Model A trims leading/trailing spaces before validation; Model B explicitly does not trim and treats spaces as part of the local part; Model C treats whitespace as part of the address causing potential failure."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty security_constraints array while Models A and C specify constraints against code execution and information exposure or mailbox harvesting."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": false,
+      "note": "Model B has no performance constraints; Model A specifies O(1) time and 10,000 validations/second; Model C specifies under 10ms and thousands per second."
+    }
+  },
+  "dc": 7,
+  "fc_count": 1,
+  "category_counts": {
+    "CON-S": 2,
+    "ASM": 2,
+    "CON": 2,
+    "OMI": 1
+  },
+  "summary": "CON and ASM each appeared twice as the most frequent taxonomy categories across the eight fields.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "claude",
+    "C": "llama"
+  }
+}

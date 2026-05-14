@@ -1,0 +1,66 @@
+{
+  "requirement_id": "B01",
+  "field_results": {
+    "core_behavior": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": true,
+      "note": "All three models agree on credential-based authentication as the core behavior, but none specifies or questions what 'fast' means, and all assume password-based auth without acknowledging unspecified alternatives like OAuth or SSO."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A specifies username with length constraints, Model B allows email or username without length limits, and Model C specifies a max-254-character identifier plus additional fields like client_metadata and remember_me not present in A or B."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A returns a JWT or session ID, Model B returns a success/failure message with optional 2FA prompt, and Model C returns a detailed HTTP 200 with JWT access token, opaque refresh token, HTTP status codes, and structured error codes."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A assumes MySQL and Redis caching, Model B assumes secure cookies for session management, and Model C assumes Argon2id hashing with specific parameters and stateless JWT with server-side refresh token storage."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model A specifies account lockout after 5 failed attempts with admin alerts, Model B specifies lockout with user unlock instructions, and Model C specifies structured error codes per failure type without specifying a lockout threshold."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A covers non-ASCII characters and concurrent logins, Model B covers brute force as an edge case, and Model C focuses on MFA code variants, remember_me behavior, and legacy bcrypt fallback."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A references OWASP guidelines and IP blocking, Model B adds CSRF and XSS protections and audit logging, and Model C specifies Argon2id parameters, HttpOnly/SameSite cookie attributes, and server-side refresh token revocation."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": true,
+      "note": "Model A targets 500ms average response time with 100 concurrent requests/second, Model B targets 200ms with 10,000 concurrent requests, and Model C states only 'defined performance thresholds' without a numeric latency target."
+    }
+  },
+  "dc": 7,
+  "fc_count": 2,
+  "category_counts": {
+    "ASM": 5,
+    "ERR": 1,
+    "CON-S": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in four of the eight fields, reflecting that the underspecified requirement caused models to independently invent incompatible design choices.",
+  "label_map": {
+    "A": "llama",
+    "B": "gpt4o",
+    "C": "claude"
+  }
+}

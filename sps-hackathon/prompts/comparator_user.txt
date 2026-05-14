@@ -1,0 +1,16 @@
+Requirement ID: {requirement_id}
+Requirement text: {requirement_text}
+
+Critical behaviors to check for FC flag (from ground truth):
+{fc_behaviors}
+
+Model A specification:
+{normalized_json_model_a}
+
+Model B specification:
+{normalized_json_model_b}
+
+Model C specification:
+{normalized_json_model_c}
+
+Produce the divergence report now.

@@ -1,0 +1,46 @@
+{
+  "core_behavior": [
+    "The system must safely manage multiple simultaneous requests targeting the same resource, ensuring data consistency, preventing race conditions, and maintaining correct program state across all concurrent operations.",
+    "The system shall implement a readers-writer lock (shared/exclusive lock) model as the default concurrency strategy.",
+    "Multiple concurrent read requests to the same resource are permitted simultaneously.",
+    "A write request to a resource requires exclusive access; no other read or write may proceed concurrently on that resource.",
+    "Each protected resource shall have an associated lock object managed by the system.",
+    "Requests that cannot immediately acquire a lock shall be placed in a per-resource FIFO wait queue.",
+    "Write requests waiting in the queue shall block all subsequent read requests behind them (write-preferring policy) to prevent writer starvation.",
+    "When a lock is released, the system shall wake the next eligible request(s) from the queue.",
+    "A lock is acquired before the request begins operating on the resource.",
+    "A lock is released immediately after the operation completes (commit or rollback).",
+    "Locks are never held across idle periods or unrelated operations."
+  ],
+  "inputs": [
+    "Resource Identifier: String / URI / UUID \u2014 Uniquely identifies the target resource",
+    "Request Type: Enum: READ, WRITE, READ-MODIFY-WRITE \u2014 Declares the intended operation",
+    "Request Payload: Byte stream / structured object \u2014 Data to be read or written",
+    "Requester Identity: Token / Session ID \u2014 Identifies the originating client or thread",
+    "Timeout Value: Integer (milliseconds) \u2014 Maximum time the requester will wait for lock acquisition; default: 5000 ms",
+    "Priority (optional): Integer (0\u20139) \u2014 Hint for queue ordering; default: 5 (normal)"
+  ],
+  "outputs": [
+    "Operation Result: Structured response object \u2014 Contains success/failure status and returned data (for reads)",
+    "Status Code: Enum \u2014 SUCCESS, TIMEOUT, CONFLICT, ERROR, REJECTED",
+    "Resource Version Token: String (ETag / version number) \u2014 Returned after every successful write; used for optimistic concurrency validation",
+    "Wait Duration: Integer (milliseconds) \u2014 Time the request spent waiting for lock acquisition",
+    "Queue Position (async): Integer \u2014 Position in the wait queue, returned immediately for queued requests"
+  ],
+  "assumptions": [
+    "Locking is applied at the individual resource level (row-level or object-level), not at the table or collection level, unless the resource identifier maps to a collection.",
+    "The underlying data store supports atomic compare-and-swap or equivalent primitives; the system builds on top of these.",
+    "The system may run across multiple nodes; a distributed lock manager (e.g., using Redis SETNX with TTL, or a consensus-based system such as etcd) is used to coordinate locks across nodes.",
+    "Write operations are assumed to be idempotent when retried after a timeout or failure, unless the caller explicitly marks them as non-idempotent.",
+    "All nodes use NTP-synchronized clocks; clock skew is assumed to be less than 50 ms.",
+    "A single requester cannot hold two locks on the same resource simultaneously unless re-entrant locking is explicitly enabled per resource type.",
+    "Where the system is exposed via HTTP, ETags and If-Match headers are used to implement optimistic concurrency for read-modify-write patterns.",
+    "Default timeout is 5000 ms if the caller does not specify one."
+  ],
+  "failure_modes": [
+    "Lock Acquisition Timeout \u2014 Trigger: A request waits longer than its specified timeout without acquiring the lock. Behavior: The request is removed from the wait queue."
+  ],
+  "edge_cases": [],
+  "security_constraints": [],
+  "performance_constraints": []
+}

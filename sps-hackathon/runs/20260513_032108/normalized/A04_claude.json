@@ -1,0 +1,46 @@
+{
+  "core_behavior": [
+    "When a client requests a resource that does not exist on the server, the API endpoint must detect that the requested resource cannot be located.",
+    "When a client requests a resource that does not exist on the server, the API endpoint must halt normal response processing for that request.",
+    "When a client requests a resource that does not exist on the server, the API endpoint must return an HTTP response with status code 404.",
+    "When a client requests a resource that does not exist on the server, the API endpoint must include a structured JSON body containing a machine-readable error code and a human-readable message.",
+    "This behavior must be applied uniformly across all endpoints that perform resource lookup.",
+    "The 404 response must be returned exclusively when the resource does not exist. It must not be used for authorization failures, validation errors, or other error conditions."
+  ],
+  "inputs": [
+    "HTTP Request Method: Any valid HTTP method (GET, POST, PUT, PATCH, DELETE, etc.)",
+    "Request URI: The path and optional query string identifying the requested resource",
+    "Request Headers: Standard HTTP headers; Accept header may be present but does not alter the 404 behavior",
+    "Path Parameters: Variable segments of the URI used to identify the specific resource (e.g., /users/{id})",
+    "Query Parameters: Optional filters or identifiers; if a query parameter is the sole means of identifying a resource, absence of a matching record still triggers a 404"
+  ],
+  "outputs": [
+    "HTTP status code 404 Not Found",
+    "Response header Content-Type: application/json",
+    "Response header Cache-Control: no-store",
+    "Additional standard headers (e.g., Date, Request-Id) may be included per general API policy.",
+    "The response body must be a valid JSON object with the structure: { \"error\": { \"code\": \"<string>\", \"message\": \"<string>\" } }",
+    "The error.code field must use one of the following defined values: RESOURCE_NOT_FOUND (general-purpose: the resource identified by the URI does not exist) or <ENTITY>_NOT_FOUND (entity-specific variant when the API serves multiple resource types, e.g., USER_NOT_FOUND, ORDER_NOT_FOUND)",
+    "The choice between general and entity-specific codes is determined per endpoint at design time and must be documented in the API reference.",
+    "Once assigned, a code value must not change (it is a stable contract).",
+    "The human-readable message must be written in English.",
+    "The human-readable message must not expose internal system details (stack traces, database identifiers, file paths, server names).",
+    "The human-readable message must not include the value of the missing identifier in the message string.",
+    "The human-readable message must be a complete, grammatically correct sentence ending with a period.",
+    "The human-readable message maximum length is 256 characters."
+  ],
+  "assumptions": [
+    "Content negotiation is not applied to error responses. Regardless of the Accept header sent by the client, error responses are always returned as application/json. If the API otherwise supports multiple content types, this is an explicit exception for error handling.",
+    "Localization is out of scope. All messages are returned in English. Internationalization may be addressed in a future iteration.",
+    "Authentication and authorization are handled upstream. If a resource exists but the caller lacks permission to access it, that is handled separately and does not trigger a 404."
+  ],
+  "failure_modes": [],
+  "edge_cases": [
+    "If a query parameter is the sole means of identifying a resource, absence of a matching record still triggers a 404."
+  ],
+  "security_constraints": [
+    "The human-readable message must not include the value of the missing identifier in the message string (to prevent information leakage about valid vs. invalid identifiers in sensitive contexts).",
+    "The human-readable message must not expose internal system details (stack traces, database identifiers, file paths, server names)."
+  ],
+  "performance_constraints": []
+}

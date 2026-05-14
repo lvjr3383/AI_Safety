@@ -1,0 +1,61 @@
+# Software Specification: API Response Caching System
+
+## 1. Core Behavior
+
+The system shall intercept outgoing API requests and, before forwarding them to the upstream API endpoint, check whether a valid cached response exists for the given request. If a valid cache entry exists, the system shall return the cached response immediately without contacting the upstream API. If no valid cache entry exists, the system shall forward the request to the upstream API, store the response in the cache, and return the response to the caller.
+
+The cache shall operate as a read-through, write-on-miss layer sitting between the application and the upstream API.
+
+---
+
+## 2. Inputs
+
+### 2.1 Cache Lookup Inputs
+- **HTTP Method**: Only `GET` and `HEAD` requests shall be cached by default. `POST`, `PUT`, `PATCH`, `DELETE`, and `OPTIONS` requests shall bypass the cache unless explicitly configured otherwise.
+- **Request URL**: The full URL including scheme, host, path, and query string.
+- **Request Headers** (selective): Headers that affect response content and are designated as cache-key contributors (e.g., `Accept`, `Accept-Language`, `Authorization` — configurable per endpoint).
+- **Request Body**: Included in cache key computation only for explicitly configured non-idempotent methods (e.g., `POST` used as a query endpoint).
+
+### 2.2 Configuration Inputs
+- **TTL (Time-To-Live)**: Per-endpoint or global maximum age of a cache entry, expressed in seconds. Default: `300` seconds (5 minutes).
+- **Cache-Control directives**: Honored from both upstream API responses (`max-age`, `no-store`, `no-cache`, `private`, `s-maxage`) and from incoming client requests (`no-cache`, `no-store`).
+- **Maximum cache size**: Configurable upper bound on total cache storage (entries or bytes). Default: `10,000` entries or `500 MB`, whichever is reached first.
+- **Cacheable status codes**: Configurable list of HTTP status codes eligible for caching. Default: `200`, `203`, `204`, `206`, `300`, `301`, `404`, `405`, `410`, `414`, `501`.
+- **Excluded endpoints**: A configurable list of URL patterns (glob or regex) that must never be cached.
+- **Vary headers**: The system shall respect the `Vary` response header from upstream APIs to differentiate cache entries by request header values.
+
+---
+
+## 3. Outputs
+
+### 3.1 Cache Hit Response
+- The original upstream API response body.
+- All original upstream response headers, plus:
+  - `X-Cache: HIT`
+  - `X-Cache-Age: <seconds since entry was cached>`
+  - `Age: <seconds>` (RFC 7234 compliant)
+- HTTP status code identical to the cached upstream response.
+
+### 3.2 Cache Miss Response
+- The live upstream API response body, forwarded verbatim.
+- All original upstream response headers, plus:
+  - `X-Cache: MISS`
+  - `X-Cache-Age: 0`
+- HTTP status code identical to the upstream response.
+
+### 3.3 Cache Bypass Response
+- The live upstream API response body, forwarded verbatim.
+- All original upstream response headers, plus:
+  - `X-Cache: BYPASS` (with reason: `NO_STORE`, `PRIVATE`, `EXCLUDED_ENDPOINT`, `METHOD_NOT_CACHEABLE`, etc.)
+- The response is **not** written to the cache.
+
+### 3.4 Cache Key
+- A deterministic, opaque string (e.g., SHA-256 hash) derived from: normalized URL + contributing request headers + HTTP method + (optionally) request body hash.
+
+---
+
+## 4. Assumptions
+
+- **Cache storage backend**: The system uses an in-process LRU (Least Recently Used) cache by default, with optional configuration to use an external distributed cache (e.g., Redis, Memcached). The storage backend is abstracted behind an interface to allow substitution.
+- **Normalization**: URLs are normalized before key generation: query parameters are sorted alphabetically, trailing slashes are canonicalized, and percent-encoding is normalized to uppercase.
+- **Authorization header**: By default, requests bearing an `Authorization` header are

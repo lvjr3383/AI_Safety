@@ -1,0 +1,76 @@
+# Password Reset Flow — Software Specification
+
+---
+
+## 1. Overview
+
+The password reset flow allows a registered user who has forgotten or lost access to their password to securely establish a new password without requiring knowledge of the old one. The flow consists of three phases: **initiation** (user requests a reset), **verification** (user proves identity via a time-limited token), and **completion** (user sets a new password).
+
+---
+
+## 2. Core Behavior
+
+### Phase 1 — Initiation
+1. The user navigates to a "Forgot Password" entry point (link on the login page).
+2. The user submits an email address.
+3. The system looks up the email address in the user store.
+4. **Regardless of whether the email exists**, the system displays a generic confirmation message: *"If an account with that email exists, a reset link has been sent."*
+5. If the email exists and the account is active, the system:
+   - Generates a cryptographically secure, single-use reset token.
+   - Stores a hashed form of the token alongside the user record, with an expiry timestamp.
+   - Sends a password reset email to the address containing a reset link embedding the raw token.
+6. If the email does not exist or the account is inactive/locked, no email is sent; the generic message is still shown.
+
+### Phase 2 — Verification
+1. The user clicks the reset link in the email, which opens a reset-password form pre-populated with the token (via URL parameter or path segment).
+2. The system validates the token:
+   - Looks up the hashed token in the store.
+   - Confirms the token has not expired.
+   - Confirms the token has not already been used.
+   - Confirms the associated account is still active.
+3. If validation passes, the system presents the new-password entry form.
+4. If validation fails, the system displays a generic error: *"This reset link is invalid or has expired."* and offers a link to restart the flow.
+
+### Phase 3 — Completion
+1. The user submits a new password (and confirmation field).
+2. The system validates the new password against the password policy (see §5).
+3. If valid:
+   - The new password is hashed and stored, replacing the old credential.
+   - The reset token is marked as used (invalidated).
+   - All other active sessions for the user are invalidated (forced logout).
+   - The user is shown a success message and redirected to the login page.
+   - A confirmation email is sent to the user notifying them that their password was changed.
+4. If invalid, the form is re-displayed with specific validation error messages; the token remains valid until expiry.
+
+---
+
+## 3. Inputs
+
+| Input | Source | Constraints |
+|---|---|---|
+| Email address | User-submitted form | Valid RFC 5322 email format; max 254 characters |
+| Reset token | URL parameter (`?token=…` or `/reset/{token}`) | Opaque string; treated as untrusted input |
+| New password | User-submitted form | See password policy §5 |
+| New password confirmation | User-submitted form | Must match new password field exactly |
+
+---
+
+## 4. Outputs
+
+| Output | Trigger | Content |
+|---|---|---|
+| Initiation confirmation page/message | After email submission | Generic message regardless of account existence |
+| Password reset email | Valid, active account found | Reset link with embedded token; sender identity; expiry notice; "if you didn't request this" notice |
+| Reset form | Token validated successfully | New password + confirmation fields |
+| Validation error messages | Invalid token or policy violation | Human-readable, non-leaking error text |
+| Success page + redirect | Password successfully changed | Confirmation message; redirect to login after 3 seconds |
+| Password-changed notification email | Password successfully changed | Notification with timestamp, IP address, and support contact |
+
+---
+
+## 5. Password Policy
+
+- Minimum length: **12 characters**
+- Must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (`!@#$%^&*()-_=+[]{}|;:'",.<>?/\``).
+- Maximum length: **128 characters** (to prevent denial-of-service via bcrypt).
+- Must not be identical to the user's current

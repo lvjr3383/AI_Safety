@@ -1,0 +1,7 @@
+{
+  "generator_claude": "returned None",
+  "extractor_claude": "skipped \u2014 generator None",
+  "extractor_gpt4o": "returned None",
+  "extractor_llama": "returned None",
+  "comparator": "returned None"
+}

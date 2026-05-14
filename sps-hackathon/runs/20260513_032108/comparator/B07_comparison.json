@@ -1,0 +1,66 @@
+{
+  "requirement_id": "B07",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Models differ significantly in scope and granularity of what constitutes loggable activity, with Model B enumerating 15 distinct event categories while Models A and C use broader, less structured definitions; none define 'activity' rigorously per the requirement, and PII handling is unaddressed."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B specifies 19 structured fields including UUID event_id, previous/new value snapshots, geo_location, and delegated_by, while Models A and C list far fewer fields without formal typing; PII-laden fields like form data and previous_value are captured without PII handling guidance."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies an append-only dedicated log store with a queryable internal API supporting pagination, sorting, and CSV/JSON export, while Models A and C describe generic persistent storage without API or query specifications."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty assumptions array while Models A and C each list multiple assumptions including retention periods (90 days vs 365 days) and storage technology choices."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty failure_modes array while Models A and C specify retry/queue strategies and administrator alerting behaviors for logging failures."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty edge_cases array while Models A and C address anonymous users, high-volume activity, and simultaneous multi-user actions."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Models A and C specify encryption at rest and in transit with access controls, while Model B focuses on append-only store separation and access restriction without specifying encryption; none of the models address PII handling policy in logs."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": false,
+      "note": "Model A specifies less than 5ms latency per log entry, Model C specifies no more than 100ms latency, and Model B specifies only a qualitative non-interruption requirement with no numeric threshold."
+    }
+  },
+  "dc": 8,
+  "fc_count": 3,
+  "category_counts": {
+    "ASM": 4,
+    "OMI": 3,
+    "CON-S": 1
+  },
+  "summary": "OMI and ASM each appeared three times across the eight fields, making them the joint most frequent taxonomy categories in this report.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "claude",
+    "C": "llama"
+  }
+}

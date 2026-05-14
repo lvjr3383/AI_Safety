@@ -1,0 +1,83 @@
+# Notification System — Complete Software Specification
+
+---
+
+## 1. Overview
+
+This specification defines the design and behavior of a general-purpose notification system for an application. The system is responsible for creating, routing, delivering, storing, and managing notifications to users across one or more delivery channels.
+
+---
+
+## 2. Core Behavior
+
+### 2.1 Notification Lifecycle
+
+The system must support the following lifecycle states for every notification:
+
+| State | Description |
+|---|---|
+| `CREATED` | Notification has been generated and queued |
+| `PENDING` | Notification is awaiting delivery |
+| `DELIVERED` | Notification has been successfully sent to the channel |
+| `READ` | User has acknowledged or opened the notification |
+| `FAILED` | Delivery failed after all retry attempts |
+| `DISMISSED` | User explicitly dismissed the notification |
+| `EXPIRED` | Notification exceeded its TTL without being read |
+| `ARCHIVED` | Notification moved to long-term storage |
+
+### 2.2 Notification Types
+
+The system must support the following notification categories:
+
+- **Informational** — General status updates (e.g., "Your report is ready")
+- **Warning** — Conditions requiring user attention (e.g., "Storage is 90% full")
+- **Error/Alert** — Critical conditions requiring immediate action
+- **Action Required** — Notifications that include one or more actionable responses
+- **Promotional** — Marketing or feature-announcement messages (opt-in only)
+- **System** — Internal system events (e.g., maintenance windows, version updates)
+
+### 2.3 Delivery Channels
+
+The system must support delivery via the following channels:
+
+1. **In-App** — Displayed within the application UI (bell icon / notification center)
+2. **Email** — Sent to the user's registered email address
+3. **SMS** — Sent to the user's registered mobile number
+4. **Push Notification** — Sent to registered mobile or desktop devices via push service
+5. **Webhook** — HTTP POST to a user- or system-configured endpoint
+
+Each notification may be delivered to one or more channels simultaneously. Channel selection is governed by notification type, user preferences, and system rules.
+
+### 2.4 Routing Logic
+
+1. Each notification type has a default channel set defined in system configuration.
+2. User preferences override defaults, except for mandatory system notifications.
+3. Mandatory system notifications (e.g., security alerts, account lockouts) are always delivered via all available channels regardless of user preferences.
+4. If a preferred channel is unavailable, the system must fall back to the next available channel in the user's preference order.
+5. Promotional notifications require explicit user opt-in per channel; they must not be sent if no opt-in exists.
+
+### 2.5 Notification Center (In-App)
+
+- Users must be able to view all in-app notifications in a notification center panel.
+- Notifications must be displayed in reverse-chronological order by default.
+- Users must be able to filter by: type, read/unread status, date range.
+- Users must be able to sort by: date, type, priority.
+- Unread count must be displayed as a badge on the notification icon.
+- Users must be able to mark individual notifications or all notifications as read.
+- Users must be able to dismiss (delete) individual notifications or all notifications.
+
+### 2.6 Templating
+
+- All notification content must be generated from versioned templates.
+- Templates must support variable interpolation (e.g., `{{user.name}}`, `{{event.timestamp}}`).
+- Templates must be channel-specific (an email template differs from an SMS template for the same event).
+- Templates must support localization (i18n); the system must select the template matching the user's locale, falling back to the default locale (`en-US`) if no match exists.
+- Template rendering failures must not silently produce partial output; they must trigger a `FAILED` state with an error log entry.
+
+### 2.7 Scheduling and Throttling
+
+- Notifications may be scheduled for future delivery with a specified `deliver_at` timestamp.
+- The system must support per-user throttle limits to prevent notification fatigue:
+  - Default: no more than **20 notifications per user per hour** across all channels.
+  - Configurable per notification type and per channel.
+  - Mandatory/

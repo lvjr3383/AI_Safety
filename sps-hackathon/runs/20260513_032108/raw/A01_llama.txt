@@ -1,0 +1,42 @@
+**Core Behavior:**
+The system must validate a given password against a set of predefined rules. The password is valid if it meets all the following conditions:
+- The password length is between 8 and 128 characters (inclusive).
+- The password contains at least one uppercase letter (A-Z).
+- The password contains at least one lowercase letter (a-z).
+- The password contains at least one digit (0-9).
+- The password contains at least one special character (any character that is not a letter or a digit).
+
+**Inputs:**
+- A string representing the password to be validated.
+
+**Outputs:**
+- A boolean value indicating whether the password is valid (true) or not (false).
+- Optionally, an error message or a list of error messages explaining why the password is invalid.
+
+**Assumptions:**
+- The system uses the Unicode character set to define letters, digits, and special characters.
+- The system considers the following characters as special characters: !, @, #, $, %, ^, &, *, (, ), _, -, +, =, {, }, [, ], :, ;, <, >, ?, /, ., ~, `, |, \.
+- The system does not differentiate between ASCII and non-ASCII characters when checking for letters and digits.
+- The system does not perform any additional checks on the password, such as checking for common patterns or similarity to the username.
+
+**Failure Modes:**
+- If the input password is null or empty, the system returns false and an error message indicating that the password is required.
+- If the input password is too short or too long, the system returns false and an error message indicating the valid password length range.
+- If the input password does not contain at least one uppercase letter, one lowercase letter, one digit, or one special character, the system returns false and an error message indicating the missing character type.
+
+**Edge Cases:**
+- Passwords containing non-ASCII characters (e.g., accented letters, non-Latin scripts) are considered valid if they meet the above conditions.
+- Passwords containing whitespace characters are considered valid if they meet the above conditions.
+- Passwords containing control characters (e.g., tab, newline, carriage return) are considered valid if they meet the above conditions.
+- Passwords containing Unicode characters that are not letters, digits, or special characters (e.g., punctuation marks, symbols) are considered special characters.
+
+**Security Constraints:**
+- The system must not store the password in plaintext.
+- The system must not transmit the password in plaintext over an insecure channel.
+- The system must use a secure password hashing algorithm to store and verify passwords.
+- The system must limit the number of password validation attempts to prevent brute-force attacks.
+
+**Performance Constraints:**
+- The system must validate a password within a reasonable time frame (e.g., less than 100 milliseconds).
+- The system must be able to handle a high volume of password validation requests without significant performance degradation.
+- The system must use efficient algorithms and data structures to minimize computational overhead and memory usage.

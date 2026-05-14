@@ -1,0 +1,64 @@
+{
+  "core_behavior": [
+    "The system must detect, classify, and respond to all cases where a user identity cannot be validated, authenticated, or authorized.",
+    "Rather than crashing, exposing internal errors, or silently failing, the system must return controlled, informative, and safe responses at every point where a user context is expected but cannot be satisfied.",
+    "Graceful handling is defined as: the system remains stable, provides a meaningful response to the caller or end-user, logs the event for operational visibility, and does not leak sensitive information."
+  ],
+  "inputs": [
+    "Non-existent user: A user ID, username, or email that does not exist in the system.",
+    "Malformed identifier: A user ID or token that does not conform to the expected format (e.g., wrong UUID format, illegal characters, empty string, null value, excessively long string).",
+    "Expired credentials: A valid-format token or session that has passed its expiration timestamp.",
+    "Revoked credentials: A token or session that has been explicitly invalidated before expiry.",
+    "Tampered credentials: A token whose signature or integrity check fails (e.g., invalid JWT signature).",
+    "Reused single-use tokens: A one-time token (e.g., password reset, email verification) submitted more than once.",
+    "Suspended account: A user whose account has been administratively suspended.",
+    "Deleted/deactivated account: A user whose account has been soft- or hard-deleted.",
+    "Unverified account: A user who has not completed required verification steps (e.g., email confirmation).",
+    "Locked account: A user whose account is temporarily locked due to repeated failed attempts.",
+    "Insufficient permissions: A valid, authenticated user attempting an action they are not authorized to perform.",
+    "Cross-tenant access: A valid user attempting to access resources belonging to another tenant or user."
+  ],
+  "outputs": [
+    "Non-existent user (authentication context): HTTP 401 Unauthorized, { \"error\": \"authentication_failed\", \"message\": \"Invalid credentials.\" }",
+    "Malformed identifier / token: HTTP 400 Bad Request, { \"error\": \"invalid_request\", \"message\": \"The provided identifier is malformed.\" }",
+    "Expired credentials: HTTP 401 Unauthorized, { \"error\": \"token_expired\", \"message\": \"Your session has expired. Please log in again.\" }",
+    "Revoked credentials: HTTP 401 Unauthorized, { \"error\": \"token_revoked\", \"message\": \"This session is no longer valid.\" }",
+    "Tampered credentials: HTTP 401 Unauthorized, { \"error\": \"authentication_failed\", \"message\": \"Invalid credentials.\" }",
+    "Reused single-use token: HTTP 400 Bad Request, { \"error\": \"token_already_used\", \"message\": \"This token has already been used.\" }",
+    "Suspended account: HTTP 403 Forbidden, { \"error\": \"account_suspended\", \"message\": \"Your account has been suspended. Contact support.\" }",
+    "Deleted/deactivated account: HTTP 401 Unauthorized, { \"error\": \"authentication_failed\", \"message\": \"Invalid credentials.\" }",
+    "Unverified account: HTTP 403 Forbidden, { \"error\": \"account_unverified\", \"message\": \"Please verify your account before continuing.\" }",
+    "Locked account: HTTP 403 Forbidden"
+  ],
+  "assumptions": [],
+  "failure_modes": [
+    "Non-existent user: A user ID, username, or email that does not exist in the system.",
+    "Malformed identifier: A user ID or token that does not conform to the expected format.",
+    "Expired credentials: A valid-format token or session that has passed its expiration timestamp.",
+    "Revoked credentials: A token or session that has been explicitly invalidated before expiry.",
+    "Tampered credentials: A token whose signature or integrity check fails.",
+    "Reused single-use tokens: A one-time token submitted more than once.",
+    "Suspended account: A user whose account has been administratively suspended.",
+    "Deleted/deactivated account: A user whose account has been soft- or hard-deleted.",
+    "Unverified account: A user who has not completed required verification steps.",
+    "Locked account: A user whose account is temporarily locked due to repeated failed attempts.",
+    "Insufficient permissions: A valid, authenticated user attempting an action they are not authorized to perform.",
+    "Cross-tenant access: A valid user attempting to access resources belonging to another tenant or user."
+  ],
+  "edge_cases": [
+    "Empty string user identifier.",
+    "Null value user identifier.",
+    "Excessively long string user identifier.",
+    "Illegal characters in user ID or token.",
+    "Wrong UUID format for user ID.",
+    "Reused single-use token (e.g., password reset, email verification) submitted more than once.",
+    "Cross-tenant access: A valid user attempting to access resources belonging to another tenant or user."
+  ],
+  "security_constraints": [
+    "The system must not crash or expose internal errors when a user identity cannot be validated, authenticated, or authorized.",
+    "The system must not silently fail when a user identity cannot be validated, authenticated, or authorized.",
+    "The system must not leak sensitive information in responses to invalid user scenarios.",
+    "The system must log invalid user events for operational visibility."
+  ],
+  "performance_constraints": []
+}

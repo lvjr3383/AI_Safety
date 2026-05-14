@@ -1,0 +1,75 @@
+# Software Specification: Access Control System
+
+## 1. Overview
+
+This specification defines an access control system that governs which authenticated principals (users, services, or automated agents) are permitted to perform which operations on which resources within a software application. The system enforces authorization decisions at runtime, logs access events, and provides administrative interfaces for managing permissions.
+
+---
+
+## 2. Core Behavior
+
+### 2.1 Authorization Enforcement
+
+- Every request to a protected resource or operation **must** pass through the access control layer before execution begins.
+- The system evaluates a triple of **(principal, action, resource)** and returns a binary decision: **PERMIT** or **DENY**.
+- Authorization decisions are **deny-by-default**: any principal-action-resource combination not explicitly permitted is denied.
+- The system supports **Role-Based Access Control (RBAC)** as the primary model, with **Attribute-Based Access Control (ABAC)** extensions for fine-grained policies.
+- Permissions may be assigned directly to principals or inherited through role membership.
+- A principal may hold multiple roles simultaneously; permissions are the union of all role permissions unless an explicit deny overrides them.
+- Explicit **DENY** rules take precedence over any **PERMIT** rules at the same or lower specificity level.
+
+### 2.2 Role Management
+
+- Roles are named collections of permissions.
+- Roles may be hierarchical: a child role inherits all permissions of its parent role(s).
+- Role inheritance cycles are prohibited and must be detected and rejected at configuration time.
+- The system must support at minimum the following built-in roles: `superadmin`, `admin`, `user`, `guest`, and `service`.
+- Custom roles may be defined by administrators.
+
+### 2.3 Permission Model
+
+- A **permission** is defined as a tuple: `(action, resource_type, resource_scope)`.
+  - **action**: a verb such as `create`, `read`, `update`, `delete`, `execute`, `list`, `approve`, or a wildcard `*`.
+  - **resource_type**: a category of resource (e.g., `document`, `user_account`, `report`, `api_endpoint`).
+  - **resource_scope**: `own` (resources owned by the principal), `group` (resources within the principal's group), or `all` (any resource of that type).
+- Wildcard matching is supported: `*` on action matches all actions; `*` on resource_type matches all resource types.
+
+### 2.4 Policy Evaluation Order
+
+1. Check for an explicit **DENY** rule matching the request. If found, return DENY immediately.
+2. Check for an explicit **PERMIT** rule matching the request. If found, return PERMIT.
+3. If no rule matches, return DENY (default-deny).
+
+### 2.5 Session and Context Awareness
+
+- Authorization decisions may incorporate contextual attributes:
+  - Time of day / day of week (e.g., restrict access to business hours).
+  - IP address or network range of the requestor.
+  - Device trust level (managed vs. unmanaged).
+  - Multi-factor authentication status of the session.
+- Contextual conditions are expressed as policy predicates attached to permission rules.
+
+---
+
+## 3. Inputs
+
+### 3.1 Authorization Request
+
+Each authorization check receives the following inputs:
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `principal_id` | string (UUID) | Yes | Unique identifier of the requesting principal |
+| `principal_type` | enum | Yes | `user`, `service_account`, `api_key` |
+| `action` | string | Yes | The operation being attempted |
+| `resource_type` | string | Yes | Category of the target resource |
+| `resource_id` | string | No | Specific resource instance identifier |
+| `resource_owner_id` | string | No | Owner of the resource, for scope evaluation |
+| `resource_group_id` | string | No | Group the resource belongs to |
+| `context` | object | No | Contextual attributes (IP, time, MFA status, device) |
+| `session_id` | string | No | Active session identifier for audit correlation |
+
+### 3.2 Administrative Inputs
+
+- **Role definition**: name, description, parent roles, list of permissions.
+- **Permission

@@ -1,0 +1,67 @@
+# Software Specification: Concurrent Request Handling for Shared Resources
+
+## 1. Core Behavior
+
+The system must safely manage multiple simultaneous requests targeting the same resource, ensuring data consistency, preventing race conditions, and maintaining correct program state across all concurrent operations.
+
+### 1.1 Concurrency Control Model
+- The system shall implement a **readers-writer lock** (shared/exclusive lock) model as the default concurrency strategy:
+  - Multiple concurrent **read** requests to the same resource are permitted simultaneously.
+  - A **write** request to a resource requires exclusive access; no other read or write may proceed concurrently on that resource.
+- Each protected resource shall have an associated lock object managed by the system.
+
+### 1.2 Request Queuing
+- Requests that cannot immediately acquire a lock shall be placed in a **per-resource FIFO wait queue**.
+- Write requests waiting in the queue shall block all subsequent read requests behind them (write-preferring policy) to prevent writer starvation.
+- When a lock is released, the system shall wake the next eligible request(s) from the queue.
+
+### 1.3 Lock Lifecycle
+- A lock is acquired before the request begins operating on the resource.
+- A lock is released immediately after the operation completes (commit or rollback).
+- Locks are never held across idle periods or unrelated operations.
+
+---
+
+## 2. Inputs
+
+| Input | Type | Description |
+|---|---|---|
+| Resource Identifier | String / URI / UUID | Uniquely identifies the target resource |
+| Request Type | Enum: `READ`, `WRITE`, `READ-MODIFY-WRITE` | Declares the intended operation |
+| Request Payload | Byte stream / structured object | Data to be read or written |
+| Requester Identity | Token / Session ID | Identifies the originating client or thread |
+| Timeout Value | Integer (milliseconds) | Maximum time the requester will wait for lock acquisition; default: 5000 ms |
+| Priority (optional) | Integer (0–9) | Hint for queue ordering; default: 5 (normal) |
+
+---
+
+## 3. Outputs
+
+| Output | Type | Description |
+|---|---|---|
+| Operation Result | Structured response object | Contains success/failure status and returned data (for reads) |
+| Status Code | Enum | `SUCCESS`, `TIMEOUT`, `CONFLICT`, `ERROR`, `REJECTED` |
+| Resource Version Token | String (ETag / version number) | Returned after every successful write; used for optimistic concurrency validation |
+| Wait Duration | Integer (milliseconds) | Time the request spent waiting for lock acquisition |
+| Queue Position (async) | Integer | Position in the wait queue, returned immediately for queued requests |
+
+---
+
+## 4. Assumptions
+
+1. **Granularity**: Locking is applied at the individual resource level (row-level or object-level), not at the table or collection level, unless the resource identifier maps to a collection.
+2. **Persistence layer**: The underlying data store supports atomic compare-and-swap or equivalent primitives; the system builds on top of these.
+3. **Distributed environment**: The system may run across multiple nodes; a **distributed lock manager** (e.g., using Redis SETNX with TTL, or a consensus-based system such as etcd) is used to coordinate locks across nodes.
+4. **Idempotency**: Write operations are assumed to be idempotent when retried after a timeout or failure, unless the caller explicitly marks them as non-idempotent.
+5. **Clock synchronization**: All nodes use NTP-synchronized clocks; clock skew is assumed to be less than 50 ms.
+6. **No nested locking by default**: A single requester cannot hold two locks on the same resource simultaneously unless re-entrant locking is explicitly enabled per resource type.
+7. **HTTP/REST context**: Where the system is exposed via HTTP, ETags and `If-Match` headers are used to implement optimistic concurrency for read-modify-write patterns.
+8. **Default timeout**: 5000 ms if the caller does not specify one.
+
+---
+
+## 5. Failure Modes
+
+### 5.1 Lock Acquisition Timeout
+- **Trigger**: A request waits longer than its specified timeout without acquiring the lock.
+- **Behavior**: The request is removed from the wait queue. The system returns

@@ -1,0 +1,55 @@
+{
+  "core_behavior": [
+    "All operations that modify more than one data entity or data store must be executed as atomic units. Either all changes in a logical operation succeed, or none are applied.",
+    "The system must implement ACID properties (Atomicity, Consistency, Isolation, Durability) for all database-backed operations.",
+    "Distributed operations spanning multiple services or data stores must use a coordination protocol (e.g., Two-Phase Commit or Saga pattern) to ensure atomicity across boundaries.",
+    "Each data entity must have exactly one authoritative source (canonical store). All other representations are derived and must be synchronized from the canonical source.",
+    "Read replicas, caches, and derived views must not be treated as authoritative for write operations.",
+    "Strong consistency must be enforced for all financial, identity, authorization, and audit data.",
+    "Eventual consistency is permissible for non-critical derived data (e.g., analytics aggregates, search indexes, notification queues), provided the maximum acceptable lag is defined per data type.",
+    "The system must never expose stale data to a user without explicit indication that the data may not be current.",
+    "All foreign-key relationships must be enforced at the database level where technically feasible.",
+    "Orphaned records must not be permitted in any strongly-consistent data store.",
+    "Cascading deletes or nullification must be explicitly defined for every parent-child relationship.",
+    "In distributed or multi-writer scenarios, the system must apply a deterministic conflict resolution strategy per data type: Last-Write-Wins (LWW) with server-side timestamps for low-criticality data; merge strategies (field-level or operational transformation) for collaborative data; reject-and-notify for high-criticality data where conflicts must be surfaced to the user or an operator.",
+    "Conflict resolution rules must be documented and version-controlled alongside the data schema.",
+    "All write operations exposed via API or message queue must be idempotent. Duplicate submissions of the same logical operation must not produce duplicate side effects.",
+    "Idempotency keys must be accepted and stored for a minimum of 24 hours.",
+    "All data stores must operate against a versioned schema. Schema migrations must be backward-compatible unless a breaking change is explicitly approved and coordinated with a deployment plan.",
+    "Schema versions must be tracked in a migration registry."
+  ],
+  "inputs": [
+    "Write requests: Create, update, delete operations from clients, services, or batch jobs",
+    "Read requests: Queries from clients or downstream services",
+    "Replication events: Change-data-capture (CDC) or event streams from upstream data sources",
+    "Schema migration scripts: Versioned DDL/DML scripts applied to data stores",
+    "Configuration parameters: Consistency level settings per data type (strong, eventual, causal)",
+    "Idempotency keys: Client-supplied tokens accompanying write requests",
+    "Timestamps / vector clocks: Metadata accompanying distributed writes for ordering"
+  ],
+  "outputs": [
+    "Committed data state: Persisted, consistent records in all relevant data stores",
+    "Acknowledgment responses: Success/failure confirmation returned to callers after durable commit",
+    "Consistency violation alerts: Notifications to operators when inconsistency is detected",
+    "Audit log entries: Immutable records of every state-changing operation",
+    "Reconciliation reports: Periodic reports comparing data across stores to detect drift",
+    "Conflict notifications: User-facing or operator-facing messages when conflicts cannot be auto-resolved"
+  ],
+  "assumptions": [],
+  "failure_modes": [
+    "Consistency violation alerts are sent to operators when inconsistency is detected.",
+    "Conflict notifications are sent to users or operators when conflicts cannot be auto-resolved."
+  ],
+  "edge_cases": [
+    "Stale data must never be exposed to a user without explicit indication that the data may not be current.",
+    "Breaking schema changes must be explicitly approved and coordinated with a deployment plan.",
+    "Duplicate submissions of the same logical operation must not produce duplicate side effects."
+  ],
+  "security_constraints": [
+    "Audit log entries must be immutable records of every state-changing operation."
+  ],
+  "performance_constraints": [
+    "The maximum acceptable lag for eventually consistent data must be defined per data type.",
+    "Idempotency keys must be accepted and stored for a minimum of 24 hours."
+  ]
+}

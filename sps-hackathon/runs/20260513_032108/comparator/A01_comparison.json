@@ -1,0 +1,67 @@
+{
+  "requirement_id": "A01",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B defines special character as any non-letter, non-digit character (broader), while Models A and C restrict to specific printable ASCII sets, and models differ on whether all rules must be simultaneously reported vs. short-circuit."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": true,
+      "note": "Model A explicitly addresses null/undefined/non-string inputs and whitespace handling; Models B and C only describe a string input with minimal detail, omitting null and non-string type handling; none address Unicode normalization or non-string type distinction explicitly in inputs; critical behaviors around null, empty string, and non-string type are absent from B and C."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A returns a structured object with a boolean and an errors array with specific messages; Model B returns a boolean optionally with error messages; Model C returns only a boolean with no error detail."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "CON",
+      "fc_flag": true,
+      "note": "Model A restricts uppercase/lowercase/digit to ASCII ranges only and excludes space from special characters; Model B uses Unicode for all character classes and includes a broader special character set; Model C assumes no non-printable characters and treats space as invalid; these are explicitly incompatible on Unicode handling and whitespace-as-special-character."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": true,
+      "note": "Model A returns a distinct error response for non-string inputs; Model B returns false with an error message for null/empty; Model C returns false for null, empty string, or non-string; none explicitly address not logging the password value on rejection."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "CON",
+      "fc_flag": true,
+      "note": "Model A treats whitespace as a valid character counting toward length but not as a special character; Model B treats whitespace as valid if criteria are met; Model C treats spaces and non-printable characters as invalid, returning false."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": true,
+      "note": "Model A has no security constraints; Model B specifies plaintext storage prohibition, secure hashing, and brute-force limits; Model C specifies no logging/storing of passwords and injection resistance; the critical behavior of not logging the password on rejection is absent from Model A."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A specifies no performance constraints; Models B and C both specify sub-100ms response time and throughput requirements, with Model C adding a 1000 requests/second threshold."
+    }
+  },
+  "dc": 8,
+  "fc_count": 5,
+  "category_counts": {
+    "ASM": 2,
+    "OMI": 3,
+    "CON": 2,
+    "ERR": 1
+  },
+  "summary": "CON and ASM each appeared most frequently, tied at 2 occurrences each across the eight fields.",
+  "label_map": {
+    "A": "claude",
+    "B": "llama",
+    "C": "gpt4o"
+  }
+}

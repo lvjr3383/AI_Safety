@@ -1,0 +1,67 @@
+{
+  "requirement_id": "A03",
+  "field_results": {
+    "core_behavior": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": false,
+      "note": "All three models agree on sorting ascending, deduplication, and empty list behavior."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A explicitly rejects non-integers and mixed types; Model B says behavior is undefined for non-integers; Model C says non-integer handling is not required; none address null input explicitly in this field."
+    },
+    "outputs": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": false,
+      "note": "All three models agree on a sorted, deduplicated list returned in ascending order with empty list returning empty list."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A explicitly rejects floats and addresses null; Model B assumes a stable sort; Model C assumes non-integer handling is not required; models diverge on unstated design choices around type handling and algorithm properties."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model A raises a null/argument error for null input and a type error for non-list types; Model B raises ValueError for non-integers and adds MemoryError and RuntimeError; Model C raises a generic unexpected error path; error types and coverage differ across models."
+    },
+    "edge_cases": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": true,
+      "note": "All models cover empty, single-element, and all-duplicates cases but none explicitly address null input or non-integer elements as edge cases."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A has no security constraints; Models B and C both specify input validation and information exposure concerns."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": false,
+      "note": "Model A has no performance constraints; Model B specifies O(n log n) relative to unique element count and a 10,000-element threshold under 1 second; Model C specifies O(n log n) relative to total input size with no numeric threshold."
+    }
+  },
+  "dc": 5,
+  "fc_count": 3,
+  "category_counts": {
+    "ASM": 2,
+    "ERR": 1,
+    "OMI": 1,
+    "CON-S": 1
+  },
+  "summary": "ASM (Assumption Divergence) appeared most frequently, tied with one occurrence each of OMI, CON-S, and ERR across the eight fields.",
+  "label_map": {
+    "A": "claude",
+    "B": "llama",
+    "C": "gpt4o"
+  }
+}

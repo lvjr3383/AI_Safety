@@ -1,0 +1,66 @@
+{
+  "requirement_id": "A05",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model C adds a verification function, synchronous workflow enforcement, and memory-discard requirements not present in Models A or B."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model C defines multiple distinct inputs including cost_factor bounds and stored_hash for verification; Model B treats cost factor as a defaultable input; Model A lists only plaintext password; none explicitly address the 72-byte bcrypt truncation limit as an input constraint."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model C specifies exact Modular Crypt Format details, character counts, and a boolean verify output with constant-time execution; Models A and B describe only a generic bcrypt hash string output."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model C specifies the $2b$ prefix variant exclusively, UTF-8 encoding, 72-byte truncation handling, pepper decisions, and thread safety; Models A and B make only general assumptions about library availability and salt generation."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": true,
+      "note": "Models A and B specify error responses for null/empty input and library/DB failures; Model C's failure_modes are sparse and omit library failure and DB failure handling, and none explicitly address preventing plaintext from appearing in error messages."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model C addresses the 72-byte bcrypt truncation limit and legacy hash variant compatibility; Models A and B address varying password lengths and cost-factor enforcement but do not mention the 72-byte limit."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "SEC",
+      "fc_flag": true,
+      "note": "Model C adds constant-time verification, memory discard, CSPRNG specification, and prohibition on externally supplied salts; Models A and B do not include these constraints, and none of the three models explicitly prohibit plaintext from appearing in logs or error messages."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Models A and B specify time thresholds (hundreds of milliseconds or under 1 second) for hashing; Model C frames performance constraints around synchronous workflow and constant-time verification rather than numeric thresholds."
+    }
+  },
+  "dc": 8,
+  "fc_count": 3,
+  "category_counts": {
+    "ASM": 6,
+    "ERR": 1,
+    "SEC": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in five of the eight fields, reflecting that the requirement left many design dimensions unspecified and models independently introduced different choices.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "llama",
+    "C": "claude"
+  }
+}

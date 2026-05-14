@@ -1,0 +1,65 @@
+{
+  "requirement_id": "C05",
+  "field_results": {
+    "core_behavior": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": true,
+      "note": "All three models describe secure payment processing with confidentiality and integrity, but none flags that 'securely' is undefined or that direct card handling vs third-party processor is an unresolved architectural assumption."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B provides exhaustive typed field definitions with constraints, Model A lists high-level input categories, and Model C provides a moderate-detail list, reflecting different design choices not constrained by the requirement."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty outputs array while Models A and C both specify transaction confirmations, IDs, receipts, and error messages."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": true,
+      "note": "Model B has an empty assumptions array while Models A and C both specify third-party gateway usage and PCI-DSS compliance; the critical architectural assumption of direct card handling vs third-party processor is present in A and C but absent in B."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty failure_modes array while Models A and C specify retry logic, error messaging, and logging behaviors."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty edge_cases array while Models A and C enumerate cases such as duplicate transactions, invalid instruments, and insufficient funds."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "All three models populate security constraints but with different scopes: Model C adds input sanitization against SQL injection/XSS and rate limiting, Model A adds access controls and audits, and Model B focuses narrowly on tokenization and TLS; none explicitly flags that 'securely' is undefined."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty performance_constraints array while Model A specifies under 5 seconds and Model C specifies under 2 seconds with additional throughput and availability metrics."
+    }
+  },
+  "dc": 7,
+  "fc_count": 3,
+  "category_counts": {
+    "ASM": 2,
+    "OMI": 5
+  },
+  "summary": "OMI was the most frequently assigned category, appearing in 4 of the 8 fields, driven primarily by Model B's empty arrays for outputs, assumptions, failure_modes, and edge_cases.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "claude",
+    "C": "llama"
+  }
+}

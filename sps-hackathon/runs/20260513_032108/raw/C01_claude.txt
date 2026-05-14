@@ -1,0 +1,60 @@
+# Software Specification: Handle Invalid Users Gracefully
+
+## 1. Core Behavior
+
+The system must detect, classify, and respond to all cases where a user identity cannot be validated, authenticated, or authorized. Rather than crashing, exposing internal errors, or silently failing, the system must return controlled, informative, and safe responses at every point where a user context is expected but cannot be satisfied.
+
+"Graceful handling" is defined as: the system remains stable, provides a meaningful response to the caller or end-user, logs the event for operational visibility, and does not leak sensitive information.
+
+---
+
+## 2. Definitions
+
+| Term | Definition |
+|---|---|
+| **Invalid User** | Any user identity that fails one or more validation checks: non-existent, malformed identifier, expired account, suspended account, unverified account, or insufficient permissions. |
+| **Caller** | The entity making the request (human via UI, API client, internal service). |
+| **User Context** | The resolved user object or session expected to be present during a request. |
+
+---
+
+## 3. Inputs
+
+The system must handle the following invalid user input categories:
+
+### 3.1 Identity / Credential Inputs
+- **Non-existent user**: A user ID, username, or email that does not exist in the system.
+- **Malformed identifier**: A user ID or token that does not conform to the expected format (e.g., wrong UUID format, illegal characters, empty string, null value, excessively long string).
+- **Expired credentials**: A valid-format token or session that has passed its expiration timestamp.
+- **Revoked credentials**: A token or session that has been explicitly invalidated before expiry.
+- **Tampered credentials**: A token whose signature or integrity check fails (e.g., invalid JWT signature).
+- **Reused single-use tokens**: A one-time token (e.g., password reset, email verification) submitted more than once.
+
+### 3.2 Account State Inputs
+- **Suspended account**: A user whose account has been administratively suspended.
+- **Deleted/deactivated account**: A user whose account has been soft- or hard-deleted.
+- **Unverified account**: A user who has not completed required verification steps (e.g., email confirmation).
+- **Locked account**: A user whose account is temporarily locked due to repeated failed attempts.
+
+### 3.3 Authorization Inputs
+- **Insufficient permissions**: A valid, authenticated user attempting an action they are not authorized to perform.
+- **Cross-tenant access**: A valid user attempting to access resources belonging to another tenant or user.
+
+---
+
+## 4. Outputs
+
+### 4.1 HTTP API Responses
+
+| Scenario | HTTP Status Code | Response Body |
+|---|---|---|
+| Non-existent user (authentication context) | `401 Unauthorized` | `{ "error": "authentication_failed", "message": "Invalid credentials." }` |
+| Malformed identifier / token | `400 Bad Request` | `{ "error": "invalid_request", "message": "The provided identifier is malformed." }` |
+| Expired credentials | `401 Unauthorized` | `{ "error": "token_expired", "message": "Your session has expired. Please log in again." }` |
+| Revoked credentials | `401 Unauthorized` | `{ "error": "token_revoked", "message": "This session is no longer valid." }` |
+| Tampered credentials | `401 Unauthorized` | `{ "error": "authentication_failed", "message": "Invalid credentials." }` |
+| Reused single-use token | `400 Bad Request` | `{ "error": "token_already_used", "message": "This token has already been used." }` |
+| Suspended account | `403 Forbidden` | `{ "error": "account_suspended", "message": "Your account has been suspended. Contact support." }` |
+| Deleted/deactivated account | `401 Unauthorized` | `{ "error": "authentication_failed", "message": "Invalid credentials." }` |
+| Unverified account | `403 Forbidden` | `{ "error": "account_unverified", "message": "Please verify your account before continuing." }` |
+| Locked account | `403 Forbidden` | `{ "error":

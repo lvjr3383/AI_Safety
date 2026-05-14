@@ -1,0 +1,42 @@
+{
+  "core_behavior": [
+    "The system must validate an input email address against a set of predefined rules to determine if it conforms to the standard format.",
+    "The email address must contain exactly one @ symbol.",
+    "The local part (the part before the @ symbol) must not be empty.",
+    "The domain (the part after the @ symbol) must contain at least one dot."
+  ],
+  "inputs": [
+    "The system accepts a single string input representing the email address to be validated.",
+    "The input string is assumed to be a UTF-8 encoded string.",
+    "The maximum length of the input string is 254 characters, as per the standard maximum length for an email address."
+  ],
+  "outputs": [
+    "The system returns a boolean value indicating whether the input email address is valid (true) or not (false).",
+    "In case of an invalid email address, the system may optionally return an error message or code indicating the reason for the invalidation."
+  ],
+  "assumptions": [
+    "The system assumes that the input email address does not contain any leading or trailing whitespace characters. If such characters are present, they will be considered part of the email address and may cause validation to fail.",
+    "The system assumes that the input email address is case-sensitive, i.e., \"example@example.com\" and \"Example@Example.com\" are considered different email addresses.",
+    "The system does not perform any checks for the actual existence of the email address or its associated mailbox."
+  ],
+  "failure_modes": [
+    "If the input string is null or empty, the system returns false.",
+    "If the input string contains more than one @ symbol, the system returns false.",
+    "If the local part of the email address is empty, the system returns false.",
+    "If the domain part of the email address does not contain at least one dot, the system returns false.",
+    "If the input string exceeds the maximum length of 254 characters, the system returns false."
+  ],
+  "edge_cases": [
+    "Email addresses with non-ASCII characters in the local part or domain are considered valid as long as they meet the other criteria.",
+    "Email addresses with comments or folding whitespace (as per RFC 5322) are not supported and may cause validation to fail.",
+    "Email addresses with internationalized domain names (IDNs) are not explicitly supported and may cause validation to fail if they do not contain at least one dot in their ASCII-encoded form."
+  ],
+  "security_constraints": [
+    "The system must not attempt to verify the existence of the email address or its associated mailbox, as this could potentially be used to harvest valid email addresses.",
+    "The system must not store or log the input email address unless explicitly required to do so by the application's functionality."
+  ],
+  "performance_constraints": [
+    "The system must be able to validate an email address within a reasonable time frame, e.g., less than 10 milliseconds.",
+    "The system must be able to handle a high volume of email address validation requests, e.g., thousands per second, without significant performance degradation."
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "requirement_id": "C10",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A describes general load handling, Model B specifies detailed stateless architecture with auto-scaling and async queues, and Model C describes generic resource addition/removal, reflecting different design assumptions introduced without requirement specification."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B introduces scaling signals, configuration parameters, and traffic patterns as inputs, while Models A and C limit inputs to user requests and data volume."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B adds scaling event logs, capacity reports, and auditable records as outputs, while Models A and C focus on response consistency and monitoring metrics."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B introduces a specific baseline of 1,000 concurrent users and a 10x target, while Models A and C make general architectural assumptions without numeric baselines, reflecting the requirement's failure to specify load targets."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model A specifies graceful degradation and error messages, Model B specifies only alert issuance, and Model C describes unresponsiveness and component failure impacts without specifying recovery behavior."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty edge_cases array while Models A and C populate it with spike handling, resource unavailability, and non-uniform demand scenarios."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty security_constraints array while Models A and C specify data integrity, access control scaling, and compliance requirements."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": true,
+      "note": "Model A specifies a 200ms response time threshold, Model C specifies 500ms, and Model B does not specify a latency threshold, representing incompatible numeric values for the same constraint dimension."
+    }
+  },
+  "dc": 8,
+  "fc_count": 3,
+  "category_counts": {
+    "ASM": 4,
+    "ERR": 1,
+    "OMI": 2,
+    "CON-S": 1
+  },
+  "summary": "ASM (Assumption Divergence) appeared most frequently across the eight fields, occurring in core_behavior, inputs, and assumptions.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "claude",
+    "C": "llama"
+  }
+}

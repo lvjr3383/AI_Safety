@@ -1,0 +1,53 @@
+{
+  "core_behavior": [
+    "The system exposes a password validation function that accepts a candidate password string and evaluates it against a defined set of rules.",
+    "The function returns a structured result indicating whether the password is valid and, if not, which specific rules were violated.",
+    "All rules must be satisfied simultaneously for a password to be considered valid.",
+    "R1: Length is at least 8 characters",
+    "R2: Length is at most 128 characters",
+    "R3: Contains at least one uppercase letter (A\u2013Z)",
+    "R4: Contains at least one lowercase letter (a\u2013z)",
+    "R5: Contains at least one decimal digit (0\u20139)",
+    "R6: Contains at least one special character",
+    "All violated rules are reported simultaneously; the function does not short-circuit after the first failure.",
+    "Error messages are returned in the order R1 \u2192 R2 \u2192 R3 \u2192 R4 \u2192 R5 \u2192 R6.",
+    "When valid is true, errors is an empty array [], never null or absent."
+  ],
+  "inputs": [
+    "The input parameter password is of type String (UTF-8) and represents the candidate password to be validated.",
+    "The input must be a string type. Null, undefined, or non-string inputs are treated as invalid inputs (not invalid passwords) and trigger a distinct error response.",
+    "No trimming or normalization is applied to the input before validation.",
+    "Leading and trailing whitespace characters are treated as valid characters and counted toward length and character-class rules."
+  ],
+  "outputs": [
+    "The function returns a structured validation result object with fields: valid (boolean) and errors (array of strings, empty when valid == true).",
+    "Error message for R1: \"Password must be at least 8 characters long.\"",
+    "Error message for R2: \"Password must be no more than 128 characters long.\"",
+    "Error message for R3: \"Password must contain at least one uppercase letter (A\u2013Z).\"",
+    "Error message for R4: \"Password must contain at least one lowercase letter (a\u2013z).\"",
+    "Error message for R5: \"Password must contain at least one digit (0\u20139).\"",
+    "Error message for R6: \"Password must contain at least one special character (e.g., !@#$%^&*).\""
+  ],
+  "assumptions": [
+    "Password length is measured in Unicode code points, not UTF-8 bytes, not UTF-16 code units.",
+    "Non-ASCII Unicode characters (e.g., accented letters, emoji, CJK characters) are permitted in the password and count toward length (measured in Unicode code points, not bytes), but they do not satisfy any character-class rule (R3\u2013R6) unless they fall within the ASCII ranges defined above.",
+    "Uppercase letter is defined as Unicode characters in the range U+0041\u2013U+005A (A\u2013Z). Non-ASCII uppercase letters (e.g., \u00c9, \u00dc) do not satisfy R3.",
+    "Lowercase letter is defined as Unicode characters in the range U+0061\u2013U+007A (a\u2013z). Non-ASCII lowercase letters do not satisfy R4.",
+    "Digit is defined as Unicode characters in the range U+0030\u2013U+0039 (0\u20139). Non-ASCII digits do not satisfy R5.",
+    "Special character is defined as any printable ASCII character in the set: !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ (all 32 printable ASCII characters that are neither alphanumeric nor space; i.e., ASCII codes 33\u201347, 58\u201364, 91\u201396, 123\u2013126).",
+    "Space (U+0020) is not a special character for the purpose of R6 but is a valid character that counts toward length."
+  ],
+  "failure_modes": [
+    "Null, undefined, or non-string inputs are treated as invalid inputs (not invalid passwords) and trigger a distinct error response."
+  ],
+  "edge_cases": [
+    "Leading and trailing whitespace characters are treated as valid characters and counted toward length and character-class rules.",
+    "Space (U+0020) is not a special character for the purpose of R6 but is a valid character that counts toward length.",
+    "Non-ASCII uppercase letters (e.g., \u00c9, \u00dc) do not satisfy R3.",
+    "Non-ASCII lowercase letters do not satisfy R4.",
+    "Non-ASCII digits do not satisfy R5.",
+    "Non-ASCII Unicode characters count toward length but do not satisfy any character-class rule (R3\u2013R6) unless they fall within the ASCII ranges defined above."
+  ],
+  "security_constraints": [],
+  "performance_constraints": []
+}

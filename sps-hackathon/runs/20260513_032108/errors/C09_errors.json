@@ -1,0 +1,6 @@
+{
+  "extractor_claude": "returned None",
+  "extractor_gpt4o": "returned None",
+  "extractor_llama": "returned None",
+  "comparator": "returned None"
+}

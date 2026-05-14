@@ -1,0 +1,67 @@
+{
+  "requirement_id": "B10",
+  "field_results": {
+    "core_behavior": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": true,
+      "note": "All three models agree on the core trigger and notification behavior, but none specifies the notification channel, which is unspecified in the requirement."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A specifies a detailed event payload with many required fields (UUID, ISO 8601, tracking URL, etc.), while Models B and C describe inputs at a high level without mandating specific payload structure or field types."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A specifies four distinct channels (email, SMS, push, in-app) with detailed formatting; Model C specifies email and/or SMS only; Model B specifies unspecified channel(s), and none addresses the channel-unspecified nature of the requirement."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": true,
+      "note": "Model A has an empty assumptions array while Models B and C populate it with design choices; none of the models explicitly addresses the opt-in vs opt-out assumption divergence identified in critical behaviors."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model A has an empty failure_modes array; Model B specifies retry without a count limit; Model C specifies retry up to 3 times before escalating, representing different recovery strategies."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A focuses on multiple shipments and optional delivery date; Model B addresses duplicate notifications, opt-out, and batch shipments; Model C addresses order cancellation and post-shipment updates, representing different assumed edge scenarios."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A has an empty security_constraints array while Models B and C both specify encryption, data protection regulations, and access controls."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": false,
+      "note": "Model B specifies 'within a few minutes' without a hard threshold; Model C specifies within 1 minute with throughput and error rate thresholds; Model A only specifies an SMS character limit, representing incompatible constraint values."
+    }
+  },
+  "dc": 7,
+  "fc_count": 3,
+  "category_counts": {
+    "ASM": 3,
+    "OMI": 2,
+    "ERR": 1,
+    "CON-S": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 3 of the 8 fields, reflecting that the underspecified requirement led models to independently introduce different design choices for inputs, outputs, and edge cases.",
+  "label_map": {
+    "A": "claude",
+    "B": "gpt4o",
+    "C": "llama"
+  }
+}

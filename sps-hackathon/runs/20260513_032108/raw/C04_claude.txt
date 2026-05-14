@@ -1,0 +1,70 @@
+# Software Specification: System Reliability
+
+## Overview
+
+This specification defines the reliability requirements and mechanisms for a general-purpose software system. Reliability is defined as the probability that the system performs its intended functions correctly, continuously, and recoverably under stated conditions over a specified period of time.
+
+---
+
+## 1. Core Behavior
+
+### 1.1 Continuous Availability
+- The system must remain operational and responsive to valid requests at all times during defined service windows.
+- The system must achieve a minimum uptime of **99.9%** (≤ 8.76 hours unplanned downtime per year) for standard deployments, and **99.99%** for critical deployments.
+- Uptime is measured as the ratio of time the system is fully functional to total elapsed time, excluding pre-announced maintenance windows.
+
+### 1.2 Fault Tolerance
+- The system must continue operating in a degraded-but-functional state when one or more non-critical components fail.
+- No single point of failure (SPOF) may exist in any critical execution path.
+- The system must detect internal faults automatically and attempt self-recovery before escalating to human operators.
+
+### 1.3 Data Integrity
+- All data written to persistent storage must be confirmed as durable before the write operation is acknowledged to the caller.
+- The system must not lose committed data under any failure scenario, including abrupt process termination, hardware failure, or network partition.
+- Checksums or equivalent integrity verification must be applied to all stored and transmitted data.
+
+### 1.4 Consistency
+- The system must not produce contradictory outputs for the same input under identical conditions.
+- Concurrent operations must not corrupt shared state; all shared mutable state must be protected by appropriate synchronization mechanisms.
+
+### 1.5 Graceful Degradation
+- When operating under resource exhaustion or partial failure, the system must prioritize core functionality over ancillary features.
+- Non-critical features may be disabled automatically; the system must communicate this degraded state to users and operators.
+
+### 1.6 Recovery
+- After any failure, the system must restore full functionality within a defined **Recovery Time Objective (RTO)** of ≤ 5 minutes for critical services and ≤ 30 minutes for non-critical services.
+- The **Recovery Point Objective (RPO)** must be ≤ 1 minute for critical data and ≤ 1 hour for non-critical data.
+
+---
+
+## 2. Inputs
+
+### 2.1 Operational Inputs
+- User requests, API calls, and inter-service messages delivered over defined interfaces.
+- Configuration parameters specifying reliability thresholds, retry policies, timeout values, and failover targets.
+- Health-check probes from load balancers, orchestration platforms, or monitoring systems.
+
+### 2.2 Environmental Inputs
+- Infrastructure signals: CPU load, memory pressure, disk I/O saturation, network latency metrics.
+- Dependency health signals: upstream and downstream service availability indicators.
+- Time signals: wall-clock time used for timeout enforcement, lease expiration, and scheduled tasks.
+
+### 2.3 Administrative Inputs
+- Operator commands: planned shutdown, forced failover, maintenance mode activation, configuration reload.
+- Backup and restore triggers: scheduled or on-demand backup initiation, restore requests with target recovery point.
+
+---
+
+## 3. Outputs
+
+### 3.1 Functional Outputs
+- Correct responses to all valid requests within defined latency bounds (see Section 7).
+- Explicit error responses for invalid or unprocessable requests, including a machine-readable error code and human-readable description.
+
+### 3.2 Health and Status Outputs
+- A `/health` (or equivalent) endpoint returning one of three states: `HEALTHY`, `DEGRADED`, or `UNAVAILABLE`, with a structured payload indicating which subsystems are affected.
+- Structured logs emitted for every significant system event, including failures, recoveries, retries, and state transitions.
+- Metrics exported continuously (minimum 1-minute granularity) covering: request rate, error rate, latency percentiles (p50, p95, p99), resource utilization, and component health.
+
+### 3.3 Alerting Outputs
+- Alerts emitted to a configured notification channel when any reliability threshold is breached (e.g., error rate exceeds 1%, latency

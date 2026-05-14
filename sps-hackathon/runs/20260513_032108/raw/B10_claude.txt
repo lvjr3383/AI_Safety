@@ -1,0 +1,93 @@
+# Software Specification: Order Shipped Notification System
+
+---
+
+## 1. Core Behavior
+
+The system must automatically send a notification to a user when their order transitions to a "shipped" status. The notification must inform the user that their order has been dispatched and provide relevant tracking and order details. The notification must be sent exactly once per shipment event per order (or per shipment if an order contains multiple shipments).
+
+The system must:
+- Detect or receive the order-shipped event.
+- Retrieve the relevant user contact information and order details.
+- Compose a notification message using a defined template.
+- Deliver the notification via one or more configured channels.
+- Record the outcome of the notification attempt.
+
+---
+
+## 2. Inputs
+
+### 2.1 Triggering Event
+The notification is triggered by an **order status change event** where the new status equals `SHIPPED`. This event may originate from:
+- An internal order management system (OMS) publishing a state-change event (e.g., via message queue or webhook).
+- A direct API call from a fulfillment or warehouse system.
+- A scheduled polling job that detects status changes in the orders database.
+
+### 2.2 Event Payload (Minimum Required Fields)
+| Field | Type | Description |
+|---|---|---|
+| `order_id` | string (UUID) | Unique identifier of the order |
+| `shipment_id` | string (UUID) | Unique identifier of the shipment (supports partial shipments) |
+| `shipped_at` | ISO 8601 datetime | Timestamp when the order was marked as shipped |
+| `user_id` | string (UUID) | Identifier of the user who placed the order |
+| `carrier` | string | Name of the shipping carrier (e.g., "FedEx", "UPS") |
+| `tracking_number` | string | Carrier-assigned tracking number |
+| `tracking_url` | string (URL) | Deep link to carrier tracking page |
+| `estimated_delivery_date` | date (ISO 8601) | Estimated delivery date (optional but recommended) |
+| `items_shipped` | array of objects | List of items included in this shipment |
+
+### 2.3 User Profile Data (Retrieved Internally)
+The system retrieves the following from the user profile service:
+- Email address
+- Phone number (for SMS)
+- Push notification device tokens
+- Preferred notification channel(s)
+- Preferred language/locale
+- Notification opt-in/opt-out status per channel
+
+---
+
+## 3. Outputs
+
+### 3.1 Notification Channels
+The system must support the following delivery channels. The channel(s) used are determined by user preferences and opt-in status:
+
+| Channel | Format | Required |
+|---|---|---|
+| Email | HTML + plain-text fallback | Yes (default) |
+| SMS | Plain text, ≤160 characters per segment | Optional |
+| Push Notification | Title + body + deep link payload | Optional |
+| In-App Notification | Structured message stored in notification inbox | Yes (always) |
+
+### 3.2 Notification Content
+
+**Email Subject:**
+`Your order #[order_id_short] has shipped!`
+
+**Email Body (minimum required elements):**
+- Greeting with user's first name
+- Confirmation that the order has shipped
+- Order ID (display-friendly short form)
+- List of items shipped
+- Carrier name and tracking number
+- Clickable tracking URL
+- Estimated delivery date (if available)
+- Link to order detail page
+- Customer support contact information
+- Unsubscribe/manage preferences link
+
+**SMS Body (example):**
+`Your order #[order_id_short] has shipped via [carrier]. Track it: [tracking_url] Est. delivery: [date]. Reply STOP to opt out.`
+
+**Push Notification:**
+- Title: `Order Shipped 🚚`
+- Body: `Your order #[order_id_short] is on its way! Est. delivery: [date].`
+- Deep link: Opens order detail screen in mobile app
+
+**In-App Notification:**
+- Full structured record stored in the user's notification inbox
+- Marked as unread on creation
+- Includes all fields from the email body in structured form
+
+### 3.3 Audit / Delivery Record
+For

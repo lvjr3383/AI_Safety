@@ -1,0 +1,74 @@
+# Rate Limiting Specification: 100 Requests Per Minute Per Authenticated User
+
+---
+
+## 1. Core Behavior
+
+The system must enforce a rate limit of **100 requests per minute** on a designated API endpoint, scoped to each individual authenticated user. Each request from an authenticated user is counted against that user's quota. When a user exceeds 100 requests within the current rate limit window, all subsequent requests within that window must be rejected with an HTTP `429 Too Many Requests` response that includes a `Retry-After` header indicating when the user may retry.
+
+The rate limiting mechanism must operate using a **fixed window** counter strategy (see Assumptions). The window is 60 seconds in duration. The counter resets at the start of each new window.
+
+---
+
+## 2. Inputs
+
+### Per Request
+| Input | Source | Description |
+|---|---|---|
+| User identity token | HTTP request header (`Authorization: Bearer <token>`) | Used to identify and authenticate the user |
+| Request timestamp | Server clock (UTC) | Used to determine the current window |
+| Target endpoint path | HTTP request URI | Used to scope rate limiting to the correct endpoint |
+| HTTP method | HTTP request method | Included in endpoint matching |
+
+### Configuration (Static / Environment)
+| Parameter | Value | Description |
+|---|---|---|
+| `RATE_LIMIT_MAX_REQUESTS` | `100` | Maximum allowed requests per window |
+| `RATE_LIMIT_WINDOW_SECONDS` | `60` | Duration of the rate limit window in seconds |
+| `RATE_LIMIT_SCOPE` | Per authenticated user | Isolation unit for counters |
+
+---
+
+## 3. Outputs
+
+### 3.1 Request Allowed (Counter ≤ 100)
+
+The request proceeds normally. The following headers **must** be appended to every response from the rate-limited endpoint, regardless of whether the limit has been reached:
+
+| Header | Value | Description |
+|---|---|---|
+| `X-RateLimit-Limit` | `100` | Maximum requests allowed per window |
+| `X-RateLimit-Remaining` | `100 - current_count` | Requests remaining in the current window |
+| `X-RateLimit-Reset` | Unix timestamp (UTC) | Time at which the current window expires and the counter resets |
+
+### 3.2 Request Rejected (Counter > 100)
+
+The system returns an HTTP `429 Too Many Requests` response. The response body and headers must include:
+
+| Header | Value | Description |
+|---|---|---|
+| `Retry-After` | Integer (seconds) | Seconds until the current window resets; calculated as `window_end_timestamp - current_timestamp`, rounded up to the nearest whole second, minimum value of `1` |
+| `X-RateLimit-Limit` | `100` | Maximum requests allowed per window |
+| `X-RateLimit-Remaining` | `0` | No requests remaining |
+| `X-RateLimit-Reset` | Unix timestamp (UTC) | Time at which the current window expires |
+| `Content-Type` | `application/json` | Response body format |
+
+**Response Body (JSON):**
+```json
+{
+  "error": "rate_limit_exceeded",
+  "message": "You have exceeded the rate limit of 100 requests per minute. Please retry after {N} seconds.",
+  "retry_after_seconds": <N>
+}
+```
+Where `<N>` matches the value of the `Retry-After` header.
+
+---
+
+## 4. Assumptions
+
+1. **Window Strategy:** A **fixed window** (tumbling window) algorithm is used rather than a sliding window or token bucket. The window aligns to clock-minute boundaries (e.g., 14:03:00–14:03:59 UTC) rather than being relative to the first request. This is simpler to implement and reason about, though it permits a burst of up to 200 requests across a window boundary. This trade-off is accepted unless the requirement is revised.
+
+2. **Authentication Prerequisite:** Rate limiting is applied only to authenticated users. Unauthenticated requests (missing, invalid, or expired tokens) must be rejected with `401 Unauthorized` **before** the rate limit check is performed. Unauthenticated requests do not consume rate limit quota.
+
+3. **

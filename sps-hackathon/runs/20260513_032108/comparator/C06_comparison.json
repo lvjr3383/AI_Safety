@@ -1,0 +1,65 @@
+{
+  "requirement_id": "C06",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A specifies detailed severity classification, propagation rules, and recovery mandates; Models B and C describe high-level detect-log-respond behavior without those specifics, reflecting independently introduced design choices on an undefined requirement."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A includes configuration errors and resource exhaustion signals not present in B or C; Model B includes security violations as an input type not listed by A or C; the requirement does not specify which error sources are in scope."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A specifies metrics increments, alerts, audit trail entries, and unique error codes as outputs; Models B and C omit these, with each model independently introducing different output artifacts."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A has an empty assumptions array while Models B and C each list multiple assumptions including centralized handling, localization, severity categorization, and defined policies."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A has an empty failure_modes array while Models B and C specify behaviors for critical errors, logging system failures, and security-related errors."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A has an empty edge_cases array; Model B lists cascading failures and simultaneous errors; Model C specifies thread-safety and third-party library wrapping, each introducing different edge case concerns."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A requires audit trail entries for security-sensitive operations; Model B adds a DoS-via-logging concern; Model C adds secure log storage and regulatory compliance (PCI-DSS, HIPAA, GDPR), none of which are specified by the requirement."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A focuses solely on bounding retry loops; Model B addresses overhead minimization and high-volume handling; Model C specifies asynchronous handling, caching, and configurable thresholds, reflecting independently introduced design choices."
+    }
+  },
+  "dc": 8,
+  "fc_count": 2,
+  "category_counts": {
+    "ASM": 6,
+    "OMI": 2
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 5 of 8 fields, reflecting that the underspecified requirement caused models to independently introduce incompatible design choices across most dimensions.",
+  "label_map": {
+    "A": "claude",
+    "B": "gpt4o",
+    "C": "llama"
+  }
+}

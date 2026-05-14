@@ -1,0 +1,67 @@
+{
+  "requirement_id": "C03",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A specifies pure RBAC, Model B specifies RBAC with ABAC extensions and a detailed (principal, action, resource) evaluation model, and Model C specifies a generic policy-based model defaulting to RBAC; the requirement did not specify which access control model to use."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies a structured set of typed fields including principal_type, resource_id, resource_owner_id, and context object, while Models A and C specify higher-level inputs such as credentials and access request details without that granularity."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B returns only a binary PERMIT/DENY decision, Model A returns success/error responses for both authentication and authorization, and Model C returns an access decision plus detailed audit logs."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A assumes hierarchical RBAC with a guest default role and coarse-grained permissions, Model B assumes authenticated principals and runtime enforcement only, and Model C assumes RBAC unless otherwise specified with an external authentication service; the access control model choice is an unspecified design assumption."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model C specifies four distinct failure scenarios including policy retrieval failure and system downtime defaulting to deny, Model A covers authentication failure and generic errors, and Model B only addresses role inheritance cycles as a failure mode."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A addresses multiple/conflicting roles and null inputs, Model B addresses wildcard matching and explicit deny precedence, and Model C addresses expired credentials, concurrent requests, and non-existent resources."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "SEC",
+      "fc_flag": false,
+      "note": "Model A specifies password hashing algorithms and encryption, Model B specifies deny-by-default, contextual attributes including MFA and device trust, and cycle detection, while Model C specifies encryption, rate limiting, account lockout, and regulatory compliance."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty performance_constraints array while Models A and C specify latency thresholds and scalability requirements."
+    }
+  },
+  "dc": 8,
+  "fc_count": 2,
+  "category_counts": {
+    "ASM": 5,
+    "ERR": 1,
+    "SEC": 1,
+    "OMI": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in four of the eight fields, reflecting that the underspecified requirement left multiple design dimensions unconstrained.",
+  "label_map": {
+    "A": "llama",
+    "B": "claude",
+    "C": "gpt4o"
+  }
+}

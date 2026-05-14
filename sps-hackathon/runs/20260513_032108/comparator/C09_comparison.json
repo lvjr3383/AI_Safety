@@ -1,0 +1,65 @@
+{
+  "requirement_id": "C09",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B specifies a rigid 4-step linear flow with express checkout options and detailed UX rules; Model A lists general capabilities; Model C describes a high-level seamless flow \u2014 all three independently assumed different technical designs for an undefined UX requirement. Neither 'smooth' nor 'conversion-optimized' is given a technical definition by any model."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies granular field-level validation rules, formats, and system inputs (fraud score, tax service); Model A and Model C list high-level input categories without field-level constraints."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model C includes inventory update and transaction data sent to payment gateway as outputs; Model B specifies a 60-second email SLA and order record to OMS; Model A includes error messages as outputs \u2014 each model independently introduced different output artifacts."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty assumptions array while Models A and C populate it with checkout flow structure, payment gateway, and device assumptions."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty failure_modes array while Models A and C specify payment errors, invalid input, network errors, and inventory failures."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty edge_cases array while Models A and C specify cases such as empty cart, abandoned checkout, expired payment methods, and connectivity issues."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies only PAN and CVV storage prohibitions; Model A adds PCI compliance, access controls, and dependency patching; Model C adds encryption at rest and authentication for saved payment methods."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A specifies 2-3 second response time, 100 concurrent sessions, and 99.9% uptime; Model B specifies only a 60-second email delivery SLA; Model C specifies 3-second page load and scalability for peak loads."
+    }
+  },
+  "dc": 8,
+  "fc_count": 1,
+  "category_counts": {
+    "ASM": 5,
+    "OMI": 3
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 4 of 8 fields, reflecting that the vague requirement caused models to independently introduce incompatible design choices across core behavior, inputs, outputs, security, and performance.",
+  "label_map": {
+    "A": "llama",
+    "B": "claude",
+    "C": "gpt4o"
+  }
+}

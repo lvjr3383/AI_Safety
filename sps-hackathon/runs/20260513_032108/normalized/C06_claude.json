@@ -1,0 +1,48 @@
+{
+  "core_behavior": [
+    "The system MUST detect errors at the point of occurrence, not deferred to a later stage.",
+    "All operations that can fail MUST have explicit error detection logic (e.g., return code checks, exception catching, assertion validation).",
+    "The system MUST NOT silently swallow errors. Every detected error must result in at least one of: logging, user notification, or a propagated signal to the caller.",
+    "The system MUST classify errors into severity levels: FATAL (System cannot continue; immediate shutdown or restart required), ERROR (Operation failed; the current request/transaction cannot complete), WARNING (Operation completed with degraded behavior or a recoverable anomaly), INFO (Noteworthy condition that is not an error but may assist diagnosis).",
+    "Errors MUST be propagated up the call stack until they reach a designated error boundary (e.g., API handler, UI layer, service entry point).",
+    "Intermediate layers MUST NOT discard errors unless they explicitly handle and resolve them.",
+    "Errors that cross system or service boundaries MUST be translated into the appropriate protocol representation (e.g., HTTP status codes, gRPC status codes, message queue dead-letter entries).",
+    "The system MUST attempt recovery for all errors classified as WARNING or recoverable ERROR conditions.",
+    "Recovery strategies MUST be defined per error type and MAY include: retry with backoff, fallback to a default value, circuit breaking, or graceful degradation.",
+    "FATAL errors MUST trigger a controlled shutdown sequence that preserves data integrity before termination.",
+    "The system MUST NOT enter an infinite retry loop; retry attempts MUST be bounded by a configurable maximum count and timeout.",
+    "End users MUST receive a human-readable error message when an error affects their request or session.",
+    "User-facing messages MUST NOT expose internal system details, stack traces, raw exception messages, or sensitive data.",
+    "User-facing messages MUST include: a plain-language description of what went wrong, guidance on what the user can do next (if applicable), and a unique error reference code for support escalation.",
+    "Every error MUST be logged at the time of detection.",
+    "Log entries MUST include: timestamp (UTC, ISO 8601), severity level, error code, error message, component/module name, correlation/trace ID, and contextual metadata relevant to the failure.",
+    "Stack traces MUST be included in log entries for ERROR and FATAL levels.",
+    "Logs MUST be written to a durable, append-only store."
+  ],
+  "inputs": [
+    "Runtime exceptions and thrown errors from application code, third-party libraries, and system calls.",
+    "Non-zero or unexpected return codes from functions, subprocesses, and external APIs.",
+    "Timeout signals from network calls, database queries, and inter-service communication.",
+    "Validation failures from input parsing, schema validation, and business rule checks.",
+    "Resource exhaustion signals (e.g., out-of-memory, disk full, connection pool exhausted).",
+    "Configuration errors detected at startup or runtime."
+  ],
+  "outputs": [
+    "Structured log entries written to the centralized logging system for every error event.",
+    "User-facing error responses delivered via the appropriate interface (HTTP response body, UI dialog, CLI message, etc.).",
+    "Error codes \u2014 unique, stable, machine-readable identifiers assigned to each error class.",
+    "Metrics increments \u2014 error counts and rates emitted to the monitoring/observability system, tagged by error type, severity, and component.",
+    "Alerts \u2014 triggered for ERROR and FATAL conditions that exceed defined thresholds, delivered to on-call personnel via the alerting system.",
+    "Audit trail entries \u2014 for errors occurring in security-sensitive or compliance-relevant operations."
+  ],
+  "assumptions": [],
+  "failure_modes": [],
+  "edge_cases": [],
+  "security_constraints": [
+    "User-facing messages MUST NOT expose internal system details, stack traces, raw exception messages, or sensitive data.",
+    "Audit trail entries must be produced for errors occurring in security-sensitive or compliance-relevant operations."
+  ],
+  "performance_constraints": [
+    "The system MUST NOT enter an infinite retry loop; retry attempts MUST be bounded by a configurable maximum count and timeout."
+  ]
+}

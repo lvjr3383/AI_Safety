@@ -1,0 +1,98 @@
+# Software Specification: JWT Token Generation via Username/Password Authentication
+
+---
+
+## 1. Core Behavior
+
+The system must expose an authentication endpoint that accepts a username and password, validates the credentials against a persistent user store, and — upon successful validation — generates and returns a signed JSON Web Token (JWT). The token must encode the authenticated user's ID and role, and must expire exactly 60 minutes after issuance. Failed authentication attempts must never return a token.
+
+---
+
+## 2. Inputs
+
+### 2.1 Request Format
+- **Transport:** HTTPS POST request
+- **Endpoint:** `POST /auth/token` (or equivalent configured path)
+- **Content-Type:** `application/json`
+
+### 2.2 Request Body Fields
+
+| Field      | Type   | Required | Constraints                                      |
+|------------|--------|----------|--------------------------------------------------|
+| `username` | string | Yes      | 1–254 characters; must not be null or whitespace |
+| `password` | string | Yes      | 1–128 characters; must not be null or empty      |
+
+### 2.3 Input Normalization
+- `username` must be trimmed of leading/trailing whitespace before lookup.
+- `username` comparison against the user store must be case-insensitive.
+- `password` must **not** be trimmed or normalized; it is compared exactly as provided.
+
+---
+
+## 3. Outputs
+
+### 3.1 Successful Response
+
+- **HTTP Status:** `200 OK`
+- **Content-Type:** `application/json`
+
+**Response Body:**
+
+```json
+{
+  "access_token": "<signed JWT string>",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+```
+
+### 3.2 JWT Structure
+
+**Header:**
+
+```json
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+```
+
+> See Assumptions §7.1 regarding algorithm selection.
+
+**Payload (Claims):**
+
+| Claim | Type    | Description                                              |
+|-------|---------|----------------------------------------------------------|
+| `sub` | string  | The unique user ID (UUID or equivalent stable identifier)|
+| `role`| string  | The user's role (e.g., `"admin"`, `"user"`, `"viewer"`) |
+| `iat` | integer | Unix timestamp of token issuance (seconds since epoch)   |
+| `exp` | integer | Unix timestamp of expiration: `iat + 3600`               |
+| `jti` | string  | Unique token identifier (UUID v4); enables revocation    |
+
+**Signature:**
+- Computed using HMAC-SHA256 over `base64url(header) + "." + base64url(payload)` with the server's secret signing key.
+
+---
+
+## 4. Assumptions
+
+### 4.1 Algorithm
+- HMAC-SHA256 (`HS256`) is used as the default signing algorithm. If asymmetric signing (RS256/ES256) is required in future, the key management layer must be updated; the token structure remains the same.
+
+### 4.2 Secret Key
+- A single shared secret key is used for signing. The key must be at least 256 bits (32 bytes) of cryptographically random data. Key rotation is out of scope for this specification but the architecture must not preclude it.
+
+### 4.3 User Store
+- A persistent user store (e.g., relational database) exists and contains at minimum: user ID, username, hashed password, role, and account status (active/inactive/locked).
+
+### 4.4 Password Storage
+- Passwords are stored as hashes using a strong adaptive algorithm (bcrypt, Argon2id, or scrypt). Plain-text password storage is explicitly prohibited.
+
+### 4.5 Role Cardinality
+- Each user has exactly one role at the time of authentication. Multi-role support is out of scope; if needed, the `role` claim may be extended to an array in a future revision.
+
+### 4.6 Token Refresh
+- Token refresh is out of scope. Clients must re-authenticate after expiry.
+
+### 4.7 Clock Source
+- `iat` and `exp` are computed from the server's system clock (UTC). Clock skew

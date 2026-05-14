@@ -1,0 +1,67 @@
+{
+  "requirement_id": "B06",
+  "field_results": {
+    "core_behavior": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": true,
+      "note": "All three models describe a multi-phase reset flow but none specifies the reset mechanism (email link vs. code vs. other) as a deliberate open choice, and none flags the email-existence confirmation as a security tradeoff requiring a decision."
+    },
+    "inputs": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": false,
+      "note": "All three models list email/username, token, new password, and confirmation as inputs with minor wording differences."
+    },
+    "outputs": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": false,
+      "note": "All three models include a confirmation message, reset email, success message, and error messages as outputs."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A assumes email or phone as channels and a 30-minute expiry; Model B assumes email only with hashed token storage; Model C assumes email only with a 24-hour expiry \u2014 differing on channel, expiry duration, and token storage design not constrained by the requirement."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model A reveals whether an email exists in its error message; Models B and C specify a generic message to avoid account enumeration, representing incompatible error-response behaviors."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A covers no-registered-email, locked accounts, and multiple requests; Model B covers inactive accounts and session invalidation; Model C covers whitespace input, multiple reset emails, and reused tokens \u2014 each model introduces different edge cases not specified by the requirement, and rate limiting on multiple requests is noted but not fully specified by any model."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "SEC",
+      "fc_flag": true,
+      "note": "Model B specifies hashed token storage, session invalidation on reset, max password length to prevent bcrypt DoS, and explicit account-enumeration prevention; Model A specifies rate limiting on reset requests (5/hour) but does not hash tokens or invalidate sessions; Model C specifies audit logging but omits session invalidation and token hashing \u2014 representing materially different security postures; rate limiting is absent from Models B and C."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": false,
+      "note": "Model A specifies a 2-second response time threshold; Model C specifies email delivery within 5 minutes; Model B only mentions a 128-character password length limit as a performance constraint \u2014 the models specify different thresholds and metrics."
+    }
+  },
+  "dc": 5,
+  "fc_count": 4,
+  "category_counts": {
+    "ASM": 2,
+    "ERR": 1,
+    "SEC": 1,
+    "CON-S": 1
+  },
+  "summary": "ASM (Assumption Divergence) appeared most frequently, tied across two fields, reflecting that the underspecified requirement led models to independently introduce different design choices for token expiry, delivery channel, and edge-case handling.",
+  "label_map": {
+    "A": "llama",
+    "B": "claude",
+    "C": "gpt4o"
+  }
+}

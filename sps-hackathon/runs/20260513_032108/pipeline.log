@@ -1,0 +1,963 @@
+2026-05-12 22:21:08,024 INFO     __main__ — === Run 20260513_032108  test_mode=False ===
+2026-05-12 22:21:08,026 INFO     __main__ — Loaded 6 prompt files from prompts
+2026-05-12 22:21:08,026 INFO     __main__ — Seed: 1918646184 → runs/20260513_032108/seed.txt
+2026-05-12 22:21:08,027 INFO     loader — Loaded 30/30 valid requirements from data/requirements_dataset.json
+2026-05-12 22:21:08,027 INFO     __main__ — Processing 30 requirement(s)
+2026-05-12 22:21:08,028 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 22:21:08,028 INFO     __main__ — [1/30] A01: Validate that a password is between 8 and 128 characters, co
+2026-05-12 22:21:08,028 INFO     __main__ — [A01] step 1: generate
+2026-05-12 22:21:08,093 INFO     generator — [generator/claude] attempt 1
+2026-05-12 22:21:24,220 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 22:21:24,249 INFO     generator — [generator/claude] success — 3517 chars
+2026-05-12 22:21:24,250 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 22:21:32,560 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 22:21:32,586 INFO     generator — [generator/gpt4o] success — 2375 chars
+2026-05-12 22:21:32,586 INFO     generator — [generator/llama] attempt 1
+2026-05-12 22:21:34,306 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 22:21:34,340 INFO     generator — [generator/llama] success — 3084 chars
+2026-05-12 22:21:34,341 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 22:21:34,342 INFO     __main__ — [A01] step 2: extract
+2026-05-12 22:21:34,347 INFO     extractor — [extractor/A01/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 22:21:43,376 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 22:21:43,387 INFO     extractor — [extractor/A01/claude] received 4219 chars
+2026-05-12 22:21:43,396 INFO     extractor — [extractor/A01/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 22:21:49,902 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 22:21:49,904 INFO     extractor — [extractor/A01/gpt4o] received 2688 chars
+2026-05-12 22:21:49,911 INFO     extractor — [extractor/A01/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 22:21:55,819 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 22:21:55,821 INFO     extractor — [extractor/A01/llama] received 3202 chars
+2026-05-12 22:21:55,822 INFO     __main__ — [A01] step 3: compare
+2026-05-12 22:21:55,823 INFO     comparator — [comparator/A01] label_map written: {'A': 'claude', 'B': 'llama', 'C': 'gpt4o'}
+2026-05-12 22:21:55,829 INFO     comparator — [comparator/A01] calling Claude (claude-sonnet-4-6)...
+2026-05-12 22:31:55,889 INFO     anthropic._base_client — Retrying request to /v1/messages in 0.487578 seconds
+2026-05-12 22:32:14,769 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 22:32:14,771 INFO     comparator — [comparator/A01] received 3416 chars
+2026-05-12 22:32:14,773 INFO     __main__ — [A01] done — dc=8  fc=5  fod=0.25
+2026-05-12 22:32:14,773 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 22:32:14,773 INFO     __main__ — [2/30] A02: Return a paginated list of items from a collection. Each pag
+2026-05-12 22:32:14,774 INFO     __main__ — [A02] step 1: generate
+2026-05-12 22:32:14,795 INFO     generator — [generator/claude] attempt 1
+2026-05-12 22:32:34,519 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 22:32:34,521 INFO     generator — [generator/claude] success — 3876 chars
+2026-05-12 22:32:34,522 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 22:32:40,667 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 22:32:40,680 INFO     generator — [generator/gpt4o] success — 3006 chars
+2026-05-12 22:32:40,680 INFO     generator — [generator/llama] attempt 1
+2026-05-12 22:32:42,787 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 22:32:42,789 INFO     generator — [generator/llama] success — 3157 chars
+2026-05-12 22:32:42,790 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 22:32:42,795 INFO     __main__ — [A02] step 2: extract
+2026-05-12 22:32:42,803 INFO     extractor — [extractor/A02/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 22:32:52,756 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 22:32:52,758 INFO     extractor — [extractor/A02/claude] received 3826 chars
+2026-05-12 22:32:52,765 INFO     extractor — [extractor/A02/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 22:32:59,848 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 22:32:59,849 INFO     extractor — [extractor/A02/gpt4o] received 3160 chars
+2026-05-12 22:32:59,857 INFO     extractor — [extractor/A02/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:04:53,389 INFO     anthropic._base_client — Retrying request to /v1/messages in 0.427774 seconds
+2026-05-12 23:04:59,822 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:04:59,825 INFO     extractor — [extractor/A02/llama] received 3281 chars
+2026-05-12 23:04:59,826 INFO     __main__ — [A02] step 3: compare
+2026-05-12 23:04:59,827 INFO     comparator — [comparator/A02] label_map written: {'A': 'gpt4o', 'B': 'claude', 'C': 'llama'}
+2026-05-12 23:04:59,835 INFO     comparator — [comparator/A02] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:05:12,662 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:05:12,664 INFO     comparator — [comparator/A02] received 2766 chars
+2026-05-12 23:05:12,664 WARNING  comparator — [comparator/A02] dc mismatch: LLM=6 recomputed=7 — using recomputed
+2026-05-12 23:05:12,666 INFO     __main__ — [A02] done — dc=7  fc=1  fod=0.25
+2026-05-12 23:05:12,666 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:05:12,666 INFO     __main__ — [3/30] A03: Sort a list of integers in ascending order and return only u
+2026-05-12 23:05:12,666 INFO     __main__ — [A03] step 1: generate
+2026-05-12 23:05:12,684 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:05:29,944 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:05:29,947 INFO     generator — [generator/claude] success — 3396 chars
+2026-05-12 23:05:29,947 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:05:35,077 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:05:35,089 INFO     generator — [generator/gpt4o] success — 2582 chars
+2026-05-12 23:05:35,090 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:05:37,122 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:05:37,134 INFO     generator — [generator/llama] success — 3327 chars
+2026-05-12 23:05:37,135 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:05:37,137 INFO     __main__ — [A03] step 2: extract
+2026-05-12 23:05:37,143 INFO     extractor — [extractor/A03/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:05:45,504 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:05:45,506 INFO     extractor — [extractor/A03/claude] received 2783 chars
+2026-05-12 23:05:45,514 INFO     extractor — [extractor/A03/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:05:50,283 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:05:50,285 INFO     extractor — [extractor/A03/gpt4o] received 2720 chars
+2026-05-12 23:05:50,292 INFO     extractor — [extractor/A03/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:05:57,224 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:05:57,226 INFO     extractor — [extractor/A03/llama] received 3326 chars
+2026-05-12 23:05:57,227 INFO     __main__ — [A03] step 3: compare
+2026-05-12 23:05:57,228 INFO     comparator — [comparator/A03] label_map written: {'A': 'claude', 'B': 'llama', 'C': 'gpt4o'}
+2026-05-12 23:05:57,235 INFO     comparator — [comparator/A03] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:06:10,174 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:06:10,175 INFO     comparator — [comparator/A03] received 2725 chars
+2026-05-12 23:06:10,177 INFO     __main__ — [A03] done — dc=5  fc=3  fod=0.25
+2026-05-12 23:06:10,177 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:06:10,177 INFO     __main__ — [4/30] A04: An API endpoint should return HTTP 404 with a JSON error bod
+2026-05-12 23:06:10,177 INFO     __main__ — [A04] step 1: generate
+2026-05-12 23:06:10,195 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:06:28,324 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:06:28,326 INFO     generator — [generator/claude] success — 4021 chars
+2026-05-12 23:06:28,326 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:06:34,386 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:06:34,400 INFO     generator — [generator/gpt4o] success — 2627 chars
+2026-05-12 23:06:34,400 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:06:36,312 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:06:36,325 INFO     generator — [generator/llama] success — 3102 chars
+2026-05-12 23:06:36,325 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:06:36,328 INFO     __main__ — [A04] step 2: extract
+2026-05-12 23:06:36,335 INFO     extractor — [extractor/A04/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:06:46,500 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:06:46,502 INFO     extractor — [extractor/A04/claude] received 4138 chars
+2026-05-12 23:06:46,510 INFO     extractor — [extractor/A04/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:06:52,937 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:06:52,939 INFO     extractor — [extractor/A04/gpt4o] received 2651 chars
+2026-05-12 23:06:52,946 INFO     extractor — [extractor/A04/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:07:00,414 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:07:00,417 INFO     extractor — [extractor/A04/llama] received 3313 chars
+2026-05-12 23:07:00,418 INFO     __main__ — [A04] step 3: compare
+2026-05-12 23:07:00,418 INFO     comparator — [comparator/A04] label_map written: {'A': 'gpt4o', 'B': 'llama', 'C': 'claude'}
+2026-05-12 23:07:00,425 INFO     comparator — [comparator/A04] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:07:15,625 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:07:15,628 INFO     comparator — [comparator/A04] received 3076 chars
+2026-05-12 23:07:15,629 INFO     __main__ — [A04] done — dc=8  fc=4  fod=0.25
+2026-05-12 23:07:15,629 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:07:15,629 INFO     __main__ — [5/30] A05: Hash a plaintext password using bcrypt with a minimum cost f
+2026-05-12 23:07:15,630 INFO     __main__ — [A05] step 1: generate
+2026-05-12 23:07:15,649 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:07:37,078 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:07:37,081 INFO     generator — [generator/claude] success — 4101 chars
+2026-05-12 23:07:37,081 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:07:41,729 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:07:41,743 INFO     generator — [generator/gpt4o] success — 2757 chars
+2026-05-12 23:07:41,743 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:07:43,553 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:07:43,554 INFO     generator — [generator/llama] success — 2988 chars
+2026-05-12 23:07:43,554 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:07:43,556 INFO     __main__ — [A05] step 2: extract
+2026-05-12 23:07:43,563 INFO     extractor — [extractor/A05/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:07:53,660 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:07:53,662 INFO     extractor — [extractor/A05/claude] received 5481 chars
+2026-05-12 23:07:53,670 INFO     extractor — [extractor/A05/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:07:59,546 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:07:59,547 INFO     extractor — [extractor/A05/gpt4o] received 2725 chars
+2026-05-12 23:07:59,555 INFO     extractor — [extractor/A05/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:08:06,626 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:08:06,627 INFO     extractor — [extractor/A05/llama] received 3167 chars
+2026-05-12 23:08:06,628 INFO     __main__ — [A05] step 3: compare
+2026-05-12 23:08:06,629 INFO     comparator — [comparator/A05] label_map written: {'A': 'gpt4o', 'B': 'llama', 'C': 'claude'}
+2026-05-12 23:08:06,638 INFO     comparator — [comparator/A05] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:08:22,872 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:08:22,875 INFO     comparator — [comparator/A05] received 3224 chars
+2026-05-12 23:08:22,876 INFO     __main__ — [A05] done — dc=8  fc=3  fod=0.0
+2026-05-12 23:08:22,876 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:08:22,876 INFO     __main__ — [6/30] A06: Validate that an email address conforms to standard format: 
+2026-05-12 23:08:22,876 INFO     __main__ — [A06] step 1: generate
+2026-05-12 23:08:22,896 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:08:40,896 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:08:40,898 INFO     generator — [generator/claude] success — 3773 chars
+2026-05-12 23:08:40,898 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:08:49,075 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:08:49,088 INFO     generator — [generator/gpt4o] success — 2701 chars
+2026-05-12 23:08:49,089 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:08:51,177 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:08:51,180 INFO     generator — [generator/llama] success — 3007 chars
+2026-05-12 23:08:51,180 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:08:51,181 INFO     __main__ — [A06] step 2: extract
+2026-05-12 23:08:51,188 INFO     extractor — [extractor/A06/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:09:04,263 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:09:04,265 INFO     extractor — [extractor/A06/claude] received 4508 chars
+2026-05-12 23:09:04,274 INFO     extractor — [extractor/A06/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:09:10,693 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:09:10,695 INFO     extractor — [extractor/A06/gpt4o] received 2701 chars
+2026-05-12 23:09:10,704 INFO     extractor — [extractor/A06/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:09:16,393 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:09:16,394 INFO     extractor — [extractor/A06/llama] received 3140 chars
+2026-05-12 23:09:16,395 INFO     __main__ — [A06] step 3: compare
+2026-05-12 23:09:16,395 INFO     comparator — [comparator/A06] label_map written: {'A': 'gpt4o', 'B': 'claude', 'C': 'llama'}
+2026-05-12 23:09:16,400 INFO     comparator — [comparator/A06] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:09:29,735 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:09:29,737 INFO     comparator — [comparator/A06] received 2709 chars
+2026-05-12 23:09:29,737 WARNING  comparator — [comparator/A06] dc mismatch: LLM=6 recomputed=7 — using recomputed
+2026-05-12 23:09:29,738 INFO     __main__ — [A06] done — dc=7  fc=1  fod=0.25
+2026-05-12 23:09:29,738 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:09:29,738 INFO     __main__ — [7/30] A07: Return HTTP 400 with a structured error response when a requ
+2026-05-12 23:09:29,739 INFO     __main__ — [A07] step 1: generate
+2026-05-12 23:09:29,762 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:09:43,872 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:09:43,874 INFO     generator — [generator/claude] success — 3556 chars
+2026-05-12 23:09:43,874 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:09:48,158 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:09:48,171 INFO     generator — [generator/gpt4o] success — 2659 chars
+2026-05-12 23:09:48,171 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:09:50,415 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:09:50,426 INFO     generator — [generator/llama] success — 3344 chars
+2026-05-12 23:09:50,427 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:09:50,429 INFO     __main__ — [A07] step 2: extract
+2026-05-12 23:09:50,436 INFO     extractor — [extractor/A07/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:09:56,773 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:09:56,776 INFO     extractor — [extractor/A07/claude] received 2350 chars
+2026-05-12 23:09:56,784 INFO     extractor — [extractor/A07/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:10:02,797 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:10:02,799 INFO     extractor — [extractor/A07/gpt4o] received 2728 chars
+2026-05-12 23:10:02,807 INFO     extractor — [extractor/A07/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:10:11,545 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:10:11,548 INFO     extractor — [extractor/A07/llama] received 3655 chars
+2026-05-12 23:10:11,549 INFO     __main__ — [A07] step 3: compare
+2026-05-12 23:10:11,550 INFO     comparator — [comparator/A07] label_map written: {'A': 'gpt4o', 'B': 'claude', 'C': 'llama'}
+2026-05-12 23:10:11,556 INFO     comparator — [comparator/A07] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:10:23,406 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:10:23,408 INFO     comparator — [comparator/A07] received 2688 chars
+2026-05-12 23:10:23,409 INFO     __main__ — [A07] done — dc=8  fc=4  fod=0.5
+2026-05-12 23:10:23,410 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:10:23,410 INFO     __main__ — [8/30] A08: Rate limit an API endpoint to 100 requests per minute per au
+2026-05-12 23:10:23,410 INFO     __main__ — [A08] step 1: generate
+2026-05-12 23:10:23,429 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:10:42,036 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:10:42,038 INFO     generator — [generator/claude] success — 3835 chars
+2026-05-12 23:10:42,038 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:10:51,462 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:10:51,477 INFO     generator — [generator/gpt4o] success — 2911 chars
+2026-05-12 23:10:51,478 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:10:54,065 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:10:54,079 INFO     generator — [generator/llama] success — 4018 chars
+2026-05-12 23:10:54,079 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:10:54,081 INFO     __main__ — [A08] step 2: extract
+2026-05-12 23:10:54,088 INFO     extractor — [extractor/A08/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:11:09,813 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:11:09,815 INFO     extractor — [extractor/A08/claude] received 4501 chars
+2026-05-12 23:11:09,823 INFO     extractor — [extractor/A08/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:11:15,227 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:11:15,229 INFO     extractor — [extractor/A08/gpt4o] received 3064 chars
+2026-05-12 23:11:15,236 INFO     extractor — [extractor/A08/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:11:24,101 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:11:24,104 INFO     extractor — [extractor/A08/llama] received 4131 chars
+2026-05-12 23:11:24,105 INFO     __main__ — [A08] step 3: compare
+2026-05-12 23:11:24,105 INFO     comparator — [comparator/A08] label_map written: {'A': 'gpt4o', 'B': 'claude', 'C': 'llama'}
+2026-05-12 23:11:24,112 INFO     comparator — [comparator/A08] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:11:40,031 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:11:40,033 INFO     comparator — [comparator/A08] received 3009 chars
+2026-05-12 23:11:40,033 WARNING  comparator — [comparator/A08] dc mismatch: LLM=6 recomputed=7 — using recomputed
+2026-05-12 23:11:40,034 INFO     __main__ — [A08] done — dc=7  fc=2  fod=0.125
+2026-05-12 23:11:40,034 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:11:40,035 INFO     __main__ — [9/30] A09: Calculate the sum of all integers in an array. If the array 
+2026-05-12 23:11:40,035 INFO     __main__ — [A09] step 1: generate
+2026-05-12 23:11:40,053 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:11:58,766 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:11:58,768 INFO     generator — [generator/claude] success — 3923 chars
+2026-05-12 23:11:58,768 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:12:02,897 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:12:02,903 INFO     generator — [generator/gpt4o] success — 2141 chars
+2026-05-12 23:12:02,903 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:12:04,645 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:12:04,647 INFO     generator — [generator/llama] success — 2768 chars
+2026-05-12 23:12:04,647 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:12:04,648 INFO     __main__ — [A09] step 2: extract
+2026-05-12 23:12:04,655 INFO     extractor — [extractor/A09/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:12:13,714 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:12:13,716 INFO     extractor — [extractor/A09/claude] received 4102 chars
+2026-05-12 23:12:13,724 INFO     extractor — [extractor/A09/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:12:18,432 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:12:18,434 INFO     extractor — [extractor/A09/gpt4o] received 2261 chars
+2026-05-12 23:12:18,442 INFO     extractor — [extractor/A09/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:12:24,783 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:12:24,785 INFO     extractor — [extractor/A09/llama] received 2941 chars
+2026-05-12 23:12:24,787 INFO     __main__ — [A09] step 3: compare
+2026-05-12 23:12:24,787 INFO     comparator — [comparator/A09] label_map written: {'A': 'gpt4o', 'B': 'claude', 'C': 'llama'}
+2026-05-12 23:12:24,795 INFO     comparator — [comparator/A09] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:12:39,720 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:12:39,722 INFO     comparator — [comparator/A09] received 3086 chars
+2026-05-12 23:12:39,722 WARNING  comparator — [comparator/A09] dc mismatch: LLM=6 recomputed=7 — using recomputed
+2026-05-12 23:12:39,723 INFO     __main__ — [A09] done — dc=7  fc=5  fod=0.125
+2026-05-12 23:12:39,723 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:12:39,724 INFO     __main__ — [10/30] A10: Generate a JWT token upon successful username and password a
+2026-05-12 23:12:39,724 INFO     __main__ — [A10] step 1: generate
+2026-05-12 23:12:39,742 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:12:57,128 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:12:57,151 INFO     generator — [generator/claude] success — 3700 chars
+2026-05-12 23:12:57,151 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:13:01,827 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:13:01,841 INFO     generator — [generator/gpt4o] success — 2583 chars
+2026-05-12 23:13:01,841 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:13:03,967 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:13:03,968 INFO     generator — [generator/llama] success — 3219 chars
+2026-05-12 23:13:03,968 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:13:03,969 INFO     __main__ — [A10] step 2: extract
+2026-05-12 23:13:03,975 INFO     extractor — [extractor/A10/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:13:12,116 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:13:12,118 INFO     extractor — [extractor/A10/claude] received 3497 chars
+2026-05-12 23:13:12,126 INFO     extractor — [extractor/A10/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:13:17,002 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:13:17,004 INFO     extractor — [extractor/A10/gpt4o] received 2538 chars
+2026-05-12 23:13:17,012 INFO     extractor — [extractor/A10/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:13:24,045 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:13:24,047 INFO     extractor — [extractor/A10/llama] received 3243 chars
+2026-05-12 23:13:24,048 INFO     __main__ — [A10] step 3: compare
+2026-05-12 23:13:24,049 INFO     comparator — [comparator/A10] label_map written: {'A': 'gpt4o', 'B': 'claude', 'C': 'llama'}
+2026-05-12 23:13:24,060 INFO     comparator — [comparator/A10] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:13:40,880 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:13:40,883 INFO     comparator — [comparator/A10] received 3501 chars
+2026-05-12 23:13:40,884 WARNING  comparator — [comparator/A10] dc mismatch: LLM=6 recomputed=7 — using recomputed
+2026-05-12 23:13:40,885 INFO     __main__ — [A10] done — dc=7  fc=6  fod=0.375
+2026-05-12 23:13:40,885 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:13:40,885 INFO     __main__ — [11/30] B01: Build a fast login system.
+2026-05-12 23:13:40,885 INFO     __main__ — [B01] step 1: generate
+2026-05-12 23:13:40,901 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:14:00,896 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:14:00,899 INFO     generator — [generator/claude] success — 3388 chars
+2026-05-12 23:14:00,899 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:14:05,127 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:14:05,139 INFO     generator — [generator/gpt4o] success — 2880 chars
+2026-05-12 23:14:05,140 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:14:07,677 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:14:07,690 INFO     generator — [generator/llama] success — 3582 chars
+2026-05-12 23:14:07,691 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:14:07,692 INFO     __main__ — [B01] step 2: extract
+2026-05-12 23:14:07,698 INFO     extractor — [extractor/B01/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:14:23,222 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:14:23,230 INFO     extractor — [extractor/B01/claude] received 4796 chars
+2026-05-12 23:14:23,237 INFO     extractor — [extractor/B01/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:14:28,570 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:14:28,572 INFO     extractor — [extractor/B01/gpt4o] received 3048 chars
+2026-05-12 23:14:28,581 INFO     extractor — [extractor/B01/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:14:36,533 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:14:36,536 INFO     extractor — [extractor/B01/llama] received 3774 chars
+2026-05-12 23:14:36,537 INFO     __main__ — [B01] step 3: compare
+2026-05-12 23:14:36,537 INFO     comparator — [comparator/B01] label_map written: {'A': 'llama', 'B': 'gpt4o', 'C': 'claude'}
+2026-05-12 23:14:36,544 INFO     comparator — [comparator/B01] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:14:52,649 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:14:52,651 INFO     comparator — [comparator/B01] received 3233 chars
+2026-05-12 23:14:52,651 WARNING  comparator — [comparator/B01] dc mismatch: LLM=6 recomputed=7 — using recomputed
+2026-05-12 23:14:52,652 INFO     __main__ — [B01] done — dc=7  fc=2  fod=0.0
+2026-05-12 23:14:52,652 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:14:52,652 INFO     __main__ — [12/30] B02: Implement a secure file upload feature.
+2026-05-12 23:14:52,653 INFO     __main__ — [B02] step 1: generate
+2026-05-12 23:14:52,673 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:15:11,320 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:15:11,322 INFO     generator — [generator/claude] success — 3561 chars
+2026-05-12 23:15:11,322 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:15:16,181 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:15:16,195 INFO     generator — [generator/gpt4o] success — 2893 chars
+2026-05-12 23:15:16,195 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:15:18,658 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:15:18,672 INFO     generator — [generator/llama] success — 4567 chars
+2026-05-12 23:15:18,673 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:15:18,674 INFO     __main__ — [B02] step 2: extract
+2026-05-12 23:15:18,681 INFO     extractor — [extractor/B02/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:15:32,926 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:15:32,930 INFO     extractor — [extractor/B02/claude] received 5702 chars
+2026-05-12 23:15:32,938 INFO     extractor — [extractor/B02/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:15:38,710 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:15:38,712 INFO     extractor — [extractor/B02/gpt4o] received 3077 chars
+2026-05-12 23:15:38,720 INFO     extractor — [extractor/B02/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:15:48,706 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:15:48,708 INFO     extractor — [extractor/B02/llama] received 3607 chars
+2026-05-12 23:15:48,709 INFO     __main__ — [B02] step 3: compare
+2026-05-12 23:15:48,710 INFO     comparator — [comparator/B02] label_map written: {'A': 'gpt4o', 'B': 'llama', 'C': 'claude'}
+2026-05-12 23:15:48,717 INFO     comparator — [comparator/B02] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:16:05,058 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:16:05,060 INFO     comparator — [comparator/B02] received 3296 chars
+2026-05-12 23:16:05,062 INFO     __main__ — [B02] done — dc=8  fc=1  fod=0.125
+2026-05-12 23:16:05,062 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:16:05,062 INFO     __main__ — [13/30] B03: Handle session timeout for logged-in users.
+2026-05-12 23:16:05,062 INFO     __main__ — [B03] step 1: generate
+2026-05-12 23:16:05,080 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:16:25,263 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:16:25,266 INFO     generator — [generator/claude] success — 4316 chars
+2026-05-12 23:16:25,266 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:16:29,668 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:16:29,682 INFO     generator — [generator/gpt4o] success — 2815 chars
+2026-05-12 23:16:29,682 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:16:32,739 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:16:32,751 INFO     generator — [generator/llama] success — 3700 chars
+2026-05-12 23:16:32,752 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:16:32,753 INFO     __main__ — [B03] step 2: extract
+2026-05-12 23:16:32,761 INFO     extractor — [extractor/B03/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:16:44,327 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:16:44,329 INFO     extractor — [extractor/B03/claude] received 4927 chars
+2026-05-12 23:16:44,336 INFO     extractor — [extractor/B03/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:16:50,268 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:16:50,270 INFO     extractor — [extractor/B03/gpt4o] received 2797 chars
+2026-05-12 23:16:50,277 INFO     extractor — [extractor/B03/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:16:58,065 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:16:58,067 INFO     extractor — [extractor/B03/llama] received 3888 chars
+2026-05-12 23:16:58,068 INFO     __main__ — [B03] step 3: compare
+2026-05-12 23:16:58,069 INFO     comparator — [comparator/B03] label_map written: {'A': 'llama', 'B': 'claude', 'C': 'gpt4o'}
+2026-05-12 23:16:58,076 INFO     comparator — [comparator/B03] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:17:13,083 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:17:13,086 INFO     comparator — [comparator/B03] received 3314 chars
+2026-05-12 23:17:13,087 INFO     __main__ — [B03] done — dc=8  fc=1  fod=0.25
+2026-05-12 23:17:13,087 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:17:13,087 INFO     __main__ — [14/30] B04: Implement retry logic for failed API requests.
+2026-05-12 23:17:13,087 INFO     __main__ — [B04] step 1: generate
+2026-05-12 23:17:13,106 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:17:30,853 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:17:30,855 INFO     generator — [generator/claude] success — 3543 chars
+2026-05-12 23:17:30,855 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:17:35,482 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:17:35,496 INFO     generator — [generator/gpt4o] success — 2671 chars
+2026-05-12 23:17:35,497 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:17:38,364 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:17:38,377 INFO     generator — [generator/llama] success — 3689 chars
+2026-05-12 23:17:38,377 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:17:38,379 INFO     __main__ — [B04] step 2: extract
+2026-05-12 23:17:38,386 INFO     extractor — [extractor/B04/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:17:51,421 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:17:51,423 INFO     extractor — [extractor/B04/claude] received 4797 chars
+2026-05-12 23:17:51,431 INFO     extractor — [extractor/B04/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:17:56,522 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:17:56,523 INFO     extractor — [extractor/B04/gpt4o] received 2556 chars
+2026-05-12 23:17:56,531 INFO     extractor — [extractor/B04/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:18:02,768 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:18:02,770 INFO     extractor — [extractor/B04/llama] received 3499 chars
+2026-05-12 23:18:02,771 INFO     __main__ — [B04] step 3: compare
+2026-05-12 23:18:02,772 INFO     comparator — [comparator/B04] label_map written: {'A': 'llama', 'B': 'claude', 'C': 'gpt4o'}
+2026-05-12 23:18:02,779 INFO     comparator — [comparator/B04] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:18:18,370 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:18:18,373 INFO     comparator — [comparator/B04] received 3033 chars
+2026-05-12 23:18:18,374 INFO     __main__ — [B04] done — dc=8  fc=4  fod=0.125
+2026-05-12 23:18:18,374 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:18:18,374 INFO     __main__ — [15/30] B05: Cache API responses to improve performance.
+2026-05-12 23:18:18,374 INFO     __main__ — [B05] step 1: generate
+2026-05-12 23:18:18,392 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:18:37,785 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:18:37,787 INFO     generator — [generator/claude] success — 3877 chars
+2026-05-12 23:18:37,787 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:18:42,630 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:18:42,645 INFO     generator — [generator/gpt4o] success — 2840 chars
+2026-05-12 23:18:42,645 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:18:45,044 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:18:45,057 INFO     generator — [generator/llama] success — 3592 chars
+2026-05-12 23:18:45,057 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:18:45,059 INFO     __main__ — [B05] step 2: extract
+2026-05-12 23:18:45,066 INFO     extractor — [extractor/B05/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:18:56,181 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:18:56,183 INFO     extractor — [extractor/B05/claude] received 3884 chars
+2026-05-12 23:18:56,191 INFO     extractor — [extractor/B05/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:19:02,367 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:19:02,369 INFO     extractor — [extractor/B05/gpt4o] received 2998 chars
+2026-05-12 23:19:02,376 INFO     extractor — [extractor/B05/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:19:10,135 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:19:10,137 INFO     extractor — [extractor/B05/llama] received 3466 chars
+2026-05-12 23:19:10,138 INFO     __main__ — [B05] step 3: compare
+2026-05-12 23:19:10,145 INFO     comparator — [comparator/B05] label_map written: {'A': 'claude', 'B': 'llama', 'C': 'gpt4o'}
+2026-05-12 23:19:10,152 INFO     comparator — [comparator/B05] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:19:24,571 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:19:24,573 INFO     comparator — [comparator/B05] received 3082 chars
+2026-05-12 23:19:24,573 WARNING  comparator — [comparator/B05] dc mismatch: LLM=6 recomputed=7 — using recomputed
+2026-05-12 23:19:24,574 INFO     __main__ — [B05] done — dc=7  fc=1  fod=0.5
+2026-05-12 23:19:24,575 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:19:24,575 INFO     __main__ — [16/30] B06: Implement a password reset flow.
+2026-05-12 23:19:24,575 INFO     __main__ — [B06] step 1: generate
+2026-05-12 23:19:24,593 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:19:44,008 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:19:44,010 INFO     generator — [generator/claude] success — 4110 chars
+2026-05-12 23:19:44,011 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:19:50,039 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:19:50,051 INFO     generator — [generator/gpt4o] success — 3190 chars
+2026-05-12 23:19:50,051 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:19:53,340 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:19:53,354 INFO     generator — [generator/llama] success — 4757 chars
+2026-05-12 23:19:53,354 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:19:53,356 INFO     __main__ — [B06] step 2: extract
+2026-05-12 23:19:53,363 INFO     extractor — [extractor/B06/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:20:10,249 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:20:10,252 INFO     extractor — [extractor/B06/claude] received 6246 chars
+2026-05-12 23:20:10,260 INFO     extractor — [extractor/B06/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:20:15,891 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:20:15,893 INFO     extractor — [extractor/B06/gpt4o] received 3382 chars
+2026-05-12 23:20:15,902 INFO     extractor — [extractor/B06/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:20:23,391 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:20:23,393 INFO     extractor — [extractor/B06/llama] received 4741 chars
+2026-05-12 23:20:23,393 INFO     __main__ — [B06] step 3: compare
+2026-05-12 23:20:23,394 INFO     comparator — [comparator/B06] label_map written: {'A': 'llama', 'B': 'claude', 'C': 'gpt4o'}
+2026-05-12 23:20:23,400 INFO     comparator — [comparator/B06] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:20:40,498 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:20:40,500 INFO     comparator — [comparator/B06] received 3435 chars
+2026-05-12 23:20:40,500 WARNING  comparator — [comparator/B06] dc mismatch: LLM=4 recomputed=5 — using recomputed
+2026-05-12 23:20:40,502 INFO     __main__ — [B06] done — dc=5  fc=4  fod=0.0
+2026-05-12 23:20:40,502 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:20:40,502 INFO     __main__ — [17/30] B07: Log user activity in the system.
+2026-05-12 23:20:40,502 INFO     __main__ — [B07] step 1: generate
+2026-05-12 23:20:40,522 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:20:59,454 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:20:59,456 INFO     generator — [generator/claude] success — 3891 chars
+2026-05-12 23:20:59,456 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:21:04,831 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:21:04,843 INFO     generator — [generator/gpt4o] success — 3108 chars
+2026-05-12 23:21:04,844 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:21:07,992 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:21:08,007 INFO     generator — [generator/llama] success — 3644 chars
+2026-05-12 23:21:08,007 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:21:08,009 INFO     __main__ — [B07] step 2: extract
+2026-05-12 23:21:08,016 INFO     extractor — [extractor/B07/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:21:16,995 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:21:16,997 INFO     extractor — [extractor/B07/claude] received 4361 chars
+2026-05-12 23:21:17,006 INFO     extractor — [extractor/B07/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:21:22,466 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:21:22,468 INFO     extractor — [extractor/B07/gpt4o] received 3225 chars
+2026-05-12 23:21:22,476 INFO     extractor — [extractor/B07/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:21:29,857 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:21:29,860 INFO     extractor — [extractor/B07/llama] received 3417 chars
+2026-05-12 23:21:29,861 INFO     __main__ — [B07] step 3: compare
+2026-05-12 23:21:29,862 INFO     comparator — [comparator/B07] label_map written: {'A': 'gpt4o', 'B': 'claude', 'C': 'llama'}
+2026-05-12 23:21:29,870 INFO     comparator — [comparator/B07] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:21:44,498 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:21:44,500 INFO     comparator — [comparator/B07] received 3047 chars
+2026-05-12 23:21:44,502 INFO     __main__ — [B07] done — dc=8  fc=3  fod=0.375
+2026-05-12 23:21:44,502 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:21:44,502 INFO     __main__ — [18/30] B08: Validate user input before processing.
+2026-05-12 23:21:44,502 INFO     __main__ — [B08] step 1: generate
+2026-05-12 23:21:44,521 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:22:06,074 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:22:06,076 INFO     generator — [generator/claude] success — 3956 chars
+2026-05-12 23:22:06,076 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:22:09,883 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:22:09,895 INFO     generator — [generator/gpt4o] success — 2814 chars
+2026-05-12 23:22:09,895 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:22:11,997 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:22:12,011 INFO     generator — [generator/llama] success — 3786 chars
+2026-05-12 23:22:12,011 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:22:12,013 INFO     __main__ — [B08] step 2: extract
+2026-05-12 23:22:12,021 INFO     extractor — [extractor/B08/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:22:23,147 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:22:23,149 INFO     extractor — [extractor/B08/claude] received 5429 chars
+2026-05-12 23:22:23,157 INFO     extractor — [extractor/B08/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:22:28,089 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:22:28,091 INFO     extractor — [extractor/B08/gpt4o] received 2731 chars
+2026-05-12 23:22:28,099 INFO     extractor — [extractor/B08/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:22:36,281 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:22:36,283 INFO     extractor — [extractor/B08/llama] received 3251 chars
+2026-05-12 23:22:36,284 INFO     __main__ — [B08] step 3: compare
+2026-05-12 23:22:36,284 INFO     comparator — [comparator/B08] label_map written: {'A': 'llama', 'B': 'claude', 'C': 'gpt4o'}
+2026-05-12 23:22:36,291 INFO     comparator — [comparator/B08] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:22:51,132 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:22:51,134 INFO     comparator — [comparator/B08] received 3292 chars
+2026-05-12 23:22:51,135 INFO     __main__ — [B08] done — dc=8  fc=2  fod=0.125
+2026-05-12 23:22:51,135 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:22:51,136 INFO     __main__ — [19/30] B09: Handle concurrent requests to the same resource.
+2026-05-12 23:22:51,136 INFO     __main__ — [B09] step 1: generate
+2026-05-12 23:22:51,155 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:23:10,959 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:23:10,962 INFO     generator — [generator/claude] success — 4159 chars
+2026-05-12 23:23:10,962 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:23:15,590 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:23:15,603 INFO     generator — [generator/gpt4o] success — 2844 chars
+2026-05-12 23:23:15,603 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:23:17,943 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:23:17,957 INFO     generator — [generator/llama] success — 3682 chars
+2026-05-12 23:23:17,957 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:23:17,960 INFO     __main__ — [B09] step 2: extract
+2026-05-12 23:23:17,967 INFO     extractor — [extractor/B09/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:23:26,764 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:23:26,766 INFO     extractor — [extractor/B09/claude] received 3857 chars
+2026-05-12 23:23:26,774 INFO     extractor — [extractor/B09/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:23:31,976 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:23:31,986 INFO     extractor — [extractor/B09/gpt4o] received 2979 chars
+2026-05-12 23:23:31,994 INFO     extractor — [extractor/B09/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:23:39,582 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:23:39,583 INFO     extractor — [extractor/B09/llama] received 3764 chars
+2026-05-12 23:23:39,585 INFO     __main__ — [B09] step 3: compare
+2026-05-12 23:23:39,585 INFO     comparator — [comparator/B09] label_map written: {'A': 'claude', 'B': 'llama', 'C': 'gpt4o'}
+2026-05-12 23:23:39,592 INFO     comparator — [comparator/B09] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:23:54,591 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:23:54,593 INFO     comparator — [comparator/B09] received 3359 chars
+2026-05-12 23:23:54,594 INFO     __main__ — [B09] done — dc=8  fc=2  fod=0.375
+2026-05-12 23:23:54,595 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:23:54,595 INFO     __main__ — [20/30] B10: Send a notification when a user's order is shipped.
+2026-05-12 23:23:54,595 INFO     __main__ — [B10] step 1: generate
+2026-05-12 23:23:54,613 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:24:12,738 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:24:12,744 INFO     generator — [generator/claude] success — 3852 chars
+2026-05-12 23:24:12,744 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:24:17,862 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:24:17,877 INFO     generator — [generator/gpt4o] success — 2676 chars
+2026-05-12 23:24:17,878 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:24:21,127 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:24:21,142 INFO     generator — [generator/llama] success — 3600 chars
+2026-05-12 23:24:21,142 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:24:21,144 INFO     __main__ — [B10] step 2: extract
+2026-05-12 23:24:21,151 INFO     extractor — [extractor/B10/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:24:37,069 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:24:37,071 INFO     extractor — [extractor/B10/claude] received 5296 chars
+2026-05-12 23:24:37,080 INFO     extractor — [extractor/B10/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:24:42,281 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:24:42,283 INFO     extractor — [extractor/B10/gpt4o] received 2557 chars
+2026-05-12 23:24:42,291 INFO     extractor — [extractor/B10/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:24:49,043 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:24:49,045 INFO     extractor — [extractor/B10/llama] received 3294 chars
+2026-05-12 23:24:49,046 INFO     __main__ — [B10] step 3: compare
+2026-05-12 23:24:49,047 INFO     comparator — [comparator/B10] label_map written: {'A': 'claude', 'B': 'gpt4o', 'C': 'llama'}
+2026-05-12 23:24:49,060 INFO     comparator — [comparator/B10] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:25:06,301 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:25:06,303 INFO     comparator — [comparator/B10] received 3094 chars
+2026-05-12 23:25:06,303 WARNING  comparator — [comparator/B10] dc mismatch: LLM=6 recomputed=7 — using recomputed
+2026-05-12 23:25:06,305 INFO     __main__ — [B10] done — dc=7  fc=3  fod=0.375
+2026-05-12 23:25:06,305 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:25:06,305 INFO     __main__ — [21/30] C01: Handle invalid users gracefully.
+2026-05-12 23:25:06,305 INFO     __main__ — [C01] step 1: generate
+2026-05-12 23:25:06,324 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:25:24,865 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:25:24,867 INFO     generator — [generator/claude] success — 3948 chars
+2026-05-12 23:25:24,867 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:25:28,819 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:25:28,834 INFO     generator — [generator/gpt4o] success — 2648 chars
+2026-05-12 23:25:28,834 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:25:31,454 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:25:31,468 INFO     generator — [generator/llama] success — 2985 chars
+2026-05-12 23:25:31,468 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:25:31,470 INFO     __main__ — [C01] step 2: extract
+2026-05-12 23:25:31,475 INFO     extractor — [extractor/C01/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:25:44,603 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:25:44,604 INFO     extractor — [extractor/C01/claude] received 5392 chars
+2026-05-12 23:25:44,611 INFO     extractor — [extractor/C01/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:25:50,055 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:25:50,057 INFO     extractor — [extractor/C01/gpt4o] received 2771 chars
+2026-05-12 23:25:50,065 INFO     extractor — [extractor/C01/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:25:56,577 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:25:56,579 INFO     extractor — [extractor/C01/llama] received 3149 chars
+2026-05-12 23:25:56,580 INFO     __main__ — [C01] step 3: compare
+2026-05-12 23:25:56,581 INFO     comparator — [comparator/C01] label_map written: {'A': 'llama', 'B': 'claude', 'C': 'gpt4o'}
+2026-05-12 23:25:56,589 INFO     comparator — [comparator/C01] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:26:09,857 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:26:09,859 INFO     comparator — [comparator/C01] received 2736 chars
+2026-05-12 23:26:09,860 INFO     __main__ — [C01] done — dc=8  fc=2  fod=0.25
+2026-05-12 23:26:09,860 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:26:09,860 INFO     __main__ — [22/30] C02: Optimize database performance.
+2026-05-12 23:26:09,860 INFO     __main__ — [C02] step 1: generate
+2026-05-12 23:26:09,882 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:26:31,236 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:26:31,238 INFO     generator — [generator/claude] success — 4727 chars
+2026-05-12 23:26:31,238 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:26:36,690 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:26:36,703 INFO     generator — [generator/gpt4o] success — 3004 chars
+2026-05-12 23:26:36,703 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:26:40,229 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:26:40,242 INFO     generator — [generator/llama] success — 4977 chars
+2026-05-12 23:26:40,243 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:26:40,245 INFO     __main__ — [C02] step 2: extract
+2026-05-12 23:26:40,253 INFO     extractor — [extractor/C02/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:26:57,066 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:26:57,068 INFO     extractor — [extractor/C02/claude] received 7424 chars
+2026-05-12 23:26:57,074 INFO     extractor — [extractor/C02/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:27:03,189 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:27:03,190 INFO     extractor — [extractor/C02/gpt4o] received 3159 chars
+2026-05-12 23:27:03,197 INFO     extractor — [extractor/C02/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:27:11,513 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:27:11,516 INFO     extractor — [extractor/C02/llama] received 4396 chars
+2026-05-12 23:27:11,517 INFO     __main__ — [C02] step 3: compare
+2026-05-12 23:27:11,517 INFO     comparator — [comparator/C02] label_map written: {'A': 'llama', 'B': 'gpt4o', 'C': 'claude'}
+2026-05-12 23:27:11,525 INFO     comparator — [comparator/C02] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:27:28,273 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:27:28,275 INFO     comparator — [comparator/C02] received 3449 chars
+2026-05-12 23:27:28,276 INFO     __main__ — [C02] done — dc=8  fc=2  fod=0.25
+2026-05-12 23:27:28,276 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:27:28,276 INFO     __main__ — [23/30] C03: Implement access control.
+2026-05-12 23:27:28,276 INFO     __main__ — [C03] step 1: generate
+2026-05-12 23:27:28,294 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:27:47,227 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:27:47,230 INFO     generator — [generator/claude] success — 4084 chars
+2026-05-12 23:27:47,230 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:27:53,714 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:27:53,727 INFO     generator — [generator/gpt4o] success — 3123 chars
+2026-05-12 23:27:53,727 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:27:56,533 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:27:56,545 INFO     generator — [generator/llama] success — 4183 chars
+2026-05-12 23:27:56,545 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:27:56,547 INFO     __main__ — [C03] step 2: extract
+2026-05-12 23:27:56,554 INFO     extractor — [extractor/C03/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:28:10,025 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:28:10,027 INFO     extractor — [extractor/C03/claude] received 5445 chars
+2026-05-12 23:28:10,035 INFO     extractor — [extractor/C03/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:28:16,483 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:28:16,485 INFO     extractor — [extractor/C03/gpt4o] received 3293 chars
+2026-05-12 23:28:16,492 INFO     extractor — [extractor/C03/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:28:23,882 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:28:23,883 INFO     extractor — [extractor/C03/llama] received 3751 chars
+2026-05-12 23:28:23,885 INFO     __main__ — [C03] step 3: compare
+2026-05-12 23:28:23,885 INFO     comparator — [comparator/C03] label_map written: {'A': 'llama', 'B': 'claude', 'C': 'gpt4o'}
+2026-05-12 23:28:23,892 INFO     comparator — [comparator/C03] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:28:39,144 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:28:39,146 INFO     comparator — [comparator/C03] received 3311 chars
+2026-05-12 23:28:39,147 INFO     __main__ — [C03] done — dc=8  fc=2  fod=0.125
+2026-05-12 23:28:39,148 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:28:39,148 INFO     __main__ — [24/30] C04: Make the system reliable.
+2026-05-12 23:28:39,148 INFO     __main__ — [C04] step 1: generate
+2026-05-12 23:28:39,167 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:28:58,712 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:28:58,715 INFO     generator — [generator/claude] success — 4331 chars
+2026-05-12 23:28:58,715 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:29:03,729 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:29:03,742 INFO     generator — [generator/gpt4o] success — 2725 chars
+2026-05-12 23:29:03,743 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:29:06,501 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:29:06,514 INFO     generator — [generator/llama] success — 3528 chars
+2026-05-12 23:29:06,514 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:29:06,517 INFO     __main__ — [C04] step 2: extract
+2026-05-12 23:29:06,524 INFO     extractor — [extractor/C04/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:29:17,573 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:29:17,575 INFO     extractor — [extractor/C04/claude] received 4593 chars
+2026-05-12 23:29:17,583 INFO     extractor — [extractor/C04/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:29:22,701 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:29:22,703 INFO     extractor — [extractor/C04/gpt4o] received 2909 chars
+2026-05-12 23:29:22,711 INFO     extractor — [extractor/C04/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:29:28,839 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:29:28,841 INFO     extractor — [extractor/C04/llama] received 2957 chars
+2026-05-12 23:29:28,842 INFO     __main__ — [C04] step 3: compare
+2026-05-12 23:29:28,843 INFO     comparator — [comparator/C04] label_map written: {'A': 'claude', 'B': 'llama', 'C': 'gpt4o'}
+2026-05-12 23:29:28,850 INFO     comparator — [comparator/C04] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:29:44,160 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:29:44,162 INFO     comparator — [comparator/C04] received 3423 chars
+2026-05-12 23:29:44,163 INFO     __main__ — [C04] done — dc=8  fc=2  fod=0.375
+2026-05-12 23:29:44,163 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:29:44,163 INFO     __main__ — [25/30] C05: Process payments securely.
+2026-05-12 23:29:44,164 INFO     __main__ — [C05] step 1: generate
+2026-05-12 23:29:44,182 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:30:00,685 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:30:00,688 INFO     generator — [generator/claude] success — 3394 chars
+2026-05-12 23:30:00,688 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:30:05,300 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:30:05,312 INFO     generator — [generator/gpt4o] success — 3124 chars
+2026-05-12 23:30:05,313 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:30:08,439 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:30:08,452 INFO     generator — [generator/llama] success — 3851 chars
+2026-05-12 23:30:08,452 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:30:08,454 INFO     __main__ — [C05] step 2: extract
+2026-05-12 23:30:08,461 INFO     extractor — [extractor/C05/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:30:19,423 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:30:19,426 INFO     extractor — [extractor/C05/claude] received 3442 chars
+2026-05-12 23:30:19,434 INFO     extractor — [extractor/C05/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:30:25,821 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:30:25,823 INFO     extractor — [extractor/C05/gpt4o] received 3292 chars
+2026-05-12 23:30:25,832 INFO     extractor — [extractor/C05/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:30:33,952 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:30:33,954 INFO     extractor — [extractor/C05/llama] received 3755 chars
+2026-05-12 23:30:33,955 INFO     __main__ — [C05] step 3: compare
+2026-05-12 23:30:33,956 INFO     comparator — [comparator/C05] label_map written: {'A': 'gpt4o', 'B': 'claude', 'C': 'llama'}
+2026-05-12 23:30:33,968 INFO     comparator — [comparator/C05] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:30:46,984 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:30:46,986 INFO     comparator — [comparator/C05] received 2960 chars
+2026-05-12 23:30:46,987 WARNING  comparator — [comparator/C05] dc mismatch: LLM=6 recomputed=7 — using recomputed
+2026-05-12 23:30:46,988 INFO     __main__ — [C05] done — dc=7  fc=3  fod=0.625
+2026-05-12 23:30:46,988 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:30:46,988 INFO     __main__ — [26/30] C06: Handle errors appropriately.
+2026-05-12 23:30:46,988 INFO     __main__ — [C06] step 1: generate
+2026-05-12 23:30:47,007 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:31:06,645 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:31:06,647 INFO     generator — [generator/claude] success — 4312 chars
+2026-05-12 23:31:06,647 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:31:11,633 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:31:11,645 INFO     generator — [generator/gpt4o] success — 3075 chars
+2026-05-12 23:31:11,646 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:31:14,999 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:31:15,013 INFO     generator — [generator/llama] success — 3876 chars
+2026-05-12 23:31:15,013 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:31:15,015 INFO     __main__ — [C06] step 2: extract
+2026-05-12 23:31:15,021 INFO     extractor — [extractor/C06/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:31:25,229 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:31:25,231 INFO     extractor — [extractor/C06/claude] received 4417 chars
+2026-05-12 23:31:25,238 INFO     extractor — [extractor/C06/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:31:30,092 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:31:30,093 INFO     extractor — [extractor/C06/gpt4o] received 2959 chars
+2026-05-12 23:31:30,102 INFO     extractor — [extractor/C06/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:31:37,705 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:31:37,707 INFO     extractor — [extractor/C06/llama] received 3861 chars
+2026-05-12 23:31:37,709 INFO     __main__ — [C06] step 3: compare
+2026-05-12 23:31:37,709 INFO     comparator — [comparator/C06] label_map written: {'A': 'claude', 'B': 'gpt4o', 'C': 'llama'}
+2026-05-12 23:31:37,717 INFO     comparator — [comparator/C06] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:31:52,218 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:31:52,220 INFO     comparator — [comparator/C06] received 3160 chars
+2026-05-12 23:31:52,221 INFO     __main__ — [C06] done — dc=8  fc=2  fod=0.375
+2026-05-12 23:31:52,221 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:31:52,221 INFO     __main__ — [27/30] C07: Ensure data consistency across the system.
+2026-05-12 23:31:52,221 INFO     __main__ — [C07] step 1: generate
+2026-05-12 23:31:52,242 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:32:13,972 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:32:13,975 INFO     generator — [generator/claude] success — 4452 chars
+2026-05-12 23:32:13,975 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:32:18,410 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:32:18,424 INFO     generator — [generator/gpt4o] success — 3016 chars
+2026-05-12 23:32:18,424 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:32:21,295 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:32:21,309 INFO     generator — [generator/llama] success — 4255 chars
+2026-05-12 23:32:21,309 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:32:21,312 INFO     __main__ — [C07] step 2: extract
+2026-05-12 23:32:21,319 INFO     extractor — [extractor/C07/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:32:29,463 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:32:29,465 INFO     extractor — [extractor/C07/claude] received 4648 chars
+2026-05-12 23:32:29,472 INFO     extractor — [extractor/C07/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:32:34,342 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:32:34,344 INFO     extractor — [extractor/C07/gpt4o] received 2942 chars
+2026-05-12 23:32:34,352 INFO     extractor — [extractor/C07/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:32:44,116 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:32:44,118 INFO     extractor — [extractor/C07/llama] received 3908 chars
+2026-05-12 23:32:44,119 INFO     __main__ — [C07] step 3: compare
+2026-05-12 23:32:44,120 INFO     comparator — [comparator/C07] label_map written: {'A': 'gpt4o', 'B': 'llama', 'C': 'claude'}
+2026-05-12 23:32:44,127 INFO     comparator — [comparator/C07] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:32:59,262 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:32:59,265 INFO     comparator — [comparator/C07] received 3514 chars
+2026-05-12 23:32:59,266 INFO     __main__ — [C07] done — dc=8  fc=1  fod=0.125
+2026-05-12 23:32:59,266 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:32:59,266 INFO     __main__ — [28/30] C08: Build a notification system for the application.
+2026-05-12 23:32:59,267 INFO     __main__ — [C08] step 1: generate
+2026-05-12 23:32:59,286 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:33:19,035 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:33:19,037 INFO     generator — [generator/claude] success — 4299 chars
+2026-05-12 23:33:19,038 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:33:22,314 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:33:22,326 INFO     generator — [generator/gpt4o] success — 2810 chars
+2026-05-12 23:33:22,326 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:33:24,701 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:33:24,715 INFO     generator — [generator/llama] success — 4558 chars
+2026-05-12 23:33:24,715 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:33:24,716 INFO     __main__ — [C08] step 2: extract
+2026-05-12 23:33:24,723 INFO     extractor — [extractor/C08/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:33:41,675 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:33:41,676 INFO     extractor — [extractor/C08/claude] received 6899 chars
+2026-05-12 23:33:41,685 INFO     extractor — [extractor/C08/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:33:46,927 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:33:46,929 INFO     extractor — [extractor/C08/gpt4o] received 2966 chars
+2026-05-12 23:33:46,936 INFO     extractor — [extractor/C08/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:33:55,053 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:33:55,055 INFO     extractor — [extractor/C08/llama] received 4228 chars
+2026-05-12 23:33:55,056 INFO     __main__ — [C08] step 3: compare
+2026-05-12 23:33:55,057 INFO     comparator — [comparator/C08] label_map written: {'A': 'claude', 'B': 'gpt4o', 'C': 'llama'}
+2026-05-12 23:33:55,064 INFO     comparator — [comparator/C08] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:34:14,174 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:34:14,177 INFO     comparator — [comparator/C08] received 3656 chars
+2026-05-12 23:34:14,178 INFO     __main__ — [C08] done — dc=8  fc=1  fod=0.0
+2026-05-12 23:34:14,178 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:34:14,179 INFO     __main__ — [29/30] C09: The checkout flow should be smooth and conversion-optimized.
+2026-05-12 23:34:14,179 INFO     __main__ — [C09] step 1: generate
+2026-05-12 23:34:14,199 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:34:36,206 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:34:36,208 INFO     generator — [generator/claude] success — 4175 chars
+2026-05-12 23:34:36,208 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:34:40,175 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:34:40,190 INFO     generator — [generator/gpt4o] success — 2884 chars
+2026-05-12 23:34:40,190 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:34:43,279 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:34:43,293 INFO     generator — [generator/llama] success — 4120 chars
+2026-05-12 23:34:43,293 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:34:43,295 INFO     __main__ — [C09] step 2: extract
+2026-05-12 23:34:43,302 INFO     extractor — [extractor/C09/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:34:43,536 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-05-12 23:34:43,539 ERROR    extractor — [extractor/C09/claude] API call failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Caywn5cLpGbSJDTvu3mEc'}
+2026-05-12 23:34:43,546 INFO     extractor — [extractor/C09/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:34:43,722 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-05-12 23:34:43,724 ERROR    extractor — [extractor/C09/gpt4o] API call failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Caywn6gaqy5Zw4y63kVnd'}
+2026-05-12 23:34:43,731 INFO     extractor — [extractor/C09/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:34:44,087 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-05-12 23:34:44,088 ERROR    extractor — [extractor/C09/llama] API call failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Caywn7tWc2wwRHzRSStZm'}
+2026-05-12 23:34:44,088 INFO     __main__ — [C09] step 3: compare
+2026-05-12 23:34:44,089 INFO     comparator — [comparator/C09] label_map written: {'A': 'llama', 'B': 'claude', 'C': 'gpt4o'}
+2026-05-12 23:34:44,096 INFO     comparator — [comparator/C09] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:34:44,318 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-05-12 23:34:44,320 ERROR    comparator — [comparator/C09] API call failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Caywn9BeYNEFmCDhuYaWh'}
+2026-05-12 23:34:44,321 WARNING  __main__ — [C09] errors recorded: ['extractor_claude', 'extractor_gpt4o', 'extractor_llama', 'comparator']
+2026-05-12 23:34:44,321 WARNING  __main__ — [C09] excluded — comparator returned None
+2026-05-12 23:34:44,321 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:34:44,321 INFO     __main__ — [30/30] C10: The system should scale.
+2026-05-12 23:34:44,321 INFO     __main__ — [C10] step 1: generate
+2026-05-12 23:34:44,340 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:34:44,497 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-05-12 23:34:44,498 WARNING  generator — [generator/claude] attempt 1 failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaywnA4jRdjEez2jqwhA7'}
+2026-05-12 23:34:44,498 INFO     generator — [generator/claude] retrying in 5s...
+2026-05-12 23:34:49,500 INFO     generator — [generator/claude] attempt 2
+2026-05-12 23:34:49,798 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-05-12 23:34:49,799 WARNING  generator — [generator/claude] attempt 2 failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaywnYLS1ooffQsTbG9FN'}
+2026-05-12 23:34:49,799 ERROR    generator — [generator/claude] both attempts failed — returning None
+2026-05-12 23:34:49,799 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:34:54,502 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:34:54,517 INFO     generator — [generator/gpt4o] success — 2863 chars
+2026-05-12 23:34:54,517 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:34:57,199 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:34:57,213 INFO     generator — [generator/llama] success — 3730 chars
+2026-05-12 23:34:57,213 INFO     generator — [generator] 2/3 models succeeded
+2026-05-12 23:34:57,214 INFO     __main__ — [C10] step 2: extract
+2026-05-12 23:34:57,221 INFO     extractor — [extractor/C10/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:34:57,384 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-05-12 23:34:57,385 ERROR    extractor — [extractor/C10/gpt4o] API call failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Caywo77exQp6tp91HhX8r'}
+2026-05-12 23:34:57,392 INFO     extractor — [extractor/C10/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:34:57,554 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-05-12 23:34:57,555 ERROR    extractor — [extractor/C10/llama] API call failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Caywo7uHEG2jXiEWcPHbx'}
+2026-05-12 23:34:57,555 INFO     __main__ — [C10] step 3: compare
+2026-05-12 23:34:57,556 INFO     comparator — [comparator/C10] label_map written: {'A': 'gpt4o', 'B': 'claude', 'C': 'llama'}
+2026-05-12 23:34:57,562 INFO     comparator — [comparator/C10] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:34:57,726 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2026-05-12 23:34:57,728 ERROR    comparator — [comparator/C10] API call failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Caywo8bTNRjao1gisbsAv'}
+2026-05-12 23:34:57,729 WARNING  __main__ — [C10] errors recorded: ['generator_claude', 'extractor_claude', 'extractor_gpt4o', 'extractor_llama', 'comparator']
+2026-05-12 23:34:57,729 WARNING  __main__ — [C10] excluded — comparator returned None
+2026-05-12 23:34:57,729 WARNING  __main__ — Excluded requirements: ['C09', 'C10']
+2026-05-12 23:34:57,729 INFO     __main__ — Generating report...
+2026-05-12 23:34:57,731 INFO     reporter — Results JSON → results/20260513_032108_results.json
+2026-05-12 23:34:57,732 INFO     reporter — Markdown report → results/20260513_032108_report.md
+2026-05-12 23:34:57,732 INFO     __main__ — Pipeline complete.
+2026-05-12 23:46:44,009 INFO     __main__ — === MERGE into run 20260513_032108  ids=['C09', 'C10'] ===
+2026-05-12 23:46:44,009 INFO     __main__ — Seed (reused): 1918646184
+2026-05-12 23:46:44,049 INFO     __main__ — Loaded 28 existing results from runs/20260513_032108
+2026-05-12 23:46:44,050 INFO     __main__ — Loaded 6 prompt files from prompts
+2026-05-12 23:46:44,050 INFO     __main__ — Processing 2 requirement(s): ['C09', 'C10']
+2026-05-12 23:46:44,050 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:46:44,050 INFO     __main__ — [29/30] C09: The checkout flow should be smooth and conversion-optimized.
+2026-05-12 23:46:44,050 INFO     __main__ — [C09] step 1: generate
+2026-05-12 23:46:44,094 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:47:05,328 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:47:05,361 INFO     generator — [generator/claude] success — 3961 chars
+2026-05-12 23:47:05,361 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:47:11,434 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:47:11,456 INFO     generator — [generator/gpt4o] success — 2928 chars
+2026-05-12 23:47:11,456 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:47:14,962 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:47:14,991 INFO     generator — [generator/llama] success — 4558 chars
+2026-05-12 23:47:14,991 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:47:14,993 INFO     __main__ — [C09] step 2: extract
+2026-05-12 23:47:14,998 INFO     extractor — [extractor/C09/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:47:22,753 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:47:22,756 INFO     extractor — [extractor/C09/claude] received 3979 chars
+2026-05-12 23:47:22,762 INFO     extractor — [extractor/C09/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:47:29,594 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:47:29,596 INFO     extractor — [extractor/C09/gpt4o] received 3110 chars
+2026-05-12 23:47:29,604 INFO     extractor — [extractor/C09/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:47:36,432 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:47:36,435 INFO     extractor — [extractor/C09/llama] received 4102 chars
+2026-05-12 23:47:36,436 INFO     __main__ — [C09] step 3: compare
+2026-05-12 23:47:36,437 INFO     comparator — [comparator/C09] label_map written: {'A': 'llama', 'B': 'claude', 'C': 'gpt4o'}
+2026-05-12 23:47:36,444 INFO     comparator — [comparator/C09] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:47:53,377 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:47:53,379 INFO     comparator — [comparator/C09] received 3152 chars
+2026-05-12 23:47:53,380 INFO     __main__ — [C09] done — dc=8  fc=1  fod=0.375
+2026-05-12 23:47:53,380 INFO     __main__ — ────────────────────────────────────────────────────────
+2026-05-12 23:47:53,380 INFO     __main__ — [30/30] C10: The system should scale.
+2026-05-12 23:47:53,380 INFO     __main__ — [C10] step 1: generate
+2026-05-12 23:47:53,395 INFO     generator — [generator/claude] attempt 1
+2026-05-12 23:48:14,743 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:48:14,744 INFO     generator — [generator/claude] success — 4480 chars
+2026-05-12 23:48:14,745 INFO     generator — [generator/gpt4o] attempt 1
+2026-05-12 23:48:20,095 INFO     httpx — HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:48:20,108 INFO     generator — [generator/gpt4o] success — 2852 chars
+2026-05-12 23:48:20,108 INFO     generator — [generator/llama] attempt 1
+2026-05-12 23:48:22,712 INFO     httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-12 23:48:22,726 INFO     generator — [generator/llama] success — 3238 chars
+2026-05-12 23:48:22,726 INFO     generator — [generator] 3/3 models succeeded
+2026-05-12 23:48:22,728 INFO     __main__ — [C10] step 2: extract
+2026-05-12 23:48:22,735 INFO     extractor — [extractor/C10/claude] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:48:30,649 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:48:30,651 INFO     extractor — [extractor/C10/claude] received 4323 chars
+2026-05-12 23:48:30,659 INFO     extractor — [extractor/C10/gpt4o] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:48:36,547 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:48:36,549 INFO     extractor — [extractor/C10/gpt4o] received 2854 chars
+2026-05-12 23:48:36,557 INFO     extractor — [extractor/C10/llama] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:48:42,685 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:48:42,687 INFO     extractor — [extractor/C10/llama] received 3414 chars
+2026-05-12 23:48:42,688 INFO     __main__ — [C10] step 3: compare
+2026-05-12 23:48:42,689 INFO     comparator — [comparator/C10] label_map written: {'A': 'gpt4o', 'B': 'claude', 'C': 'llama'}
+2026-05-12 23:48:42,695 INFO     comparator — [comparator/C10] calling Claude (claude-sonnet-4-6)...
+2026-05-12 23:48:56,024 INFO     httpx — HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-05-12 23:48:56,026 INFO     comparator — [comparator/C10] received 2848 chars
+2026-05-12 23:48:56,027 INFO     __main__ — [C10] done — dc=8  fc=3  fod=0.25
+2026-05-12 23:48:56,028 INFO     __main__ — Generating report...
+2026-05-12 23:48:56,029 INFO     reporter — Results JSON → results/20260513_032108_results.json
+2026-05-12 23:48:56,030 INFO     reporter — Markdown report → results/20260513_032108_report.md
+2026-05-12 23:48:56,030 INFO     __main__ — Pipeline complete.

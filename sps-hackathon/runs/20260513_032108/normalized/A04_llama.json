@@ -1,0 +1,44 @@
+{
+  "core_behavior": [
+    "The system must handle HTTP requests to a specific API endpoint and return an HTTP 404 status code with a JSON error body when the requested resource does not exist.",
+    "The system will verify the existence of the requested resource and, upon determining its non-existence, generate an error response."
+  ],
+  "inputs": [
+    "HTTP request method (e.g., GET, POST, PUT, DELETE)",
+    "API endpoint URL",
+    "Request headers (e.g., Accept, Content-Type)",
+    "Request body (if applicable)"
+  ],
+  "outputs": [
+    "HTTP response status code: 404 Not Found",
+    "HTTP response header Content-Type: application/json",
+    "Other HTTP response headers as necessary (e.g., Cache-Control, Server)",
+    "JSON error body field error_code: a unique identifier for the error (e.g., \"RESOURCE_NOT_FOUND\")",
+    "JSON error body field message: a human-readable description of the error (e.g., \"The requested resource does not exist\")"
+  ],
+  "assumptions": [
+    "The system will use a case-sensitive comparison to determine the existence of the requested resource.",
+    "The system will use a predefined set of error codes, with \"RESOURCE_NOT_FOUND\" being the specific code for this scenario.",
+    "The system will not include any sensitive information (e.g., database query details, internal implementation specifics) in the error response.",
+    "The system will use UTF-8 encoding for the JSON error body."
+  ],
+  "failure_modes": [
+    "If the system encounters an unexpected error while processing the request (e.g., database connection failure, internal server error), it will return a generic HTTP 500 Internal Server Error response with a JSON error body containing a unique error code and a human-readable message.",
+    "If the system is unable to generate a JSON error body (e.g., due to a serialization error), it will return a plain text error response with a generic error message."
+  ],
+  "edge_cases": [
+    "Requesting a non-existent resource with an unsupported HTTP method (e.g., PATCH, OPTIONS): the system will return an HTTP 404 status code with a JSON error body.",
+    "Requesting a non-existent resource with a malformed URL: the system will return an HTTP 404 status code with a JSON error body.",
+    "Requesting a non-existent resource with an empty or null request body: the system will return an HTTP 404 status code with a JSON error body."
+  ],
+  "security_constraints": [
+    "The system must not include any sensitive information in the error response that could be used to exploit the system or its underlying infrastructure.",
+    "The system must validate and sanitize all user input to prevent injection attacks or other security vulnerabilities.",
+    "The system must use secure communication protocols (e.g., HTTPS) to encrypt the error response and protect against eavesdropping or tampering."
+  ],
+  "performance_constraints": [
+    "The system must respond to requests for non-existent resources within a reasonable time frame (e.g., < 500ms).",
+    "The system must be able to handle a high volume of requests for non-existent resources without significant performance degradation.",
+    "The system must use efficient data structures and algorithms to determine the existence of requested resources and generate error responses."
+  ]
+}

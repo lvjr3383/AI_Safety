@@ -1,0 +1,62 @@
+{
+  "core_behavior": [
+    "The system must evaluate a candidate email address string against three mandatory structural rules: exactly one '@' symbol, non-empty local part, and domain containing at least one '.' character.",
+    "An address is valid if and only if all three rules are satisfied simultaneously.",
+    "Failure of any single rule causes the address to be rejected.",
+    "The string must contain exactly one '@' character.",
+    "The substring to the left of the '@' must contain at least one character.",
+    "The substring to the right of the '@' must contain at least one '.' character.",
+    "The validator does not verify deliverability, DNS resolution, or mailbox existence.",
+    "Split the input string on the '@' character; the resulting array must have exactly two elements.",
+    "If the array has one element, there is no '@' \u2192 reject (MISSING_AT).",
+    "If the array has three or more elements, there are multiple '@' symbols \u2192 reject (MULTIPLE_AT).",
+    "The local part is defined as the substring strictly to the left of the single '@' character and must have a length of \u2265 1 character after no trimming is applied.",
+    "A local part of zero length (i.e., the '@' is the first character) \u2192 reject (EMPTY_LOCAL).",
+    "The domain part is defined as the substring strictly to the right of the single '@' character and must contain at least one '.' character anywhere within it.",
+    "An empty domain (i.e., '@' is the last character) \u2192 reject (INVALID_DOMAIN).",
+    "A domain with no '.' character \u2192 reject (INVALID_DOMAIN).",
+    "Optionally, the system may also return a reason code identifying the first rule violated.",
+    "Reason codes are evaluated and reported in the order listed: NULL_INPUT, EMPTY_STRING, LENGTH_EXCEEDED, MISSING_AT, MULTIPLE_AT, EMPTY_LOCAL, INVALID_DOMAIN. Only the first applicable reason code is returned."
+  ],
+  "inputs": [
+    "Type: String (UTF-8 encoded)",
+    "Source: Any caller: form field, API request, function argument, etc.",
+    "Encoding: UTF-8; no binary or null-byte inputs are accepted",
+    "Length accepted range: 1\u2013254 characters (inclusive). Strings outside this range are rejected.",
+    "Null or undefined input is treated as invalid input; rejected with a distinct error signal."
+  ],
+  "outputs": [
+    "The validator produces a binary result for each input: VALID or INVALID.",
+    "VALID means the address satisfies all three structural rules.",
+    "INVALID means the address fails one or more structural rules, or is malformed input.",
+    "Optionally (implementation-dependent), the system may also return a reason code identifying the first rule violated.",
+    "Reason code NULL_INPUT: Input is null, undefined, or non-string.",
+    "Reason code EMPTY_STRING: Input is an empty string.",
+    "Reason code LENGTH_EXCEEDED: Input exceeds 254 characters.",
+    "Reason code MISSING_AT: No '@' symbol found.",
+    "Reason code MULTIPLE_AT: More than one '@' symbol found.",
+    "Reason code EMPTY_LOCAL: Local part (left of '@') is empty.",
+    "Reason code INVALID_DOMAIN: Domain part (right of '@') contains no '.' character."
+  ],
+  "assumptions": [
+    "No whitespace trimming: The validator does not strip leading or trailing whitespace from the input or from the local/domain parts. ' user@example.com' (with a leading space) is treated as having a local part of ' user', which is non-empty.",
+    "Whitespace is significant and is not stripped."
+  ],
+  "failure_modes": [
+    "Null or undefined input is rejected with a distinct error signal.",
+    "An empty string input is rejected.",
+    "Input exceeding 254 characters is rejected.",
+    "Input with no '@' symbol is rejected.",
+    "Input with more than one '@' symbol is rejected.",
+    "Input where the local part (left of '@') is empty is rejected.",
+    "Input where the domain part (right of '@') contains no '.' character is rejected."
+  ],
+  "edge_cases": [
+    "A string where '@' is the first character results in an empty local part \u2192 reject (EMPTY_LOCAL).",
+    "A string where '@' is the last character results in an empty domain that satisfies neither the domain presence nor the dot requirement \u2192 reject (INVALID_DOMAIN).",
+    "Input with a leading space such as ' user@example.com' is treated as having a local part of ' user', which is non-empty.",
+    "Strings of length 1 to 254 characters are within the accepted range; strings outside this range are rejected."
+  ],
+  "security_constraints": [],
+  "performance_constraints": []
+}

@@ -1,0 +1,81 @@
+# Payment Processing System — Software Specification
+
+**Version:** 1.0  
+**Status:** Draft  
+**Requirement Source:** "Process payments securely."
+
+---
+
+## 1. Core Behavior
+
+The system must accept, validate, authorize, capture, and record monetary payment transactions on behalf of users or automated processes. The system must ensure that all payment data is handled in a manner that protects confidentiality, integrity, and availability throughout the full transaction lifecycle.
+
+The payment lifecycle consists of the following stages:
+
+1. **Initiation** — A payment request is submitted with all required parameters.
+2. **Validation** — Input data is verified for completeness, format correctness, and business rule compliance.
+3. **Authorization** — The payment is submitted to the appropriate payment processor or gateway for approval.
+4. **Capture** — Authorized funds are captured (immediately or deferred, depending on configuration).
+5. **Settlement** — Funds are transferred and the transaction is finalized.
+6. **Recording** — A complete, tamper-evident audit record is written.
+7. **Notification** — The initiating party and, where applicable, the payer receive confirmation or failure notice.
+
+The system must support the following payment types:
+- Credit card (Visa, Mastercard, American Express, Discover)
+- Debit card
+- ACH / bank transfer
+- Digital wallets (e.g., Apple Pay, Google Pay)
+
+---
+
+## 2. Inputs
+
+### 2.1 Required Fields (Card Payments)
+
+| Field | Type | Constraints |
+|---|---|---|
+| `payment_method_type` | Enum | `CREDIT_CARD`, `DEBIT_CARD`, `ACH`, `DIGITAL_WALLET` |
+| `amount` | Decimal | > 0.00; max 12 digits including 2 decimal places |
+| `currency` | String | ISO 4217 three-letter code (e.g., `USD`, `EUR`) |
+| `cardholder_name` | String | 2–100 characters; printable ASCII |
+| `card_number` | String | 13–19 digits; transmitted only over TLS; never stored post-tokenization |
+| `expiry_month` | Integer | 1–12 |
+| `expiry_year` | Integer | Current year to current year + 20 |
+| `cvv` | String | 3–4 digits; never stored after authorization attempt |
+| `billing_address` | Object | See §2.3 |
+| `merchant_id` | UUID | Must match an active, authenticated merchant account |
+| `idempotency_key` | UUID v4 | Client-generated; used to prevent duplicate charges |
+
+### 2.2 Required Fields (ACH)
+
+| Field | Type | Constraints |
+|---|---|---|
+| `routing_number` | String | 9 digits; ABA format; validated via checksum |
+| `account_number` | String | 4–17 digits |
+| `account_type` | Enum | `CHECKING`, `SAVINGS` |
+| `account_holder_name` | String | 2–100 characters |
+
+### 2.3 Billing Address Object
+
+| Field | Type | Constraints |
+|---|---|---|
+| `line1` | String | 1–100 characters |
+| `line2` | String | Optional; 0–100 characters |
+| `city` | String | 1–50 characters |
+| `state_province` | String | ISO 3166-2 subdivision code |
+| `postal_code` | String | Format validated per country |
+| `country` | String | ISO 3166-1 alpha-2 |
+
+### 2.4 Optional Fields
+
+- `order_id` — Merchant-supplied reference string (max 64 characters).
+- `customer_id` — Reference to a stored customer profile.
+- `capture_mode` — `IMMEDIATE` (default) or `DEFERRED`.
+- `statement_descriptor` — String shown on payer's statement (max 22 characters, alphanumeric + spaces).
+- `metadata` — Key-value map; max 20 keys; keys and values max 64 characters each.
+
+---
+
+## 3. Outputs
+
+### 3.1 

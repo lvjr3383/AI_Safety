@@ -1,0 +1,86 @@
+# Email Address Format Validation — Software Specification
+
+## 1. Overview
+
+This specification defines the behavior of an email address format validator. The validator accepts a string input and determines whether it conforms to a defined structural format. It does not verify deliverability, DNS resolution, or mailbox existence.
+
+---
+
+## 2. Core Behavior
+
+The system must evaluate a candidate email address string against three mandatory structural rules:
+
+1. **Single `@` symbol rule**: The string must contain exactly one `@` character.
+2. **Non-empty local part rule**: The substring to the left of the `@` must contain at least one character.
+3. **Domain dot rule**: The substring to the right of the `@` must contain at least one `.` character.
+
+An address is **valid** if and only if all three rules are satisfied simultaneously. Failure of any single rule causes the address to be **rejected**.
+
+---
+
+## 3. Inputs
+
+| Property | Detail |
+|---|---|
+| Type | String (UTF-8 encoded) |
+| Source | Any caller: form field, API request, function argument, etc. |
+| Encoding | UTF-8; no binary or null-byte inputs are accepted |
+| Length | Accepted range: 1–254 characters (inclusive). Strings outside this range are rejected. |
+| Null / undefined | Treated as invalid input; rejected with a distinct error signal (see §7) |
+
+---
+
+## 4. Outputs
+
+The validator produces a **binary result** for each input:
+
+| Result | Meaning |
+|---|---|
+| **VALID** | The address satisfies all three structural rules |
+| **INVALID** | The address fails one or more structural rules, or is malformed input |
+
+Optionally (implementation-dependent), the system may also return a **reason code** identifying the first rule violated, chosen from:
+
+| Reason Code | Condition |
+|---|---|
+| `NULL_INPUT` | Input is null, undefined, or non-string |
+| `EMPTY_STRING` | Input is an empty string |
+| `LENGTH_EXCEEDED` | Input exceeds 254 characters |
+| `MISSING_AT` | No `@` symbol found |
+| `MULTIPLE_AT` | More than one `@` symbol found |
+| `EMPTY_LOCAL` | Local part (left of `@`) is empty |
+| `INVALID_DOMAIN` | Domain part (right of `@`) contains no `.` character |
+
+Reason codes are evaluated and reported in the order listed above. Only the first applicable reason code is returned.
+
+---
+
+## 5. Validation Rules — Detailed Definition
+
+### 5.1 Rule 1: Exactly One `@` Symbol
+
+- Split the input string on the `@` character.
+- The resulting array must have exactly **two** elements.
+- If the array has one element, there is no `@` → reject (`MISSING_AT`).
+- If the array has three or more elements, there are multiple `@` symbols → reject (`MULTIPLE_AT`).
+
+### 5.2 Rule 2: Non-Empty Local Part
+
+- The local part is defined as the substring **strictly to the left** of the single `@` character.
+- The local part must have a length of **≥ 1** character after no trimming is applied (whitespace is significant and is not stripped).
+- A local part of zero length (i.e., the `@` is the first character) → reject (`EMPTY_LOCAL`).
+
+### 5.3 Rule 3: Domain Contains at Least One Dot
+
+- The domain part is defined as the substring **strictly to the right** of the single `@` character.
+- The domain must contain **at least one** `.` character anywhere within it.
+- An empty domain (i.e., `@` is the last character) satisfies neither this rule nor the dot requirement → reject (`INVALID_DOMAIN`).
+- A domain with no `.` character → reject (`INVALID_DOMAIN`).
+
+---
+
+## 6. Assumptions
+
+The following design decisions were made where the requirement was silent:
+
+1. **No whitespace trimming**: The validator does not strip leading or trailing whitespace from the input or from the local/domain parts. `" user@example.com"` (with a leading space) is treated as having a local part of `" user"`, which is non-empty

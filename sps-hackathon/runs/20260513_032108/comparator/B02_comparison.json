@@ -1,0 +1,67 @@
+{
+  "requirement_id": "B02",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Models agree on secure upload and storage but diverge on additional behaviors: Model B adds file retrieval/download, Model C adds quota enforcement, opaque storage keys, audit logging, and fail-fast size enforcement not present in A or B."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model C specifies precise input fields with types, HTTP transport requirements, and encoding constraints (multipart/form-data, TLS version), while Models A and B describe inputs at a higher level without transport or encoding specifics."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model C specifies detailed HTTP status codes and structured JSON error bodies; Models A and B describe outputs as generic success/failure messages and file identifiers without HTTP semantics."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": true,
+      "note": "Model A assumes 100 MB max file size; Model B assumes 10 MB max file size; Model C lists no assumptions. Additionally, Models A and B specify different allowed file type sets."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model C specifies structured HTTP error codes with rate limiting (429) and service unavailability (503) responses not present in A or B; Models A and B describe failure modes in natural language without HTTP codes."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A handles duplicate filenames by appending identifiers and allows empty files with a warning; Model B prevents zero-byte uploads as a security measure; Model C handles duplicate content via SHA-256 hash deduplication and chunked transfer."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "SEC",
+      "fc_flag": false,
+      "note": "Model C adds opaque storage key generation, isolated storage not publicly accessible by default, TLS version requirements, and per-user/tenant quotas not present in A or B; Model B adds input validation against SQL injection and XSS not mentioned by others."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A specifies 100 concurrent uploads and 5-second processing time; Model B specifies minimum upload/download speeds of 1 MB/s and 100 GB storage capacity; Model C frames performance constraints around fail-fast size enforcement and rate limiting."
+    }
+  },
+  "dc": 8,
+  "fc_count": 1,
+  "category_counts": {
+    "ASM": 5,
+    "CON-S": 1,
+    "ERR": 1,
+    "SEC": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 5 of 8 fields, reflecting that the underspecified requirement caused models to independently introduce different design choices across inputs, outputs, core behavior, edge cases, and performance constraints.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "llama",
+    "C": "claude"
+  }
+}

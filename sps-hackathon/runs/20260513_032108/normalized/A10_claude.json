@@ -1,0 +1,49 @@
+{
+  "core_behavior": [
+    "The system must expose an authentication endpoint that accepts a username and password, validates the credentials against a persistent user store, and \u2014 upon successful validation \u2014 generates and returns a signed JSON Web Token (JWT).",
+    "The token must encode the authenticated user's ID and role.",
+    "The token must expire exactly 60 minutes after issuance.",
+    "Failed authentication attempts must never return a token."
+  ],
+  "inputs": [
+    "Transport: HTTPS POST request",
+    "Endpoint: POST /auth/token (or equivalent configured path)",
+    "Content-Type: application/json",
+    "Field `username`: string, required, 1\u2013254 characters; must not be null or whitespace",
+    "Field `password`: string, required, 1\u2013128 characters; must not be null or empty",
+    "`username` must be trimmed of leading/trailing whitespace before lookup.",
+    "`username` comparison against the user store must be case-insensitive.",
+    "`password` must not be trimmed or normalized; it is compared exactly as provided."
+  ],
+  "outputs": [
+    "Successful response HTTP Status: 200 OK",
+    "Successful response Content-Type: application/json",
+    "Response body includes `access_token` (signed JWT string), `token_type` (\"Bearer\"), and `expires_in` (3600)",
+    "JWT header: `alg` = \"HS256\", `typ` = \"JWT\"",
+    "JWT claim `sub`: string \u2014 the unique user ID (UUID or equivalent stable identifier)",
+    "JWT claim `role`: string \u2014 the user's role (e.g., \"admin\", \"user\", \"viewer\")",
+    "JWT claim `iat`: integer \u2014 Unix timestamp of token issuance (seconds since epoch)",
+    "JWT claim `exp`: integer \u2014 Unix timestamp of expiration: iat + 3600",
+    "JWT claim `jti`: string \u2014 Unique token identifier (UUID v4); enables revocation",
+    "Signature computed using HMAC-SHA256 over base64url(header) + \".\" + base64url(payload) with the server's secret signing key."
+  ],
+  "assumptions": [
+    "HMAC-SHA256 (HS256) is used as the default signing algorithm. If asymmetric signing (RS256/ES256) is required in future, the key management layer must be updated; the token structure remains the same.",
+    "A single shared secret key is used for signing. The key must be at least 256 bits (32 bytes) of cryptographically random data. Key rotation is out of scope for this specification but the architecture must not preclude it.",
+    "A persistent user store (e.g., relational database) exists and contains at minimum: user ID, username, hashed password, role, and account status (active/inactive/locked).",
+    "Passwords are stored as hashes using a strong adaptive algorithm (bcrypt, Argon2id, or scrypt). Plain-text password storage is explicitly prohibited.",
+    "Each user has exactly one role at the time of authentication. Multi-role support is out of scope; if needed, the `role` claim may be extended to an array in a future revision.",
+    "Token refresh is out of scope. Clients must re-authenticate after expiry.",
+    "`iat` and `exp` are computed from the server's system clock (UTC)."
+  ],
+  "failure_modes": [],
+  "edge_cases": [],
+  "security_constraints": [
+    "Transport must be HTTPS POST.",
+    "Failed authentication attempts must never return a token.",
+    "The secret key must be at least 256 bits (32 bytes) of cryptographically random data.",
+    "Plain-text password storage is explicitly prohibited.",
+    "`password` must not be trimmed or normalized; it is compared exactly as provided."
+  ],
+  "performance_constraints": []
+}

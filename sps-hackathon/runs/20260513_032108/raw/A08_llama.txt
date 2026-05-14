@@ -1,0 +1,38 @@
+**Core Behavior:**
+The system will rate limit an API endpoint to 100 requests per minute per authenticated user. This means that each authenticated user can make a maximum of 100 requests to the API endpoint within a 1-minute time window. If a user exceeds this limit, the system will prevent further requests from being processed until the time window has elapsed and the limit is reset.
+
+**Inputs:**
+- HTTP requests to the API endpoint
+- Authentication information (e.g., username, token, or other credentials) to identify the user making the request
+
+**Outputs:**
+- HTTP responses to the API endpoint, including:
+  - Successful responses (200 OK, etc.) when the request is within the rate limit
+  - HTTP 429 "Too Many Requests" response when the rate limit is exceeded, including a Retry-After header specifying the number of seconds until the rate limit is reset
+
+**Assumptions:**
+- The system will use a sliding window algorithm to track the number of requests made by each user within the 1-minute time window. This means that the system will consider the number of requests made in the last 1 minute, rather than using a fixed 1-minute window that resets at a specific time (e.g., the start of each minute).
+- The system will store the request counts for each user in memory, and will persist this data to a database or other storage mechanism to ensure that the counts are retained across system restarts.
+- The system will use a distributed locking mechanism (e.g., Redis, ZooKeeper) to synchronize access to the request counts and prevent concurrent updates from multiple nodes in a distributed environment.
+- The Retry-After header will specify the number of seconds until the rate limit is reset, which will be calculated based on the time at which the rate limit was exceeded and the time at which the limit will be reset.
+
+**Failure Modes:**
+- If the system is unable to store or retrieve the request counts due to a database or storage error, it will return a HTTP 500 "Internal Server Error" response to the user.
+- If the system is unable to synchronize access to the request counts due to a distributed locking error, it will return a HTTP 500 "Internal Server Error" response to the user.
+- If the system is under heavy load and is unable to process requests in a timely manner, it may return a HTTP 503 "Service Unavailable" response to the user.
+
+**Edge Cases:**
+- If a user makes a request with an invalid or missing authentication token, the system will return a HTTP 401 "Unauthorized" response.
+- If a user makes a request with a valid authentication token, but the token is not associated with a known user, the system will return a HTTP 403 "Forbidden" response.
+- If a user makes a request that exceeds the rate limit, but the Retry-After header cannot be calculated (e.g., due to a clock skew or other timing issue), the system will return a HTTP 429 response with a default Retry-After value (e.g., 60 seconds).
+- If a user makes a request that is not counted towards the rate limit (e.g., a request to a different API endpoint), the system will not include this request in the rate limit calculation.
+
+**Security Constraints:**
+- The system must ensure that the rate limiting mechanism is not vulnerable to tampering or bypassing by malicious users.
+- The system must ensure that the authentication mechanism is secure and resistant to attacks (e.g., brute-force, replay, etc.).
+- The system must ensure that the request counts are stored and transmitted securely, using encryption and access controls as necessary.
+
+**Performance Constraints:**
+- The system must be able to handle a minimum of 100 requests per minute per user, with a average response time of less than 500ms.
+- The system must be able to handle a burst of requests (e.g., 100 requests in 1 second) without significant performance degradation.
+- The system must be able to recover from failures and errors without significant performance degradation, and must be able to handle a minimum of 1000 concurrent connections.

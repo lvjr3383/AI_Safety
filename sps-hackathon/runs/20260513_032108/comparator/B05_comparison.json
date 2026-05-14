@@ -1,0 +1,66 @@
+{
+  "requirement_id": "B05",
+  "field_results": {
+    "core_behavior": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": false,
+      "note": "All three models agree on the fundamental read-through caching behavior: check cache first, return cached response on hit, fetch and store on miss."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A specifies detailed HTTP method filtering, cache-control header honoring, Vary header support, and SHA-256 key hashing; Model B lists all HTTP methods as cacheable inputs; Model C restricts to GET only \u2014 these are independent design choices not constrained by the requirement."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A specifies detailed cache-diagnostic headers (X-Cache, X-Cache-Age, Age) and bypass reasons; Models B and C specify only basic hit/miss response data and optional metrics/status indicators without header-level detail."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": true,
+      "note": "Model A defaults TTL to 300 seconds (5 minutes), Model B defaults to 1 hour, and Model C defaults to 5 minutes \u2014 models agree a default TTL is needed but specify different values; all three models omit explicit cache storage location and invalidation strategy assumptions."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A has an empty failure_modes array while Models B and C both specify fallback-to-API behavior and cache-full eviction handling."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A has an empty edge_cases array while Models B and C populate it with distinct edge cases such as cache key collisions, large responses, and concurrent requests."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A has an empty security_constraints array; Model B specifies encryption of cached data and access controls; Model C specifies not caching sensitive data and respecting cache-control headers \u2014 Models B and C introduce different security assumptions not present in Model A."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A has an empty performance_constraints array; Model B specifies numeric targets (80% hit ratio, 100 req/s, <50ms latency); Model C specifies qualitative goals (cache retrieval significantly faster than API, high volume handling) \u2014 independently introduced design choices."
+    }
+  },
+  "dc": 7,
+  "fc_count": 1,
+  "category_counts": {
+    "ASM": 4,
+    "CON-S": 1,
+    "OMI": 2
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 3 of the 8 fields.",
+  "label_map": {
+    "A": "claude",
+    "B": "llama",
+    "C": "gpt4o"
+  }
+}

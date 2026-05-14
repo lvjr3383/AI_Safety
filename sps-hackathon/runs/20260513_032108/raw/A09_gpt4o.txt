@@ -1,0 +1,39 @@
+Specification for "Calculate the sum of all integers in an array":
+
+Core Behavior:
+- The system must calculate the sum of all integer elements in a given array.
+- If the array is empty, the system must return 0.
+- If any element in the array is not an integer, the system must return an error.
+
+Inputs:
+- An array of elements, where each element is expected to be an integer.
+
+Outputs:
+- An integer representing the sum of all integer elements in the array.
+- An integer value of 0 if the array is empty.
+- An error message or code if any element in the array is not an integer.
+
+Assumptions:
+- The array can contain positive, negative, and zero integer values.
+- The array is a one-dimensional list of elements.
+- The system will handle arrays of any reasonable size that can fit into memory.
+- The error returned for non-integer elements will be a specific error code or message, such as "Error: Non-integer element found."
+
+Failure Modes:
+- If the input is not an array, the system will return an error indicating invalid input type.
+- If any element in the array is not an integer (e.g., a string, float, or other data type), the system will return an error indicating the presence of a non-integer element.
+
+Edge Cases:
+- An empty array should return 0.
+- An array with a single integer element should return the value of that element.
+- An array with all elements as zero should return 0.
+- An array with mixed positive and negative integers should correctly compute the sum.
+- An array with the maximum and minimum integer values should handle potential overflow issues.
+
+Security Constraints:
+- The system should validate input to ensure it is an array before processing.
+- The system should not execute any code or operations based on the content of the array that could lead to security vulnerabilities, such as code injection.
+
+Performance Constraints:
+- The system should efficiently handle arrays up to a size that can be reasonably expected to fit into memory, with performance degrading gracefully for very large arrays.
+- The system should compute the sum in linear time, O(n), where n is the number of elements in the array.

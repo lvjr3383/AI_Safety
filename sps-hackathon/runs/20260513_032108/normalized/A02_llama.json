@@ -1,0 +1,42 @@
+{
+  "core_behavior": [
+    "The system shall retrieve a paginated list of items from a collection, where each page contains exactly 20 items.",
+    "The system shall accept a page number as input, starting from 1, and return the corresponding page of items.",
+    "The system shall also return the total item count and total page count alongside the results."
+  ],
+  "inputs": [
+    "`page_number`: The page number for which to retrieve the list of items, starting from 1.",
+    "`collection`: The collection of items from which to retrieve the paginated list. (Assumed to be a database or data storage system, see Assumptions)"
+  ],
+  "outputs": [
+    "`items`: A list of items for the specified page, containing exactly 20 items or fewer if the end of the collection is reached.",
+    "`total_item_count`: The total number of items in the collection.",
+    "`total_page_count`: The total number of pages in the collection, calculated based on the total item count and page size (20 items per page)."
+  ],
+  "assumptions": [
+    "The collection is a database or data storage system that can be queried for a list of items.",
+    "The collection is already populated with items and is accessible by the system.",
+    "The system has the necessary permissions and access rights to retrieve data from the collection.",
+    "The page size is fixed at 20 items per page, as specified in the requirement."
+  ],
+  "failure_modes": [
+    "If the `page_number` is less than 1, the system shall return an error indicating that the page number is invalid.",
+    "If the `page_number` exceeds the `total_page_count`, the system shall return an empty list of items and the correct `total_item_count` and `total_page_count`.",
+    "If the collection is empty, the system shall return an empty list of items, a `total_item_count` of 0, and a `total_page_count` of 0.",
+    "If the system encounters an error while retrieving data from the collection, the system shall return an error indicating that the data retrieval failed."
+  ],
+  "edge_cases": [
+    "If the total item count is exactly divisible by the page size (20), the last page shall contain exactly 20 items.",
+    "If the total item count is not exactly divisible by the page size (20), the last page shall contain fewer than 20 items.",
+    "If the `page_number` is 1 and the collection is empty, the system shall return an empty list of items, a `total_item_count` of 0, and a `total_page_count` of 0."
+  ],
+  "security_constraints": [
+    "The system shall ensure that the data retrieved from the collection is handled and returned in a secure manner, without exposing sensitive information.",
+    "The system shall authenticate and authorize the caller before retrieving data from the collection, if required by the collection's access control policies."
+  ],
+  "performance_constraints": [
+    "The system shall retrieve the paginated list of items within a reasonable time frame, taking into account the size of the collection and the page size.",
+    "The system shall optimize data retrieval from the collection to minimize the load on the collection and the system, if possible.",
+    "The system shall handle a reasonable number of concurrent requests for paginated lists without significant performance degradation."
+  ]
+}

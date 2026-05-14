@@ -1,0 +1,65 @@
+{
+  "requirement_id": "B03",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B introduces both idle and absolute timeout plus session extension and multi-device invalidation; Model A covers only idle timeout; Model C covers idle timeout plus unsaved data warning \u2014 all three make different unspecified design choices, and none fully address the unspecified timeout type or behavior per critical behaviors."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies absolute timeout duration, warning lead time, qualifying activity definition, and session creation timestamp as distinct inputs not present in Models A or C, reflecting different unspecified design assumptions."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B includes audit log entry, HTTP 401 response, redirect-after-login URL preservation, and countdown timer; Model C includes unsaved data warning; Model A includes optional pop-up or countdown \u2014 each model introduces different unspecified output behaviors."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B assumes server-side session storage with NTP-synchronized clocks, client polling, and HttpOnly/Secure/SameSite cookies; Model A assumes configurable admin timeout with a 30-minute default; Model C assumes client-side scripts communicate with server \u2014 these are incompatible unspecified design choices."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty failure_modes array while Models A and C both populate it with distinct failure scenarios."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty edge_cases array while Models A and C both populate it with distinct edge case scenarios."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies opaque session IDs in HttpOnly/Secure/SameSite=Strict cookies and server-authoritative clock enforcement; Model A references OWASP/PCI-DSS compliance and session fixation prevention; Model C focuses on secure data clearing and tamper resistance \u2014 each introduces different unspecified security measures."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies a concrete polling interval default of 60 seconds via a named endpoint; Models A and C provide only general scalability and overhead statements without specific mechanisms or thresholds."
+    }
+  },
+  "dc": 8,
+  "fc_count": 1,
+  "category_counts": {
+    "ASM": 6,
+    "OMI": 2
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 5 of the 8 fields, reflecting that the underspecified requirement caused all three models to independently introduce different unspecified design choices.",
+  "label_map": {
+    "A": "llama",
+    "B": "claude",
+    "C": "gpt4o"
+  }
+}

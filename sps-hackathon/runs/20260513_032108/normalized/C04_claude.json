@@ -1,0 +1,53 @@
+{
+  "core_behavior": [
+    "The system must remain operational and responsive to valid requests at all times during defined service windows.",
+    "The system must achieve a minimum uptime of 99.9% (\u2264 8.76 hours unplanned downtime per year) for standard deployments, and 99.99% for critical deployments.",
+    "Uptime is measured as the ratio of time the system is fully functional to total elapsed time, excluding pre-announced maintenance windows.",
+    "The system must continue operating in a degraded-but-functional state when one or more non-critical components fail.",
+    "No single point of failure (SPOF) may exist in any critical execution path.",
+    "The system must detect internal faults automatically and attempt self-recovery before escalating to human operators.",
+    "All data written to persistent storage must be confirmed as durable before the write operation is acknowledged to the caller.",
+    "The system must not lose committed data under any failure scenario, including abrupt process termination, hardware failure, or network partition.",
+    "Checksums or equivalent integrity verification must be applied to all stored and transmitted data.",
+    "The system must not produce contradictory outputs for the same input under identical conditions.",
+    "Concurrent operations must not corrupt shared state; all shared mutable state must be protected by appropriate synchronization mechanisms.",
+    "When operating under resource exhaustion or partial failure, the system must prioritize core functionality over ancillary features.",
+    "Non-critical features may be disabled automatically; the system must communicate this degraded state to users and operators.",
+    "After any failure, the system must restore full functionality within a defined Recovery Time Objective (RTO) of \u2264 5 minutes for critical services and \u2264 30 minutes for non-critical services.",
+    "The Recovery Point Objective (RPO) must be \u2264 1 minute for critical data and \u2264 1 hour for non-critical data."
+  ],
+  "inputs": [
+    "User requests, API calls, and inter-service messages delivered over defined interfaces.",
+    "Configuration parameters specifying reliability thresholds, retry policies, timeout values, and failover targets.",
+    "Health-check probes from load balancers, orchestration platforms, or monitoring systems.",
+    "Infrastructure signals: CPU load, memory pressure, disk I/O saturation, network latency metrics.",
+    "Dependency health signals: upstream and downstream service availability indicators.",
+    "Time signals: wall-clock time used for timeout enforcement, lease expiration, and scheduled tasks.",
+    "Operator commands: planned shutdown, forced failover, maintenance mode activation, configuration reload.",
+    "Backup and restore triggers: scheduled or on-demand backup initiation, restore requests with target recovery point."
+  ],
+  "outputs": [
+    "Correct responses to all valid requests within defined latency bounds.",
+    "Explicit error responses for invalid or unprocessable requests, including a machine-readable error code and human-readable description.",
+    "A /health (or equivalent) endpoint returning one of three states: HEALTHY, DEGRADED, or UNAVAILABLE, with a structured payload indicating which subsystems are affected.",
+    "Structured logs emitted for every significant system event, including failures, recoveries, retries, and state transitions.",
+    "Metrics exported continuously (minimum 1-minute granularity) covering: request rate, error rate, latency percentiles (p50, p95, p99), resource utilization, and component health.",
+    "Alerts emitted to a configured notification channel when any reliability threshold is breached (e.g., error rate exceeds 1%, latency)."
+  ],
+  "assumptions": [],
+  "failure_modes": [
+    "One or more non-critical components fail, causing the system to operate in a degraded-but-functional state.",
+    "Abrupt process termination.",
+    "Hardware failure.",
+    "Network partition.",
+    "Resource exhaustion or partial failure."
+  ],
+  "edge_cases": [],
+  "security_constraints": [],
+  "performance_constraints": [
+    "The system must achieve a minimum uptime of 99.9% (\u2264 8.76 hours unplanned downtime per year) for standard deployments, and 99.99% for critical deployments.",
+    "Recovery Time Objective (RTO) of \u2264 5 minutes for critical services and \u2264 30 minutes for non-critical services.",
+    "Recovery Point Objective (RPO) must be \u2264 1 minute for critical data and \u2264 1 hour for non-critical data.",
+    "Metrics exported continuously at minimum 1-minute granularity."
+  ]
+}

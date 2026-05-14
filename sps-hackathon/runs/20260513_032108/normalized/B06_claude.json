@@ -1,0 +1,72 @@
+{
+  "core_behavior": [
+    "The password reset flow allows a registered user who has forgotten or lost access to their password to securely establish a new password without requiring knowledge of the old one.",
+    "The flow consists of three phases: initiation (user requests a reset), verification (user proves identity via a time-limited token), and completion (user sets a new password).",
+    "The user navigates to a 'Forgot Password' entry point (link on the login page).",
+    "The user submits an email address.",
+    "The system looks up the email address in the user store.",
+    "Regardless of whether the email exists, the system displays a generic confirmation message: 'If an account with that email exists, a reset link has been sent.'",
+    "If the email exists and the account is active, the system generates a cryptographically secure, single-use reset token.",
+    "If the email exists and the account is active, the system stores a hashed form of the token alongside the user record, with an expiry timestamp.",
+    "If the email exists and the account is active, the system sends a password reset email to the address containing a reset link embedding the raw token.",
+    "If the email does not exist or the account is inactive/locked, no email is sent; the generic message is still shown.",
+    "The user clicks the reset link in the email, which opens a reset-password form pre-populated with the token (via URL parameter or path segment).",
+    "The system validates the token by looking up the hashed token in the store, confirming the token has not expired, confirming the token has not already been used, and confirming the associated account is still active.",
+    "If validation passes, the system presents the new-password entry form.",
+    "If validation fails, the system displays a generic error: 'This reset link is invalid or has expired.' and offers a link to restart the flow.",
+    "The user submits a new password (and confirmation field).",
+    "The system validates the new password against the password policy.",
+    "If valid, the new password is hashed and stored, replacing the old credential.",
+    "If valid, the reset token is marked as used (invalidated).",
+    "If valid, all other active sessions for the user are invalidated (forced logout).",
+    "If valid, the user is shown a success message and redirected to the login page.",
+    "If valid, a confirmation email is sent to the user notifying them that their password was changed.",
+    "If invalid, the form is re-displayed with specific validation error messages; the token remains valid until expiry."
+  ],
+  "inputs": [
+    "Email address submitted via user form; must be valid RFC 5322 email format; max 254 characters.",
+    "Reset token from URL parameter (?token=\u2026 or /reset/{token}); opaque string; treated as untrusted input.",
+    "New password submitted via user form; must conform to password policy.",
+    "New password confirmation submitted via user form; must match new password field exactly."
+  ],
+  "outputs": [
+    "Initiation confirmation page/message displayed after email submission; generic message regardless of account existence.",
+    "Password reset email sent when a valid, active account is found; contains reset link with embedded token, sender identity, expiry notice, and 'if you didn't request this' notice.",
+    "Reset form presented when token is validated successfully; contains new password and confirmation fields.",
+    "Validation error messages displayed on invalid token or policy violation; human-readable, non-leaking error text.",
+    "Success page and redirect shown when password is successfully changed; confirmation message and redirect to login after 3 seconds.",
+    "Password-changed notification email sent when password is successfully changed; contains notification with timestamp, IP address, and support contact."
+  ],
+  "assumptions": [
+    "The user is a registered user in the user store.",
+    "The account must be active for a reset email to be sent.",
+    "The reset token is embedded as a raw token in the reset link sent via email, while only a hashed form is stored in the system."
+  ],
+  "failure_modes": [
+    "If the email does not exist or the account is inactive/locked, no email is sent; the generic message is still shown.",
+    "If token validation fails (expired, already used, account inactive, or not found), the system displays a generic error: 'This reset link is invalid or has expired.' and offers a link to restart the flow.",
+    "If the new password is invalid, the form is re-displayed with specific validation error messages; the token remains valid until expiry."
+  ],
+  "edge_cases": [
+    "If the email does not exist, the system still displays the generic confirmation message without revealing account existence.",
+    "If the account is inactive/locked, no email is sent but the generic message is still shown.",
+    "The token remains valid until expiry even if the password submission fails validation.",
+    "All other active sessions for the user are invalidated upon successful password change."
+  ],
+  "security_constraints": [
+    "Regardless of whether the email exists, the system displays a generic confirmation message to prevent account enumeration.",
+    "The system generates a cryptographically secure, single-use reset token.",
+    "A hashed form of the token is stored alongside the user record; the raw token is only sent via email.",
+    "The reset token has an expiry timestamp.",
+    "The token is confirmed to not have been already used before allowing password reset.",
+    "The reset token is treated as untrusted input.",
+    "If validation fails, the system displays a generic error: 'This reset link is invalid or has expired.' (non-leaking error text).",
+    "All other active sessions for the user are invalidated (forced logout) upon successful password change.",
+    "Maximum password length is 128 characters to prevent denial-of-service via bcrypt.",
+    "Must not be identical to the user's current password.",
+    "Validation error messages are human-readable and non-leaking."
+  ],
+  "performance_constraints": [
+    "Maximum password length is 128 characters to prevent denial-of-service via bcrypt."
+  ]
+}

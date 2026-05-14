@@ -1,0 +1,88 @@
+# Secure File Upload Feature — Software Specification
+
+---
+
+## 1. Core Behavior
+
+The system shall provide an endpoint and associated processing pipeline that allows authenticated users to upload files to the platform in a manner that protects the integrity, confidentiality, and availability of the system and its data.
+
+The upload pipeline shall:
+
+1. Authenticate and authorize the requesting user before accepting any file data.
+2. Enforce file size limits before or during transfer (fail fast).
+3. Validate the file type using both declared MIME type and deep content inspection (magic bytes).
+4. Scan the file for malware/malicious content before persisting it.
+5. Sanitize the filename and strip or reject dangerous metadata.
+6. Store the file in an isolated storage location not directly accessible via a public URL by default.
+7. Generate a unique, opaque storage key (not derived from the original filename) for the stored file.
+8. Record file upload metadata in a persistent audit log.
+9. Return a stable reference (file ID) to the caller upon success.
+10. Enforce per-user and per-tenant upload quotas.
+
+---
+
+## 2. Inputs
+
+| Input | Type | Required | Description |
+|---|---|---|---|
+| `Authorization` header | String (Bearer JWT or session token) | Yes | Identifies and authenticates the caller |
+| `file` | Binary (multipart/form-data) | Yes | The file content to be uploaded |
+| `filename` | String | Yes | Original filename provided by the client |
+| `content_type` | String (MIME) | Yes | Declared MIME type from the client |
+| `description` | String | No | Optional human-readable description (max 512 chars) |
+| `target_folder_id` | UUID | No | Logical folder/collection to associate the file with |
+| `visibility` | Enum: `private` \| `shared` \| `public` | No | Default: `private` |
+
+**Transport:** HTTPS only (TLS 1.2 minimum, TLS 1.3 preferred). HTTP requests shall be rejected with `301 Moved Permanently` or `400 Bad Request`.
+
+**Encoding:** `multipart/form-data` with a single file part. Chunked transfer encoding is supported for large files.
+
+---
+
+## 3. Outputs
+
+### 3.1 Success Response — `201 Created`
+
+```json
+{
+  "file_id": "f3a2c1d0-...",
+  "filename": "report_2024.pdf",
+  "size_bytes": 204800,
+  "content_type": "application/pdf",
+  "checksum_sha256": "e3b0c44298fc...",
+  "uploaded_at": "2024-06-01T12:00:00Z",
+  "visibility": "private",
+  "download_url": "/api/v1/files/f3a2c1d0-.../download"
+}
+```
+
+### 3.2 Error Responses
+
+| HTTP Status | Condition |
+|---|---|
+| `400 Bad Request` | Missing required fields, malformed request, invalid filename |
+| `401 Unauthorized` | Missing or invalid authentication token |
+| `403 Forbidden` | Authenticated but not authorized to upload (role, quota exceeded, target folder access denied) |
+| `409 Conflict` | Duplicate file detected (same SHA-256 hash within the same user scope, if deduplication is enabled) |
+| `413 Content Too Large` | File exceeds maximum allowed size |
+| `415 Unsupported Media Type` | File type not in the allowlist or content inspection mismatch |
+| `422 Unprocessable Entity` | File passed size/type checks but failed malware scan or metadata sanitization |
+| `429 Too Many Requests` | Rate limit exceeded |
+| `500 Internal Server Error` | Storage or processing failure |
+| `503 Service Unavailable` | Malware scanning service or storage backend unavailable |
+
+All error responses shall include a JSON body:
+
+```json
+{
+  "error_code": "FILE_TYPE_NOT_ALLOWED",
+  "message": "Human-readable description",
+  "request_id": "uuid"
+}
+```
+
+---
+
+## 4. Assumptions
+
+1. **

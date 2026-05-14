@@ -1,0 +1,70 @@
+# Software Specification: Data Consistency Across the System
+
+## 1. Overview
+
+This specification defines the mechanisms, rules, and behaviors required to ensure data consistency across all components of the system. Data consistency means that all data stored, transmitted, processed, or presented by the system accurately reflects a single, agreed-upon state at any given point in time, and that no operation leaves the system in a logically contradictory or partially-applied state.
+
+---
+
+## 2. Core Behavior
+
+### 2.1 Transactional Integrity
+- All operations that modify more than one data entity or data store must be executed as atomic units. Either all changes in a logical operation succeed, or none are applied.
+- The system must implement ACID properties (Atomicity, Consistency, Isolation, Durability) for all database-backed operations.
+- Distributed operations spanning multiple services or data stores must use a coordination protocol (e.g., Two-Phase Commit or Saga pattern) to ensure atomicity across boundaries.
+
+### 2.2 Single Source of Truth
+- Each data entity must have exactly one authoritative source (canonical store). All other representations are derived and must be synchronized from the canonical source.
+- Read replicas, caches, and derived views must not be treated as authoritative for write operations.
+
+### 2.3 Consistency Models
+- **Strong consistency** must be enforced for all financial, identity, authorization, and audit data.
+- **Eventual consistency** is permissible for non-critical derived data (e.g., analytics aggregates, search indexes, notification queues), provided the maximum acceptable lag is defined per data type (see Section 7).
+- The system must never expose stale data to a user without explicit indication that the data may not be current.
+
+### 2.4 Referential Integrity
+- All foreign-key relationships must be enforced at the database level where technically feasible.
+- Orphaned records must not be permitted in any strongly-consistent data store.
+- Cascading deletes or nullification must be explicitly defined for every parent-child relationship.
+
+### 2.5 Conflict Resolution
+- In distributed or multi-writer scenarios, the system must apply a deterministic conflict resolution strategy per data type:
+  - **Last-Write-Wins (LWW)** with server-side timestamps for low-criticality data.
+  - **Merge strategies** (field-level or operational transformation) for collaborative data.
+  - **Reject-and-notify** for high-criticality data where conflicts must be surfaced to the user or an operator.
+- Conflict resolution rules must be documented and version-controlled alongside the data schema.
+
+### 2.6 Idempotency
+- All write operations exposed via API or message queue must be idempotent. Duplicate submissions of the same logical operation must not produce duplicate side effects.
+- Idempotency keys must be accepted and stored for a minimum of 24 hours.
+
+### 2.7 Schema Consistency
+- All data stores must operate against a versioned schema. Schema migrations must be backward-compatible unless a breaking change is explicitly approved and coordinated with a deployment plan.
+- Schema versions must be tracked in a migration registry.
+
+---
+
+## 3. Inputs
+
+| Input Type | Description |
+|---|---|
+| Write requests | Create, update, delete operations from clients, services, or batch jobs |
+| Read requests | Queries from clients or downstream services |
+| Replication events | Change-data-capture (CDC) or event streams from upstream data sources |
+| Schema migration scripts | Versioned DDL/DML scripts applied to data stores |
+| Configuration parameters | Consistency level settings per data type (strong, eventual, causal) |
+| Idempotency keys | Client-supplied tokens accompanying write requests |
+| Timestamps / vector clocks | Metadata accompanying distributed writes for ordering |
+
+---
+
+## 4. Outputs
+
+| Output Type | Description |
+|---|---|
+| Committed data state | Persisted, consistent records in all relevant data stores |
+| Acknowledgment responses | Success/failure confirmation returned to callers after durable commit |
+| Consistency violation alerts | Notifications to operators when inconsistency is detected |
+| Audit log entries | Immutable records of every state-changing operation |
+| Reconciliation reports | Periodic reports comparing data across stores to detect drift |
+| Conflict notifications | User-facing or operator-facing messages when conflicts cannot be auto-resolved

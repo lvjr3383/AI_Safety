@@ -1,0 +1,38 @@
+{
+  "core_behavior": [
+    "Validate all required fields before processing any business logic.",
+    "Collect all missing required fields in a single pass (i.e., do not short-circuit on the first missing field).",
+    "Return an HTTP 400 Bad Request response with a structured error body that explicitly identifies every missing field by name.",
+    "Not partially process the request; no side effects (writes, mutations, external calls) may occur before the missing-field check completes."
+  ],
+  "inputs": [
+    "JSON request bodies (Content-Type: application/json)",
+    "Form-encoded bodies (application/x-www-form-urlencoded, multipart/form-data)",
+    "Query string parameters",
+    "Path parameters",
+    "HTTP headers declared as required",
+    "A field is considered required if it is declared as mandatory in the endpoint's schema or contract (e.g., OpenAPI specification, validation annotations, or equivalent).",
+    "A field is considered missing if the key is entirely absent from the request.",
+    "A field is considered missing if the key is present but its value is null.",
+    "A field is considered missing if the key is present but its value is an empty string (\"\")."
+  ],
+  "outputs": [
+    "HTTP status code 400 Bad Request",
+    "Response header Content-Type: application/json",
+    "Response header X-Error-Code: MISSING_REQUIRED_FIELDS",
+    "Response body with error.code set to the string \"MISSING_REQUIRED_FIELDS\"",
+    "Response body with error.message as a human-readable summary of the error",
+    "Response body with error.fields as a non-empty array of objects, one per missing field",
+    "Each error.fields entry includes field: the field identifier using dot notation for nested fields (e.g., \"address.postalCode\")",
+    "Each error.fields entry includes location: where in the request the field was expected: \"body\", \"query\", \"path\", or \"header\"",
+    "Each error.fields entry includes message: a human-readable description specific to this field"
+  ],
+  "assumptions": [
+    "null and empty string are treated as missing.",
+    "If a downstream use case requires distinguishing between absent and null, that must be declared explicitly in the endpoint schema and is out of scope here."
+  ],
+  "failure_modes": [],
+  "edge_cases": [],
+  "security_constraints": [],
+  "performance_constraints": []
+}

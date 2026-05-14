@@ -1,0 +1,84 @@
+# Software Specification: Fast Login System
+
+## 1. Core Behavior
+
+The system must authenticate a user by verifying their credentials against a stored identity record and, upon success, establish an authenticated session or issue an authentication token. The login flow must complete end-to-end (from credential submission to session/token issuance) within defined performance thresholds (see §8).
+
+The system must support the following operations:
+- **Credential submission**: Accept a username/email and password from the user.
+- **Identity lookup**: Locate the user record by identifier.
+- **Credential verification**: Compare the submitted password against the stored credential hash.
+- **Session/token issuance**: On success, produce a session token (JWT or equivalent) and return it to the client.
+- **Failure handling**: On failure, return a structured error and apply rate limiting.
+- **Logout**: Invalidate the session or token on demand.
+
+---
+
+## 2. Inputs
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `identifier` | string | Yes | Email address or username; max 254 characters; case-insensitive |
+| `password` | string | Yes | 8–128 characters; transmitted only over TLS |
+| `client_metadata` | object | No | IP address, User-Agent string, device fingerprint (collected server-side or from headers) |
+| `mfa_code` | string | Conditional | 6-digit TOTP or 8-digit backup code; required if MFA is enabled on the account |
+| `remember_me` | boolean | No | Defaults to `false`; extends session/token lifetime if `true` |
+
+All inputs must be received via an HTTPS POST request to `/auth/login` with a `Content-Type: application/json` body.
+
+---
+
+## 3. Outputs
+
+### 3.1 Success Response — HTTP 200
+
+```json
+{
+  "status": "success",
+  "access_token": "<JWT>",
+  "refresh_token": "<opaque token>",
+  "token_type": "Bearer",
+  "expires_in": 900,
+  "user": {
+    "id": "<uuid>",
+    "email": "<email>",
+    "display_name": "<string>",
+    "roles": ["<role>"]
+  }
+}
+```
+
+- `access_token`: Short-lived JWT (15 minutes default; 30 minutes if `remember_me = true`).
+- `refresh_token`: Long-lived opaque token (7 days default; 30 days if `remember_me = true`), stored as an `HttpOnly`, `Secure`, `SameSite=Strict` cookie in addition to the response body.
+
+### 3.2 MFA Challenge Response — HTTP 202
+
+```json
+{
+  "status": "mfa_required",
+  "mfa_token": "<short-lived opaque token>",
+  "expires_in": 300
+}
+```
+
+### 3.3 Failure Response — HTTP 401 / 429 / 400
+
+```json
+{
+  "status": "error",
+  "code": "<error_code>",
+  "message": "<human-readable message>",
+  "retry_after": <seconds | null>
+}
+```
+
+Error codes: `INVALID_CREDENTIALS`, `ACCOUNT_LOCKED`, `ACCOUNT_DISABLED`, `MFA_REQUIRED`, `MFA_INVALID`, `RATE_LIMITED`, `VALIDATION_ERROR`.
+
+---
+
+## 4. Assumptions
+
+1. **Token strategy**: JWT is used for access tokens (stateless verification by downstream services); refresh tokens are opaque and stored server-side in a fast key-value store (e.g., Redis) to allow revocation.
+2. **Password hashing**: Passwords are stored as Argon2id hashes (memory: 64 MB, iterations: 3, parallelism: 4). bcrypt (cost 12) is an acceptable fallback for legacy records.
+3. **Identifier normalization**: Email addresses are lowercased and Unicode-normalized (NFC) before lookup and storage. Usernames are lowercased only.
+4. **MFA**: TOTP (RFC 6238) with a 30-second window and ±1 step tolerance

@@ -1,0 +1,106 @@
+# Specification: HTTP 400 Missing Required Field Error Response
+
+## 1. Core Behavior
+
+When an HTTP request is received that is missing one or more required fields, the system **must**:
+
+1. Validate all required fields before processing any business logic.
+2. Collect **all** missing required fields in a single pass (i.e., do not short-circuit on the first missing field).
+3. Return an HTTP `400 Bad Request` response with a structured error body that explicitly identifies every missing field by name.
+4. Not partially process the request; no side effects (writes, mutations, external calls) may occur before the missing-field check completes.
+
+---
+
+## 2. Inputs
+
+### 2.1 Request Sources
+The validation applies to all inbound HTTP requests carrying a payload or parameters, including:
+- JSON request bodies (`Content-Type: application/json`)
+- Form-encoded bodies (`application/x-www-form-urlencoded`, `multipart/form-data`)
+- Query string parameters
+- Path parameters
+- HTTP headers declared as required
+
+### 2.2 Definition of "Required Field"
+A field is considered required if it is declared as mandatory in the endpoint's schema or contract (e.g., OpenAPI specification, validation annotations, or equivalent). A field is considered **missing** if:
+- The key is entirely absent from the request, **or**
+- The key is present but its value is `null`, **or**
+- The key is present but its value is an empty string (`""`).
+
+> **Assumption:** `null` and empty string are treated as missing. If a downstream use case requires distinguishing between absent and null, that must be declared explicitly in the endpoint schema and is out of scope here.
+
+---
+
+## 3. Outputs
+
+### 3.1 HTTP Status Code
+`400 Bad Request`
+
+### 3.2 Response Headers
+| Header | Value |
+|---|---|
+| `Content-Type` | `application/json` |
+| `X-Error-Code` | `MISSING_REQUIRED_FIELDS` |
+
+### 3.3 Response Body Schema
+
+```json
+{
+  "error": {
+    "code": "MISSING_REQUIRED_FIELDS",
+    "message": "The request is missing one or more required fields.",
+    "fields": [
+      {
+        "field": "<dot-notation field path>",
+        "location": "<body|query|path|header>",
+        "message": "Field '<field name>' is required."
+      }
+    ]
+  }
+}
+```
+
+#### Field Definitions
+
+| Property | Type | Description |
+|---|---|---|
+| `error.code` | `string` | Machine-readable error code. Always `"MISSING_REQUIRED_FIELDS"` for this error type. |
+| `error.message` | `string` | Human-readable summary of the error. |
+| `error.fields` | `array` | Non-empty array of objects, one per missing field. |
+| `error.fields[].field` | `string` | The field identifier using dot notation for nested fields (e.g., `"address.postalCode"`). |
+| `error.fields[].location` | `string` | Where in the request the field was expected: `"body"`, `"query"`, `"path"`, or `"header"`. |
+| `error.fields[].message` | `string` | Human-readable description specific to this field. |
+
+#### Example Response
+
+```json
+{
+  "error": {
+    "code": "MISSING_REQUIRED_FIELDS",
+    "message": "The request is missing one or more required fields.",
+    "fields": [
+      {
+        "field": "email",
+        "location": "body",
+        "message": "Field 'email' is required."
+      },
+      {
+        "field": "address.postalCode",
+        "location": "body",
+        "message": "Field 'address.postalCode' is required."
+      },
+      {
+        "field": "X-Client-ID",
+        "location": "header",
+        "message": "Field 'X-Client-ID' is required."
+      }
+    ]
+  }
+}
+```
+
+---
+
+## 4. Assumptions
+
+1. **All missing fields are reported at

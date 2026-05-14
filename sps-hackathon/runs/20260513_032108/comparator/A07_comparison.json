@@ -1,0 +1,65 @@
+{
+  "requirement_id": "A07",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B adds an explicit no-side-effects constraint and single-pass collection requirement that Models A and C do not specify."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B enumerates multiple input locations (headers, path params, query strings) and explicitly defines null/empty-string as missing; Models A and C are narrower; none of the three models address wrong-type as a missing-field trigger."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies a detailed nested error.fields structure with dot-notation and location, plus a custom X-Error-Code header; Models A and C use simpler flat structures without those additions."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A explicitly assumes only field presence is checked (not validity), Model B treats null/empty-string as missing, and Model C defers to a configuration store; none address simultaneous reporting of all missing fields as an explicit assumption."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Models A and C specify failure modes for malformed bodies and internal errors; Model B has an empty failure_modes array."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": true,
+      "note": "Models A and C enumerate edge cases; Model B has an empty edge_cases array; none of the models address field-present-but-wrong-type as an edge case."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": true,
+      "note": "Models A and C specify security constraints; Model B has an empty security_constraints array; none of the models explicitly address preventing disclosure of unexpected internal field names."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Models A and C specify performance constraints; Model B has an empty performance_constraints array."
+    }
+  },
+  "dc": 8,
+  "fc_count": 4,
+  "category_counts": {
+    "ASM": 4,
+    "OMI": 4
+  },
+  "summary": "OMI was the most frequently assigned category, appearing in four fields where Model B was silent while Models A and C provided content.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "claude",
+    "C": "llama"
+  }
+}

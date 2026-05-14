@@ -1,0 +1,44 @@
+{
+  "core_behavior": [
+    "The system must implement retry logic for failed API requests.",
+    "When an API request fails, the system will automatically retry the request a specified number of times before considering the request as failed.",
+    "The retry logic will be applied to all API requests that return a failure status code (4xx or 5xx)."
+  ],
+  "inputs": [
+    "The system will accept API requests in the form of HTTP requests (GET, POST, PUT, DELETE, etc.) with relevant headers, query parameters, and body data.",
+    "The system will accept retry configuration parameters, including: Maximum number of retries (default: 3), Initial retry delay (default: 500ms), Maximum retry delay (default: 30s), Backoff factor (default: 2).",
+    "The system will accept metadata associated with the API request, such as request ID, timestamp, and user authentication information."
+  ],
+  "outputs": [
+    "The system will return the response from the API request, including the HTTP status code, headers, and body data.",
+    "The system will return the retry status, including the number of retries attempted and the reason for the failure (if any).",
+    "The system will return error messages for failed API requests, including the HTTP status code and a descriptive error message."
+  ],
+  "assumptions": [
+    "The system will use an exponential backoff strategy for retrying failed API requests, with a maximum delay between retries.",
+    "The system will consider an API request as failed if it returns a 4xx or 5xx status code.",
+    "The system will not retry API requests that return a 408 (Request Timeout) status code, as this indicates a client-side timeout.",
+    "The system will use a default retry configuration if no custom configuration is provided."
+  ],
+  "failure_modes": [
+    "If an API request fails after the maximum number of retries, the system will return an error message with the HTTP status code and a descriptive error message.",
+    "If the system encounters a network failure (e.g., DNS resolution failure, connection timeout), it will retry the API request according to the retry configuration.",
+    "If the system encounters a server failure (e.g., 500 Internal Server Error), it will retry the API request according to the retry configuration."
+  ],
+  "edge_cases": [
+    "If the maximum number of retries is set to 0, the system will not retry failed API requests.",
+    "If the initial retry delay or maximum retry delay is set to a negative value, the system will use a default value (e.g., 500ms).",
+    "If the retry configuration parameters are non-numeric, the system will use default values.",
+    "If an API request is made without a retry configuration, the system will use the default retry configuration."
+  ],
+  "security_constraints": [
+    "The system will authenticate API requests using standard authentication mechanisms (e.g., OAuth, Basic Auth).",
+    "The system will authorize API requests based on user roles and permissions.",
+    "The system will encrypt sensitive data in transit using TLS (Transport Layer Security)."
+  ],
+  "performance_constraints": [
+    "The system will aim to complete API requests within a reasonable latency threshold (e.g., 500ms).",
+    "The system will aim to handle a minimum number of API requests per second (e.g., 100 req/s).",
+    "The system will aim to utilize system resources (e.g., CPU, memory, network bandwidth) efficiently to minimize the impact of retry logic on system performance."
+  ]
+}

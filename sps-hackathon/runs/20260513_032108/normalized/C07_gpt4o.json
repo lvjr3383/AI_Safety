@@ -1,0 +1,45 @@
+{
+  "core_behavior": [
+    "The system must maintain data consistency across all components and modules. This includes ensuring that any data changes are accurately reflected across the entire system without discrepancies.",
+    "Implement mechanisms to detect and resolve data inconsistencies automatically.",
+    "Provide tools for manual reconciliation of data inconsistencies when automatic resolution is not possible."
+  ],
+  "inputs": [
+    "Data transactions or operations that modify data (e.g., create, update, delete).",
+    "Configuration settings for consistency checks (e.g., frequency, scope).",
+    "User inputs for manual reconciliation processes."
+  ],
+  "outputs": [
+    "Confirmation messages indicating successful data consistency checks.",
+    "Alerts or notifications when inconsistencies are detected.",
+    "Reports detailing the nature and resolution of any inconsistencies.",
+    "Logs of all consistency checks and resolutions for auditing purposes."
+  ],
+  "assumptions": [
+    "The system operates in a distributed environment where data is stored across multiple nodes or databases.",
+    "Consistency is prioritized over availability in the event of a conflict (following the CAP theorem).",
+    "The system uses eventual consistency as the default model, with strong consistency applied to critical operations.",
+    "Data consistency mechanisms are integrated with existing data management and transaction systems."
+  ],
+  "failure_modes": [
+    "If a consistency check fails, the system should log the error, notify administrators, and attempt to resolve the inconsistency using predefined rules.",
+    "In the event of a network partition, the system should queue consistency checks and execute them once connectivity is restored.",
+    "If automatic resolution fails, the system should escalate the issue for manual intervention."
+  ],
+  "edge_cases": [
+    "Handling of concurrent data modifications that could lead to race conditions.",
+    "Consistency checks during system upgrades or migrations.",
+    "Ensuring consistency when integrating with third-party systems or APIs.",
+    "Managing consistency in the presence of stale data caches."
+  ],
+  "security_constraints": [
+    "Consistency mechanisms must ensure that data integrity is maintained without exposing sensitive data.",
+    "Access to consistency check logs and manual reconciliation tools should be restricted to authorized personnel only.",
+    "Data consistency operations should comply with relevant data protection regulations (e.g., GDPR, HIPAA)."
+  ],
+  "performance_constraints": [
+    "Consistency checks should be optimized to minimize impact on system performance and user experience.",
+    "The system should support configurable consistency check intervals to balance performance and consistency needs.",
+    "Consistency mechanisms should scale with the system to handle increased data volumes and transaction rates."
+  ]
+}

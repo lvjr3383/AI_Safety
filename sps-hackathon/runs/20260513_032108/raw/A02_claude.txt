@@ -1,0 +1,74 @@
+# Paginated Collection Retrieval — Software Specification
+
+---
+
+## 1. Core Behavior
+
+The system exposes a query operation that accepts a collection and a page number, then returns a bounded subset of items from that collection along with pagination metadata. The collection is divided into fixed-size pages of exactly 20 items each. The caller selects which page to retrieve by supplying a 1-based page number. The system returns the requested page of items, the total number of items in the collection, and the total number of pages available.
+
+---
+
+## 2. Inputs
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `collection` | Ordered sequence of items | Yes | The full dataset to paginate. Must be ordered and indexable. |
+| `page` | Integer | Yes | The 1-based page number to retrieve. Must be ≥ 1. |
+
+### Input Constraints
+
+- `collection` may be empty (zero items).
+- `collection` items may be of any type; the pagination layer treats them as opaque values.
+- `page` must be a positive integer (≥ 1). Non-integer, zero, negative, null, or missing values are invalid.
+- There is no caller-configurable page size; the page size is fixed at 20.
+
+---
+
+## 3. Outputs
+
+The operation returns a single structured response object containing the following fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `items` | Ordered list | The items on the requested page, in the same order as the source collection. Contains 0–20 items. |
+| `page` | Integer | The page number that was requested (echoed back). |
+| `page_size` | Integer | Always `20`. |
+| `total_items` | Integer | Total number of items in the full collection. |
+| `total_pages` | Integer | Total number of pages available given the collection size and page size. |
+| `has_previous_page` | Boolean | `true` if `page > 1`. |
+| `has_next_page` | Boolean | `true` if `page < total_pages`. |
+
+### Output Derivation Rules
+
+```
+total_pages  = ceil(total_items / 20)   [0 if total_items == 0]
+start_index  = (page - 1) * 20          [0-based, inclusive]
+end_index    = start_index + 20         [0-based, exclusive]
+items        = collection[start_index : end_index]
+```
+
+---
+
+## 4. Assumptions
+
+- **Ordering is caller-managed.** The system does not sort the collection; it paginates whatever order is provided. Sorting, filtering, and searching are out of scope.
+- **Page size is a system constant (20).** It is not configurable per request. If future configurability is needed, a separate specification revision is required.
+- **Snapshot semantics.** The collection is treated as a stable snapshot at the time the request is processed. Concurrent mutations to the underlying data source during a single paginated session may cause items to appear on multiple pages or be skipped; this is acceptable and not treated as an error by the pagination layer itself.
+- **In-memory or pre-fetched collection.** The specification assumes the full collection (or at least its count and the relevant slice) is accessible at query time. Streaming or lazy-loading strategies are implementation details left to the implementer.
+- **Response format.** The response is a structured object (e.g., JSON object, typed struct, or equivalent). The exact serialization format is determined by the transport layer.
+- **Integer arithmetic.** `ceil` division is computed as `(total_items + 19) / 20` using integer arithmetic to avoid floating-point precision issues.
+- **Empty collection returns a valid response**, not an error. See Edge Cases.
+
+---
+
+## 5. Failure Modes
+
+### 5.1 Invalid Page Number
+
+**Condition:** `page` is null, missing, non-integer, zero, or negative.
+
+**Behavior:** The system rejects the request and returns a structured error response. No items are returned.
+
+**Error payload must include:**
+- An error code (e.g., `INVALID_PAGE_NUMBER`)
+- A human-readable message (e.g., `"Page number must be an integer ≥ 

@@ -1,0 +1,38 @@
+{
+  "core_behavior": [
+    "The system must automatically send a notification to the user when their order status changes to \"shipped.\""
+  ],
+  "inputs": [
+    "Order status update event indicating that an order has been shipped.",
+    "User contact information, which may include email address, phone number, or other notification channels.",
+    "Order details, including order ID and shipping information."
+  ],
+  "outputs": [
+    "A notification message sent to the user through the specified communication channel(s)."
+  ],
+  "assumptions": [
+    "The system has access to the user's contact information and preferred notification method.",
+    "The notification will include basic order details such as order ID and shipping information.",
+    "The system is integrated with a notification service capable of sending messages via email, SMS, or push notifications.",
+    "The system will use a default notification template unless a custom template is specified."
+  ],
+  "failure_modes": [
+    "If the notification service is unavailable, the system should log the failure and retry sending the notification at a later time.",
+    "If the user's contact information is incomplete or invalid, the system should log an error and notify an administrator for manual intervention.",
+    "If the order status update event is not received, the system will not send a notification."
+  ],
+  "edge_cases": [
+    "If an order is updated to \"shipped\" multiple times, the system should ensure that duplicate notifications are not sent.",
+    "If the user has opted out of notifications, the system should respect this preference and not send a notification.",
+    "If the order is part of a batch shipment, the system should determine whether to send individual notifications for each item or a single notification for the entire batch."
+  ],
+  "security_constraints": [
+    "The system must ensure that user contact information is securely stored and transmitted.",
+    "Notifications should not include sensitive information such as payment details or personal identification numbers.",
+    "The system must comply with relevant data protection regulations, such as GDPR or CCPA, regarding user consent and data handling."
+  ],
+  "performance_constraints": [
+    "The system should send notifications within a reasonable time frame after the order status changes to \"shipped,\" ideally within a few minutes.",
+    "The system should be able to handle a high volume of notifications without significant delays, especially during peak shipping periods."
+  ]
+}

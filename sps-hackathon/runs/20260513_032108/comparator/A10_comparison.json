@@ -1,0 +1,65 @@
+{
+  "requirement_id": "A10",
+  "field_results": {
+    "core_behavior": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": true,
+      "note": "All three models agree on the core authentication and JWT generation behavior, but none explicitly states that failed auth must not reveal whether the username or password was wrong, and none explicitly states the token must be signed (not just encoded)."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B specifies case-insensitive username comparison, character length limits, whitespace trimming, and transport method, while Models A and C only describe username and password as strings; username case sensitivity is unaddressed by A and C."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies a detailed response structure including HTTP status, content-type, token_type, expires_in, and specific JWT claims (jti, iat, sub) with HS256 in the header, while Models A and C only describe a JWT string output; Model C adds an iss claim not present in A or B."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "All three assume HS256 but Models A and C treat it as a single assumption while Model B explicitly notes it as a default with future asymmetric alternatives; Model C uniquely assumes a token refresh mechanism exists; the JWT signing algorithm choice (HS256 vs RS256) is an unspecified assumption across all models."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": true,
+      "note": "Model B has an empty failure_modes array while Models A and C enumerate multiple failure scenarios; none of the models explicitly state that failed auth must not reveal whether the username or password was wrong, and none address disabled account as a distinct failure mode."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": true,
+      "note": "Model B has an empty edge_cases array while Models A and C enumerate edge cases; Model C uniquely specifies username-not-found and role-not-found as distinct edge cases; none explicitly address the security requirement of not distinguishing username vs password failure."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A adds rate limiting and HTTPS requirements not present in C; Model B specifies a minimum key length of 256 bits and prohibits plain-text passwords explicitly; none of the models explicitly state that error responses must not reveal whether the username or password was wrong."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty performance_constraints array; Model C specifies concrete numeric thresholds (100 req/s, 100ms generation, 50ms verification); Model A provides only qualitative statements."
+    }
+  },
+  "dc": 7,
+  "fc_count": 6,
+  "category_counts": {
+    "ASM": 4,
+    "OMI": 3
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 3 of the 8 fields, reflecting multiple design choices introduced by models that the requirement left unspecified.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "claude",
+    "C": "llama"
+  }
+}

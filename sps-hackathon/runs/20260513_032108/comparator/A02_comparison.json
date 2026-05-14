@@ -1,0 +1,67 @@
+{
+  "requirement_id": "A02",
+  "field_results": {
+    "core_behavior": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": false,
+      "note": "All three models agree on the core pagination behavior: fixed 20-item pages, 1-based page numbering, and returning total counts."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B explicitly lists non-integer, null, zero, and negative page values as invalid inputs and states no caller-configurable page size; Models A and C do not enumerate these invalid input types in the inputs field."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B includes additional output fields (page echo, page_size, has_previous_page, has_next_page) not present in Models A or C."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "CON",
+      "fc_flag": false,
+      "note": "Model A assumes the collection is non-empty, while Model B explicitly assumes empty collections are valid and return a normal response, and Model C assumes the collection is already populated."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": true,
+      "note": "Model A returns an error for page_number > total_pages; Model C returns an empty list with metadata for that case; Model B does not address page > total_pages as a failure mode; none of the models specify behavior for non-integer page numbers in the failure_modes field."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B's edge_cases field contains only two entries about empty collections, while Models A and C cover additional cases such as exactly 20 items, fewer than 20 items, and last-page partial results."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty security_constraints array while Models A and C specify access control, injection prevention, and sensitive data handling."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty performance_constraints array while Models A and C specify response time targets and optimization strategies."
+    }
+  },
+  "dc": 7,
+  "fc_count": 1,
+  "category_counts": {
+    "ASM": 2,
+    "CON": 1,
+    "ERR": 1,
+    "OMI": 3
+  },
+  "summary": "OMI was the most frequently assigned category, appearing in 3 of the 8 fields, driven by Model B's empty security and performance sections and its sparse edge_cases coverage.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "claude",
+    "C": "llama"
+  }
+}

@@ -1,0 +1,67 @@
+# Software Specification: Array Integer Sum
+
+## 1. Core Behavior
+
+The system accepts an array of values and computes the arithmetic sum of all integer elements contained within it. The result is a single numeric value representing the total. Two special conditions alter normal processing: an empty array produces an immediate result of zero without error, and the presence of any non-integer element halts processing and produces an error rather than a partial or coerced result.
+
+---
+
+## 2. Inputs
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `array` | Array / List | A ordered collection of zero or more values of any type |
+
+- The array may contain values of mixed types (integers, floats, strings, booleans, nulls, nested arrays, objects, etc.).
+- The array itself must be a valid array/list structure. Passing a non-array (e.g., a scalar, object, or null) is treated as a distinct failure mode (see Section 6).
+- No maximum or minimum array length is specified beyond memory constraints (see Section 8).
+
+---
+
+## 3. Outputs
+
+### 3.1 Success Output
+
+| Condition | Return Value | Type |
+|-----------|-------------|------|
+| Array is empty | `0` | Integer |
+| Array contains one or more integers | Sum of all elements | Integer |
+
+- The return type is always an integer on success, since the sum of integers is always an integer.
+- Overflow behavior is addressed in Section 7.
+
+### 3.2 Error Output
+
+| Condition | Error |
+|-----------|-------|
+| Any element is not an integer | Error: `"Non-integer element encountered at index <i>: <value>"` |
+| Input is not an array | Error: `"Input is not a valid array"` |
+
+- Errors include the index and value of the first offending element to aid debugging.
+- The system does **not** return a partial sum under any error condition.
+- Error delivery mechanism (exception, error code, result object) is defined under Assumptions.
+
+---
+
+## 4. Assumptions
+
+1. **Error delivery**: The system raises/throws an exception (or returns a structured error object in languages without exceptions) rather than returning a sentinel value such as `null` or `-1`. This avoids ambiguity with legitimate sum results.
+2. **Integer definition**: An integer is defined as a whole number with no fractional component, matching the host language's native integer type (e.g., `int`, `long`). Values that are numerically whole but stored as floats (e.g., `3.0`) are **not** considered integers and will trigger an error. This is a strict type-check, not a value-check.
+3. **Boolean treatment**: Booleans (`true`/`false`) are **not** treated as integers, even in languages where they are technically a subtype of integer (e.g., Python, C). A boolean element triggers an error. This is stated explicitly because it is a common source of ambiguity.
+4. **Null/None treatment**: `null` or `None` values are **not** integers and trigger an error.
+5. **Fail-fast behavior**: Validation stops at the **first** non-integer element encountered (left to right, index 0 first). Only one error is reported per invocation.
+6. **Nested arrays**: A nested array is not an integer and triggers an error.
+7. **Immutability**: The input array is not modified during processing.
+8. **Single-pass processing**: The implementation should traverse the array once, validating and summing simultaneously, rather than in two separate passes.
+9. **Thread safety**: No shared mutable state is used; the function is stateless and safe to call concurrently.
+
+---
+
+## 5. Failure Modes
+
+| Failure Condition | Behavior |
+|-------------------|----------|
+| Element is a float (e.g., `3.14`, `3.0`) | Raise error: `"Non-integer element encountered at index <i>: <value>"` |
+| Element is a string (e.g., `"5"`) | Raise error: `"Non-integer element encountered at index <i>: <value>"` |
+| Element is a boolean (`true`/`false`) | Raise error: `"Non-integer element encountered at index <i>: <value>"` |
+| Element is

@@ -1,0 +1,68 @@
+{
+  "requirement_id": "C04",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A specifies precise uptime targets and SPOF elimination; Model B focuses on error handling and algorithmic robustness; Model C uses vague qualitative statements about consistent performance and recovery, reflecting independent design choices for an undefined requirement.",
+      "note2": "FC: all models fabricate specific reliability definitions despite the requirement providing none."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A includes infrastructure signals, health-check probes, and operator commands; Model B lists environmental and scheduled inputs; Model C includes external APIs and error reports, reflecting different assumptions about what inputs are relevant."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A specifies a structured /health endpoint with three states and detailed metrics at 1-minute granularity; Model B and C describe outputs at a higher level of abstraction without specific endpoint definitions or metric granularity."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A has an empty assumptions array while Models B and C populate it with architectural and operational assumptions."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A lists failure scenarios as conditions; Model B lists failure modes as behavioral responses; Model C describes specific recovery actions per failure type, reflecting different structural interpretations of the field."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A has an empty edge_cases array while Models B and C populate it with scenarios such as unexpected inputs, peak load, and simultaneous component failures."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model A has an empty security_constraints array while Models B and C specify authentication, encryption, secure coding practices, and vulnerability management."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": true,
+      "note": "Model A specifies 99.9%/99.99% uptime and RTO/RPO values; Model B specifies 1-2 second response time without uptime figures; Model C specifies less than 0.1% downtime annually and sub-2-second response for 95th percentile, producing incompatible numeric thresholds across models.",
+      "note2": "FC: no model acknowledges that no SLA target was specified in the requirement; all models fabricate specific values."
+    }
+  },
+  "dc": 8,
+  "fc_count": 2,
+  "category_counts": {
+    "ASM": 4,
+    "OMI": 3,
+    "CON-S": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 4 of the 8 fields, reflecting that the undefined requirement caused models to independently introduce incompatible design choices across core behavior, inputs, outputs, and failure modes.",
+  "label_map": {
+    "A": "claude",
+    "B": "llama",
+    "C": "gpt4o"
+  }
+}

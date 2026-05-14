@@ -1,0 +1,67 @@
+{
+  "requirement_id": "C08",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Models diverge significantly on channel support (A: 5 channels including webhook/SMS/push; B: email/SMS/in-app; C: in-app/email/push), lifecycle states, throttling, and template management, all of which the requirement left unspecified; additionally, delivery guarantees are unspecified across all models."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A specifies detailed inputs including locale, webhook endpoints, and opt-in flags; Model B lists high-level inputs including event triggers and contact info; Model C includes notification templates and administrator configuration as inputs, reflecting different design assumptions."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A enumerates per-channel outputs plus lifecycle state transitions and error logs; Model B provides generic channel delivery and audit logs; Model C specifies per-channel outputs with structured attributes (title, message, timestamp, subject, body, sender)."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A assumes registered contact details and a default locale; Model B assumes integration with existing user management and use of third-party services; Model C assumes a database, templating engine, third-party services, and role-based user support."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Models differ on failure responses: Model A uses a FAILED lifecycle state and channel fallback; Model B retries a configurable number of times and notifies an administrator; Model C retries after a specified interval and falls back to a default template on rendering failure."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A covers mandatory notifications, opt-in enforcement, locale fallback, and TTL expiry; Model B covers missing contact info, full opt-out, and high volume; Model C covers missing contact details, multiple addresses, invalid triggers, and missing templates."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "SEC",
+      "fc_flag": false,
+      "note": "Model A only mentions mandatory delivery of security alerts; Model B adds encryption in transit, GDPR compliance, and access controls; Model C specifies authentication for admins, authorization for users, data encryption, and access-controlled storage."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": false,
+      "note": "Models specify different delivery time thresholds: Model A sets a throttle of 20 notifications/user/hour; Model B targets 95% delivery within 5 seconds with horizontal scaling; Model C targets delivery within 1 minute, 100 notifications/minute throughput, 500ms latency, and 10,000 concurrent users."
+    }
+  },
+  "dc": 8,
+  "fc_count": 1,
+  "category_counts": {
+    "ASM": 5,
+    "ERR": 1,
+    "SEC": 1,
+    "CON-S": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 4 of the 8 fields, reflecting that the underspecified requirement led models to independently introduce different design choices across channels, inputs, outputs, and edge cases.",
+  "label_map": {
+    "A": "claude",
+    "B": "gpt4o",
+    "C": "llama"
+  }
+}

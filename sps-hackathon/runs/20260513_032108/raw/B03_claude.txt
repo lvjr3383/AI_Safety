@@ -1,0 +1,60 @@
+# Software Specification: Session Timeout for Logged-In Users
+
+---
+
+## 1. Core Behavior
+
+The system must automatically detect and handle session inactivity or absolute session expiration for authenticated users. Session timeout enforcement consists of three coordinated mechanisms:
+
+1. **Inactivity Timeout**: A session expires after a configurable period of user inactivity (no qualifying user actions recorded).
+2. **Absolute Session Timeout**: A session expires after a configurable maximum wall-clock duration regardless of activity, to prevent indefinitely long sessions.
+3. **Concurrent Session Invalidation**: When a session is invalidated server-side (e.g., by an admin, password change, or logout from another device), the current session must also be terminated.
+
+Upon expiration, the system must:
+- Invalidate the server-side session token/record.
+- Notify the user via an in-application warning before expiration (configurable lead time).
+- Redirect the user to the login page upon confirmed expiration.
+- Preserve the user's intended destination URL so they can be redirected back after re-authentication.
+- Optionally allow the user to extend the session before expiration via an explicit action (e.g., clicking "Stay Logged In").
+
+---
+
+## 2. Inputs
+
+| Input | Source | Description |
+|---|---|---|
+| Session token / cookie | Client (HTTP header or cookie) | Identifies the user's session on each request |
+| Last activity timestamp | Server-side session store | Updated on qualifying user actions |
+| Session creation timestamp | Server-side session store | Used to enforce absolute timeout |
+| Inactivity timeout duration | System configuration | Default: 30 minutes |
+| Absolute timeout duration | System configuration | Default: 8 hours |
+| Warning lead time | System configuration | Default: 2 minutes before expiration |
+| "Stay Logged In" action | User (UI interaction) | Resets the inactivity timer |
+| User request (any HTTP request) | Client | May qualify as activity to reset inactivity timer |
+| Qualifying activity definition | System configuration | Defines which request types reset the inactivity timer (e.g., exclude polling/heartbeat requests) |
+
+---
+
+## 3. Outputs
+
+| Output | Destination | Description |
+|---|---|---|
+| Warning notification | User (UI) | Modal or banner displayed N minutes before expiration |
+| Countdown timer | User (UI) | Visible countdown showing time remaining before logout |
+| Session expiration response | Client | HTTP 401 or redirect to login page on expired session |
+| Redirect-after-login URL | Session / URL parameter | Preserved destination URL for post-login redirect |
+| Audit log entry | Server log / audit store | Records session expiration event with user ID, timestamp, and reason |
+| Session invalidation | Server-side session store | Session record marked as expired/deleted |
+| "Session Expired" page or message | User (UI) | Displayed when the user is redirected to login after expiration |
+
+---
+
+## 4. Assumptions
+
+- **Session storage**: Sessions are stored server-side (e.g., Redis, database). Client-side-only JWT sessions without server-side tracking are out of scope unless a token revocation list is maintained.
+- **Clock synchronization**: Server clocks are synchronized (NTP). Client-side clocks are not trusted for timeout enforcement; the server is authoritative.
+- **Warning mechanism**: The client polls a `/session/status` endpoint (or uses a WebSocket/SSE channel) at a configurable interval (default: every 60 seconds) to check remaining session time. The server does not push warnings unprompted unless a persistent connection is available.
+- **Qualifying activity**: Only user-initiated HTTP requests (e.g., page navigation, form submissions, explicit API calls) reset the inactivity timer. Background polling requests (e.g., heartbeat, notification polling) do NOT reset the inactivity timer unless explicitly configured to do so.
+- **"Stay Logged In" action**: Resets the inactivity timer only; it does not extend the absolute session timeout.
+- **Token format**: Sessions are identified by an opaque session ID stored in an `HttpOnly`, `Secure`, `SameSite=Strict` cookie.
+- **Multi-tab behavior**: All browser tabs sharing the same session are subject to the same session state. Activity in any tab resets the inactivity

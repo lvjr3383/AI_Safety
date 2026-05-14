@@ -1,0 +1,65 @@
+{
+  "requirement_id": "A09",
+  "field_results": {
+    "core_behavior": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": true,
+      "note": "All models agree on sum, empty=0, non-integer=error, but none mention null array or null element handling in core behavior."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B explicitly lists mixed types including nulls and nested arrays as possible input values; Models A and C describe inputs more generically without enumerating type variants; none explicitly address null array input."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies detailed error messages including index and value of the offending element; Models A and C describe error output generically without specifying message format or index information."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B makes explicit assumptions about float-as-integer, boolean treatment, null handling, and single-pass traversal; Models A and C make only general assumptions; none address integer overflow handling explicitly."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B enumerates specific failure modes per type (float, string, boolean, non-array); Model C mentions null/undefined input and overflow; Model A covers non-array and non-integer generically; null element as a distinct failure mode is absent from A and B's failure_modes field."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B addresses float-as-integer and boolean edge cases; Model C addresses NaN/Infinity; Model A addresses overflow potential; no model explicitly addresses null array or array containing null as a distinct edge case."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Models A and C specify security constraints around input validation and injection prevention; Model B has an empty security_constraints array."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B adds concurrency/statelessness constraints; Model C adds memory minimization; Model A focuses on O(n) and graceful degradation; the models introduce different performance dimensions not specified in the requirement."
+    }
+  },
+  "dc": 7,
+  "fc_count": 5,
+  "category_counts": {
+    "ASM": 6,
+    "OMI": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 5 of the 8 fields.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "claude",
+    "C": "llama"
+  }
+}

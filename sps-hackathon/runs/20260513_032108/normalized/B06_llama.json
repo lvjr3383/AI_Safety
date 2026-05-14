@@ -1,0 +1,51 @@
+{
+  "core_behavior": [
+    "The system will provide a mechanism for users to initiate a password reset request, typically through a 'Forgot Password' link or button on the login page.",
+    "The system will verify the user's identity through a verification process, such as sending a password reset link or code to the user's registered email address or phone number.",
+    "Once the user's identity is verified, the system will allow the user to enter a new password and confirm it.",
+    "The system will update the user's password in the database and notify the user that the password reset was successful."
+  ],
+  "inputs": [
+    "User's username or email address",
+    "User's new password",
+    "User's confirmation of the new password",
+    "Verification code or link sent to the user's registered email address or phone number"
+  ],
+  "outputs": [
+    "Password reset link or code sent to the user's registered email address or phone number",
+    "Success message after the user's password is reset",
+    "Error messages for invalid input, expired or invalid verification code, or other errors that may occur during the password reset process"
+  ],
+  "assumptions": [
+    "The system will use a secure password hashing algorithm (e.g., bcrypt, Argon2) to store user passwords.",
+    "The system will use a secure random number generator to generate verification codes.",
+    "The system will use a secure protocol (e.g., HTTPS) to transmit verification codes and password reset links.",
+    "The system will have a maximum number of attempts (e.g., 5) for entering the verification code before the password reset request is cancelled.",
+    "The system will have a time limit (e.g., 30 minutes) for completing the password reset process before the verification code expires.",
+    "The system will send a notification to the user's registered email address or phone number after a password reset request is initiated, to alert them of potential unauthorized activity."
+  ],
+  "failure_modes": [
+    "If the user enters an invalid username or email address, the system will display an error message and allow the user to try again.",
+    "If the user enters an invalid verification code, the system will display an error message and allow the user to try again, up to the maximum number of attempts.",
+    "If the user's password reset request is cancelled due to exceeding the maximum number of attempts or expiration of the verification code, the system will display an error message and require the user to initiate a new password reset request.",
+    "If the system encounters an error during the password reset process (e.g., database error, network error), the system will display an error message and log the error for further investigation."
+  ],
+  "edge_cases": [
+    "User has not registered an email address or phone number: The system will display an error message and provide alternative contact methods (e.g., support email, phone number) for the user to contact the system administrators.",
+    "User's email address or phone number is not valid: The system will display an error message and allow the user to update their email address or phone number before initiating the password reset request.",
+    "User's account is locked or disabled: The system will display an error message and provide instructions for the user to contact the system administrators to unlock or enable their account.",
+    "User initiates multiple password reset requests: The system will cancel previous password reset requests and only allow the user to complete the most recent request."
+  ],
+  "security_constraints": [
+    "The system will use a secure password hashing algorithm to store user passwords.",
+    "The system will use a secure random number generator to generate verification codes.",
+    "The system will use a secure protocol (e.g., HTTPS) to transmit verification codes and password reset links.",
+    "The system will require users to enter a strong password (e.g., minimum length, mix of characters, numbers, and special characters) during the password reset process.",
+    "The system will limit the number of password reset requests a user can initiate within a certain time period (e.g., 5 requests per hour) to prevent brute-force attacks."
+  ],
+  "performance_constraints": [
+    "The system will respond to password reset requests within a reasonable time frame (e.g., 2 seconds).",
+    "The system will be able to handle a high volume of password reset requests (e.g., 100 requests per minute) without significant performance degradation.",
+    "The system will use caching and other optimization techniques to minimize the load on the database and improve performance during the password reset process."
+  ]
+}

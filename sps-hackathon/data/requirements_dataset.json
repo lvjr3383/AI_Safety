@@ -1,0 +1,515 @@
+[
+  {
+    "id": "A01",
+    "tier": "clear",
+    "requirement": "Validate that a password is between 8 and 128 characters, contains at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+    "expected_ambiguity": "low",
+    "gold_notes": {
+      "core_behavior": ["Reject passwords shorter than 8 characters", "Reject passwords longer than 128 characters", "Reject passwords missing uppercase", "Reject passwords missing lowercase", "Reject passwords missing digit", "Reject passwords missing special character"],
+      "inputs": ["String: candidate password"],
+      "outputs": ["Boolean: valid/invalid", "String: reason for rejection if invalid"],
+      "assumptions": ["Special characters are printable non-alphanumeric ASCII", "Unicode characters do not count as special characters unless explicitly stated", "Whitespace counts as a special character"],
+      "failure_modes": ["Null input", "Empty string", "Non-string input type"],
+      "edge_cases": ["Exactly 8 characters", "Exactly 128 characters", "129 characters", "All character classes met but length too short", "Password containing only spaces"],
+      "security_constraints": ["Do not log the password value on rejection"],
+      "performance_constraints": ["Validation must complete in under 10ms"]
+    },
+    "why_included": "Fully specified requirement. Establishes low-divergence baseline."
+  },
+  {
+    "id": "A02",
+    "tier": "clear",
+    "requirement": "Return a paginated list of items from a collection. Each page should contain exactly 20 items. The caller specifies a page number starting from 1. Return total item count and total page count alongside the results.",
+    "expected_ambiguity": "low",
+    "gold_notes": {
+      "core_behavior": ["Return exactly 20 items per page", "Accept page number as input starting at 1", "Return total item count", "Return total page count", "Return empty results array for page beyond total pages"],
+      "inputs": ["Integer: page number (1-indexed)", "Collection to paginate"],
+      "outputs": ["Array: items for requested page", "Integer: total_items", "Integer: total_pages", "Integer: current_page"],
+      "assumptions": ["Page size is fixed at 20, not configurable by caller", "Page numbering starts at 1 not 0", "Last page may contain fewer than 20 items"],
+      "failure_modes": ["Page number less than 1", "Page number greater than total pages", "Empty collection", "Non-integer page number"],
+      "edge_cases": ["Exactly 20 items total", "21 items", "0 items in collection", "Page number 0", "Negative page number"],
+      "security_constraints": ["Page number must be validated before use in any query"],
+      "performance_constraints": ["Should not load entire collection into memory to count items"]
+    },
+    "why_included": "Explicit numeric constraints. Tests boundary cases and metadata fields."
+  },
+  {
+    "id": "A03",
+    "tier": "clear",
+    "requirement": "Sort a list of integers in ascending order and return only unique values. If the input list is empty, return an empty list.",
+    "expected_ambiguity": "low",
+    "gold_notes": {
+      "core_behavior": ["Remove duplicate integers", "Sort remaining integers in ascending order", "Return empty list for empty input"],
+      "inputs": ["List of integers (may contain duplicates, may be empty)"],
+      "outputs": ["List of unique integers sorted ascending"],
+      "assumptions": ["Ascending means smallest to largest", "Uniqueness is determined by integer value equality", "Input contains only integers"],
+      "failure_modes": ["Null input", "Non-integer elements in list"],
+      "edge_cases": ["All elements identical", "Single element list", "Already sorted input", "Negative integers"],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Algorithmically minimal. Calibration anchor."
+  },
+  {
+    "id": "A04",
+    "tier": "clear",
+    "requirement": "An API endpoint should return HTTP 404 with a JSON error body when a requested resource does not exist. The error body must include an error code and a human-readable message.",
+    "expected_ambiguity": "low",
+    "gold_notes": {
+      "core_behavior": ["Return HTTP status code 404", "Return JSON response body", "Include error code field in body", "Include human-readable message field in body"],
+      "inputs": ["Resource identifier that does not exist"],
+      "outputs": ["HTTP 404 response", "JSON body with error_code and message"],
+      "assumptions": ["JSON is the required response format", "Error code is a string not an integer"],
+      "failure_modes": ["Resource exists but inaccessible due to permissions — should be 403 not 404"],
+      "edge_cases": ["Resource was deleted vs never existed", "Soft-deleted resource visibility"],
+      "security_constraints": ["Error message must not reveal internal system structure", "Must not confirm existence of resources caller is not authorized to see"],
+      "performance_constraints": []
+    },
+    "why_included": "Security constraint around not leaking existence information is frequently omitted."
+  },
+  {
+    "id": "A05",
+    "tier": "clear",
+    "requirement": "Hash a plaintext password using bcrypt with a minimum cost factor of 12 before storing it in the database. Never store the plaintext password.",
+    "expected_ambiguity": "low",
+    "gold_notes": {
+      "core_behavior": ["Apply bcrypt hashing algorithm", "Use minimum cost factor of 12", "Store only the hashed value", "Never persist plaintext password"],
+      "inputs": ["String: plaintext password"],
+      "outputs": ["String: bcrypt hash for storage"],
+      "assumptions": ["bcrypt is the required algorithm", "Cost factor 12 is the minimum", "Salt is generated automatically by bcrypt"],
+      "failure_modes": ["Null or empty password input", "Password exceeding bcrypt 72-byte input limit"],
+      "edge_cases": ["Password exactly 72 bytes", "Password exceeding 72 bytes — bcrypt silently truncates", "Unicode passwords with multi-byte characters"],
+      "security_constraints": ["Plaintext must not appear in logs or error messages"],
+      "performance_constraints": ["Cost factor 12 may introduce noticeable latency and should be benchmarked for the deployment environment"]
+    },
+    "why_included": "72-byte truncation is a real security issue models frequently omit. Strong false consensus candidate."
+  },
+  {
+    "id": "A06",
+    "tier": "clear",
+    "requirement": "Validate that an email address conforms to standard format: contains exactly one @ symbol, has a non-empty local part, and has a domain with at least one dot. Reject addresses that do not meet these criteria.",
+    "expected_ambiguity": "low",
+    "gold_notes": {
+      "core_behavior": ["Check for exactly one @ symbol", "Verify local part is non-empty", "Verify domain contains at least one dot", "Reject non-conforming addresses"],
+      "inputs": ["String: candidate email address"],
+      "outputs": ["Boolean: valid/invalid", "Optional string: rejection reason"],
+      "assumptions": ["Validation is format-only, not deliverability check", "No DNS lookup required"],
+      "failure_modes": ["Null input", "Empty string"],
+      "edge_cases": ["Multiple @ symbols", "@ at start or end", "IP address as domain", "Internationalized email addresses"],
+      "security_constraints": ["Do not make network requests during validation"],
+      "performance_constraints": []
+    },
+    "why_included": "Tests assumption divergence about what standard format means."
+  },
+  {
+    "id": "A07",
+    "tier": "clear",
+    "requirement": "Return HTTP 400 with a structured error response when a required request field is missing. The error response must identify which fields are missing.",
+    "expected_ambiguity": "low",
+    "gold_notes": {
+      "core_behavior": ["Validate presence of all required fields before processing", "Return HTTP 400 on missing required field", "Identify all missing fields in response not just the first one"],
+      "inputs": ["HTTP request body with one or more required fields absent"],
+      "outputs": ["HTTP 400 response", "JSON body listing all missing field names"],
+      "assumptions": ["All required fields reported simultaneously not one at a time"],
+      "failure_modes": ["Field present but null", "Field present but empty string", "Field present but wrong type"],
+      "edge_cases": ["All required fields missing", "Nested required fields"],
+      "security_constraints": ["Error response must not reveal unexpected internal field names"],
+      "performance_constraints": []
+    },
+    "why_included": "First missing field vs all missing fields is a common assumption divergence."
+  },
+  {
+    "id": "A08",
+    "tier": "clear",
+    "requirement": "Rate limit an API endpoint to 100 requests per minute per authenticated user. Return HTTP 429 with a Retry-After header when the limit is exceeded.",
+    "expected_ambiguity": "low",
+    "ambiguity_note": "clear with latent expert-level ambiguity trap: rolling vs fixed window is intentionally unresolved",
+    "gold_notes": {
+      "core_behavior": ["Count requests per authenticated user per minute window", "Block requests exceeding 100 per minute", "Return HTTP 429 on exceeded limit", "Include Retry-After header"],
+      "inputs": ["Authenticated HTTP request with user identity"],
+      "outputs": ["HTTP 429 response when limit exceeded", "Retry-After header value in seconds"],
+      "assumptions": ["Rate limit is per authenticated user not per IP", "Window is rolling 60 seconds or fixed minute — this is an assumption that must be stated"],
+      "failure_modes": ["User identity cannot be determined", "Rate limit store is unavailable"],
+      "edge_cases": ["Exactly 100th request", "101st request", "Distributed deployment with multiple instances"],
+      "security_constraints": ["Rate limit state must be consistent across distributed instances"],
+      "performance_constraints": ["Rate limit check must add less than 5ms latency"]
+    },
+    "why_included": "Rolling vs fixed window is a classic assumption divergence."
+  },
+  {
+    "id": "A09",
+    "tier": "clear",
+    "requirement": "Calculate the sum of all integers in an array. If the array is empty, return 0. If any element is not an integer, return an error.",
+    "expected_ambiguity": "low",
+    "gold_notes": {
+      "core_behavior": ["Sum all integer elements", "Return 0 for empty array", "Return error for non-integer elements"],
+      "inputs": ["Array of values"],
+      "outputs": ["Integer: sum on success", "Error on non-integer element"],
+      "assumptions": ["Floats are not integers and should trigger error", "Null elements trigger error"],
+      "failure_modes": ["Null array input", "Array containing null", "Array containing float", "Integer overflow"],
+      "edge_cases": ["Single element array", "All negative integers", "Very large integers near overflow"],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Calibration anchor. Any divergence here is noise."
+  },
+  {
+    "id": "A10",
+    "tier": "clear",
+    "requirement": "Generate a JWT token upon successful username and password authentication. The token must expire after 60 minutes and include the user ID and role in the payload.",
+    "expected_ambiguity": "low",
+    "ambiguity_note": "clear with latent expert-level ambiguity trap: signing algorithm HS256 vs RS256 is intentionally unspecified",
+    "gold_notes": {
+      "core_behavior": ["Verify username exists", "Verify password matches stored hash", "Generate JWT on successful verification", "Set expiration to 60 minutes", "Include user_id in payload", "Include role in payload"],
+      "inputs": ["String: username", "String: plaintext password"],
+      "outputs": ["String: signed JWT token on success", "Error response on failure"],
+      "assumptions": ["JWT signing algorithm must be specified — HS256 vs RS256 is an assumption", "Username case sensitivity must be stated"],
+      "failure_modes": ["Username not found", "Password incorrect", "User account disabled"],
+      "edge_cases": ["Correct password for disabled account", "Username with leading/trailing whitespace"],
+      "security_constraints": ["Failed auth must not reveal whether username or password was wrong", "Token must be signed not just encoded"],
+      "performance_constraints": ["Auth must complete in under 500ms"]
+    },
+    "why_included": "HS256 vs RS256 is near-universal assumption divergence."
+  },
+  {
+    "id": "B01",
+    "tier": "moderately_underspecified",
+    "requirement": "Build a fast login system.",
+    "expected_ambiguity": "medium",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Fast is undefined — models will invent latency targets", "Auth mechanism unspecified — models will diverge between password OAuth SSO passkey"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Classic vague performance requirement."
+  },
+  {
+    "id": "B02",
+    "tier": "moderately_underspecified",
+    "requirement": "Implement a secure file upload feature.",
+    "expected_ambiguity": "medium",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Secure is undefined — models will diverge on threat models", "File size limits unspecified", "Allowed file types unspecified"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Security divergence test."
+  },
+  {
+    "id": "B03",
+    "tier": "moderately_underspecified",
+    "requirement": "Handle session timeout for logged-in users.",
+    "expected_ambiguity": "medium",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Timeout duration unspecified", "Idle timeout vs absolute timeout not specified", "Behavior on timeout unspecified"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Idle vs absolute timeout is a real security design decision."
+  },
+  {
+    "id": "B04",
+    "tier": "moderately_underspecified",
+    "requirement": "Implement retry logic for failed API requests.",
+    "expected_ambiguity": "medium",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Number of retries unspecified", "Retry delay strategy unspecified", "Which failure types trigger retry unspecified", "Infinite retry loop risk is a critical omission"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Infinite retry loop is headline false consensus risk. Money case."
+  },
+  {
+    "id": "B05",
+    "tier": "moderately_underspecified",
+    "requirement": "Cache API responses to improve performance.",
+    "expected_ambiguity": "medium",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Cache duration unspecified", "Cache invalidation strategy unspecified", "Cache storage location unspecified"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Cache invalidation is notoriously underspecified."
+  },
+  {
+    "id": "B06",
+    "tier": "moderately_underspecified",
+    "requirement": "Implement a password reset flow.",
+    "expected_ambiguity": "medium",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Reset mechanism unspecified", "Token expiration unspecified", "Rate limiting on reset requests unspecified", "Whether to confirm email exists is a security tradeoff"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "User enumeration tradeoff. Rate limiting frequently omitted."
+  },
+  {
+    "id": "B07",
+    "tier": "moderately_underspecified",
+    "requirement": "Log user activity in the system.",
+    "expected_ambiguity": "medium",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["What constitutes activity is undefined", "PII handling in logs unspecified — critical omission"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "PII in logs frequently omitted. Strong false consensus candidate. Money case."
+  },
+  {
+    "id": "B08",
+    "tier": "moderately_underspecified",
+    "requirement": "Validate user input before processing.",
+    "expected_ambiguity": "medium",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["What input is unspecified", "Reject vs sanitize and continue is a fundamental design choice"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Maximally vague. Tests whether models flag assumptions or silently invent them."
+  },
+  {
+    "id": "B09",
+    "tier": "moderately_underspecified",
+    "requirement": "Handle concurrent requests to the same resource.",
+    "expected_ambiguity": "medium",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Concurrency mechanism unspecified — locks vs optimistic concurrency vs queue"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Locks vs optimistic concurrency is fundamental assumption divergence."
+  },
+  {
+    "id": "B10",
+    "tier": "moderately_underspecified",
+    "requirement": "Send a notification when a user's order is shipped.",
+    "expected_ambiguity": "medium",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Notification channel unspecified", "Opt-in vs opt-out assumed differently"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Opt-in vs opt-out is a privacy assumption."
+  },
+  {
+    "id": "C01",
+    "tier": "adversarially_ambiguous",
+    "requirement": "Handle invalid users gracefully.",
+    "expected_ambiguity": "high",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Invalid is undefined", "Gracefully is undefined"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Maximum semantic ambiguity. Both key terms undefined."
+  },
+  {
+    "id": "C02",
+    "tier": "adversarially_ambiguous",
+    "requirement": "Optimize database performance.",
+    "expected_ambiguity": "high",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Optimize is undefined", "No baseline or target specified", "No database type specified"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "No measurable success criteria."
+  },
+  {
+    "id": "C03",
+    "tier": "adversarially_ambiguous",
+    "requirement": "Implement access control.",
+    "expected_ambiguity": "high",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Access control model unspecified — RBAC vs ABAC vs ACL vs DAC"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "RBAC vs ABAC is a fundamental architecture decision models will pick silently."
+  },
+  {
+    "id": "C04",
+    "tier": "adversarially_ambiguous",
+    "requirement": "Make the system reliable.",
+    "expected_ambiguity": "high",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Reliable is entirely undefined", "No SLA target specified"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Maximum divergence ceiling test."
+  },
+  {
+    "id": "C05",
+    "tier": "adversarially_ambiguous",
+    "requirement": "Process payments securely.",
+    "expected_ambiguity": "high",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Payment method unspecified", "Securely is undefined", "Direct card handling vs third-party processor is a critical architectural assumption"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Direct vs third-party processor changes entire architecture and compliance scope."
+  },
+  {
+    "id": "C06",
+    "tier": "adversarially_ambiguous",
+    "requirement": "Handle errors appropriately.",
+    "expected_ambiguity": "high",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Appropriately is entirely undefined", "Which errors are in scope is undefined"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Circularly defined requirement."
+  },
+  {
+    "id": "C07",
+    "tier": "adversarially_ambiguous",
+    "requirement": "Ensure data consistency across the system.",
+    "expected_ambiguity": "high",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Consistency model unspecified — strong vs eventual vs causal"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Strong vs eventual is a fundamental distributed systems tradeoff."
+  },
+  {
+    "id": "C08",
+    "tier": "adversarially_ambiguous",
+    "requirement": "Build a notification system for the application.",
+    "expected_ambiguity": "high",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Notification channels unspecified", "Delivery guarantees unspecified — at-most-once vs at-least-once vs exactly-once"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Delivery guarantee model is critical omission. Money case."
+  },
+  {
+    "id": "C09",
+    "tier": "adversarially_ambiguous",
+    "requirement": "The checkout flow should be smooth and conversion-optimized.",
+    "expected_ambiguity": "high",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Smooth is a UX term with no technical definition", "Conversion-optimized is a business metric with no technical definition"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Business language requirement. Tests whether models translate or mirror marketing framing."
+  },
+  {
+    "id": "C10",
+    "tier": "adversarially_ambiguous",
+    "requirement": "The system should scale.",
+    "expected_ambiguity": "high",
+    "gold_notes": {
+      "core_behavior": [],
+      "inputs": [],
+      "outputs": [],
+      "assumptions": ["Scale is undefined — horizontal vs vertical auto vs manual", "No current load baseline specified", "No target load specified"],
+      "failure_modes": [],
+      "edge_cases": [],
+      "security_constraints": [],
+      "performance_constraints": []
+    },
+    "why_included": "Single word non-requirement. Maximum stress test."
+  }
+]

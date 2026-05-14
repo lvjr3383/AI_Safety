@@ -1,0 +1,63 @@
+{
+  "core_behavior": [
+    "The system must intercept all user-supplied input at the point of entry \u2014 before any business logic, data storage, or downstream processing occurs \u2014 and subject it to a defined set of validation rules.",
+    "Input that passes all applicable rules is forwarded to the processing pipeline.",
+    "Input that fails one or more rules is rejected, and the system returns structured error feedback to the caller without invoking any downstream processing.",
+    "Validation is non-destructive by default: the system must not silently modify, truncate, or coerce input values during validation unless an explicit normalization step is declared as part of the validation contract.",
+    "All validation errors across all fields are collected and returned in a single response (fail-all, not fail-fast), unless the system is explicitly configured for fail-fast mode."
+  ],
+  "inputs": [
+    "HTTP request bodies (JSON, XML, multipart/form-data, URL-encoded)",
+    "HTTP query parameters and path parameters",
+    "HTTP headers (where declared as validated fields)",
+    "CLI arguments and flags",
+    "Inter-service API payloads (internal RPC/message-queue messages)",
+    "File uploads (metadata and content)",
+    "Each field may be validated against presence rules: required, optional, conditionally required",
+    "Each field may be validated against type rules: string, integer, float, boolean, array, object, date, UUID",
+    "Each field may be validated against format rules: email, URL, ISO 8601 date, E.164 phone, regex pattern",
+    "Each field may be validated against length/size rules: min length, max length, exact length, min/max byte size",
+    "Each field may be validated against range rules: numeric min/max (inclusive/exclusive), date range",
+    "Each field may be validated against enumeration rules: value must belong to a defined set",
+    "Each field may be validated against uniqueness rules: value must not already exist in the data store (async check)",
+    "Each field may be validated against referential integrity rules: value must reference an existing entity",
+    "Each field may be validated against structural rules: array min/max item count, object required keys",
+    "Each field may be validated against cross-field rules: field A required only when field B equals value X",
+    "Each field may be validated against content safety rules: no null bytes, no control characters (unless explicitly permitted)"
+  ],
+  "outputs": [
+    "The validated (and optionally normalized) input object is passed to the processing layer on the success path.",
+    "No validation-specific response is returned to the caller on the success path; the processing layer's normal response applies.",
+    "An internal audit log entry is written on the success path.",
+    "The system returns a structured error payload before any processing occurs on the failure path.",
+    "HTTP context failure response: HTTP 422 Unprocessable Entity with Content-Type application/json containing status, code, message, errors array, request_id, and timestamp fields.",
+    "Each error entry in the errors array contains: field (dot-notation field path), rule (rule name), value (rejected value or '[REDACTED]' for sensitive fields), and message (human-readable description).",
+    "Sensitive fields (passwords, tokens, PII) must have their value replaced with '[REDACTED]' in error responses.",
+    "CLI context: errors written to stderr in human-readable format; exit code 2.",
+    "Message queue context: message is moved to a dead-letter queue with the error payload attached as metadata.",
+    "Internal RPC context: error struct returned with equivalent field-level detail."
+  ],
+  "assumptions": [
+    "Validation schema is declarative and externally defined. Each endpoint or operation has an associated schema (e.g., JSON Schema, OpenAPI, or a proprietary DSL) that specifies which rules apply to which fields.",
+    "The validation engine reads the schema at startup and caches it.",
+    "Normalization is a declared, pre-validation step. Allowed normalizations must be explicitly declared as part of the validation contract."
+  ],
+  "failure_modes": [
+    "Input that fails one or more rules is rejected, and the system returns structured error feedback to the caller without invoking any downstream processing.",
+    "CLI errors written to stderr in human-readable format; exit code 2.",
+    "Message queue messages that fail validation are moved to a dead-letter queue with the error payload attached as metadata.",
+    "Internal RPC returns an error struct with equivalent field-level detail on validation failure."
+  ],
+  "edge_cases": [
+    "Conditionally required fields: field A required only when field B equals value X.",
+    "Sensitive fields (passwords, tokens, PII) must have their value replaced with '[REDACTED]' in error responses.",
+    "Content safety: no null bytes, no control characters unless explicitly permitted.",
+    "Uniqueness check is an async check against the data store.",
+    "The system may be explicitly configured for fail-fast mode instead of the default fail-all mode."
+  ],
+  "security_constraints": [
+    "Sensitive fields (passwords, tokens, PII) must have their value replaced with '[REDACTED]' in error responses.",
+    "Content safety validation: no null bytes, no control characters (unless explicitly permitted)."
+  ],
+  "performance_constraints": []
+}

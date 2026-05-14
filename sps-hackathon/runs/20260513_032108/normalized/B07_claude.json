@@ -1,0 +1,63 @@
+{
+  "core_behavior": [
+    "The system must record a structured log entry for every significant user action performed within the application.",
+    "Logging must occur automatically, transparently to the user, and without interrupting normal system operation.",
+    "Log entries must be persisted durably, queryable by authorized personnel, and retained for a defined period.",
+    "A log entry is generated immediately upon completion of a user action (post-execution).",
+    "A log entry is generated immediately upon failure or rejection of a user action (e.g., authorization denial).",
+    "A log entry is generated before execution for destructive or irreversible operations (pre-execution record), with a follow-up entry indicating outcome.",
+    "Authentication events must be captured: Login, logout, failed login, password reset, MFA challenge.",
+    "Authorization events must be captured: Permission denied, role change, privilege escalation attempt.",
+    "Data Access events must be captured: Read, search, export of sensitive or protected records.",
+    "Data Mutation events must be captured: Create, update, delete of any persistent resource.",
+    "Configuration Changes must be captured: System settings, feature flags, user preferences.",
+    "Session Events must be captured: Session creation, expiration, forced termination.",
+    "Administrative Actions must be captured: User creation, account suspension, audit log access.",
+    "File Operations must be captured: Upload, download, delete of files or attachments.",
+    "API Usage must be captured: External API calls made on behalf of a user."
+  ],
+  "inputs": [
+    "`event_id` (UUID v4): Globally unique identifier for this log entry.",
+    "`timestamp` (ISO 8601 UTC): Exact date and time the event occurred.",
+    "`user_id` (String): Unique identifier of the acting user.",
+    "`session_id` (String): Identifier of the active session.",
+    "`action` (Enum): Standardized action code (e.g., `USER_LOGIN`, `RECORD_DELETE`).",
+    "`resource_type` (String): Type of resource acted upon (e.g., `Invoice`, `UserAccount`).",
+    "`resource_id` (String): Identifier of the specific resource instance.",
+    "`outcome` (Enum): `SUCCESS`, `FAILURE`, `DENIED`, `ERROR`.",
+    "`ip_address` (String): IP address of the client at time of request.",
+    "`user_agent` (String): HTTP User-Agent string of the client.",
+    "`previous_value` (JSON): Snapshot of resource state before mutation.",
+    "`new_value` (JSON): Snapshot of resource state after mutation.",
+    "`error_code` (String): Application or HTTP error code on failure.",
+    "`error_message` (String): Human-readable error description.",
+    "`geo_location` (String): Derived country/region from IP (best-effort).",
+    "`request_id` (String): Correlation ID linking to the originating HTTP request.",
+    "`actor_role` (String): Role(s) held by the user at time of action.",
+    "`delegated_by` (String): User ID of an admin acting on behalf of another user.",
+    "`tags` (Array[String]): Arbitrary labels for filtering (e.g., `[\"pii\", \"financial\"]`)."
+  ],
+  "outputs": [
+    "Each log entry is written to a dedicated, append-only log store (separate from the application's primary database).",
+    "Log entries are stored in structured JSON format.",
+    "The store must support indexed queries on: `user_id`, `timestamp`, `action`, `resource_type`, `resource_id`, `outcome`, `ip_address`, and `session_id`.",
+    "An internal API (not exposed publicly) must allow authorized administrators to query logs by any indexed field or combination thereof.",
+    "The API must allow filtering by date range (inclusive).",
+    "The API must support paginated results (default page size: 100; maximum: 1000).",
+    "The API must support export of results as JSON or CSV.",
+    "The API must return results sorted."
+  ],
+  "assumptions": [],
+  "failure_modes": [],
+  "edge_cases": [],
+  "security_constraints": [
+    "The log store is separate from the application's primary database.",
+    "The log store is append-only.",
+    "The query/export API is internal and not exposed publicly.",
+    "Only authorized administrators may query and export logs.",
+    "Log entries must be queryable by authorized personnel."
+  ],
+  "performance_constraints": [
+    "Logging must occur without interrupting normal system operation."
+  ]
+}

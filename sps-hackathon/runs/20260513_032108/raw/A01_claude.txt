@@ -1,0 +1,74 @@
+# Password Validation — Software Specification
+
+## 1. Core Behavior
+
+The system exposes a password validation function that accepts a candidate password string and evaluates it against a defined set of rules. The function returns a structured result indicating whether the password is valid and, if not, which specific rules were violated. All rules must be satisfied simultaneously for a password to be considered valid.
+
+### Validation Rules (all must pass)
+
+| Rule ID | Rule Description |
+|---|---|
+| R1 | Length is at least 8 characters |
+| R2 | Length is at most 128 characters |
+| R3 | Contains at least one uppercase letter (A–Z) |
+| R4 | Contains at least one lowercase letter (a–z) |
+| R5 | Contains at least one decimal digit (0–9) |
+| R6 | Contains at least one special character (see §3) |
+
+---
+
+## 2. Inputs
+
+| Parameter | Type | Description |
+|---|---|---|
+| `password` | String (UTF-8) | The candidate password to be validated |
+
+- The input must be a string type. Null, undefined, or non-string inputs are treated as invalid inputs (not invalid passwords) and trigger a distinct error response (see §6).
+- No trimming or normalization is applied to the input before validation. Leading and trailing whitespace characters are treated as valid characters and counted toward length and character-class rules.
+
+---
+
+## 3. Character Class Definitions
+
+| Class | Definition |
+|---|---|
+| Uppercase letter | Unicode characters in the range U+0041–U+005A (A–Z). Non-ASCII uppercase letters (e.g., É, Ü) do **not** satisfy R3. |
+| Lowercase letter | Unicode characters in the range U+0061–U+007A (a–z). Non-ASCII lowercase letters do **not** satisfy R4. |
+| Digit | Unicode characters in the range U+0030–U+0039 (0–9). Non-ASCII digits do **not** satisfy R5. |
+| Special character | Any printable ASCII character in the set: ``!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~`` (all 32 printable ASCII characters that are neither alphanumeric nor space; i.e., ASCII codes 33–47, 58–64, 91–96, 123–126). Space (U+0020) is **not** a special character for the purpose of R6 but is a valid character that counts toward length. |
+
+**Assumption:** Non-ASCII Unicode characters (e.g., accented letters, emoji, CJK characters) are permitted in the password and count toward length (measured in Unicode code points, not bytes), but they do not satisfy any character-class rule (R3–R6) unless they fall within the ASCII ranges defined above.
+
+---
+
+## 4. Outputs
+
+The function returns a structured validation result object with the following fields:
+
+```
+{
+  "valid": boolean,
+  "errors": [string]   // empty array when valid == true
+}
+```
+
+### Error Message Strings (one per violated rule)
+
+| Rule | Error Message |
+|---|---|
+| R1 | `"Password must be at least 8 characters long."` |
+| R2 | `"Password must be no more than 128 characters long."` |
+| R3 | `"Password must contain at least one uppercase letter (A–Z)."` |
+| R4 | `"Password must contain at least one lowercase letter (a–z)."` |
+| R5 | `"Password must contain at least one digit (0–9)."` |
+| R6 | `"Password must contain at least one special character (e.g., !@#$%^&*)."` |
+
+- All violated rules are reported simultaneously; the function does not short-circuit after the first failure.
+- Error messages are returned in the order R1 → R2 → R3 → R4 → R5 → R6.
+- When `valid` is `true`, `errors` is an empty array `[]`, never `null` or absent.
+
+---
+
+## 5. Assumptions
+
+1. **Length measurement:** Password length is measured in Unicode code points (not UTF-8 bytes, not UTF-16 

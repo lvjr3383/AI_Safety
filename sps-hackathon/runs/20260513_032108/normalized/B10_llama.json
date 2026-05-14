@@ -1,0 +1,42 @@
+{
+  "core_behavior": [
+    "The system must send a notification to the user when their order is shipped.",
+    "This notification will inform the user that their order has been dispatched and provide them with relevant shipping details."
+  ],
+  "inputs": [
+    "Order ID: a unique identifier for the order",
+    "User ID: a unique identifier for the user who placed the order",
+    "Shipping details: information about the shipping carrier, tracking number, and estimated delivery date",
+    "User contact information: the user's email address and/or phone number, depending on their preferred notification method"
+  ],
+  "outputs": [
+    "A notification message sent to the user via their preferred method (email and/or SMS)",
+    "A record of the notification being sent, including the timestamp and notification method used"
+  ],
+  "assumptions": [
+    "The system will use a pre-existing notification service to send emails and SMS messages.",
+    "The system will assume that the user's contact information is up-to-date and valid.",
+    "The system will use a template-based approach to generate the notification message, with placeholders for dynamic data such as the order ID and shipping details.",
+    "The system will send notifications in real-time, as soon as the order is marked as shipped in the system."
+  ],
+  "failure_modes": [
+    "Notification service failure: if the notification service is unavailable or returns an error, the system will retry sending the notification up to 3 times before logging an error and notifying the system administrator.",
+    "Invalid user contact information: if the user's contact information is invalid or outdated, the system will log an error and notify the system administrator.",
+    "Order data inconsistency: if the order data is inconsistent or missing required information, the system will log an error and notify the system administrator."
+  ],
+  "edge_cases": [
+    "Order cancellation: if an order is cancelled after the notification has been sent, the system will send a follow-up notification to the user informing them of the cancellation.",
+    "Order update: if an order is updated after the notification has been sent (e.g. shipping carrier or tracking number changes), the system will send a follow-up notification to the user with the updated information.",
+    "User notification preferences: if a user has opted out of receiving notifications or has specified a preferred notification method, the system will respect their preferences."
+  ],
+  "security_constraints": [
+    "Data encryption: all user contact information and order data must be encrypted in transit and at rest.",
+    "Access control: only authorized system administrators and users with the necessary permissions will be able to access and modify order data and user contact information.",
+    "Audit logging: all system activities, including notification sending and errors, must be logged and auditable."
+  ],
+  "performance_constraints": [
+    "Notification latency: notifications must be sent within 1 minute of the order being marked as shipped.",
+    "Throughput: the system must be able to handle a minimum of 100 notifications per minute.",
+    "Error rate: the system must maintain an error rate of less than 1% for notification sending."
+  ]
+}

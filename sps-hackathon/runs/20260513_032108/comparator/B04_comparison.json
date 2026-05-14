@@ -1,0 +1,67 @@
+{
+  "requirement_id": "B04",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B specifies a composable middleware/decorator pattern with jitter and thundering-herd concern; Model A and C describe simpler retry loops without architectural pattern requirements; all three omit specification of which failure types trigger retry and infinite loop risk."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "CON",
+      "fc_flag": true,
+      "note": "Model A defaults max retries to 3 with 500ms initial delay; Model B defaults max_attempts to 3 with 200ms base delay and explicit retryable status codes (429,500,502,503,504); Model C defaults to 3 retries with 1 second delay, and the retry trigger conditions differ across models."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies a rich structured RetryExhaustedError with attempt_log, elapsed time, and correlation ID; Models A and C specify only a basic error message or status on failure."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "CON",
+      "fc_flag": true,
+      "note": "Model A assumes 4xx codes are retryable while Model C explicitly assumes 4xx errors should not be retried; models also differ on default delay values and backoff specifics, and none address infinite retry loop risk."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model B returns a structured RetryExhaustedError with full diagnostic context; Model A returns an HTTP status code and descriptive message; Model C returns an error message and logs details, with an additional case for invalid configuration halting retries."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model C caps retry delay at 60 seconds; Model A caps at 30 seconds maximum retry delay; Model B uses max_delay_ms defaulting to 10,000ms; none address infinite retry loop risk as an edge case."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty security_constraints array while Models A and C both populate the field with different security concerns."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies concrete timeout parameters (per-attempt and total) with numeric defaults; Model A specifies latency thresholds and throughput targets; Model C provides only qualitative performance guidance."
+    }
+  },
+  "dc": 8,
+  "fc_count": 4,
+  "category_counts": {
+    "ASM": 4,
+    "CON": 2,
+    "ERR": 1,
+    "OMI": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 3 of the 8 fields.",
+  "label_map": {
+    "A": "llama",
+    "B": "claude",
+    "C": "gpt4o"
+  }
+}

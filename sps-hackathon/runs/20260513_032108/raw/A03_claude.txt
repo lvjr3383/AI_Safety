@@ -1,0 +1,76 @@
+# Software Specification: Sort Unique Integers
+
+## 1. Core Behavior
+
+The system accepts a list of integers and returns a new list containing only the unique values from the input, sorted in ascending (lowest-to-highest) numerical order. Duplicate values are removed such that each integer appears exactly once in the output. The original input list is not modified.
+
+---
+
+## 2. Inputs
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `values` | List of integers | A finite, ordered collection of integer values, possibly containing duplicates, negatives, zeros, or large values. |
+
+- Integers may be positive, negative, or zero.
+- The list may contain any number of elements, including zero elements.
+- All elements must be integers; mixed types are not accepted (see Failure Modes).
+
+---
+
+## 3. Outputs
+
+| Return Value | Type | Description |
+|--------------|------|-------------|
+| `result` | List of integers | A new list of integers, deduplicated and sorted in ascending order. |
+
+- The output list length is equal to the number of distinct integer values in the input.
+- The output list is ordered from the smallest integer value to the largest.
+- The output is a new list; the input list is not mutated.
+
+**Examples:**
+
+| Input | Output |
+|-------|--------|
+| `[3, 1, 2, 1, 3]` | `[1, 2, 3]` |
+| `[]` | `[]` |
+| `[5]` | `[5]` |
+| `[-3, 0, -1, 0, 2]` | `[-3, -1, 0, 2]` |
+| `[7, 7, 7]` | `[7]` |
+| `[1, 2, 3]` | `[1, 2, 3]` |
+
+---
+
+## 4. Assumptions
+
+- **Integer definition:** The system operates on whole numbers only. Floating-point values (e.g., `1.0`, `2.5`) are not considered integers and are rejected, even if they are numerically whole.
+- **Sort order:** "Ascending" means standard numerical order (e.g., `-10 < -1 < 0 < 1 < 10`).
+- **Deduplication criterion:** Two values are considered duplicates if and only if they are equal by value (e.g., `1 == 1`).
+- **Immutability:** The function does not modify the input list in place; it returns a new list.
+- **No secondary sort key:** Since all elements are integers and uniqueness is enforced, there is no need for a secondary sort criterion.
+- **In-memory operation:** The entire list is processed in memory. No streaming or pagination is assumed.
+- **Language-agnostic spec:** This specification does not prescribe a specific programming language or implementation. Integer size limits are governed by the host language/platform.
+
+---
+
+## 5. Failure Modes
+
+| Condition | Expected Behavior |
+|-----------|-------------------|
+| Input contains a non-integer element (e.g., a float, string, or `null`/`None`) | Raise a type error (or equivalent exception) immediately, before producing any output. The error message must identify that a non-integer value was encountered. |
+| Input is `null`/`None` (not a list at all) | Raise a null/argument error indicating that a valid list is required. |
+| Input is not a list type (e.g., a scalar integer, a set, a string) | Raise a type error indicating that the input must be a list. |
+
+- The system must **not** silently coerce or skip invalid elements; all errors must be surfaced explicitly.
+
+---
+
+## 6. Edge Cases
+
+| Case | Input | Output / Behavior |
+|------|-------|-------------------|
+| Empty list | `[]` | `[]` |
+| Single element | `[42]` | `[42]` |
+| All duplicates | `[5, 5, 5, 5]` | `[5]` |
+| Already sorted, no duplicates | `[1, 2, 3, 4]` | `[1, 2, 3, 4]` |
+|

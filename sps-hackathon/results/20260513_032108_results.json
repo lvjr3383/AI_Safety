@@ -1,0 +1,511 @@
+{
+  "run_id": "20260513_032108",
+  "seed": 1918646184,
+  "total_processed": 30,
+  "excluded": [],
+  "tier_metrics": {
+    "clear": {
+      "count": 10,
+      "with_comparison": 10,
+      "tdr": 7.2,
+      "cd": {
+        "ASM": 36,
+        "OMI": 18,
+        "CON": 7,
+        "ERR": 5,
+        "CON-S": 4,
+        "SEC": 2
+      },
+      "fcr": 1.0
+    },
+    "moderately_underspecified": {
+      "count": 10,
+      "with_comparison": 10,
+      "tdr": 7.4,
+      "cd": {
+        "ASM": 42,
+        "ERR": 7,
+        "CON-S": 8,
+        "SEC": 3,
+        "OMI": 12,
+        "CON": 2
+      },
+      "fcr": 1.0
+    },
+    "adversarially_ambiguous": {
+      "count": 10,
+      "with_comparison": 10,
+      "tdr": 7.9,
+      "cd": {
+        "ASM": 46,
+        "OMI": 21,
+        "CON-S": 5,
+        "ERR": 4,
+        "SEC": 3
+      },
+      "fcr": 1.0
+    }
+  },
+  "requirements": [
+    {
+      "requirement_id": "A01",
+      "requirement_text": "Validate that a password is between 8 and 128 characters, contains at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+      "tier": "clear",
+      "expected_ambiguity": "low",
+      "fod": 0.25,
+      "dc": 8,
+      "fc_count": 5,
+      "category_counts": {
+        "ASM": 2,
+        "OMI": 3,
+        "CON": 2,
+        "ERR": 1
+      },
+      "summary": "CON and ASM each appeared most frequently, tied at 2 occurrences each across the eight fields."
+    },
+    {
+      "requirement_id": "A02",
+      "requirement_text": "Return a paginated list of items from a collection. Each page should contain exactly 20 items. The caller specifies a page number starting from 1. Return total item count and total page count alongside the results.",
+      "tier": "clear",
+      "expected_ambiguity": "low",
+      "fod": 0.25,
+      "dc": 7,
+      "fc_count": 1,
+      "category_counts": {
+        "ASM": 2,
+        "CON": 1,
+        "ERR": 1,
+        "OMI": 3
+      },
+      "summary": "OMI was the most frequently assigned category, appearing in 3 of the 8 fields, driven by Model B's empty security and performance sections and its sparse edge_cases coverage."
+    },
+    {
+      "requirement_id": "A03",
+      "requirement_text": "Sort a list of integers in ascending order and return only unique values. If the input list is empty, return an empty list.",
+      "tier": "clear",
+      "expected_ambiguity": "low",
+      "fod": 0.25,
+      "dc": 5,
+      "fc_count": 3,
+      "category_counts": {
+        "ASM": 2,
+        "ERR": 1,
+        "OMI": 1,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) appeared most frequently, tied with one occurrence each of OMI, CON-S, and ERR across the eight fields."
+    },
+    {
+      "requirement_id": "A04",
+      "requirement_text": "An API endpoint should return HTTP 404 with a JSON error body when a requested resource does not exist. The error body must include an error code and a human-readable message.",
+      "tier": "clear",
+      "expected_ambiguity": "low",
+      "fod": 0.25,
+      "dc": 8,
+      "fc_count": 4,
+      "category_counts": {
+        "ASM": 5,
+        "OMI": 1,
+        "CON": 1,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in four of the eight fields."
+    },
+    {
+      "requirement_id": "A05",
+      "requirement_text": "Hash a plaintext password using bcrypt with a minimum cost factor of 12 before storing it in the database. Never store the plaintext password.",
+      "tier": "clear",
+      "expected_ambiguity": "low",
+      "fod": 0.0,
+      "dc": 8,
+      "fc_count": 3,
+      "category_counts": {
+        "ASM": 6,
+        "ERR": 1,
+        "SEC": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in five of the eight fields, reflecting that the requirement left many design dimensions unspecified and models independently introduced different choices."
+    },
+    {
+      "requirement_id": "A06",
+      "requirement_text": "Validate that an email address conforms to standard format: contains exactly one @ symbol, has a non-empty local part, and has a domain with at least one dot. Reject addresses that do not meet these criteria.",
+      "tier": "clear",
+      "expected_ambiguity": "low",
+      "fod": 0.25,
+      "dc": 7,
+      "fc_count": 1,
+      "category_counts": {
+        "CON-S": 2,
+        "ASM": 2,
+        "CON": 2,
+        "OMI": 1
+      },
+      "summary": "CON and ASM each appeared twice as the most frequent taxonomy categories across the eight fields."
+    },
+    {
+      "requirement_id": "A07",
+      "requirement_text": "Return HTTP 400 with a structured error response when a required request field is missing. The error response must identify which fields are missing.",
+      "tier": "clear",
+      "expected_ambiguity": "low",
+      "fod": 0.5,
+      "dc": 8,
+      "fc_count": 4,
+      "category_counts": {
+        "ASM": 4,
+        "OMI": 4
+      },
+      "summary": "OMI was the most frequently assigned category, appearing in four fields where Model B was silent while Models A and C provided content."
+    },
+    {
+      "requirement_id": "A08",
+      "requirement_text": "Rate limit an API endpoint to 100 requests per minute per authenticated user. Return HTTP 429 with a Retry-After header when the limit is exceeded.",
+      "tier": "clear",
+      "expected_ambiguity": "low",
+      "fod": 0.125,
+      "dc": 7,
+      "fc_count": 2,
+      "category_counts": {
+        "ASM": 3,
+        "CON": 1,
+        "ERR": 1,
+        "SEC": 1,
+        "OMI": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in three fields: inputs, outputs, and edge_cases."
+    },
+    {
+      "requirement_id": "A09",
+      "requirement_text": "Calculate the sum of all integers in an array. If the array is empty, return 0. If any element is not an integer, return an error.",
+      "tier": "clear",
+      "expected_ambiguity": "low",
+      "fod": 0.125,
+      "dc": 7,
+      "fc_count": 5,
+      "category_counts": {
+        "ASM": 6,
+        "OMI": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 5 of the 8 fields."
+    },
+    {
+      "requirement_id": "A10",
+      "requirement_text": "Generate a JWT token upon successful username and password authentication. The token must expire after 60 minutes and include the user ID and role in the payload.",
+      "tier": "clear",
+      "expected_ambiguity": "low",
+      "fod": 0.375,
+      "dc": 7,
+      "fc_count": 6,
+      "category_counts": {
+        "ASM": 4,
+        "OMI": 3
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 3 of the 8 fields, reflecting multiple design choices introduced by models that the requirement left unspecified."
+    },
+    {
+      "requirement_id": "B01",
+      "requirement_text": "Build a fast login system.",
+      "tier": "moderately_underspecified",
+      "expected_ambiguity": "medium",
+      "fod": 0.0,
+      "dc": 7,
+      "fc_count": 2,
+      "category_counts": {
+        "ASM": 5,
+        "ERR": 1,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in four of the eight fields, reflecting that the underspecified requirement caused models to independently invent incompatible design choices."
+    },
+    {
+      "requirement_id": "B02",
+      "requirement_text": "Implement a secure file upload feature.",
+      "tier": "moderately_underspecified",
+      "expected_ambiguity": "medium",
+      "fod": 0.125,
+      "dc": 8,
+      "fc_count": 1,
+      "category_counts": {
+        "ASM": 5,
+        "CON-S": 1,
+        "ERR": 1,
+        "SEC": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 5 of 8 fields, reflecting that the underspecified requirement caused models to independently introduce different design choices across inputs, outputs, core behavior, edge cases, and performance constraints."
+    },
+    {
+      "requirement_id": "B03",
+      "requirement_text": "Handle session timeout for logged-in users.",
+      "tier": "moderately_underspecified",
+      "expected_ambiguity": "medium",
+      "fod": 0.25,
+      "dc": 8,
+      "fc_count": 1,
+      "category_counts": {
+        "ASM": 6,
+        "OMI": 2
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 5 of the 8 fields, reflecting that the underspecified requirement caused all three models to independently introduce different unspecified design choices."
+    },
+    {
+      "requirement_id": "B04",
+      "requirement_text": "Implement retry logic for failed API requests.",
+      "tier": "moderately_underspecified",
+      "expected_ambiguity": "medium",
+      "fod": 0.125,
+      "dc": 8,
+      "fc_count": 4,
+      "category_counts": {
+        "ASM": 4,
+        "CON": 2,
+        "ERR": 1,
+        "OMI": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 3 of the 8 fields."
+    },
+    {
+      "requirement_id": "B05",
+      "requirement_text": "Cache API responses to improve performance.",
+      "tier": "moderately_underspecified",
+      "expected_ambiguity": "medium",
+      "fod": 0.5,
+      "dc": 7,
+      "fc_count": 1,
+      "category_counts": {
+        "ASM": 4,
+        "CON-S": 1,
+        "OMI": 2
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 3 of the 8 fields."
+    },
+    {
+      "requirement_id": "B06",
+      "requirement_text": "Implement a password reset flow.",
+      "tier": "moderately_underspecified",
+      "expected_ambiguity": "medium",
+      "fod": 0.0,
+      "dc": 5,
+      "fc_count": 4,
+      "category_counts": {
+        "ASM": 2,
+        "ERR": 1,
+        "SEC": 1,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) appeared most frequently, tied across two fields, reflecting that the underspecified requirement led models to independently introduce different design choices for token expiry, delivery channel, and edge-case handling."
+    },
+    {
+      "requirement_id": "B07",
+      "requirement_text": "Log user activity in the system.",
+      "tier": "moderately_underspecified",
+      "expected_ambiguity": "medium",
+      "fod": 0.375,
+      "dc": 8,
+      "fc_count": 3,
+      "category_counts": {
+        "ASM": 4,
+        "OMI": 3,
+        "CON-S": 1
+      },
+      "summary": "OMI and ASM each appeared three times across the eight fields, making them the joint most frequent taxonomy categories in this report."
+    },
+    {
+      "requirement_id": "B08",
+      "requirement_text": "Validate user input before processing.",
+      "tier": "moderately_underspecified",
+      "expected_ambiguity": "medium",
+      "fod": 0.125,
+      "dc": 8,
+      "fc_count": 2,
+      "category_counts": {
+        "ASM": 5,
+        "ERR": 1,
+        "SEC": 1,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 4 of the 8 fields, reflecting that the underspecified requirement led models to independently introduce different design choices across inputs, core behavior, outputs, assumptions, and edge cases."
+    },
+    {
+      "requirement_id": "B09",
+      "requirement_text": "Handle concurrent requests to the same resource.",
+      "tier": "moderately_underspecified",
+      "expected_ambiguity": "medium",
+      "fod": 0.375,
+      "dc": 8,
+      "fc_count": 2,
+      "category_counts": {
+        "ASM": 4,
+        "ERR": 1,
+        "OMI": 2,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) appeared most frequently, occurring in 3 of the 8 fields, reflecting that the requirement left the concurrency mechanism, input schema, and output schema unspecified, leading models to independently introduce different design choices."
+    },
+    {
+      "requirement_id": "B10",
+      "requirement_text": "Send a notification when a user's order is shipped.",
+      "tier": "moderately_underspecified",
+      "expected_ambiguity": "medium",
+      "fod": 0.375,
+      "dc": 7,
+      "fc_count": 3,
+      "category_counts": {
+        "ASM": 3,
+        "OMI": 2,
+        "ERR": 1,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 3 of the 8 fields, reflecting that the underspecified requirement led models to independently introduce different design choices for inputs, outputs, and edge cases."
+    },
+    {
+      "requirement_id": "C01",
+      "requirement_text": "Handle invalid users gracefully.",
+      "tier": "adversarially_ambiguous",
+      "expected_ambiguity": "high",
+      "fod": 0.25,
+      "dc": 8,
+      "fc_count": 2,
+      "category_counts": {
+        "ASM": 6,
+        "OMI": 2
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in six of the eight fields, reflecting that the underspecified requirement allowed each model to independently introduce different design choices."
+    },
+    {
+      "requirement_id": "C02",
+      "requirement_text": "Optimize database performance.",
+      "tier": "adversarially_ambiguous",
+      "expected_ambiguity": "high",
+      "fod": 0.25,
+      "dc": 8,
+      "fc_count": 2,
+      "category_counts": {
+        "ASM": 5,
+        "OMI": 2,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in five of the eight fields, reflecting that the underspecified requirement caused models to independently introduce incompatible design choices across core behavior, inputs, outputs, assumptions, and security constraints."
+    },
+    {
+      "requirement_id": "C03",
+      "requirement_text": "Implement access control.",
+      "tier": "adversarially_ambiguous",
+      "expected_ambiguity": "high",
+      "fod": 0.125,
+      "dc": 8,
+      "fc_count": 2,
+      "category_counts": {
+        "ASM": 5,
+        "ERR": 1,
+        "SEC": 1,
+        "OMI": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in four of the eight fields, reflecting that the underspecified requirement left multiple design dimensions unconstrained."
+    },
+    {
+      "requirement_id": "C04",
+      "requirement_text": "Make the system reliable.",
+      "tier": "adversarially_ambiguous",
+      "expected_ambiguity": "high",
+      "fod": 0.375,
+      "dc": 8,
+      "fc_count": 2,
+      "category_counts": {
+        "ASM": 4,
+        "OMI": 3,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 4 of the 8 fields, reflecting that the undefined requirement caused models to independently introduce incompatible design choices across core behavior, inputs, outputs, and failure modes."
+    },
+    {
+      "requirement_id": "C05",
+      "requirement_text": "Process payments securely.",
+      "tier": "adversarially_ambiguous",
+      "expected_ambiguity": "high",
+      "fod": 0.625,
+      "dc": 7,
+      "fc_count": 3,
+      "category_counts": {
+        "ASM": 2,
+        "OMI": 5
+      },
+      "summary": "OMI was the most frequently assigned category, appearing in 4 of the 8 fields, driven primarily by Model B's empty arrays for outputs, assumptions, failure_modes, and edge_cases."
+    },
+    {
+      "requirement_id": "C06",
+      "requirement_text": "Handle errors appropriately.",
+      "tier": "adversarially_ambiguous",
+      "expected_ambiguity": "high",
+      "fod": 0.375,
+      "dc": 8,
+      "fc_count": 2,
+      "category_counts": {
+        "ASM": 6,
+        "OMI": 2
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 5 of 8 fields, reflecting that the underspecified requirement caused models to independently introduce incompatible design choices across most dimensions."
+    },
+    {
+      "requirement_id": "C07",
+      "requirement_text": "Ensure data consistency across the system.",
+      "tier": "adversarially_ambiguous",
+      "expected_ambiguity": "high",
+      "fod": 0.125,
+      "dc": 8,
+      "fc_count": 1,
+      "category_counts": {
+        "ASM": 4,
+        "OMI": 1,
+        "ERR": 1,
+        "SEC": 1,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 3 of the 8 fields."
+    },
+    {
+      "requirement_id": "C08",
+      "requirement_text": "Build a notification system for the application.",
+      "tier": "adversarially_ambiguous",
+      "expected_ambiguity": "high",
+      "fod": 0.0,
+      "dc": 8,
+      "fc_count": 1,
+      "category_counts": {
+        "ASM": 5,
+        "ERR": 1,
+        "SEC": 1,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 4 of the 8 fields, reflecting that the underspecified requirement led models to independently introduce different design choices across channels, inputs, outputs, and edge cases."
+    },
+    {
+      "requirement_id": "C09",
+      "requirement_text": "The checkout flow should be smooth and conversion-optimized.",
+      "tier": "adversarially_ambiguous",
+      "expected_ambiguity": "high",
+      "fod": 0.375,
+      "dc": 8,
+      "fc_count": 1,
+      "category_counts": {
+        "ASM": 5,
+        "OMI": 3
+      },
+      "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 4 of 8 fields, reflecting that the vague requirement caused models to independently introduce incompatible design choices across core behavior, inputs, outputs, security, and performance."
+    },
+    {
+      "requirement_id": "C10",
+      "requirement_text": "The system should scale.",
+      "tier": "adversarially_ambiguous",
+      "expected_ambiguity": "high",
+      "fod": 0.25,
+      "dc": 8,
+      "fc_count": 3,
+      "category_counts": {
+        "ASM": 4,
+        "ERR": 1,
+        "OMI": 2,
+        "CON-S": 1
+      },
+      "summary": "ASM (Assumption Divergence) appeared most frequently across the eight fields, occurring in core_behavior, inputs, and assumptions."
+    }
+  ]
+}

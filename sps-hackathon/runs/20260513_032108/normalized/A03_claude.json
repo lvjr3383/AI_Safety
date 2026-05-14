@@ -1,0 +1,42 @@
+{
+  "core_behavior": [
+    "The system accepts a list of integers and returns a new list containing only the unique values from the input, sorted in ascending (lowest-to-highest) numerical order.",
+    "Duplicate values are removed such that each integer appears exactly once in the output.",
+    "The original input list is not modified."
+  ],
+  "inputs": [
+    "A finite, ordered collection of integer values, possibly containing duplicates, negatives, zeros, or large values.",
+    "Integers may be positive, negative, or zero.",
+    "The list may contain any number of elements, including zero elements.",
+    "All elements must be integers; mixed types are not accepted."
+  ],
+  "outputs": [
+    "A new list of integers, deduplicated and sorted in ascending order.",
+    "The output list length is equal to the number of distinct integer values in the input.",
+    "The output list is ordered from the smallest integer value to the largest.",
+    "The output is a new list; the input list is not mutated."
+  ],
+  "assumptions": [
+    "The system operates on whole numbers only. Floating-point values (e.g., 1.0, 2.5) are not considered integers and are rejected, even if they are numerically whole.",
+    "'Ascending' means standard numerical order (e.g., -10 < -1 < 0 < 1 < 10).",
+    "Two values are considered duplicates if and only if they are equal by value (e.g., 1 == 1).",
+    "The function does not modify the input list in place; it returns a new list.",
+    "Since all elements are integers and uniqueness is enforced, there is no need for a secondary sort criterion.",
+    "The entire list is processed in memory. No streaming or pagination is assumed.",
+    "This specification does not prescribe a specific programming language or implementation. Integer size limits are governed by the host language/platform."
+  ],
+  "failure_modes": [
+    "If input contains a non-integer element (e.g., a float, string, or null/None), raise a type error (or equivalent exception) immediately, before producing any output. The error message must identify that a non-integer value was encountered.",
+    "If input is null/None (not a list at all), raise a null/argument error indicating that a valid list is required.",
+    "If input is not a list type (e.g., a scalar integer, a set, a string), raise a type error indicating that the input must be a list.",
+    "The system must not silently coerce or skip invalid elements; all errors must be surfaced explicitly."
+  ],
+  "edge_cases": [
+    "Empty list: input [] returns [].",
+    "Single element: input [42] returns [42].",
+    "All duplicates: input [5, 5, 5, 5] returns [5].",
+    "Already sorted, no duplicates: input [1, 2, 3, 4] returns [1, 2, 3, 4]."
+  ],
+  "security_constraints": [],
+  "performance_constraints": []
+}

@@ -1,0 +1,43 @@
+{
+  "core_behavior": [
+    "The system must validate passwords to ensure they meet specific security criteria.",
+    "A password is considered valid if it is between 8 and 128 characters in length.",
+    "A password is considered valid if it contains at least one uppercase letter (A-Z).",
+    "A password is considered valid if it contains at least one lowercase letter (a-z).",
+    "A password is considered valid if it contains at least one digit (0-9).",
+    "A password is considered valid if it contains at least one special character (e.g., !, @, #, $, %, ^, &, *, (, ), etc.)."
+  ],
+  "inputs": [
+    "The system accepts a single input: a string representing the password to be validated."
+  ],
+  "outputs": [
+    "The system returns a boolean value: `true` if the password meets all the specified criteria.",
+    "The system returns a boolean value: `false` if the password fails to meet any of the specified criteria."
+  ],
+  "assumptions": [
+    "The special characters considered valid are those typically found on a standard US keyboard: `!@#$%^&*()-_=+[]{}|;:'\",.<>?/`.",
+    "The system is case-sensitive, meaning 'A' and 'a' are considered different characters.",
+    "The input password is a plain text string and does not contain any non-printable characters.",
+    "The system does not need to provide feedback on which specific criteria were not met if the password is invalid."
+  ],
+  "failure_modes": [
+    "If the input is not a string, the system will return `false`.",
+    "If the input is `null` or an empty string, the system will return `false`.",
+    "If the input exceeds 128 characters, the system will return `false`."
+  ],
+  "edge_cases": [
+    "A password exactly 8 characters long that meets all other criteria should return `true`.",
+    "A password exactly 128 characters long that meets all other criteria should return `true`.",
+    "A password with only one character type (e.g., all lowercase letters) should return `false`.",
+    "A password with no special characters should return `false`.",
+    "A password with spaces or non-printable characters should be considered invalid and return `false`."
+  ],
+  "security_constraints": [
+    "The system must not store or log passwords in any form to ensure user privacy and security.",
+    "The system should be resistant to injection attacks and should sanitize inputs to prevent security vulnerabilities."
+  ],
+  "performance_constraints": [
+    "The system should validate passwords in real-time, with a response time of less than 100 milliseconds for typical use cases.",
+    "The system should handle up to 1000 password validation requests per second without degradation in performance."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "core_behavior": [
+    "Implementing robust error handling mechanisms to detect, report, and recover from errors",
+    "Using reliable algorithms and data structures to prevent data corruption or loss",
+    "Ensuring that the system can withstand expected and unexpected inputs, loads, and environmental conditions",
+    "Providing mechanisms for monitoring, logging, and analyzing system performance and errors to facilitate debugging and maintenance"
+  ],
+  "inputs": [
+    "User input (e.g., commands, data, configuration settings)",
+    "Environmental inputs (e.g., network connectivity, hardware resources)",
+    "Scheduled or periodic inputs (e.g., cron jobs, timer events)"
+  ],
+  "outputs": [
+    "User-facing output (e.g., display screens, reports, alerts)",
+    "Log files and audit trails",
+    "Error messages and exception reports",
+    "Performance metrics and monitoring data"
+  ],
+  "assumptions": [
+    "The system will be designed and implemented using a modular, component-based architecture to facilitate fault isolation and recovery",
+    "The system will use redundant components or services where possible to ensure continued operation in the event of a failure",
+    "The system will be regularly updated and maintained to ensure that known vulnerabilities and issues are addressed",
+    "The system will be designed to fail safely, preventing damage to data, hardware, or other systems in the event of a failure"
+  ],
+  "failure_modes": [
+    "Detect and report the failure to the user or system administrator",
+    "Attempt to recover from the failure using automated mechanisms (e.g., retrying failed operations, switching to redundant components)",
+    "Provide diagnostic information to facilitate debugging and maintenance",
+    "Prevent data loss or corruption by using transactional mechanisms or backups",
+    "Fail safely, preventing damage to hardware or other systems"
+  ],
+  "edge_cases": [
+    "Unexpected input or data formats",
+    "Network or hardware failures",
+    "Power outages or other environmental disruptions",
+    "High loads or stress conditions",
+    "Simultaneous failures of multiple components or services"
+  ],
+  "security_constraints": [
+    "Implement secure coding practices and secure protocols for communication",
+    "Use secure storage and encryption mechanisms for sensitive data",
+    "Authenticate and authorize users and services to prevent unauthorized access",
+    "Regularly update and patch dependencies and components to prevent exploitation of known vulnerabilities"
+  ],
+  "performance_constraints": [
+    "Respond to user input and requests within a reasonable time frame (e.g., 1-2 seconds)",
+    "Maintain a high level of throughput and processing capacity under expected loads",
+    "Use caching, buffering, or other optimization techniques to minimize latency and improve performance",
+    "Monitor and report performance metrics to facilitate tuning and optimization"
+  ]
+}

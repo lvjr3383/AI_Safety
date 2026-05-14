@@ -1,0 +1,37 @@
+{
+  "core_behavior": [
+    "The system must validate user input to ensure it meets predefined criteria before any processing occurs.",
+    "Validation involves checking the input for correctness, completeness, and compliance with expected formats or ranges."
+  ],
+  "inputs": [
+    "User input data, which can be of various types such as text, numbers, dates, or structured data (e.g., JSON, XML).",
+    "Validation rules or criteria, which define the acceptable format, range, or type for each input field."
+  ],
+  "outputs": [
+    "A validation result indicating whether the input is valid or invalid.",
+    "If invalid, a detailed error message or list of error messages specifying which validation rules were violated and why."
+  ],
+  "assumptions": [
+    "The validation rules are predefined and can be updated as needed without altering the core validation logic.",
+    "The system assumes that input data is received in a format that can be parsed and analyzed according to the validation rules.",
+    "The system will operate in a synchronous manner, providing immediate feedback on input validity."
+  ],
+  "failure_modes": [
+    "If the input data is malformed or cannot be parsed, the system will return an error message indicating the nature of the parsing failure.",
+    "If the validation rules are not properly configured or are missing, the system will return an error indicating a configuration issue.",
+    "In case of system resource limitations (e.g., memory or processing power), the system will return an error indicating that it cannot perform validation at this time."
+  ],
+  "edge_cases": [
+    "Empty input: The system should handle empty input gracefully, returning a specific error message indicating that input is required.",
+    "Maximum input size: The system should define and enforce a maximum input size to prevent excessive resource consumption, returning an error if this limit is exceeded.",
+    "Special characters: The system should correctly handle and validate inputs containing special characters, ensuring they do not cause validation failures unless explicitly disallowed by the rules."
+  ],
+  "security_constraints": [
+    "The system must sanitize inputs to prevent injection attacks (e.g., SQL injection, cross-site scripting).",
+    "The system must ensure that error messages do not expose sensitive information about the validation logic or system internals."
+  ],
+  "performance_constraints": [
+    "The system should validate inputs within a reasonable time frame, ideally under 100 milliseconds per input, to ensure a responsive user experience.",
+    "The system should be capable of handling concurrent validation requests without significant degradation in performance."
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "core_behavior": [
+    "The system is responsible for creating, routing, delivering, storing, and managing notifications to users across one or more delivery channels.",
+    "The system must support the following lifecycle states for every notification: CREATED, PENDING, DELIVERED, READ, FAILED, DISMISSED, EXPIRED, ARCHIVED.",
+    "CREATED: Notification has been generated and queued.",
+    "PENDING: Notification is awaiting delivery.",
+    "DELIVERED: Notification has been successfully sent to the channel.",
+    "READ: User has acknowledged or opened the notification.",
+    "FAILED: Delivery failed after all retry attempts.",
+    "DISMISSED: User explicitly dismissed the notification.",
+    "EXPIRED: Notification exceeded its TTL without being read.",
+    "ARCHIVED: Notification moved to long-term storage.",
+    "The system must support the following notification categories: Informational, Warning, Error/Alert, Action Required, Promotional, System.",
+    "Informational \u2014 General status updates (e.g., 'Your report is ready').",
+    "Warning \u2014 Conditions requiring user attention (e.g., 'Storage is 90% full').",
+    "Error/Alert \u2014 Critical conditions requiring immediate action.",
+    "Action Required \u2014 Notifications that include one or more actionable responses.",
+    "Promotional \u2014 Marketing or feature-announcement messages (opt-in only).",
+    "System \u2014 Internal system events (e.g., maintenance windows, version updates).",
+    "The system must support delivery via the following channels: In-App, Email, SMS, Push Notification, Webhook.",
+    "In-App \u2014 Displayed within the application UI (bell icon / notification center).",
+    "Email \u2014 Sent to the user's registered email address.",
+    "SMS \u2014 Sent to the user's registered mobile number.",
+    "Push Notification \u2014 Sent to registered mobile or desktop devices via push service.",
+    "Webhook \u2014 HTTP POST to a user- or system-configured endpoint.",
+    "Each notification may be delivered to one or more channels simultaneously.",
+    "Channel selection is governed by notification type, user preferences, and system rules.",
+    "Each notification type has a default channel set defined in system configuration.",
+    "User preferences override defaults, except for mandatory system notifications.",
+    "Mandatory system notifications (e.g., security alerts, account lockouts) are always delivered via all available channels regardless of user preferences.",
+    "If a preferred channel is unavailable, the system must fall back to the next available channel in the user's preference order.",
+    "Promotional notifications require explicit user opt-in per channel; they must not be sent if no opt-in exists.",
+    "Users must be able to view all in-app notifications in a notification center panel.",
+    "Notifications must be displayed in reverse-chronological order by default.",
+    "Users must be able to filter by: type, read/unread status, date range.",
+    "Users must be able to sort by: date, type, priority.",
+    "Unread count must be displayed as a badge on the notification icon.",
+    "Users must be able to mark individual notifications or all notifications as read.",
+    "Users must be able to dismiss (delete) individual notifications or all notifications.",
+    "All notification content must be generated from versioned templates.",
+    "Templates must support variable interpolation (e.g., {{user.name}}, {{event.timestamp}}).",
+    "Templates must be channel-specific (an email template differs from an SMS template for the same event).",
+    "Templates must support localization (i18n); the system must select the template matching the user's locale, falling back to the default locale (en-US) if no match exists.",
+    "Notifications may be scheduled for future delivery with a specified deliver_at timestamp.",
+    "The system must support per-user throttle limits to prevent notification fatigue.",
+    "Default throttle limit: no more than 20 notifications per user per hour across all channels.",
+    "Throttle limits are configurable per notification type and per channel."
+  ],
+  "inputs": [
+    "Notification type (Informational, Warning, Error/Alert, Action Required, Promotional, System).",
+    "User preferences for delivery channels.",
+    "System configuration defining default channel sets per notification type.",
+    "deliver_at timestamp for scheduled notifications.",
+    "Template variables for interpolation (e.g., user.name, event.timestamp).",
+    "User's locale for template selection.",
+    "User- or system-configured webhook endpoint.",
+    "User's registered email address.",
+    "User's registered mobile number.",
+    "Registered mobile or desktop devices for push notification delivery.",
+    "Explicit user opt-in per channel for promotional notifications."
+  ],
+  "outputs": [
+    "In-app notifications displayed within the application UI (bell icon / notification center).",
+    "Email notifications sent to the user's registered email address.",
+    "SMS notifications sent to the user's registered mobile number.",
+    "Push notifications sent to registered mobile or desktop devices via push service.",
+    "HTTP POST to a user- or system-configured webhook endpoint.",
+    "Unread count badge displayed on the notification icon.",
+    "Error log entry when template rendering fails.",
+    "Notification lifecycle state transitions (CREATED, PENDING, DELIVERED, READ, FAILED, DISMISSED, EXPIRED, ARCHIVED)."
+  ],
+  "assumptions": [
+    "Users have a registered email address for email delivery.",
+    "Users have a registered mobile number for SMS delivery.",
+    "Users have registered mobile or desktop devices for push notification delivery.",
+    "The default locale is en-US."
+  ],
+  "failure_modes": [
+    "Delivery failed after all retry attempts results in FAILED state.",
+    "Template rendering failures must not silently produce partial output; they must trigger a FAILED state with an error log entry.",
+    "If a preferred channel is unavailable, the system must fall back to the next available channel in the user's preference order."
+  ],
+  "edge_cases": [
+    "Mandatory system notifications are always delivered via all available channels regardless of user preferences.",
+    "Promotional notifications must not be sent if no opt-in exists.",
+    "If no locale match exists for a template, the system falls back to the default locale (en-US).",
+    "Notification exceeded its TTL without being read results in EXPIRED state."
+  ],
+  "security_constraints": [
+    "Mandatory system notifications (e.g., security alerts, account lockouts) are always delivered via all available channels regardless of user preferences."
+  ],
+  "performance_constraints": [
+    "Default throttle limit: no more than 20 notifications per user per hour across all channels.",
+    "Throttle limits are configurable per notification type and per channel."
+  ]
+}

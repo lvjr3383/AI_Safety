@@ -1,0 +1,51 @@
+# Software Specification: Bcrypt Password Hashing
+
+## 1. Core Behavior
+
+The system must transform any plaintext password into a bcrypt hash before persisting it to the database. The plaintext password must be discarded from memory as soon as the hash is produced and must never appear in any persistent storage, log, cache, queue, or external system. The hashing operation must be performed synchronously within the password-setting workflow so that no code path exists that could store a password prior to hashing.
+
+The system must also expose a verification function that accepts a plaintext candidate password and a stored bcrypt hash and returns a boolean indicating whether they match, without ever storing or logging the candidate plaintext.
+
+---
+
+## 2. Inputs
+
+### 2.1 Hash Operation
+| Parameter | Type | Constraints |
+|---|---|---|
+| `plaintext_password` | String | Non-null; non-empty; must satisfy any upstream password policy before this function is called; treated as sensitive material |
+| `cost_factor` | Integer (optional override) | Must be ≥ 12; defaults to 12; values > 31 are rejected as invalid per bcrypt specification |
+
+### 2.2 Verify Operation
+| Parameter | Type | Constraints |
+|---|---|---|
+| `plaintext_candidate` | String | Non-null; non-empty; treated as sensitive material |
+| `stored_hash` | String | Non-null; must be a valid bcrypt hash string in Modular Crypt Format (e.g., `$2b$...`) |
+
+---
+
+## 3. Outputs
+
+### 3.1 Hash Operation
+- Returns a bcrypt hash string in standard Modular Crypt Format (`$2b$<cost>$<22-char salt><31-char hash>`), totaling 60 characters.
+- The returned string is safe for storage in the database.
+- The cost factor is embedded in the returned hash string and must reflect the actual cost used.
+
+### 3.2 Verify Operation
+- Returns `true` if the candidate matches the stored hash.
+- Returns `false` in all other cases (mismatch, malformed hash, empty input after trimming internal checks).
+- Must execute in constant time relative to the hash comparison to prevent timing-based side-channel attacks.
+
+---
+
+## 4. Assumptions
+
+1. **Algorithm variant**: The `$2b$` prefix variant of bcrypt is used exclusively. The older `$2a$` and `$2y$` variants are not produced but may be accepted during verification for backward compatibility with legacy records (explicit decision; must be documented in code).
+2. **Default cost factor**: 12 is the enforced minimum and the default. The cost factor may be increased via configuration to accommodate future hardware improvements, but it may never be decreased below 12 at runtime or via configuration.
+3. **Salt generation**: A cryptographically secure random 128-bit (16-byte) salt is generated fresh for every hash operation using the platform's CSPRNG (e.g., `/dev/urandom` on Linux, `BCryptGenRandom` on Windows). Salts are never reused or supplied externally by callers.
+4. **Password encoding**: Plaintext passwords are encoded as UTF-8 bytes before hashing.
+5. **72-byte truncation awareness**: bcrypt natively truncates input at 72 bytes. The system must document this limitation. If upstream password policy permits passwords longer than 72 bytes, a pre-hashing step (e.g., HMAC-SHA256 with a server-side pepper, then base64-encode before bcrypt) must be applied — this is flagged as a required design decision for the consuming team but is out of scope for this specification unless explicitly adopted.
+6. **Pepper**: No server-side pepper is applied by default in this specification. If a pepper is desired, it must be specified as a separate requirement.
+7. **Database column**: The password column in the database must be defined as a fixed-length or variable-length character field of at least 60 characters (recommend `CHAR(60)` or `VARCHAR(72)` for forward compatibility).
+8. **Calling context**: This module is called by the application layer (registration, password reset, admin password change). It is not called by authentication middleware directly — authentication middleware calls the verify function only.
+9. **Thread safety**: The hash and verify functions are stateless and must be

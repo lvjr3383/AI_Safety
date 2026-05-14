@@ -1,0 +1,49 @@
+{
+  "core_behavior": [
+    "The system must consistently perform its intended functions under predefined conditions without failure.",
+    "The system should be able to recover from errors and continue to operate within acceptable parameters.",
+    "The system should maintain data integrity and prevent data loss during operations."
+  ],
+  "inputs": [
+    "User requests and commands.",
+    "System configuration settings.",
+    "External data sources and APIs.",
+    "Error and exception reports."
+  ],
+  "outputs": [
+    "Successful execution of user commands.",
+    "Error messages and logs in case of failures.",
+    "Status reports indicating system health and performance.",
+    "Alerts or notifications for critical failures or issues."
+  ],
+  "assumptions": [
+    "The system is assumed to be a software application running on a server or distributed network.",
+    "The system will have access to a reliable data storage mechanism (e.g., database, cloud storage).",
+    "The system will have a logging mechanism to record errors and system events.",
+    "The system will have a monitoring tool to track performance and detect anomalies."
+  ],
+  "failure_modes": [
+    "In the event of a hardware failure, the system should switch to a backup server or enter a safe mode to prevent data loss.",
+    "If a software bug is encountered, the system should log the error, notify the administrator, and attempt to restart the affected module.",
+    "Network failures should trigger a retry mechanism and, if persistent, an alert to the system administrator.",
+    "Data corruption should trigger an automatic rollback to the last known good state."
+  ],
+  "edge_cases": [
+    "Handling of maximum input size and unexpected input formats.",
+    "Operation under peak load conditions.",
+    "Recovery from simultaneous failures in multiple system components.",
+    "Handling of incomplete or corrupted data inputs."
+  ],
+  "security_constraints": [
+    "The system must ensure data confidentiality and integrity during transmission and storage.",
+    "Access to system functions and data should be restricted based on user roles and permissions.",
+    "The system should be protected against common security threats such as SQL injection, cross-site scripting, and denial-of-service attacks.",
+    "Regular security audits and updates should be performed to address vulnerabilities."
+  ],
+  "performance_constraints": [
+    "The system should maintain a response time of less than 2 seconds for 95% of user requests under normal operating conditions.",
+    "The system should be able to handle a specified number of concurrent users (e.g., 10,000) without degradation in performance.",
+    "The system should have a downtime of less than 0.1% annually, including scheduled maintenance.",
+    "The system should efficiently utilize resources to minimize operational costs while maintaining reliability."
+  ]
+}

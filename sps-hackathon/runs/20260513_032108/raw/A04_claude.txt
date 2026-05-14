@@ -1,0 +1,103 @@
+# Software Specification: HTTP 404 Not Found API Error Response
+
+## 1. Core Behavior
+
+When a client requests a resource that does not exist on the server, the API endpoint must:
+
+1. Detect that the requested resource cannot be located.
+2. Halt normal response processing for that request.
+3. Return an HTTP response with status code `404`.
+4. Include a structured JSON body containing a machine-readable error code and a human-readable message.
+5. Apply this behavior uniformly across all endpoints that perform resource lookup.
+
+The 404 response must be returned exclusively when the resource does not exist. It must not be used for authorization failures, validation errors, or other error conditions.
+
+---
+
+## 2. Inputs
+
+| Input | Description |
+|---|---|
+| HTTP Request Method | Any valid HTTP method (GET, POST, PUT, PATCH, DELETE, etc.) |
+| Request URI | The path and optional query string identifying the requested resource |
+| Request Headers | Standard HTTP headers; `Accept` header may be present but does not alter the 404 behavior (see Assumptions) |
+| Path Parameters | Variable segments of the URI used to identify the specific resource (e.g., `/users/{id}`) |
+| Query Parameters | Optional filters or identifiers; if a query parameter is the sole means of identifying a resource, absence of a matching record still triggers a 404 |
+
+---
+
+## 3. Outputs
+
+### 3.1 HTTP Status Code
+
+```
+404 Not Found
+```
+
+### 3.2 Response Headers
+
+| Header | Required Value |
+|---|---|
+| `Content-Type` | `application/json` |
+| `Cache-Control` | `no-store` |
+
+Additional standard headers (e.g., `Date`, `Request-Id`) may be included per general API policy.
+
+### 3.3 Response Body
+
+The response body must be a valid JSON object conforming to the following structure:
+
+```json
+{
+  "error": {
+    "code": "<string>",
+    "message": "<string>"
+  }
+}
+```
+
+#### Field Definitions
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `error` | Object | Yes | Top-level wrapper for all error information |
+| `error.code` | String | Yes | A stable, machine-readable identifier for this error type |
+| `error.message` | String | Yes | A human-readable explanation of the error, safe to display to end users |
+
+#### Example Response Body
+
+```json
+{
+  "error": {
+    "code": "RESOURCE_NOT_FOUND",
+    "message": "The requested resource could not be found."
+  }
+}
+```
+
+### 3.4 Error Code Values
+
+The `error.code` field must use one of the following defined values:
+
+| Code | When to Use |
+|---|---|
+| `RESOURCE_NOT_FOUND` | General-purpose: the resource identified by the URI does not exist |
+| `<ENTITY>_NOT_FOUND` | Entity-specific variant when the API serves multiple resource types (e.g., `USER_NOT_FOUND`, `ORDER_NOT_FOUND`) |
+
+The choice between general and entity-specific codes is determined per endpoint at design time and must be documented in the API reference. Once assigned, a code value must not change (it is a stable contract).
+
+### 3.5 Human-Readable Message Requirements
+
+- Must be written in English (see Assumptions for localization).
+- Must not expose internal system details (stack traces, database identifiers, file paths, server names).
+- Must not include the value of the missing identifier in the message string (to prevent information leakage about valid vs. invalid identifiers in sensitive contexts — see Security Constraints).
+- Must be a complete, grammatically correct sentence ending with a period.
+- Maximum length: 256 characters.
+
+---
+
+## 4. Assumptions
+
+1. **Content negotiation is not applied to error responses.** Regardless of the `Accept` header sent by the client, error responses are always returned as `application/json`. If the API otherwise supports multiple content types, this is an explicit exception for error handling.
+2. **Localization is out of scope.** All messages are returned in English. Internationalization may be addressed in a future iteration.
+3. **Authentication and authorization are handled upstream.** If a resource exists but the caller lacks permission to access

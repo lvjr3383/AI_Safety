@@ -1,0 +1,75 @@
+{
+  "requirement_id": "B08",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B specifies reject-only with non-destructive validation and fail-all vs fail-fast modes; Models A and C are silent on reject vs sanitize-and-continue, which is an unspecified design choice in the requirement.",
+      "": ""
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model B enumerates an extensive list of input sources and rule types including HTTP contexts, CLI, and inter-service payloads; Models A and C describe generic field types without specifying input channels or rule taxonomies.",
+      "": ""
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies HTTP 422 with structured JSON error payload, CLI stderr with exit code 2, and dead-letter queue behavior; Models A and C describe generic error messages and validation results without channel-specific output formats.",
+      "": ""
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B assumes a declarative externally-defined schema cached at startup; Model A assumes predefined rules including sanitization; Model C assumes synchronous operation and updatable rules without altering core logic.",
+      "": ""
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model B specifies channel-specific failure behaviors including dead-letter queues and exit code 2; Model A specifies logging and blocking processing; Model C specifies parsing failure and configuration error responses.",
+      "": ""
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B includes async uniqueness checks, sensitive field redaction, and fail-fast configuration; Model A covers null/empty/boundary/special characters; Model C covers maximum input size and special characters.",
+      "": ""
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "SEC",
+      "fc_flag": false,
+      "note": "Model B focuses on sensitive field redaction in error responses and content safety (null bytes, control characters); Models A and C focus on SQL injection and XSS sanitization; Model C additionally requires error messages not expose system internals.",
+      "": ""
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": false,
+      "note": "Model A specifies under 1 second per validation; Model C specifies under 100 milliseconds per input; Model B provides no performance constraints.",
+      "": ""
+    }
+  },
+  "dc": 8,
+  "fc_count": 2,
+  "category_counts": {
+    "ASM": 5,
+    "ERR": 1,
+    "SEC": 1,
+    "CON-S": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in 4 of the 8 fields, reflecting that the underspecified requirement led models to independently introduce different design choices across inputs, core behavior, outputs, assumptions, and edge cases.",
+  "label_map": {
+    "A": "llama",
+    "B": "claude",
+    "C": "gpt4o"
+  }
+}

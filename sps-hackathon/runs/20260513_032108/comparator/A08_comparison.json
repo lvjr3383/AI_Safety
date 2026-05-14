@@ -1,0 +1,69 @@
+{
+  "requirement_id": "A08",
+  "field_results": {
+    "core_behavior": {
+      "divergence": false,
+      "category": null,
+      "fc_flag": true,
+      "note": "All three models agree on the core rate-limiting behavior but none explicitly addresses consistency across distributed instances.",
+      "": ""
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies detailed structured inputs including HTTP method, endpoint path, and configuration constants, while Models A and C specify only authentication tokens and timestamps at a high level."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies extensive additional response headers (X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset) and a structured JSON error body, while Models A and C specify only the required HTTP 429 and Retry-After header."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "CON",
+      "fc_flag": false,
+      "note": "Model A assumes a sliding window algorithm while Model B explicitly assumes a fixed window (tumbling) algorithm aligned to clock-minute boundaries, and Model C also assumes a sliding window \u2014 Models A/C and B are directly incompatible on the windowing strategy."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ERR",
+      "fc_flag": false,
+      "note": "Model A defaults to denying requests when the rate-limit store is unavailable, Model C returns HTTP 500, and Model B does not address store unavailability as a failure mode."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Models differ on edge cases covered: Model B addresses the 200-request burst across window boundaries specific to fixed windows, Model C addresses invalid tokens and clock skew, and Model A addresses boundary-second counting and clock drift."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "SEC",
+      "fc_flag": true,
+      "note": "Model B explicitly specifies that unauthenticated requests must be rejected with 401 before rate-limit checks and must not consume quota, while Models A and C do not specify this ordering or quota-protection behavior; none explicitly addresses per-user vs per-IP identity binding as a security constraint."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty performance_constraints array while Models A and C specify latency, scalability, and concurrency thresholds."
+    }
+  },
+  "dc": 7,
+  "fc_count": 2,
+  "category_counts": {
+    "ASM": 3,
+    "CON": 1,
+    "ERR": 1,
+    "SEC": 1,
+    "OMI": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in three fields: inputs, outputs, and edge_cases.",
+  "label_map": {
+    "A": "gpt4o",
+    "B": "claude",
+    "C": "llama"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "core_behavior": [
+    "Monitor database performance metrics, such as query execution times, disk usage, memory usage, and CPU utilization.",
+    "Analyze database schema, indexing, and query patterns to identify potential performance issues.",
+    "Apply optimization techniques: indexing and re-indexing tables, reorganizing and re-partitioning data, optimizing query execution plans, caching frequently accessed data, implementing connection pooling and load balancing.",
+    "Provide recommendations for database configuration changes, such as adjusting buffer pool sizes, modifying query timeout settings, and optimizing database parameter settings."
+  ],
+  "inputs": [
+    "Database connection parameters (e.g., database name, username, password, host, port)",
+    "Database schema information (e.g., table structures, relationships, indexing)",
+    "Query patterns and execution plans",
+    "Performance metrics data (e.g., query execution times, disk usage, memory usage, CPU utilization)",
+    "User-defined optimization goals and constraints (e.g., prioritize query performance, minimize storage usage)"
+  ],
+  "outputs": [
+    "Performance optimization recommendations, including indexing and re-indexing suggestions, query optimization plans, database configuration changes, and caching and connection pooling recommendations.",
+    "Performance metrics and analysis reports, including query execution time distributions, disk usage and memory usage trends, and CPU utilization patterns.",
+    "Database schema and configuration changes, applied automatically or manually based on user preferences."
+  ],
+  "assumptions": [
+    "The system will support relational databases (e.g., MySQL, PostgreSQL, Oracle) and NoSQL databases (e.g., MongoDB, Cassandra).",
+    "The system will use a combination of static analysis and dynamic monitoring to identify performance issues.",
+    "The system will provide a web-based interface for users to input optimization goals and constraints, view performance metrics and analysis reports, and apply optimization recommendations.",
+    "The system will use machine learning algorithms to predict performance bottlenecks and recommend optimization strategies."
+  ],
+  "failure_modes": [
+    "Database connection failures: The system will retry database connections and provide error messages to the user.",
+    "Insufficient permissions: The system will provide error messages to the user and request elevated permissions to perform optimization tasks.",
+    "Inconsistent or incomplete database schema information: The system will use heuristics to infer missing information or request user input to resolve inconsistencies.",
+    "Optimization recommendation failures: The system will provide error messages to the user and offer alternative optimization strategies."
+  ],
+  "edge_cases": [
+    "Very large databases: The system will use sampling techniques to analyze performance metrics and provide optimization recommendations.",
+    "Highly concurrent databases: The system will use locking mechanisms to ensure consistent analysis and optimization results.",
+    "Databases with complex schema: The system will use graph-based analysis techniques to identify performance issues and recommend optimization strategies.",
+    "Databases with limited resources: The system will provide optimization recommendations that balance performance and resource utilization."
+  ],
+  "security_constraints": [
+    "The system will use secure authentication and authorization mechanisms to ensure only authorized users can access and modify database performance optimization settings.",
+    "The system will encrypt sensitive database connection parameters and performance metrics data.",
+    "The system will implement role-based access control to restrict user access to optimization features and performance metrics data."
+  ],
+  "performance_constraints": [
+    "The system will provide optimization recommendations and performance metrics analysis within 1 minute of user input.",
+    "The system will handle up to 100 concurrent database connections and provide optimization recommendations for each connection.",
+    "The system will use no more than 10% of available CPU and memory resources to perform optimization tasks.",
+    "The system will support optimization of databases with up to 100 GB of storage and 100,000 concurrent users."
+  ]
+}

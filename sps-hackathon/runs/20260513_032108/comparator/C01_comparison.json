@@ -1,0 +1,66 @@
+{
+  "requirement_id": "C01",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "All three models define 'invalid user' and 'gracefully' differently without a shared basis, and none flags that both terms are undefined in the requirement.",
+      "": ""
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B enumerates twelve distinct invalid-user input categories; Models A and C list only basic credential and identifier types."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B specifies granular HTTP status codes and structured JSON error bodies per scenario; Models A and C describe generic error messages and redirects without HTTP codes."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": true,
+      "note": "Model B has an empty assumptions array while Models A and C each define what 'invalid user' means; none flags that the requirement leaves both key terms undefined."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B lists failure modes as a restatement of invalid-user input categories; Models A and C describe system-level failures such as database unavailability and unexpected errors."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model B focuses on malformed identifiers and cross-tenant access; Model A addresses account lifecycle scenarios; Model C focuses on input format issues and injection attempts."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A specifies HTTPS/TLS, salted password hashing, and brute-force limits; Model B focuses on non-leakage and logging; Model C specifies input sanitization and rate limiting without transport or storage requirements."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model B has an empty performance_constraints array while Models A and C specify latency and concurrency requirements."
+    }
+  },
+  "dc": 8,
+  "fc_count": 2,
+  "category_counts": {
+    "ASM": 6,
+    "OMI": 2
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in six of the eight fields, reflecting that the underspecified requirement allowed each model to independently introduce different design choices.",
+  "label_map": {
+    "A": "llama",
+    "B": "claude",
+    "C": "gpt4o"
+  }
+}

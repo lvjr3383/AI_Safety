@@ -1,0 +1,40 @@
+{
+  "core_behavior": [
+    "The system must validate whether an input email address conforms to the specified standard format.",
+    "The system must check that the email address contains exactly one '@' symbol.",
+    "The system must ensure that the local part (the portion before the '@' symbol) is non-empty.",
+    "The system must verify that the domain part (the portion after the '@' symbol) contains at least one dot ('.')."
+  ],
+  "inputs": [
+    "The system accepts a single input: a string representing the email address to be validated."
+  ],
+  "outputs": [
+    "The system returns a boolean value: `true` if the email address conforms to the specified format.",
+    "The system returns a boolean value: `false` if the email address does not conform to the specified format."
+  ],
+  "assumptions": [
+    "The system assumes that the input is a string. If the input is not a string, it will be converted to a string before validation.",
+    "The system assumes that the email address is case-insensitive, meaning 'Example@Domain.com' is equivalent to 'example@domain.com'.",
+    "The system assumes that the local part and domain part do not contain any whitespace characters.",
+    "The system assumes that the domain part must have at least one character before and after each dot."
+  ],
+  "failure_modes": [
+    "If the input is `null` or an empty string, the system will return `false`.",
+    "If the input contains more than one '@' symbol, the system will return `false`.",
+    "If the local part is empty (i.e., there is no character before the '@' symbol), the system will return `false`.",
+    "If the domain part does not contain at least one dot, or if there are no characters before or after the dot, the system will return `false`."
+  ],
+  "edge_cases": [
+    "An email address with leading or trailing spaces will be trimmed before validation.",
+    "An email address with special characters in the local part or domain part will be considered valid as long as it meets the specified format.",
+    "An email address with multiple consecutive dots in the domain part (e.g., 'example@domain..com') will be considered invalid."
+  ],
+  "security_constraints": [
+    "The system must not execute any code or scripts embedded within the email address.",
+    "The system must not expose any internal system information or error messages that could be exploited."
+  ],
+  "performance_constraints": [
+    "The system must validate an email address in constant time, O(1), as the operation involves a fixed number of checks regardless of the length of the email address.",
+    "The system should handle up to 10,000 email validations per second without degradation in performance."
+  ]
+}

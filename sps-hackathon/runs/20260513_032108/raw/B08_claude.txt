@@ -1,0 +1,85 @@
+# Software Specification: User Input Validation
+
+## 1. Core Behavior
+
+The system must intercept all user-supplied input at the point of entry — before any business logic, data storage, or downstream processing occurs — and subject it to a defined set of validation rules. Input that passes all applicable rules is forwarded to the processing pipeline. Input that fails one or more rules is rejected, and the system returns structured error feedback to the caller without invoking any downstream processing.
+
+Validation is **non-destructive by default**: the system must not silently modify, truncate, or coerce input values during validation unless an explicit normalization step is declared as part of the validation contract (see §6, Assumptions).
+
+---
+
+## 2. Inputs
+
+### 2.1 Accepted Input Sources
+- HTTP request bodies (JSON, XML, multipart/form-data, URL-encoded)
+- HTTP query parameters and path parameters
+- HTTP headers (where declared as validated fields)
+- CLI arguments and flags
+- Inter-service API payloads (internal RPC/message-queue messages)
+- File uploads (metadata and content)
+
+### 2.2 Input Field Attributes Subject to Validation
+Each field may be validated against any combination of the following rule categories:
+
+| Category | Examples |
+|---|---|
+| **Presence** | required, optional, conditionally required |
+| **Type** | string, integer, float, boolean, array, object, date, UUID |
+| **Format** | email, URL, ISO 8601 date, E.164 phone, regex pattern |
+| **Length / Size** | min length, max length, exact length, min/max byte size |
+| **Range** | numeric min/max (inclusive/exclusive), date range |
+| **Enumeration** | value must belong to a defined set |
+| **Uniqueness** | value must not already exist in the data store (async check) |
+| **Referential integrity** | value must reference an existing entity |
+| **Structural** | array min/max item count, object required keys |
+| **Cross-field** | field A required only when field B equals value X |
+| **Content safety** | no null bytes, no control characters (unless explicitly permitted) |
+
+---
+
+## 3. Outputs
+
+### 3.1 Success Path
+- The validated (and optionally normalized) input object is passed to the processing layer.
+- No validation-specific response is returned to the caller; the processing layer's normal response applies.
+- An internal audit log entry is written (see §7).
+
+### 3.2 Failure Path — Validation Error Response
+The system returns a structured error payload **before** any processing occurs.
+
+**HTTP context — response:**
+```
+HTTP 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "code": "VALIDATION_FAILURE",
+  "message": "One or more fields failed validation.",
+  "errors": [
+    {
+      "field": "<dot-notation field path>",
+      "rule": "<rule name>",
+      "value": "<rejected value or '[REDACTED]' for sensitive fields>",
+      "message": "<human-readable description>"
+    }
+  ],
+  "request_id": "<UUID>",
+  "timestamp": "<ISO 8601>"
+}
+```
+
+- **All** validation errors across all fields are collected and returned in a single response (fail-all, not fail-fast), unless the system is explicitly configured for fail-fast mode.
+- Sensitive fields (passwords, tokens, PII) must have their `value` replaced with `"[REDACTED]"` in error responses.
+
+**Non-HTTP contexts:**
+- CLI: errors written to `stderr` in human-readable format; exit code `2`.
+- Message queue: message is moved to a dead-letter queue with the error payload attached as metadata.
+- Internal RPC: error struct returned with equivalent field-level detail.
+
+---
+
+## 4. Assumptions
+
+1. **Validation schema is declarative and externally defined.** Each endpoint or operation has an associated schema (e.g., JSON Schema, OpenAPI, or a proprietary DSL) that specifies which rules apply to which fields. The validation engine reads this schema at startup and caches it.
+2. **Normalization is a declared, pre-validation step.** Allowed normalizations (e.g., trim

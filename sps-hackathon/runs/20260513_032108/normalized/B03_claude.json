@@ -1,0 +1,53 @@
+{
+  "core_behavior": [
+    "The system must automatically detect and handle session inactivity or absolute session expiration for authenticated users.",
+    "A session expires after a configurable period of user inactivity (no qualifying user actions recorded).",
+    "A session expires after a configurable maximum wall-clock duration regardless of activity, to prevent indefinitely long sessions.",
+    "When a session is invalidated server-side (e.g., by an admin, password change, or logout from another device), the current session must also be terminated.",
+    "Upon expiration, the system must invalidate the server-side session token/record.",
+    "Upon expiration, the system must notify the user via an in-application warning before expiration (configurable lead time).",
+    "Upon expiration, the system must redirect the user to the login page upon confirmed expiration.",
+    "Upon expiration, the system must preserve the user's intended destination URL so they can be redirected back after re-authentication.",
+    "The system must optionally allow the user to extend the session before expiration via an explicit action (e.g., clicking 'Stay Logged In')."
+  ],
+  "inputs": [
+    "Session token / cookie from client (HTTP header or cookie) \u2014 identifies the user's session on each request.",
+    "Last activity timestamp from server-side session store \u2014 updated on qualifying user actions.",
+    "Session creation timestamp from server-side session store \u2014 used to enforce absolute timeout.",
+    "Inactivity timeout duration from system configuration \u2014 default: 30 minutes.",
+    "Absolute timeout duration from system configuration \u2014 default: 8 hours.",
+    "Warning lead time from system configuration \u2014 default: 2 minutes before expiration.",
+    "'Stay Logged In' action from user (UI interaction) \u2014 resets the inactivity timer.",
+    "User request (any HTTP request) from client \u2014 may qualify as activity to reset inactivity timer.",
+    "Qualifying activity definition from system configuration \u2014 defines which request types reset the inactivity timer (e.g., exclude polling/heartbeat requests)."
+  ],
+  "outputs": [
+    "Warning notification displayed to user (UI) as a modal or banner displayed N minutes before expiration.",
+    "Countdown timer displayed to user (UI) showing time remaining before logout.",
+    "Session expiration response to client as HTTP 401 or redirect to login page on expired session.",
+    "Redirect-after-login URL preserved in session or URL parameter as the destination URL for post-login redirect.",
+    "Audit log entry recorded to server log / audit store with user ID, timestamp, and reason for session expiration.",
+    "Session invalidation applied to server-side session store \u2014 session record marked as expired/deleted.",
+    "'Session Expired' page or message displayed to user (UI) when the user is redirected to login after expiration."
+  ],
+  "assumptions": [
+    "Sessions are stored server-side (e.g., Redis, database). Client-side-only JWT sessions without server-side tracking are out of scope unless a token revocation list is maintained.",
+    "Server clocks are synchronized (NTP). Client-side clocks are not trusted for timeout enforcement; the server is authoritative.",
+    "The client polls a /session/status endpoint (or uses a WebSocket/SSE channel) at a configurable interval (default: every 60 seconds) to check remaining session time. The server does not push warnings unprompted unless a persistent connection is available.",
+    "Only user-initiated HTTP requests (e.g., page navigation, form submissions, explicit API calls) reset the inactivity timer. Background polling requests (e.g., heartbeat, notification polling) do NOT reset the inactivity timer unless explicitly configured to do so.",
+    "'Stay Logged In' action resets the inactivity timer only; it does not extend the absolute session timeout.",
+    "Sessions are identified by an opaque session ID stored in an HttpOnly, Secure, SameSite=Strict cookie.",
+    "All browser tabs sharing the same session are subject to the same session state. Activity in any tab resets the inactivity timer."
+  ],
+  "failure_modes": [],
+  "edge_cases": [],
+  "security_constraints": [
+    "Sessions are identified by an opaque session ID stored in an HttpOnly, Secure, SameSite=Strict cookie.",
+    "Client-side clocks are not trusted for timeout enforcement; the server is authoritative.",
+    "Client-side-only JWT sessions without server-side tracking are out of scope unless a token revocation list is maintained.",
+    "When a session is invalidated server-side (e.g., by an admin, password change, or logout from another device), the current session must also be terminated."
+  ],
+  "performance_constraints": [
+    "The client polls a /session/status endpoint (or uses a WebSocket/SSE channel) at a configurable interval (default: every 60 seconds) to check remaining session time."
+  ]
+}

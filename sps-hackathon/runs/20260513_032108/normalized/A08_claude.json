@@ -1,0 +1,55 @@
+{
+  "core_behavior": [
+    "The system must enforce a rate limit of 100 requests per minute on a designated API endpoint, scoped to each individual authenticated user.",
+    "Each request from an authenticated user is counted against that user's quota.",
+    "When a user exceeds 100 requests within the current rate limit window, all subsequent requests within that window must be rejected with an HTTP 429 Too Many Requests response that includes a Retry-After header indicating when the user may retry.",
+    "The rate limiting mechanism must operate using a fixed window counter strategy.",
+    "The window is 60 seconds in duration.",
+    "The counter resets at the start of each new window."
+  ],
+  "inputs": [
+    "User identity token from HTTP request header (Authorization: Bearer <token>), used to identify and authenticate the user.",
+    "Request timestamp from server clock (UTC), used to determine the current window.",
+    "Target endpoint path from HTTP request URI, used to scope rate limiting to the correct endpoint.",
+    "HTTP method from HTTP request method, included in endpoint matching.",
+    "RATE_LIMIT_MAX_REQUESTS: 100 \u2014 Maximum allowed requests per window.",
+    "RATE_LIMIT_WINDOW_SECONDS: 60 \u2014 Duration of the rate limit window in seconds.",
+    "RATE_LIMIT_SCOPE: Per authenticated user \u2014 Isolation unit for counters."
+  ],
+  "outputs": [
+    "When request is allowed (counter \u2264 100), the request proceeds normally.",
+    "X-RateLimit-Limit header with value 100 must be appended to every response from the rate-limited endpoint, regardless of whether the limit has been reached.",
+    "X-RateLimit-Remaining header with value 100 - current_count must be appended to every response from the rate-limited endpoint.",
+    "X-RateLimit-Reset header with Unix timestamp (UTC) indicating the time at which the current window expires and the counter resets must be appended to every response from the rate-limited endpoint.",
+    "When request is rejected (counter > 100), the system returns an HTTP 429 Too Many Requests response.",
+    "Retry-After header with integer value in seconds until the current window resets, calculated as window_end_timestamp - current_timestamp, rounded up to the nearest whole second, minimum value of 1.",
+    "X-RateLimit-Limit header with value 100 on rejected responses.",
+    "X-RateLimit-Remaining header with value 0 on rejected responses.",
+    "X-RateLimit-Reset header with Unix timestamp (UTC) of window expiry on rejected responses.",
+    "Content-Type header with value application/json on rejected responses.",
+    "Response body JSON with fields: error set to 'rate_limit_exceeded', message set to 'You have exceeded the rate limit of 100 requests per minute. Please retry after {N} seconds.', and retry_after_seconds set to N, where N matches the value of the Retry-After header."
+  ],
+  "assumptions": [
+    "A fixed window (tumbling window) algorithm is used rather than a sliding window or token bucket.",
+    "The window aligns to clock-minute boundaries (e.g., 14:03:00\u201314:03:59 UTC) rather than being relative to the first request.",
+    "The fixed window strategy permits a burst of up to 200 requests across a window boundary; this trade-off is accepted unless the requirement is revised.",
+    "Rate limiting is applied only to authenticated users.",
+    "Unauthenticated requests (missing, invalid, or expired tokens) must be rejected with 401 Unauthorized before the rate limit check is performed.",
+    "Unauthenticated requests do not consume rate limit quota."
+  ],
+  "failure_modes": [
+    "When a user exceeds 100 requests within the current rate limit window, all subsequent requests within that window must be rejected with an HTTP 429 Too Many Requests response.",
+    "Unauthenticated requests (missing, invalid, or expired tokens) must be rejected with 401 Unauthorized before the rate limit check is performed."
+  ],
+  "edge_cases": [
+    "The fixed window strategy permits a burst of up to 200 requests across a window boundary.",
+    "Retry-After value has a minimum value of 1 second.",
+    "X-RateLimit-Remaining is 0 when the limit has been exceeded."
+  ],
+  "security_constraints": [
+    "Rate limiting is applied only to authenticated users.",
+    "Unauthenticated requests (missing, invalid, or expired tokens) must be rejected with 401 Unauthorized before the rate limit check is performed.",
+    "Unauthenticated requests do not consume rate limit quota."
+  ],
+  "performance_constraints": []
+}

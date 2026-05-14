@@ -1,0 +1,5 @@
+Specification to extract:
+
+{raw_generator_output}
+
+Return the extracted JSON now.

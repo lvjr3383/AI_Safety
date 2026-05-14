@@ -1,0 +1,66 @@
+{
+  "requirement_id": "C02",
+  "field_results": {
+    "core_behavior": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Models agree on general optimization intent but diverge significantly in scope and specificity: Model A adds ML-based prediction, Model B focuses on relational SQL, and Model C introduces highly granular thresholds, anti-pattern detection, and explicit operator-approval gates; none define what 'optimize' means against a baseline or target."
+    },
+    "inputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A includes user-defined optimization goals and database credentials as inputs; Model B includes DBMS configuration settings and historical query logs; Model C omits user-defined goals and credentials but adds working set size data and connection utilization patterns."
+    },
+    "outputs": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A outputs schema/configuration changes applied automatically or manually; Model B outputs alerts and notifications for anomalies; Model C outputs DDL statements, configuration diff reports, and ranked recommendations with explicit no-auto-apply constraints."
+    },
+    "assumptions": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": true,
+      "note": "Model A assumes both relational and NoSQL database support with ML algorithms; Model B assumes relational-only with no downtime requirement; Model C assumes relational-only with engine auto-detection; no model specifies a baseline or target performance level."
+    },
+    "failure_modes": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model C has an empty failure_modes array while Models A and B each specify multiple failure scenarios including rollback, permission errors, and schema change detection."
+    },
+    "edge_cases": {
+      "divergence": true,
+      "category": "OMI",
+      "fc_flag": false,
+      "note": "Model C has an empty edge_cases array while Models A and B specify edge cases such as very large datasets, complex schemas, and mixed OLTP/OLAP workloads."
+    },
+    "security_constraints": {
+      "divergence": true,
+      "category": "ASM",
+      "fc_flag": false,
+      "note": "Model A specifies encryption of credentials and RBAC; Model B focuses on data privacy regulation compliance and not exposing sensitive data; Model C focuses exclusively on operator-approval gates for automated changes."
+    },
+    "performance_constraints": {
+      "divergence": true,
+      "category": "CON-S",
+      "fc_flag": false,
+      "note": "Model A specifies a 1-minute recommendation response time, 100 concurrent connections, and 10% CPU/memory cap; Model B specifies no specific numeric thresholds; Model C specifies a 30-second collection interval, 90-day retention, and 95% cache hit ratio alert threshold."
+    }
+  },
+  "dc": 8,
+  "fc_count": 2,
+  "category_counts": {
+    "ASM": 5,
+    "OMI": 2,
+    "CON-S": 1
+  },
+  "summary": "ASM (Assumption Divergence) was the most frequently assigned category, appearing in five of the eight fields, reflecting that the underspecified requirement caused models to independently introduce incompatible design choices across core behavior, inputs, outputs, assumptions, and security constraints.",
+  "label_map": {
+    "A": "llama",
+    "B": "gpt4o",
+    "C": "claude"
+  }
+}

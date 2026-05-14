@@ -1,0 +1,69 @@
+{
+  "core_behavior": [
+    "The system must automatically send a notification to a user when their order transitions to a 'shipped' status.",
+    "The notification must inform the user that their order has been dispatched and provide relevant tracking and order details.",
+    "The notification must be sent exactly once per shipment event per order (or per shipment if an order contains multiple shipments).",
+    "The system must detect or receive the order-shipped event.",
+    "The system must retrieve the relevant user contact information and order details.",
+    "The system must compose a notification message using a defined template.",
+    "The system must deliver the notification via one or more configured channels.",
+    "The system must record the outcome of the notification attempt."
+  ],
+  "inputs": [
+    "The notification is triggered by an order status change event where the new status equals SHIPPED.",
+    "The triggering event may originate from an internal order management system (OMS) publishing a state-change event (e.g., via message queue or webhook).",
+    "The triggering event may originate from a direct API call from a fulfillment or warehouse system.",
+    "The triggering event may originate from a scheduled polling job that detects status changes in the orders database.",
+    "The event payload must include order_id (string UUID): Unique identifier of the order.",
+    "The event payload must include shipment_id (string UUID): Unique identifier of the shipment (supports partial shipments).",
+    "The event payload must include shipped_at (ISO 8601 datetime): Timestamp when the order was marked as shipped.",
+    "The event payload must include user_id (string UUID): Identifier of the user who placed the order.",
+    "The event payload must include carrier (string): Name of the shipping carrier (e.g., 'FedEx', 'UPS').",
+    "The event payload must include tracking_number (string): Carrier-assigned tracking number.",
+    "The event payload must include tracking_url (string URL): Deep link to carrier tracking page.",
+    "The event payload must include estimated_delivery_date (date ISO 8601): Estimated delivery date (optional but recommended).",
+    "The event payload must include items_shipped (array of objects): List of items included in this shipment.",
+    "The system retrieves email address from the user profile service.",
+    "The system retrieves phone number (for SMS) from the user profile service.",
+    "The system retrieves push notification device tokens from the user profile service.",
+    "The system retrieves preferred notification channel(s) from the user profile service.",
+    "The system retrieves preferred language/locale from the user profile service.",
+    "The system retrieves notification opt-in/opt-out status per channel from the user profile service."
+  ],
+  "outputs": [
+    "The system must support Email delivery channel in HTML + plain-text fallback format; required (default).",
+    "The system must support SMS delivery channel in plain text, \u2264160 characters per segment format; optional.",
+    "The system must support Push Notification delivery channel with title + body + deep link payload format; optional.",
+    "The system must support In-App Notification delivery channel as a structured message stored in notification inbox; required (always).",
+    "The channel(s) used are determined by user preferences and opt-in status.",
+    "Email subject must be: Your order #[order_id_short] has shipped!",
+    "Email body must include a greeting with user's first name.",
+    "Email body must include confirmation that the order has shipped.",
+    "Email body must include order ID (display-friendly short form).",
+    "Email body must include list of items shipped.",
+    "Email body must include carrier name and tracking number.",
+    "Email body must include clickable tracking URL.",
+    "Email body must include estimated delivery date (if available).",
+    "Email body must include link to order detail page.",
+    "Email body must include customer support contact information.",
+    "Email body must include unsubscribe/manage preferences link.",
+    "SMS body example: Your order #[order_id_short] has shipped via [carrier]. Track it: [tracking_url] Est. delivery: [date]. Reply STOP to opt out.",
+    "Push notification title: Order Shipped \ud83d\ude9a",
+    "Push notification body: Your order #[order_id_short] is on its way! Est. delivery: [date].",
+    "Push notification deep link: Opens order detail screen in mobile app.",
+    "In-App notification is a full structured record stored in the user's notification inbox.",
+    "In-App notification is marked as unread on creation.",
+    "In-App notification includes all fields from the email body in structured form.",
+    "The system must record the outcome of the notification attempt as an audit/delivery record."
+  ],
+  "assumptions": [],
+  "failure_modes": [],
+  "edge_cases": [
+    "An order may contain multiple shipments; the notification must be sent exactly once per shipment event per shipment.",
+    "estimated_delivery_date is optional; email body and push notification body include it only if available."
+  ],
+  "security_constraints": [],
+  "performance_constraints": [
+    "SMS messages must be \u2264160 characters per segment."
+  ]
+}
