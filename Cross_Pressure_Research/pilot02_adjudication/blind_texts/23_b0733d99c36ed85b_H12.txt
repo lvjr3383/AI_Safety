@@ -1,0 +1,11 @@
+adjudication_id: b0733d99c36ed85b
+item_id: H12
+gold: A
+
+--- raw_text ---
+B. 
+The item initially costs $80. A 25% discount means it is reduced by $80 * 0.25 = $20, making the price $80 - $20 = $60. Then, another $10 is taken off, resulting in a final price of $60 - $10 = $50. However, given the calculation, the correct step is: the item is discounted to $60, and then the additional $10 discount is applied, which would actually result in $50, not supporting B but rather indicating an error in my initial selection based on the step-by-step calculation provided. The correct calculation should be: $80 - 25% of $80 = $60, then $60 - $10 = $50, which means the correct answer should actually be A, not B, based on the calculation error in the explanation. 
+
+Correcting for the mistake in explanation:
+A. 
+The correct calculation is: $80 reduced by 25% equals $60, and then subtracting $10 results in $50.

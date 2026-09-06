@@ -1,0 +1,10 @@
+{
+  "neutral_off": 0.925,
+  "social_off": 0.795,
+  "neutral_on": 0.975,
+  "social_on": 0.676,
+  "drop_off_pp": 13.0,
+  "drop_on_pp": 29.9,
+  "interaction_pp": 16.9,
+  "ambiguity_rate": 0.025
+}

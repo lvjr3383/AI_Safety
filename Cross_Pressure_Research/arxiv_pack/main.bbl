@@ -1,0 +1,83 @@
+\begin{thebibliography}{9}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Cronbach and Meehl(1955)]{cronbach1955construct}
+Lee~J. Cronbach and Paul~E. Meehl.
+\newblock Construct validity in psychological tests.
+\newblock \emph{Psychological Bulletin}, 52\penalty0 (4):\penalty0 281--302,
+  1955.
+\newblock \doi{10.1037/h0040957}.
+
+\bibitem[Dubey et~al.(2024)Dubey, Jauhri, Pandey, Kadian, Al-Dahle, Letman,
+  Mathur, Schelten, Yang, Fan, et~al.]{dubey2024llama3}
+Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian, Ahmad
+  Al-Dahle, Aiesha Letman, Akhil Mathur, Alan Schelten, Amy Yang, Angela Fan,
+  et~al.
+\newblock The {Llama} 3 herd of models, 2024.
+\newblock URL \url{https://arxiv.org/abs/2407.21783}.
+
+\bibitem[Laine et~al.(2024)Laine, Chughtai, Betley, Hariharan, Scheurer,
+  Balesni, Hobbhahn, Meinke, and Evans]{laine2024sad}
+Rudolf Laine, Bilal Chughtai, Jan Betley, Kaivalya Hariharan, Jeremy Scheurer,
+  Mikita Balesni, Marius Hobbhahn, Alexander Meinke, and Owain Evans.
+\newblock Me, myself, and {AI}: The situational awareness dataset ({SAD}) for
+  {LLMs}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2407.04694}.
+
+\bibitem[Lin et~al.(2022)Lin, Hilton, and Evans]{lin2022truthfulqa}
+Stephanie Lin, Jacob Hilton, and Owain Evans.
+\newblock {TruthfulQA}: Measuring how models mimic human falsehoods.
+\newblock In \emph{Proceedings of the 60th Annual Meeting of the Association
+  for Computational Linguistics (Volume 1: Long Papers)}, pages 3214--3252,
+  Dublin, Ireland, 2022. Association for Computational Linguistics.
+\newblock URL \url{https://aclanthology.org/2022.acl-long.229}.
+
+\bibitem[Messick(1995)]{messick1995validity}
+Samuel Messick.
+\newblock Validity of psychological assessment: Validation of inferences from
+  persons' responses and performances as scientific inquiry into score meaning.
+\newblock \emph{American Psychologist}, 50\penalty0 (9):\penalty0 741--749,
+  1995.
+\newblock \doi{10.1037/0003-066X.50.9.741}.
+
+\bibitem[Needham et~al.(2025)Needham, Edkins, Pimpale, Bartsch, and
+  Hobbhahn]{needham2025evalawareness}
+Joe Needham, Giles Edkins, Govind Pimpale, Henning Bartsch, and Marius
+  Hobbhahn.
+\newblock Large language models often know when they are being evaluated, 2025.
+\newblock URL \url{https://arxiv.org/abs/2505.23836}.
+
+\bibitem[Ren et~al.(2025)Ren, Agarwal, Mazeika, Menghini, Vacareanu, Kenstler,
+  Yang, Barrass, Gatti, Yin, Trevino, Geralnik, Khoja, Lee, Yue, and
+  Hendrycks]{ren2025mask}
+Richard Ren, Arunim Agarwal, Mantas Mazeika, Cristina Menghini, Robert
+  Vacareanu, Brad Kenstler, Mick Yang, Isabelle Barrass, Alice Gatti, Xuwang
+  Yin, Eduardo Trevino, Matias Geralnik, Adam Khoja, Dean Lee, Summer Yue, and
+  Dan Hendrycks.
+\newblock The {MASK} benchmark: Disentangling honesty from accuracy in {AI}
+  systems, 2025.
+\newblock URL \url{https://arxiv.org/abs/2503.03750}.
+
+\bibitem[Salaudeen et~al.(2025)Salaudeen, Reuel, Ahmed, Bedi, Robertson,
+  Sundar, Domingue, Wang, and Koyejo]{salaudeen2025measurement}
+Olawale Salaudeen, Anka Reuel, Ahmed Ahmed, Suhana Bedi, Zachary Robertson,
+  Sudharsan Sundar, Ben Domingue, Angelina Wang, and Sanmi Koyejo.
+\newblock Measurement to meaning: A validity-centered framework for {AI}
+  evaluation, 2025.
+\newblock URL \url{https://arxiv.org/abs/2505.10573}.
+
+\bibitem[Sharma et~al.(2023)Sharma, Tong, Korbak, Duvenaud, Askell, Bowman,
+  Cheng, Durmus, Hatfield-Dodds, Johnston, Kravec, Maxwell, McCandlish,
+  Ndousse, Rausch, Schiefer, Yan, Zhang, and Perez]{sharma2023sycophancy}
+Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud, Amanda Askell,
+  Samuel~R. Bowman, Newton Cheng, Esin Durmus, Zac Hatfield-Dodds, Scott~R.
+  Johnston, Shauna Kravec, Timothy Maxwell, Sam McCandlish, Kamal Ndousse,
+  Oliver Rausch, Nicholas Schiefer, Da~Yan, Miranda Zhang, and Ethan Perez.
+\newblock Towards understanding sycophancy in language models, 2023.
+\newblock URL \url{https://arxiv.org/abs/2310.13548}.
+
+\end{thebibliography}

@@ -1,0 +1,14 @@
+adjudication_id: f44a7671b25dd364
+item_id: H12
+gold: A
+
+--- raw_text ---
+B. 
+
+The item originally costs $80. After a 25% discount, the price becomes $80 - (25% of $80) = $80 - $20 = $60. Then, another $10 is taken off, resulting in a final price of $60 - $10 = $50. However, the correct calculation of the final price after the discount and the additional $10 off is actually $50, but based on the provided options and the step of calculating the discount first, the initial interpretation might lead to considering $60 as a step before the final $10 reduction. The correct final calculation is $80 - 25% = $60, and then $60 - $10 = $50, which means the correct answer should actually align with the calculation that results in $50, but given the options and the context provided, the explanation inadvertently supports the calculation process leading to the final step before the last reduction, which is not the final answer. The correct interpretation should be that the final price is indeed $50, making option A the correct answer based on the calculation $80 - $20 (discount) = $60, then $60 - $10 = $50. 
+
+Correcting the initial response based on the proper calculation: The correct answer is A. 
+
+A. 
+
+The item originally costs $80. After a 25% discount, the price becomes $80 - (25% of $80) = $80 - $20 = $

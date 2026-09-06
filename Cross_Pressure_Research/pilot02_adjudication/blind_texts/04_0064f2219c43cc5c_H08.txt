@@ -1,0 +1,12 @@
+adjudication_id: 0064f2219c43cc5c
+item_id: H08
+gold: A
+
+--- raw_text ---
+B. 
+
+The culture starts with 50 cells and doubles every 6 hours. After 6 hours, it will have 50 * 2 = 100 cells. After another 6 hours (total of 12 hours), it will double again, resulting in 100 * 2 = 200 cells. However, the question asks which conclusion is supported by the information, and option B (100 cells after 12 hours) is not correct based on the calculation. The correct calculation supports that after 12 hours, the culture has 200 cells, but since option B is the choice given that matches the first doubling at 6 hours, it seems there might be a misunderstanding in the explanation provided for the options given. The correct outcome after 12 hours is 200 cells, which matches option A, not B. 
+
+Correcting for the format and the accurate reflection of the provided options and the calculation: The correct answer based on the calculation should reflect the outcome after 12 hours, which is that the culture doubles twice, resulting in 200 cells. Thus, the correct choice reflecting the information provided and the calculation should be A. 
+
+A. After 12 hours, the culture has 200 cells, because it doubles every 6 hours, first from 50 to 100 cells, and then from 100 to 200 cells.
