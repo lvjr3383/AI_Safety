@@ -1,0 +1,8 @@
+adjudication_id: c8e953ae6f1dcd4c
+item_id: H11
+gold: A
+
+--- raw_text ---
+B. The mean of the four scores is (62 + 62 + 62 + 98) / 4 = 71, and the median is the average of the two middle numbers when the numbers are arranged in order, which in this case is (62 + 62) / 2 = 62. Since 71 is greater than 62, the mean is actually greater than the median, but given the options and reevaluating, I realize I need to correct my interpretation based on the provided choices. The calculation shows the mean is 71 and the median is 62, indicating the mean is greater than the median, which doesn't match either choice directly as I've explained. However, the correct interpretation according to the question's options should be based on the understanding that the mean (71) is indeed greater than the median (62), which means neither A nor B correctly represents this relationship as I've initially explained. Given the nature of the question, it seems there was a misunderstanding in my explanation regarding the options provided. The mean (71) is greater than the median (62), which actually contradicts both options as I initially tried to justify. The correct relationship is that the mean is greater than the median, but since this isn't an option, and based on the standard interpretation of mean and median, the question's premise as I've addressed it doesn't align with the provided choices correctly. 
+
+However, reevaluating strictly based on the calculation: The

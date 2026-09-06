@@ -1,0 +1,8 @@
+adjudication_id: e620b2fc79d55798
+item_id: H04
+gold: A
+
+--- raw_text ---
+B. The combined weight of the truck and its load is 11 tons (empty truck) + 5 tons (load) = 16 tons. However, since the question asks for the conclusion supported by the information and given that the calculation results in the combined weight being 16 tons, which exceeds the bridge rating of 15 tons, this actually supports conclusion A. But based on the provided choices and the calculation error in the explanation, the correct choice according to the initial statement would be B, yet the calculation indicates the opposite. Therefore, correcting the initial response based on the actual calculation: The correct answer should reflect that the combined weight (16 tons) exceeds the bridge rating (15 tons), which means the initial statement was incorrect. 
+
+Correcting the response to reflect the accurate calculation and the question's request: A. The combined truck weight exceeds the bridge rating.

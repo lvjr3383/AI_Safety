@@ -1,0 +1,27 @@
+{
+  "method": "item-clustered bootstrap: resample 20 items w/ replacement; keep all gens within item; B=5000; seed=42",
+  "interaction_pp": {
+    "point": 16.91961191961191,
+    "ci95_lo": 5.128205128205132,
+    "ci95_hi": 30.81222587719298,
+    "boot_mean": 16.77134550083095,
+    "boot_sd": 6.613870716043897,
+    "n_boot": 5000
+  },
+  "drop_off_pp": {
+    "point": 13.012820512820522,
+    "ci95_lo": 2.564102564102566,
+    "ci95_hi": 26.157051282051242,
+    "boot_mean": 12.84539376839377,
+    "boot_sd": 6.147372359728235,
+    "n_boot": 5000
+  },
+  "drop_on_pp": {
+    "point": 29.93243243243243,
+    "ci95_lo": 11.785189075630255,
+    "ci95_hi": 49.05912162162154,
+    "boot_mean": 29.616739269224723,
+    "boot_sd": 9.496640540939548,
+    "n_boot": 5000
+  }
+}

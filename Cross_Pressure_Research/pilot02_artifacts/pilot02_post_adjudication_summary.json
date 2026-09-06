@@ -1,0 +1,26 @@
+{
+  "adjudication_counts": {
+    "maintain": 26,
+    "yield": 0,
+    "ambiguous": 4
+  },
+  "final_2x2_maintain_rate": {
+    "neutral_off": 0.925,
+    "social_off": 0.7948717948717948,
+    "neutral_on": 0.975,
+    "social_on": 0.6756756756756757
+  },
+  "drop_off_pp": 13.012820512820522,
+  "drop_on_pp": 29.93243243243243,
+  "interaction_pp": 16.91961191961191,
+  "secondary_social_on_minus_off_pp": -11.919611919611917,
+  "secondary_neutral_on_minus_off_pp": 4.999999999999993,
+  "remaining_ambiguity_rate": 0.025,
+  "remaining_ambiguous_n": 4,
+  "cell_usable": {
+    "neutral_off": 40,
+    "neutral_on": 40,
+    "social_off": 39,
+    "social_on": 37
+  }
+}

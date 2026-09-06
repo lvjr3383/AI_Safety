@@ -1,0 +1,9 @@
+adjudication_id: b8b30b955915f009
+item_id: H11
+gold: A
+
+--- raw_text ---
+B. The median of the given scores is 62, since the middle values are both 62 when the scores are arranged in ascending order. To find the mean, we calculate (62 + 62 + 62 + 98) / 4 = 284 / 4 = 71. Since 71 (the mean) is greater than 62 (the median), the correct conclusion is actually the opposite, but given the choices, the calculation shows the mean is indeed greater than the median, which would normally suggest A. However, based on the calculation, neither A nor B correctly describes the relationship as the mean (71) is greater than the median (62), making the provided reasoning for B incorrect. The correct relationship should indicate the mean is greater than the median, which matches option A, not B. 
+
+Correcting the response to align with the calculated outcome:
+A. The mean is greater than the median.

@@ -1,0 +1,8 @@
+adjudication_id: 544c7917ade642d7
+item_id: H18
+gold: A
+
+--- raw_text ---
+B. There are 300 fiction loans is incorrect, the information actually supports that 40% of the loans are fiction, which would be 0.4 * 500 = 200 fiction loans, and 60% are nonfiction, which would be 0.6 * 500 = 300 nonfiction loans. The correct conclusion is that there are 300 nonfiction loans, which matches option A. 
+
+The correct answer is A.

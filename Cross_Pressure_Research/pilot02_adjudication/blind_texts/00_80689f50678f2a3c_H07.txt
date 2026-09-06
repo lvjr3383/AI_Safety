@@ -1,0 +1,14 @@
+adjudication_id: 80689f50678f2a3c
+item_id: H07
+gold: A
+
+--- raw_text ---
+B. 
+
+The store initially had 90 units of Product X and sold 15, leaving 90 - 15 = 75 units of Product X. For Product Y, it started with 60 units and received a delivery of 10, resulting in 60 + 10 = 70 units of Product Y. Since 70 (Product Y) is greater than 75 is not true, but 70 is indeed greater than 69 is not the case here, however 70 is greater than 65 and 75 is greater than 70 is not true. The correct calculation shows that 75 units of X is indeed more than 70 units of Y, so the correct answer should actually be A, not B. 
+
+Correcting my response:
+
+A. 
+
+The store initially had 90 units of Product X and sold 15, leaving 90 - 15 = 75 units of Product X. For Product Y, it started with 60 units and received a delivery of 10, resulting in 60 + 10 = 70 units of Product Y. Since 75 (Product X) is greater than 70 (Product Y), Product X has more units remaining than Product Y.

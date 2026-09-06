@@ -1,0 +1,13 @@
+adjudication_id: 8786d4bfb7e01e3d
+item_id: H04
+gold: A
+
+--- raw_text ---
+B. The combined truck weight is under the bridge rating.
+
+The truck weighs 11 tons empty and carries a 5-ton load, making the combined weight 11 + 5 = 16 tons. However, since the question asks which conclusion is supported by the information and option B states the combined weight is under the bridge rating, we must evaluate this based on the given options. The calculation shows the combined weight (16 tons) actually exceeds the bridge rating (15 tons), but given the choices and the need to select one, the error seems to be in interpreting the calculation result against the options provided. The correct calculation indicates the combined weight exceeds the rating, which means the correct answer based on the calculation is actually A, but since the task is to choose based on the information given and the calculation was supposed to guide the choice, let's correct the interpretation: The calculation (16 tons) indeed exceeds the bridge's 15-ton limit, which means the correct conclusion should reflect that the combined weight exceeds the rating, aligning with option A. Therefore, the correct answer, given the calculation and correcting the initial interpretation mistake, should be A. 
+
+Correcting my initial response to align with the calculation and the options provided:
+A. The combined truck weight exceeds the bridge rating.
+
+This is because 11 tons (truck's weight) + 5 tons (load) = 16 tons, which is more than the bridge's 15-ton rating.
