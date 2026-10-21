@@ -8,3 +8,6 @@ These files are kept unchanged for the audit trail. The current paper is in [`..
 - `original_paper_sep06/cross_pressure_arxiv_tex_only.zip`: tex-only bundle of the same Sep 6 paper.
 - `original_paper_sep06/README_sep06.md`: the previous folder README, which described the Sep 6 paper as the submit copy.
 - `sep05_section_drafts/`: early Markdown section drafts and bibliography from Sep 5.
+
+## v7_review_oct17/
+v7 review draft (Oct 17, 2026), superseded by v8 in `paper/` (adds the second-model reader sensitivity check). Numbers otherwise identical.

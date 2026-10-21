@@ -3,7 +3,7 @@
 ## Current status (Oct 17, 2026)
 
 **Paper:** *Same Generations, Different Conclusions: A Scoring Audit of a Cross-Pressure Evaluation in Llama 3.3 70B*. Author: Jack Lakkapragada (independent researcher).
-The current version is the **v7 review draft**: [`paper/cross_pressure_v7_review.pdf`](paper/cross_pressure_v7_review.pdf). It is **not yet on arXiv**, and the PDF carries a "DRAFT FOR REVIEW" header.
+The current version is the **v8 review draft**: [`paper/cross_pressure_v8_review.pdf`](paper/cross_pressure_v8_review.pdf). It is **not yet on arXiv**, and the PDF carries a "DRAFT FOR REVIEW" header.
 
 > **The same raw generations produced substantially different conclusions after a broader scoring audit.**
 
@@ -33,13 +33,13 @@ Earlier material in this repository came from the **Sep 6 freeze**. That include
 
 The expanded audit was a condition-blinded re-adjudication **by an AI assistant applying the written SOP**. The reader was not fully independent of the earlier audit.
 - The 20 rows it flagged as borderline are coded ambiguous in the primary analysis. A sensitivity variant keeps the reader's labels for those rows.
-- An **independent human second read of the 20 borderline rows is pending**. The label-free packet for that read is in `scoring_audit_oct17/4_second_reader_packet/`.
+- The corrected paper (v8) includes an **independent second-model reader sensitivity check**: Claude, in a fresh session blinded to conditions and prior labels, re-labeled the 20 borderline rows (Stage 1 gap 7.0 pp [0.0, 16.7], Stage 2 interaction +3.6 pp [0.0, 10.7]; conclusions unchanged). See `scoring_audit_oct17/second_reader_check/`. No independent human second adjudication was performed.
 
 ## Folder guide
 
 | Path | Contents |
 |---|---|
-| `paper/` | v7 review draft: `cross_pressure_v7_review.tex`, `.pdf`, `cross_pressure_v7_references.bib` (the .tex uses an inline bibliography) |
+| `paper/` | v8 review draft: `cross_pressure_v8_review.tex`, `.pdf`, `cross_pressure_v8_references.bib` (the .tex uses an inline bibliography) |
 | `notebooks/` | `pilot01.ipynb` (Stage 1) and `02_cross_pressure_eval_frame.ipynb` (Stage 2): generation and original scoring code |
 | `pilot01_artifacts/` | `pilot01_final_scored.csv`: Stage 1 scored rows, both models, 480 rows (Llama arm 240) |
 | `pilot02_artifacts/` | Original Stage 2 artifacts: frozen config, raw generations, auto-scored, manual review (+ condition key, adjudicated), final scored, canonical table, clustered bootstrap, item-level robustness, leave-one-out, post-adjudication summaries |
@@ -47,9 +47,10 @@ The expanded audit was a condition-blinded re-adjudication **by an AI assistant 
 | `scoring_audit_oct17/1_blind_set/` | Audit inputs: `RULES.md` (verbatim SOP given to the reader), 70-row `blind_sheet.csv`/`.md`, `private_key.csv` (opaque ID → run_id/condition; opened only after labels were frozen), `parser_audit_all_rows.csv`, audit summaries, `build.py` |
 | `scoring_audit_oct17/2_blind_pass/` | Frozen blind labels (`blind_labels.csv`, with deciding quotes and borderline flags) plus a copy of the sheet and rules the reader saw |
 | `scoring_audit_oct17/3_corrected_results/` | `corrected_labels_stage{1,2}.csv`, `CHANGES.csv` (every changed row), `results.json`, `RESULTS.md`, `stage2_item_level_*`, `stage2_leave_one_out_*`, `bootstrap_check.{md,json}`, `scripts/`, and change logs for review drafts v2–v5 |
-| `scoring_audit_oct17/4_second_reader_packet/` | Label-free packet for the human second read: 20 borderline rows under new IDs, reader instructions |
-| `scoring_audit_oct17/review_drafts_v2_to_v5/` | Earlier review PDFs (v2–v5) leading to v7 |
-| `archive/` | Superseded Sep 6 paper and arXiv packs, the Sep 6 README, and Sep 5 section drafts. **Numbers there are not current.** |
+| `scoring_audit_oct17/4_second_reader_packet/` | Label-free packet for the second read: 20 borderline rows under new IDs, reader instructions |
+| `scoring_audit_oct17/second_reader_check/` | Second-model reader check: reader instructions, blinded 20-row sheet, Claude's labels, `SUMMARY.md` |
+| `scoring_audit_oct17/review_drafts_v2_to_v5/` | Earlier review PDFs (v2–v5) leading to v7 (v7 itself is in `archive/v7_review_oct17/`) |
+| `archive/` | Superseded v7 review draft, Sep 6 paper and arXiv packs, the Sep 6 README, and Sep 5 section drafts. **Numbers there are not current.** |
 
 ## How to reproduce the corrected numbers
 
