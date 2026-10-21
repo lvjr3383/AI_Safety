@@ -1,5 +1,7 @@
 # arXiv packaging metadata — SUBMIT COPY
 
+> **SUPERSEDED (historical, Sep 6 freeze).** Not current; see `paper/cross_pressure_v8_review.pdf` (v8).
+
 **Status:** Paper review PASS. Do not rewrite sections, add citations, or change claims/empirics.
 
 ## Title
