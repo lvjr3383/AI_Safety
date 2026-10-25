@@ -2,7 +2,7 @@
 
 Supporting materials for the paper by **Jack Lakkapragada** (Independent Researcher), written for the Apart Research AI Collusion Research Sprint, October 2026 (Track 3, Q3.4).
 
-The study extends the continuous double auction of Agrawal et al. (2025) ([arXiv:2507.01413](https://arxiv.org/abs/2507.01413)). The paper itself is submitted separately. This folder holds everything behind it: the frozen protocols, our code changes, the analysis scripts, the session logs and Appendices B to E.
+The study extends the continuous double auction of Agrawal et al. (2025) ([arXiv:2507.01413](https://arxiv.org/abs/2507.01413)). A copy of the paper is in [`PAPER.md`](PAPER.md). This folder also holds everything behind it: the frozen protocols, our code changes, the analysis scripts, the session logs and Appendices B to E.
 
 ## What we tested
 
@@ -41,6 +41,7 @@ Prices in the messaging sessions had largely settled by round 4, before any inte
 
 | Path | What it holds |
 |---|---|
+| [`PAPER.md`](PAPER.md) | The paper: abstract, Sections 1 to 8, Code and Data, references, Appendix A and the LLM Usage Statement |
 | [`APPENDICES.md`](APPENDICES.md) | Appendices B to E of the paper: message quotations, classifier validation, reanalysis of the original data, implementation and costs |
 | [`paper/`](paper/) | Frozen evidence (`FINAL_EVIDENCE.md`, `CLAIM_AUDIT.md`), verified references and quotations, the figures, and `build_evidence.py`, which recomputes every number from the logs |
 | [`protocols/`](protocols/) | The five frozen protocols: pilot, sweep, WO follow up, E2 (Phase 4) and E3 (crossed) |
