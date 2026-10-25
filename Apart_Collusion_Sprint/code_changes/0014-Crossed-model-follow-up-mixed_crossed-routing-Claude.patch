@@ -1,0 +1,153 @@
+From aae3dc481167a01cf4c1a79060c60e92c8f5c255 Mon Sep 17 00:00:00 2001
+From: lvjr <87400253+lvjr3383@users.noreply.github.com>
+Date: Sat, 24 Oct 2026 11:25:48 -0500
+Subject: [PATCH 14/15] Crossed-model follow-up: mixed_crossed routing (Claude
+ sellers direct, GPT buyers via OpenRouter)
+
+Buyer client config verified identical to the GPT-4.1 study by test; 48/48 tests; GPT sweep output unchanged.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ .../continuous_double_auction/simulation.py   | 28 +++++++++++++++----
+ .../continuous_double_auction/util/misc.py    | 11 ++++++++
+ llm-agent-collusion/src/resources/spend.py    |  4 +--
+ .../tests/test_phase4_anthropic.py            | 26 +++++++++++++++++
+ 4 files changed, 62 insertions(+), 7 deletions(-)
+
+diff --git a/llm-agent-collusion/src/continuous_double_auction/simulation.py b/llm-agent-collusion/src/continuous_double_auction/simulation.py
+index a764638..a29e0a1 100644
+--- a/llm-agent-collusion/src/continuous_double_auction/simulation.py
++++ b/llm-agent-collusion/src/continuous_double_auction/simulation.py
+@@ -59,8 +59,9 @@ from poseidon_compute import resolve_model as _cfg_resolve_model
+ 
+ 
+ def effective_model(name: str) -> str:
+-    if os.getenv("LLM_PROVIDER", "").lower() == "anthropic_direct":
+-        return name  # Phase 4: exact Anthropic model id, no OpenRouter resolution or catalog lookup
++    if os.getenv("LLM_PROVIDER", "").lower() == "anthropic_direct" or (
++            os.getenv("LLM_PROVIDER", "").lower() == "mixed_crossed" and name.startswith("claude-")):
++        return name  # exact Anthropic model id, no OpenRouter resolution or catalog lookup
+     """The model id actually used for `name`: expand the paper alias (cda_types.resolve_model) and then
+     apply the repo-level resolution (llm_config.resolve_model) — which honors the LLM_MODEL override
+     set by `poseidon-run --model` and maps ids to the active endpoint's casing."""
+@@ -150,11 +151,13 @@ def run_simulation(params: ExperimentParams, log_dir: Optional[str] = None, use_
+     TRACKER.configure(ledger_path=SPEND["ledger"], ceiling_usd=SPEND["ceiling"], run_id=run_name,
+                       usage_path=logger.log_dir / "usage.jsonl")
+     logger.metadata["code_version"] = git_version()
+-    if os.getenv("LLM_PROVIDER", "").lower() == "anthropic_direct":
++    if os.getenv("LLM_PROVIDER", "").lower() in ("anthropic_direct", "mixed_crossed"):
+         import anthropic
+         from src.resources.anthropic_client import MODEL_CONFIG, PRICES
+ 
+-        logger.metadata["provider"] = {"name": "anthropic_direct", "sdk": f"anthropic {anthropic.__version__}",
++        logger.metadata["provider"] = {"name": os.getenv("LLM_PROVIDER").lower(), "sdk": f"anthropic {anthropic.__version__}",
++                                       "non_claude_models_via": "openrouter (GPT-4.1 study settings)"
++                                       if os.getenv("LLM_PROVIDER").lower() == "mixed_crossed" else None,
+                                        "anthropic_version_header": "2023-06-01", "sampling_params_sent": None,
+                                        "model_config": MODEL_CONFIG, "prices_usd_per_token": PRICES,
+                                        "server_side_fallbacks": False}
+@@ -451,7 +454,7 @@ def build_parser() -> argparse.ArgumentParser:
+     t.add_argument("--snapshot_after_round", type=int, default=None,
+                    help="save full state after this round (default for --arm A: treatment_round - 1)")
+     t.add_argument("--spend_ceiling", type=float, default=28.0, help="cumulative project spend ceiling in USD")
+-    t.add_argument("--provider", choices=("openrouter", "anthropic_direct"), default="openrouter",
++    t.add_argument("--provider", choices=("openrouter", "anthropic_direct", "mixed_crossed"), default="openrouter",
+                    help="anthropic_direct = Phase 4 (native Anthropic SDK, Claude models only, no OpenRouter)")
+     t.add_argument("--branch_from", type=str, default=None,
+                    help="untreated (arm A) run dir with a snapshot: restore its prefix and run the remaining rounds")
+@@ -509,6 +512,21 @@ def main() -> None:
+                 assert_anthropic_only(m)
+         except ProviderConfigError as e:
+             sys.exit(f"❌ {e}")
++    elif args.provider == "mixed_crossed":
++        # crossed-model follow-up: sellers must be Claude (direct Anthropic API), buyers must be non-Claude (OpenRouter)
++        os.environ["LLM_PROVIDER"] = "mixed_crossed"
++        if not args.ledger:
++            SPEND["ledger"] = SPRINT_DIR / "runs_crossed" / "spend_ledger.jsonl"
++        from src.resources.anthropic_client import assert_anthropic_only
++
++        try:
++            if not all(m.startswith("claude-") for m in seller_models) or any(m.startswith("claude-") for m in buyer_models):
++                raise ProviderConfigError("mixed_crossed requires Claude sellers and non-Claude buyers")
++            for m in sorted(set(seller_models)):
++                assert_anthropic_only(m)
++            assert_openrouter_only(_endpoint)
++        except ProviderConfigError as e:
++            sys.exit(f"❌ {e}")
+     else:
+         # fail before any call if anything could route away from OpenRouter
+         try:
+diff --git a/llm-agent-collusion/src/continuous_double_auction/util/misc.py b/llm-agent-collusion/src/continuous_double_auction/util/misc.py
+index 87c11b5..6272f90 100644
+--- a/llm-agent-collusion/src/continuous_double_auction/util/misc.py
++++ b/llm-agent-collusion/src/continuous_double_auction/util/misc.py
+@@ -17,6 +17,17 @@ def get_client(model: str, temperature: float, **kwargs) -> ModelWrapper:
+     automatically for models that do not support it.
+     """
+     provider = os.getenv("LLM_PROVIDER", "openrouter").lower()
++    if provider == "mixed_crossed":
++        # crossed-model follow-up: Claude models -> direct Anthropic API; every other model -> OpenRouter with exactly
++        # the settings of the GPT-4.1 study (JSON mode, temperature and seed forwarded, alias resolution)
++        if model.startswith("claude-"):
++            from src.resources.anthropic_client import AnthropicDirectClient
++
++            return AnthropicDirectClient(model, temperature=temperature, **kwargs)
++        from src.resources.model_wrappers import OpenRouterClient
++
++        kwargs.setdefault("response_format", {"type": "json_object"})
++        return OpenRouterClient(resolve_model(model), temperature=temperature, **kwargs)
+     if provider == "openrouter":
+         kwargs.setdefault("response_format", {"type": "json_object"})
+         return ModelWrapper.create(resolve_model(model), temperature=temperature, **kwargs)
+diff --git a/llm-agent-collusion/src/resources/spend.py b/llm-agent-collusion/src/resources/spend.py
+index 2e3cac9..77aba94 100644
+--- a/llm-agent-collusion/src/resources/spend.py
++++ b/llm-agent-collusion/src/resources/spend.py
+@@ -43,8 +43,8 @@ def assert_openrouter_only(base_url: Optional[str] = None) -> None:
+         problems.append("LLM_MODEL is set (it would force one model onto every role)")
+     if os.environ.get("LLM_BASE_URL"):
+         problems.append("LLM_BASE_URL is set (it would redirect calls)")
+-    if os.environ.get("LLM_PROVIDER", "openrouter").lower() != "openrouter":
+-        problems.append("LLM_PROVIDER is not 'openrouter'")
++    if os.environ.get("LLM_PROVIDER", "openrouter").lower() not in ("openrouter", "mixed_crossed"):
++        problems.append("LLM_PROVIDER is not 'openrouter' (or the crossed-model mode 'mixed_crossed')")
+     if not os.environ.get("OPENROUTER_API_KEY"):
+         problems.append("OPENROUTER_API_KEY is not set")
+     if base_url is not None and not str(base_url).rstrip("/").startswith(OPENROUTER_BASE_URL):
+diff --git a/llm-agent-collusion/tests/test_phase4_anthropic.py b/llm-agent-collusion/tests/test_phase4_anthropic.py
+index f05a831..a3c312e 100644
+--- a/llm-agent-collusion/tests/test_phase4_anthropic.py
++++ b/llm-agent-collusion/tests/test_phase4_anthropic.py
+@@ -195,3 +195,29 @@ def test_WON_branch_from_A_and_prompt_diff(run_arm):
+         removed = [l[2:] for l in ch if l.startswith("- ")]
+         assert all(allowed_removed.search(l) for l in removed), removed
+         assert [l for l in added if "new_memory" not in l] == [f"- {OFF_RULE}"]
++
++
++# ---- crossed-model follow-up: Sonnet sellers (direct Anthropic) + GPT-4.1-mini buyers (OpenRouter) ----
++def test_mixed_crossed_buyer_config_identical_to_gpt_study(monkeypatch):
++    from src.continuous_double_auction.util.misc import get_client
++    from src.resources.model_wrappers import OpenRouterClient
++
++    monkeypatch.setenv("OPENROUTER_API_KEY", "test-dummy")
++    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-dummy")
++    for v in ("NEBIUS_API_KEY", "LLM_MODEL", "LLM_BASE_URL", "ANTHROPIC_BASE_URL"):
++        monkeypatch.delenv(v, raising=False)
++
++    def snap(c):
++        return {"cls": type(c).__name__, "model": c.model_name, "temperature": c.temperature, "max_tokens": c.max_tokens,
++                "top_p": c.top_p, "params": dict(c.additional_params), "base_url": str(c.client.base_url)}
++
++    monkeypatch.setenv("LLM_PROVIDER", "openrouter")
++    gpt_study = snap(get_client(model="gpt-4.1-mini", temperature=0.7, seed=3, role="buyer:X"))
++    monkeypatch.setenv("LLM_PROVIDER", "mixed_crossed")
++    crossed = snap(get_client(model="gpt-4.1-mini", temperature=0.7, seed=3, role="buyer:X"))
++    assert crossed == gpt_study
++    assert gpt_study["cls"] == "OpenRouterClient" and gpt_study["model"] == "openai/gpt-4.1-mini"
++    assert gpt_study["temperature"] == 0.7 and gpt_study["params"] == {"seed": 3, "response_format": {"type": "json_object"}}
++    seller = get_client(model="claude-sonnet-5-5", temperature=0.7, seed=3, role="seller:Y", sdk_client=object())
++    assert type(seller).__name__ == "AnthropicDirectClient" and seller.config["thinking"] == {"type": "between_tools"}
++    assert not isinstance(seller, OpenRouterClient)
+-- 
+2.54.0 (Apple Git-157)
+

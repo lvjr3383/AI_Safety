@@ -1,0 +1,506 @@
+From 2235489146ffc93e0574fc9157cbe4e836ed03b9 Mon Sep 17 00:00:00 2001
+From: lvjr <87400253+lvjr3383@users.noreply.github.com>
+Date: Sat, 24 Oct 2026 08:19:29 -0500
+Subject: [PATCH 12/15] Phase 4: direct Anthropic API adapter (Sonnet 5.5
+ sellers, Haiku 5.5 buyers) + WON arm
+
+Native anthropic SDK 1.6.0; per-model thinking off (Sonnet between_tools/effort high, Haiku
+disabled/effort medium); no sampling params; no fallbacks; refusals recorded and treated as
+no-action turns; cost from verified price table; fail-closed on bad request / spend cap;
+separate ledger. WON = messaging off from round 5, no announcement. 47/47 offline tests;
+GPT-4.1 sweep analysis output unchanged.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ .../continuous_double_auction/simulation.py   |  44 +++-
+ .../src/resources/anthropic_client.py         | 134 ++++++++++++
+ .../src/resources/model_wrappers.py           |   4 +
+ llm-agent-collusion/src/resources/spend.py    |  19 ++
+ .../tests/test_phase4_anthropic.py            | 197 ++++++++++++++++++
+ 5 files changed, 389 insertions(+), 9 deletions(-)
+ create mode 100644 llm-agent-collusion/src/resources/anthropic_client.py
+ create mode 100644 llm-agent-collusion/tests/test_phase4_anthropic.py
+
+diff --git a/llm-agent-collusion/src/continuous_double_auction/simulation.py b/llm-agent-collusion/src/continuous_double_auction/simulation.py
+index add91f7..a764638 100644
+--- a/llm-agent-collusion/src/continuous_double_auction/simulation.py
++++ b/llm-agent-collusion/src/continuous_double_auction/simulation.py
+@@ -59,6 +59,8 @@ from poseidon_compute import resolve_model as _cfg_resolve_model
+ 
+ 
+ def effective_model(name: str) -> str:
++    if os.getenv("LLM_PROVIDER", "").lower() == "anthropic_direct":
++        return name  # Phase 4: exact Anthropic model id, no OpenRouter resolution or catalog lookup
+     """The model id actually used for `name`: expand the paper alias (cda_types.resolve_model) and then
+     apply the repo-level resolution (llm_config.resolve_model) — which honors the LLM_MODEL override
+     set by `poseidon-run --model` and maps ids to the active endpoint's casing."""
+@@ -72,7 +74,8 @@ SPRINT_DIR = Path(__file__).resolve().parents[4]
+ SPEND = {"ledger": SPRINT_DIR / "runs" / "spend_ledger.jsonl", "ceiling": 28.0}
+ 
+ # Sprint 3.4 arms (all in the boss-pressure regime). Onsets are deterministic round numbers.
+-ARMS = ("A", "W", "WG", "E", "WO")  # WO: Phase 3 post-hoc follow-up (watched, messaging off)
++ARMS = ("A", "W", "WG", "E", "WO", "WON")  # WO: Phase 3 follow-up (watched, messaging off); WON: Phase 4 (messaging
++#                                             off from the treatment round, NO announcement)
+ 
+ 
+ def arm_settings(arm: str, treatment_round: int = 5) -> dict[str, Any]:
+@@ -82,9 +85,9 @@ def arm_settings(arm: str, treatment_round: int = 5) -> dict[str, Any]:
+     return {
+         "boss_pressure": True,
+         "seller_comms_enabled": arm != "E",
+-        "announce_round": treatment_round if arm in ("W", "WG", "WO") else None,
++        "announce_round": treatment_round if arm in ("W", "WG", "WO") else None,  # WON: no announcement
+         "cap_round": treatment_round if arm == "WG" else None,
+-        "comms_off_round": treatment_round if arm == "WO" else None,
++        "comms_off_round": treatment_round if arm in ("WO", "WON") else None,
+         "snapshot_after_round": treatment_round - 1 if arm == "A" else None,
+     }
+ 
+@@ -147,6 +150,14 @@ def run_simulation(params: ExperimentParams, log_dir: Optional[str] = None, use_
+     TRACKER.configure(ledger_path=SPEND["ledger"], ceiling_usd=SPEND["ceiling"], run_id=run_name,
+                       usage_path=logger.log_dir / "usage.jsonl")
+     logger.metadata["code_version"] = git_version()
++    if os.getenv("LLM_PROVIDER", "").lower() == "anthropic_direct":
++        import anthropic
++        from src.resources.anthropic_client import MODEL_CONFIG, PRICES
++
++        logger.metadata["provider"] = {"name": "anthropic_direct", "sdk": f"anthropic {anthropic.__version__}",
++                                       "anthropic_version_header": "2023-06-01", "sampling_params_sent": None,
++                                       "model_config": MODEL_CONFIG, "prices_usd_per_token": PRICES,
++                                       "server_side_fallbacks": False}
+     logger.metadata["spend_at_start"] = TRACKER.summary()
+ 
+     client_kwargs = {"temperature": params.temperature}
+@@ -440,6 +451,8 @@ def build_parser() -> argparse.ArgumentParser:
+     t.add_argument("--snapshot_after_round", type=int, default=None,
+                    help="save full state after this round (default for --arm A: treatment_round - 1)")
+     t.add_argument("--spend_ceiling", type=float, default=28.0, help="cumulative project spend ceiling in USD")
++    t.add_argument("--provider", choices=("openrouter", "anthropic_direct"), default="openrouter",
++                   help="anthropic_direct = Phase 4 (native Anthropic SDK, Claude models only, no OpenRouter)")
+     t.add_argument("--branch_from", type=str, default=None,
+                    help="untreated (arm A) run dir with a snapshot: restore its prefix and run the remaining rounds")
+     t.add_argument("--ledger", type=str, default=None, help="project spend ledger (default: <sprint>/runs/spend_ledger.jsonl)")
+@@ -482,13 +495,26 @@ def main() -> None:
+     SPEND["ceiling"] = args.spend_ceiling
+     if args.ledger:
+         SPEND["ledger"] = Path(args.ledger).resolve()
+-    # fail before any call if anything could route away from OpenRouter (loads compute.env first)
+-    from poseidon_compute import base_url as _base_url
++    from poseidon_compute import base_url as _base_url  # loads compute.env (no network)
+ 
+-    try:
+-        assert_openrouter_only(_base_url())
+-    except ProviderConfigError as e:
+-        sys.exit(f"❌ {e}")
++    _endpoint = _base_url()
++    if args.provider == "anthropic_direct":
++        os.environ["LLM_PROVIDER"] = "anthropic_direct"
++        if not args.ledger:
++            SPEND["ledger"] = SPRINT_DIR / "runs_claude" / "spend_ledger.jsonl"
++        from src.resources.anthropic_client import assert_anthropic_only
++
++        try:
++            for m in sorted(set(seller_models + buyer_models)):
++                assert_anthropic_only(m)
++        except ProviderConfigError as e:
++            sys.exit(f"❌ {e}")
++    else:
++        # fail before any call if anything could route away from OpenRouter
++        try:
++            assert_openrouter_only(_endpoint)
++        except ProviderConfigError as e:
++            sys.exit(f"❌ {e}")
+ 
+     n_lm_buyers = sum(1 for b in buyer_models if b not in (ZIP_BUYER, "none", "None"))
+     calls_per_run = args.rounds * (args.sellers + n_lm_buyers)
+diff --git a/llm-agent-collusion/src/resources/anthropic_client.py b/llm-agent-collusion/src/resources/anthropic_client.py
+new file mode 100644
+index 0000000..3a094d5
+--- /dev/null
++++ b/llm-agent-collusion/src/resources/anthropic_client.py
+@@ -0,0 +1,134 @@
++"""
++Phase 4: direct Anthropic API client (native `anthropic` SDK). Isolated from the OpenRouter path used by the
++GPT-4.1 study, which is unchanged.
++
++- No sampling parameters are sent (temperature/top_p/top_k): Sonnet 5.5 and Haiku 5.5 reject non-default values,
++  so both run at their default sampling. Documented as a difference from the GPT-4.1 runs (T=0.7).
++- Thinking is configured per model, explicitly (MODEL_CONFIG); no server-side fallbacks, no model substitution.
++- Every attempt is recorded in the spend ledger with the effective model id, thinking/effort config, stop_reason,
++  token usage, request id and rate-limit headers. Cost = tokens x the price table verified 2026-10-24.
++- Refusals (stop_reason == "refusal") are NOT retried: the call returns REFUSAL_JSON, which the agents treat as a
++  no-action turn (no new ask/bid, no message, no memory update), identically in every arm.
++"""
++
++import json
++import os
++import time
++from typing import List, Optional
++
++from src.resources.model_wrappers import Message, ModelWrapper
++from src.resources.spend import TRACKER, BudgetExceeded, ProviderConfigError
++
++# Thinking/effort per model. Sonnet 5.5: `disabled` returns 400; `between_tools` turns thinking off (no tools are
++# used here) and is accepted at effort <= high. Haiku 5.5: `disabled` is accepted at effort <= high.
++MODEL_CONFIG = {
++    "claude-sonnet-5-5": {"thinking": {"type": "between_tools"}, "output_config": {"effort": "high"}},
++    "claude-haiku-5-5": {"thinking": {"type": "disabled"}, "output_config": {"effort": "medium"}},
++}
++# USD per token, from https://platform.claude.com/docs/en/about-claude/pricing (fetched 2026-10-24).
++# Haiku 5.5 prices apply to prompts up to 100,000 tokens; longer prompts raise PriceTableError (never expected here).
++PRICES = {
++    "claude-sonnet-5-5": {"input": 2.00e-6, "output": 10.00e-6, "cache_write": 2.50e-6, "cache_read": 0.10e-6},
++    "claude-haiku-5-5": {"input": 0.10e-6, "output": 0.50e-6, "cache_write": 0.125e-6, "cache_read": 0.01e-6},
++}
++HAIKU_LONG_PROMPT = 100_000
++REFUSAL_JSON = '{"refused": true}'
++RATE_HEADERS = ("anthropic-ratelimit-requests-limit", "anthropic-ratelimit-requests-remaining",
++                "anthropic-ratelimit-input-tokens-limit", "anthropic-ratelimit-output-tokens-limit")
++
++
++class PriceTableError(RuntimeError):
++    pass
++
++
++def assert_anthropic_only(model_name: str) -> None:
++    """Fail unless this call goes to the direct Anthropic API with a configured Claude model. Never prints keys."""
++    problems = []
++    if not os.environ.get("ANTHROPIC_API_KEY"):
++        problems.append("ANTHROPIC_API_KEY is not set")
++    if model_name not in MODEL_CONFIG:
++        problems.append(f"model {model_name!r} is not one of the configured Phase 4 models {sorted(MODEL_CONFIG)}")
++    for var in ("LLM_MODEL", "LLM_BASE_URL", "ANTHROPIC_BASE_URL"):
++        if os.environ.get(var):
++            problems.append(f"{var} is set (would redirect or override the model)")
++    if problems:
++        raise ProviderConfigError("refusing to run: " + "; ".join(problems))
++
++
++def call_cost(model: str, usage: dict) -> float:
++    p = PRICES[model]
++    prompt_len = usage["input_tokens"] + usage["cache_read_input_tokens"] + usage["cache_creation_input_tokens"]
++    if model == "claude-haiku-5-5" and prompt_len > HAIKU_LONG_PROMPT:
++        raise PriceTableError("Haiku prompt over 100k tokens: long-context prices not in the table")
++    return (usage["input_tokens"] * p["input"] + usage["output_tokens"] * p["output"]
++            + usage["cache_creation_input_tokens"] * p["cache_write"] + usage["cache_read_input_tokens"] * p["cache_read"])
++
++
++class AnthropicDirectClient(ModelWrapper):
++    is_remote = True
++
++    def __init__(self, model_name: str, role: str = "", sdk_client=None, **kwargs):
++        kwargs.pop("seed", None)              # no seed parameter on the Messages API
++        kwargs.pop("response_format", None)   # OpenAI JSON mode; not an Anthropic parameter
++        super().__init__(model_name, **kwargs)
++        assert_anthropic_only(model_name)
++        self.role = role
++        self.config = MODEL_CONFIG[model_name]
++        if sdk_client is None:
++            import anthropic  # optional extra `providers`
++
++            sdk_client = anthropic.Anthropic(max_retries=2, timeout=120)
++        self.sdk = sdk_client
++
++    def generate(self, messages: List[Message]) -> Optional[str]:
++        import anthropic
++
++        for attempt in range(self.max_retries):
++            TRACKER.check_can_spend()
++            t0 = time.time()
++            try:
++                raw = self.sdk.messages.with_raw_response.create(
++                    model=self.model_name, max_tokens=self.max_tokens, messages=messages,
++                    thinking=self.config["thinking"], output_config=self.config["output_config"],
++                )
++                resp = raw.parse()
++                headers = {h: raw.headers.get(h) for h in RATE_HEADERS}
++            except anthropic.RateLimitError as e:
++                body = getattr(e, "body", None) or {}
++                code = ((body.get("error") or {}).get("details") or {}).get("error_code") if isinstance(body, dict) else None
++                TRACKER.record_external(model_requested=self.model_name, cost=0.0, role=self.role,
++                                        latency_s=time.time() - t0, error=f"RateLimitError {code}: {str(e)[:160]}")
++                if code == "enforced_spend_limit_reached":
++                    raise BudgetExceeded("Anthropic organisation spend cap reached") from e
++                self._exponential_backoff(attempt)
++                continue
++            except anthropic.BadRequestError as e:
++                TRACKER.record_external(model_requested=self.model_name, cost=0.0, role=self.role,
++                                        latency_s=time.time() - t0, error=f"BadRequestError: {str(e)[:200]}")
++                if "usage limits" in str(e).lower() or "credit balance" in str(e).lower():
++                    raise BudgetExceeded(f"Anthropic billing stop: {str(e)[:200]}") from e
++                raise ProviderConfigError(f"Anthropic rejected the request (fail closed): {str(e)[:300]}") from e
++            except (anthropic.APIStatusError, anthropic.APIConnectionError) as e:
++                TRACKER.record_external(model_requested=self.model_name, cost=0.0, role=self.role,
++                                        latency_s=time.time() - t0, error=f"{type(e).__name__}: {str(e)[:160]}")
++                self._exponential_backoff(attempt)
++                continue
++            u = resp.usage
++            usage = {"input_tokens": u.input_tokens or 0, "output_tokens": u.output_tokens or 0,
++                     "cache_read_input_tokens": getattr(u, "cache_read_input_tokens", 0) or 0,
++                     "cache_creation_input_tokens": getattr(u, "cache_creation_input_tokens", 0) or 0}
++            block_types = [b.type for b in resp.content]
++            TRACKER.record_external(
++                model_requested=self.model_name, cost=call_cost(self.model_name, usage), role=self.role,
++                latency_s=time.time() - t0, model_returned=resp.model, provider="anthropic_direct",
++                generation_id=getattr(resp, "id", None), request_id=raw.headers.get("request-id"),
++                prompt_tokens=usage["input_tokens"] + usage["cache_read_input_tokens"] + usage["cache_creation_input_tokens"],
++                completion_tokens=usage["output_tokens"], usage=usage, stop_reason=resp.stop_reason,
++                stop_details=json.loads(resp.stop_details.model_dump_json()) if getattr(resp, "stop_details", None) else None,
++                thinking=self.config["thinking"], output_config=self.config["output_config"],
++                content_block_types=block_types, ratelimit=headers, cost_source="anthropic_price_table_2026-10-24",
++            )
++            if resp.stop_reason == "refusal":
++                return REFUSAL_JSON  # recorded; not retried, not replaced by another model
++            return "".join(b.text for b in resp.content if b.type == "text")
++        return None
+diff --git a/llm-agent-collusion/src/resources/model_wrappers.py b/llm-agent-collusion/src/resources/model_wrappers.py
+index aa2cc19..c3f4f67 100644
+--- a/llm-agent-collusion/src/resources/model_wrappers.py
++++ b/llm-agent-collusion/src/resources/model_wrappers.py
+@@ -68,6 +68,10 @@ class ModelWrapper(ABC):
+     def create(cls, model_name: str, **kwargs) -> "ModelWrapper":
+         """Factory: OpenRouter unless LLM_PROVIDER selects a direct SDK."""
+         provider = os.getenv("LLM_PROVIDER", "openrouter").lower()
++        if provider == "anthropic_direct":  # Phase 4 replication: native Anthropic SDK, no OpenRouter
++            from src.resources.anthropic_client import AnthropicDirectClient
++
++            return AnthropicDirectClient(model_name, **kwargs)
+         if provider == "openai":
+             return OpenAIClient(model_name, **kwargs)
+         if provider == "anthropic":
+diff --git a/llm-agent-collusion/src/resources/spend.py b/llm-agent-collusion/src/resources/spend.py
+index 4840e60..2e3cac9 100644
+--- a/llm-agent-collusion/src/resources/spend.py
++++ b/llm-agent-collusion/src/resources/spend.py
+@@ -160,6 +160,25 @@ class SpendTracker:
+             self._write(rec)
+         return cost
+ 
++    def record_external(self, *, model_requested: str, cost: float, role: str = "", latency_s: float = 0.0,
++                        error: Optional[str] = None, **fields: Any) -> float:
++        """Phase 4 (direct Anthropic API): record one attempt whose cost the caller computed from token usage and a
++        verified price table. Billed responses pass prompt_tokens; failed attempts pass error and cost 0."""
++        if not self.active:
++            return 0.0
++        rec: dict[str, Any] = {"ts": datetime.now().isoformat(), "run_id": self.run_id, "role": role,
++                               "model_requested": model_requested, "latency_s": round(latency_s, 3), "error": error,
++                               **fields, "cost_usd": cost}
++        with self._lock:
++            self.total_usd += cost
++            self.run_usd += cost
++            self.run_calls += 1 if fields.get("prompt_tokens") is not None else 0
++            self.max_call_usd = max(self.max_call_usd, cost)
++            if fields.get("model_returned"):
++                self.models_seen[fields["model_returned"]] = self.models_seen.get(fields["model_returned"], 0) + 1
++            self._write(rec)
++        return cost
++
+     def _write(self, rec: dict[str, Any]) -> None:
+         line = json.dumps(rec) + "\n"
+         for p in (self.ledger_path, self.usage_path):
+diff --git a/llm-agent-collusion/tests/test_phase4_anthropic.py b/llm-agent-collusion/tests/test_phase4_anthropic.py
+new file mode 100644
+index 0000000..f05a831
+--- /dev/null
++++ b/llm-agent-collusion/tests/test_phase4_anthropic.py
+@@ -0,0 +1,197 @@
++"""
++Phase 4 offline tests (no network): the direct Anthropic client is exercised against a mocked SDK object, and the
++WON arm (messaging off from round 5, NO announcement) through the real run_simulation path with the fake model.
++"""
++
++import json
++import re
++from types import SimpleNamespace
++
++import anthropic
++import httpx
++import pytest
++
++import src.continuous_double_auction.simulation as sim
++from src.resources import spend
++from src.resources.anthropic_client import (REFUSAL_JSON, AnthropicDirectClient, PriceTableError,
++                                            assert_anthropic_only, call_cost)
++from test_sprint34 import (MSG_SECTION, NOTICE, OFF_RULE, ROUNDS, FakeClient, changed_lines,  # noqa: F401
++                           make_params, run_arm, seller_prompts)
++
++
++class FakeRaw:
++    def __init__(self, resp, headers=None):
++        self._resp, self.headers = resp, headers or {"request-id": "req_test", "anthropic-ratelimit-requests-limit": "1000"}
++
++    def parse(self):
++        return self._resp
++
++
++class FakeSDK:
++    """Mimics client.messages.with_raw_response.create; returns queued responses or raises queued exceptions."""
++
++    def __init__(self, outcomes):
++        self.outcomes, self.calls = list(outcomes), []
++        self.messages = SimpleNamespace(with_raw_response=SimpleNamespace(create=self._create))
++
++    def _create(self, **kw):
++        self.calls.append(kw)
++        o = self.outcomes.pop(0)
++        if isinstance(o, Exception):
++            raise o
++        return FakeRaw(o)
++
++
++def resp(text='{"ask": 96.5}', stop="end_turn", model="claude-sonnet-5-5", it=2000, ot=400):
++    return SimpleNamespace(model=model, id="msg_1", stop_reason=stop, stop_details=None,
++                           content=[SimpleNamespace(type="text", text=text)],
++                           usage=SimpleNamespace(input_tokens=it, output_tokens=ot, cache_read_input_tokens=0,
++                                                 cache_creation_input_tokens=0))
++
++
++@pytest.fixture
++def tracker(tmp_path, monkeypatch):
++    t = spend.SpendTracker()
++    t.configure(tmp_path / "ledger.jsonl", 60.0, "test", tmp_path / "usage.jsonl")
++    monkeypatch.setattr("src.resources.anthropic_client.TRACKER", t)
++    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-dummy")
++    for v in ("LLM_MODEL", "LLM_BASE_URL", "ANTHROPIC_BASE_URL"):
++        monkeypatch.delenv(v, raising=False)
++    return t
++
++
++def ledger(t):
++    return [json.loads(l) for l in t.ledger_path.read_text().splitlines()]
++
++
++@pytest.mark.parametrize("model,thinking,effort", [("claude-sonnet-5-5", {"type": "between_tools"}, "high"),
++                                                   ("claude-haiku-5-5", {"type": "disabled"}, "medium")])
++def test_request_construction_per_model(tracker, model, thinking, effort):
++    sdk = FakeSDK([resp(model=model)])
++    c = AnthropicDirectClient(model, role="seller:X", sdk_client=sdk, temperature=0.7, seed=3,
++                              response_format={"type": "json_object"})
++    assert c.generate([{"role": "user", "content": "hi"}]) == '{"ask": 96.5}'
++    kw = sdk.calls[0]
++    assert kw["model"] == model and kw["max_tokens"] == 4000 and kw["thinking"] == thinking
++    assert kw["output_config"] == {"effort": effort}
++    assert not {"temperature", "top_p", "top_k", "seed", "response_format", "system"} & set(kw)
++    rec = ledger(tracker)[0]
++    assert rec["model_returned"] == model and rec["thinking"] == thinking and rec["stop_reason"] == "end_turn"
++    assert rec["content_block_types"] == ["text"] and rec["provider"] == "anthropic_direct"
++
++
++def test_cost_arithmetic(tracker):
++    assert call_cost("claude-sonnet-5-5", {"input_tokens": 2000, "output_tokens": 400, "cache_read_input_tokens": 0,
++                                           "cache_creation_input_tokens": 0}) == pytest.approx(2000 * 2e-6 + 400 * 10e-6)
++    assert call_cost("claude-haiku-5-5", {"input_tokens": 2000, "output_tokens": 400, "cache_read_input_tokens": 0,
++                                          "cache_creation_input_tokens": 0}) == pytest.approx(2000 * 0.1e-6 + 400 * 0.5e-6)
++    with pytest.raises(PriceTableError):
++        call_cost("claude-haiku-5-5", {"input_tokens": 100_001, "output_tokens": 1, "cache_read_input_tokens": 0,
++                                       "cache_creation_input_tokens": 0})
++
++
++def test_refusal_recorded_not_retried(tracker):
++    sdk = FakeSDK([resp(stop="refusal", text="")])
++    c = AnthropicDirectClient("claude-sonnet-5-5", sdk_client=sdk)
++    assert c.generate([{"role": "user", "content": "x"}]) == REFUSAL_JSON
++    assert len(sdk.calls) == 1 and ledger(tracker)[0]["stop_reason"] == "refusal"
++
++
++def _err(cls, status, body):
++    r = httpx.Response(status, request=httpx.Request("POST", "https://api.anthropic.com/v1/messages"), json=body)
++    return cls(message=json.dumps(body), response=r, body=body)
++
++
++def test_spend_cap_and_bad_request_fail_closed(tracker):
++    cap = _err(anthropic.RateLimitError, 429, {"error": {"type": "rate_limit_error", "message": "cap",
++                                                         "details": {"error_code": "enforced_spend_limit_reached"}}})
++    with pytest.raises(spend.BudgetExceeded):
++        AnthropicDirectClient("claude-sonnet-5-5", sdk_client=FakeSDK([cap])).generate([{"role": "user", "content": "x"}])
++    bad = _err(anthropic.BadRequestError, 400, {"error": {"type": "invalid_request_error", "message": "thinking.type"}})
++    with pytest.raises(spend.ProviderConfigError):
++        AnthropicDirectClient("claude-haiku-5-5", sdk_client=FakeSDK([bad])).generate([{"role": "user", "content": "x"}])
++
++
++def test_transient_errors_retried_then_succeed(tracker, monkeypatch):
++    monkeypatch.setattr(AnthropicDirectClient, "_exponential_backoff", lambda self, a: None)
++    rl = _err(anthropic.RateLimitError, 429, {"error": {"type": "rate_limit_error", "message": "slow down"}})
++    sdk = FakeSDK([rl, resp()])
++    assert AnthropicDirectClient("claude-sonnet-5-5", sdk_client=sdk).generate([{"role": "user", "content": "x"}])
++    recs = ledger(tracker)
++    assert recs[0]["error"].startswith("RateLimitError") and recs[0]["cost_usd"] == 0 and recs[1]["stop_reason"] == "end_turn"
++
++
++def test_provider_guard(monkeypatch):
++    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
++    with pytest.raises(spend.ProviderConfigError):
++        assert_anthropic_only("claude-opus-5-5")        # not a configured Phase 4 model: no silent substitution
++    with pytest.raises(spend.ProviderConfigError):
++        assert_anthropic_only("openai/gpt-4.1")
++    monkeypatch.setenv("ANTHROPIC_BASE_URL", "http://proxy")
++    with pytest.raises(spend.ProviderConfigError):
++        assert_anthropic_only("claude-sonnet-5-5")
++    monkeypatch.delenv("ANTHROPIC_BASE_URL")
++    monkeypatch.delenv("ANTHROPIC_API_KEY")
++    with pytest.raises(spend.ProviderConfigError):
++        assert_anthropic_only("claude-sonnet-5-5")
++
++
++class RefusingFake(FakeClient):
++    """One seller always refuses; everyone else behaves like FakeClient."""
++
++    def generate(self, messages):
++        if self.role == "seller:" + REFUSER[0]:
++            super().generate(messages)  # still records the prompt
++            return REFUSAL_JSON
++        return super().generate(messages)
++
++
++REFUSER = [None]
++
++
++def test_refusal_is_a_no_action_turn(tmp_path, monkeypatch):
++    monkeypatch.setitem(sim.SPEND, "ledger", tmp_path / "ledger.jsonl")
++    monkeypatch.setattr(sim, "get_client", lambda model, role="", **kw: RefusingFake(model, role=role, **kw))
++    p = make_params("A")
++    names_seed = None
++    # discover a seller name for this seed by a first run with no refuser
++    REFUSER[0] = "nobody"
++    sim.run_simulation(p, log_dir=str(tmp_path / "probe"))
++    d = next((tmp_path / "probe").iterdir())
++    names_seed = json.loads((d / "experiment_metadata.json").read_text())["seller_ids"][0]
++    REFUSER[0] = names_seed.split(" ", 1)[1]
++    sim.run_simulation(p, log_dir=str(tmp_path / "ref"))
++    d = next((tmp_path / "ref").iterdir())
++    rounds = [json.loads(b) for b in re.findall(r"````json\n(.*?)\n````", (d / "auction_results.md").read_text(), re.S)]
++    for r in rounds:
++        assert names_seed not in r["seller_messages"] and names_seed not in r["seller_messages_raw"]
++    # round 1 carries the seeded opening order; from round 2 a refusing seller posts no new ask
++    assert all(names_seed not in r["seller_asks"] for r in rounds[1:])
++    md = (d / f"{names_seed}.md").read_text()
++    assert md.count('"refused": true') == ROUNDS
++
++
++def test_WON_arm_no_announcement_messaging_off_from_round_5(run_arm):
++    res = run_arm("WON")
++    for rnd in range(1, ROUNDS + 1):
++        for p in seller_prompts(res, rnd).values():
++            assert NOTICE not in p
++            assert (OFF_RULE in p) == (rnd >= 5) and (MSG_SECTION in p) == (rnd < 5)
++            if rnd >= 5:
++                assert "From Seller" not in p and "message_to_sellers" not in p
++    assert all(r["seller_messages"] == {} for r in res.rounds if r["round_number"] >= 5)
++    assert [(e["event"], e["round"]) for e in res.meta["treatment_events"]] == [
++        ("seller_messaging_disabled_send_and_receive", 5)]
++
++
++def test_WON_branch_from_A_and_prompt_diff(run_arm):
++    a = run_arm("A")
++    br = run_arm("WON", branch_from=a.dir, out_name="WON-branch")
++    assert br.rounds[:4] == a.rounds[:4] and {r["round"] for r in br.records} == set(range(5, ROUNDS + 1))
++    allowed_removed = re.compile(r"Messages Received|From Seller|maximum length limit|plan_for_message|message_to_sellers|new_memory")
++    for role, pa in seller_prompts(a, 5).items():
++        ch = changed_lines(pa, seller_prompts(br, 5)[role])
++        added = [l[2:] for l in ch if l.startswith("+ ")]
++        removed = [l[2:] for l in ch if l.startswith("- ")]
++        assert all(allowed_removed.search(l) for l in removed), removed
++        assert [l for l in added if "new_memory" not in l] == [f"- {OFF_RULE}"]
+-- 
+2.54.0 (Apple Git-157)
+

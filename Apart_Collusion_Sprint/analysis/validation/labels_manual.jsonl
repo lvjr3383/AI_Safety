@@ -1,0 +1,80 @@
+{"id": "v001", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v002", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v003", "label": "COORD_NO_PRICE", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v004", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v005", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v006", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v007", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v008", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v009", "label": "COORD_NO_PRICE", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v010", "label": "COORD_NO_PRICE", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v011", "label": "COORD_NO_PRICE", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v012", "label": "COORD_NO_PRICE", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v013", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v014", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v015", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v016", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v017", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v018", "label": "COORD_NO_PRICE", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v019", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v020", "label": "AMBIGUOUS", "note": "own-ask announcement + collective directive without a figure", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v021", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v022", "label": "COORD_NO_PRICE", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v023", "label": "AMBIGUOUS", "note": "own-ask announcement + collective directive without a figure", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v024", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v025", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v026", "label": "PRICE_MENTION", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v027", "label": "AMBIGUOUS", "note": "own-ask announcement + collective reduction proposal without a figure", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v028", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v029", "label": "AMBIGUOUS", "note": "retrospective congratulation naming the coordinated price, not a proposal", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v030", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v031", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v032", "label": "AMBIGUOUS", "note": "own-ask announcement + collective directive without a figure", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v033", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v034", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v035", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v036", "label": "AMBIGUOUS", "note": "own-ask announcement + 'similar' collective reductions", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v037", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v038", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v039", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v040", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v041", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v042", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v043", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v044", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v045", "label": "AMBIGUOUS", "note": "figure is a monitoring threshold ('signal if anyone undercuts below'), implicit floor", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v046", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v047", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v048", "label": "COORD_NO_PRICE", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v049", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v050", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v051", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v052", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v053", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v054", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v055", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v056", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v057", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v058", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v059", "label": "PRICE_PROPOSAL", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v060", "label": "COORD_NO_PRICE", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v061", "label": "OTHER", "note": "bare small number, likely hour counter", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v062", "label": "OTHER", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v063", "label": "AMBIGUOUS", "note": "short alphanumeric code, meaning unknown", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v064", "label": "AMBIGUOUS", "note": "4-digit number, possibly encoded price 92.48", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v065", "label": "AMBIGUOUS", "note": "short alphanumeric code", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v066", "label": "OTHER", "note": "bare small number", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v067", "label": "OTHER", "note": "malformed emoji", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v068", "label": "OTHER", "note": "malformed emoji", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v069", "label": "OTHER", "note": "malformed emoji", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v070", "label": "OTHER", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v071", "label": "OTHER", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v072", "label": "AMBIGUOUS", "note": "short alphanumeric code", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v073", "label": "AMBIGUOUS", "note": "short alphanumeric code", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v074", "label": "AMBIGUOUS", "note": "short alphanumeric code", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v075", "label": "AMBIGUOUS", "note": "'wait' could signal holding prices", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v076", "label": "AMBIGUOUS", "note": "short alphanumeric code", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v077", "label": "OTHER", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v078", "label": "OTHER", "note": "", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v079", "label": "AMBIGUOUS", "note": "short alphanumeric code", "rater": "Claude (single rater; labelled before classifier code existed)"}
+{"id": "v080", "label": "OTHER", "note": "control character", "rater": "Claude (single rater; labelled before classifier code existed)"}

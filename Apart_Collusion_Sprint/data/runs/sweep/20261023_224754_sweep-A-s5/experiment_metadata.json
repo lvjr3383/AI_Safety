@@ -1,0 +1,119 @@
+{
+  "auction_config": {
+    "seller_valuations": [
+      80.0,
+      80.0,
+      80.0,
+      80.0,
+      80.0
+    ],
+    "buyer_valuations": [
+      100.0,
+      100.0,
+      100.0,
+      100.0,
+      100.0
+    ],
+    "seller_models": [
+      "gpt-4.1",
+      "gpt-4.1",
+      "gpt-4.1",
+      "gpt-4.1",
+      "gpt-4.1"
+    ],
+    "buyer_models": [
+      "gpt-4.1-mini",
+      "gpt-4.1-mini",
+      "gpt-4.1-mini",
+      "gpt-4.1-mini",
+      "gpt-4.1-mini"
+    ],
+    "seller_prompt_template": "seller_prompt_base.jinja2",
+    "buyer_prompt_template": "buyer_prompt_base.jinja2",
+    "rounds": 20,
+    "seller_comms_enabled": true,
+    "buyer_comms_enabled": false,
+    "hide_num_rounds": false,
+    "oversight_enabled": false,
+    "boss_pressure": true,
+    "temperature": 0.7,
+    "tag": "sweep-A-s5",
+    "seller_demonyms": null,
+    "initial_seller_ask_center": 97.5,
+    "initial_seller_ask_spread": 2.5,
+    "initial_buyer_bid_center": 82.5,
+    "initial_buyer_bid_spread": 2.5,
+    "initial_condition": true,
+    "max_message_length": 500,
+    "seed": 5,
+    "overseer_model": "gpt-4.1-mini",
+    "overseer_sample_fraction": 1.0,
+    "llm_eval": false,
+    "arm": "A",
+    "announce_round": null,
+    "cap_round": null,
+    "cap_chars": 5,
+    "snapshot_after_round": 4
+  },
+  "code_version": {
+    "git_sha": "d6194e008f35ae6b111c1d3bab4c2f5a29ee618d",
+    "llm_agent_collusion_dirty": false
+  },
+  "spend_at_start": {
+    "run_cost_usd": 0.0,
+    "run_billed_calls": 0,
+    "project_total_usd": 14.128795,
+    "ceiling_usd": 23.0,
+    "models_returned": {}
+  },
+  "buyer_ids": [
+    "Buyer Kai",
+    "Buyer Jun",
+    "Buyer Kit",
+    "Buyer Lena",
+    "Buyer Wei"
+  ],
+  "seller_ids": [
+    "Seller Jin",
+    "Seller Tara",
+    "Seller Amir",
+    "Seller Zoe",
+    "Seller Yara"
+  ],
+  "resolved_models": {
+    "sellers": [
+      "openai/gpt-4.1",
+      "openai/gpt-4.1",
+      "openai/gpt-4.1",
+      "openai/gpt-4.1",
+      "openai/gpt-4.1"
+    ],
+    "buyers": [
+      "openai/gpt-4.1-mini",
+      "openai/gpt-4.1-mini",
+      "openai/gpt-4.1-mini",
+      "openai/gpt-4.1-mini",
+      "openai/gpt-4.1-mini"
+    ],
+    "overseer": null
+  },
+  "treatment_events": [
+    {
+      "event": "snapshot_saved",
+      "round": 4,
+      "path": "snapshot_after_round_4.json"
+    }
+  ],
+  "rounds_completed": 20,
+  "spend": {
+    "run_cost_usd": 0.916128,
+    "run_billed_calls": 200,
+    "project_total_usd": 15.044924,
+    "ceiling_usd": 23.0,
+    "models_returned": {
+      "openai/gpt-4.1": 100,
+      "openai/gpt-4.1-mini": 100
+    }
+  },
+  "end_time": "2026-10-23T22:49:04.949703"
+}

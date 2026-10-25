@@ -1,0 +1,165 @@
+From 5dbf4c561cdbe08f53c32c3b666fa00fa2fd78cf Mon Sep 17 00:00:00 2001
+From: lvjr <87400253+lvjr3383@users.noreply.github.com>
+Date: Sat, 24 Oct 2026 07:08:39 -0500
+Subject: [PATCH 08/15] Phase 3 amendment 1: snapshot schema-compatibility
+ check (allowlisted new fields at defaults)
+
+Exact equality for every original snapshot field; only comms_off_round=None,
+seller_messaging_off=False, seller_messages_attempted={} may appear. No change to
+treatments, analysis or thresholds. Re-verified all 7 snapshots; sweep output identical.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ llm-agent-collusion/tests/test_sprint34.py | 24 ++++++++++
+ sprint34/WO_FOLLOWUP_PROTOCOL.md           | 28 ++++++++++++
+ sprint34/verify_snapshot.py                | 52 +++++++++++++++++++++-
+ 3 files changed, 102 insertions(+), 2 deletions(-)
+
+diff --git a/llm-agent-collusion/tests/test_sprint34.py b/llm-agent-collusion/tests/test_sprint34.py
+index bdbe3f7..331c6a9 100644
+--- a/llm-agent-collusion/tests/test_sprint34.py
++++ b/llm-agent-collusion/tests/test_sprint34.py
+@@ -355,3 +355,27 @@ def test_branch_WO_from_A_snapshot(run_arm):
+     assert {r["round"] for r in br.records} == set(range(5, ROUNDS + 1))
+     assert all(r["seller_messages"] == {} for r in br.rounds[4:])
+     assert br.meta["branched_from"]["run"] == a.dir.name
++
++
++# ---- Amendment 2026-10-24: snapshot schema-compatibility comparison ----
++def test_snapshot_compat_allowlist():
++    import sys as _sys
++    _sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "sprint34"))
++    from verify_snapshot import compat_equal
++    old = {"snapshot_version": 1, "params": {"seed": 0}, "agents": [], "rng": {},
++           "market": {"rounds": [{"round_number": 1}], "current_round": {"round_number": 2}, "is_gag_order_active": False}}
++    new = json.loads(json.dumps(old))
++    new["params"]["comms_off_round"] = None
++    for r in new["market"]["rounds"] + [new["market"]["current_round"]]:
++        r.update(seller_messaging_off=False, seller_messages_attempted={})
++    assert compat_equal(new, old) == []
++    bad = json.loads(json.dumps(new)); bad["params"]["comms_off_round"] = 5
++    assert any("non-default" in p for p in compat_equal(bad, old))
++    bad = json.loads(json.dumps(new)); bad["market"]["rounds"][0]["seller_messaging_off"] = True
++    assert any("non-default" in p for p in compat_equal(bad, old))
++    bad = json.loads(json.dumps(new)); bad["params"]["surprise"] = 1
++    assert any("unexpected new field" in p for p in compat_equal(bad, old))
++    bad = json.loads(json.dumps(new)); bad["params"]["seed"] = 1
++    assert any("differs" in p for p in compat_equal(bad, old))
++    bad = json.loads(json.dumps(new)); bad["market"]["rounds"][0]["round_number"] = 9
++    assert any("differs" in p for p in compat_equal(bad, old))
+diff --git a/sprint34/WO_FOLLOWUP_PROTOCOL.md b/sprint34/WO_FOLLOWUP_PROTOCOL.md
+index a0326fd..46ef7b9 100644
+--- a/sprint34/WO_FOLLOWUP_PROTOCOL.md
++++ b/sprint34/WO_FOLLOWUP_PROTOCOL.md
+@@ -111,3 +111,31 @@ Attempted (undelivered) messages are counted and reported. **A seed that fails t
+ - Removing round-4 message delivery is part of the WO manipulation, not a separate factor.
+ - The announcement may be ignored, as in the sweep. WO tests channel removal *under* the announcement, not the announcement alone.
+ - GPT-4.1-mini buyers, one seller model, one wording, 20 rounds.
++
++## 8. Amendment 1 (2026-10-24, before any WO model call): snapshot schema compatibility
++
++**What happened**
++- The first WO launch (07:04 CDT) stopped safely with $0 spent. `verify_snapshot.py` reported `roundtrip_equal: false` for all 7 A snapshots, and the runner skipped every seed.
++- **Cause:** the WO code added three fields after the snapshots were saved:
++  - `params.comms_off_round`, default `None`;
++  - `MarketRound.seller_messaging_off`, default `False`;
++  - `MarketRound.seller_messages_attempted`, default `{}`.
++
++  Re-serialising an old snapshot adds these fields at their defaults. Everything else matched exactly: market history, order books, trades, agent memories and scratchpads, and RNG states.
++
++**Fix (approved by the project owner)**
++- `verify_snapshot.py` now uses `compat_equal`:
++  - **every field present in the original snapshot must still be exactly equal**;
++  - only the three fields above may be added, and only at those exact default values;
++  - any other new field, or any non-default value, fails the check.
++- Covered by the new unit test `test_snapshot_compat_allowlist`.
++
++**Unchanged:** treatments, the WO arm definition, `analyze_wo.py`, the sweep files, the thresholds and the statistical methods. The snapshot files themselves were not modified (identical hash before and after).
++
++**Re-verification before the paid run**
++- All 7 snapshots pass `verify_snapshot.py`, with `roundtrip_problems: []`.
++- All 7 pass `verify_wo_real.py`.
++- `analyze_sweep.py` output is identical to the saved sweep results.
++- 37/37 tests pass.
++
++**Budget for this follow-up:** `WO_CEILING = $25.00` cumulative project spend, approved by the owner and replacing the $5-reserve rule for this follow-up only.
+diff --git a/sprint34/verify_snapshot.py b/sprint34/verify_snapshot.py
+index f49be7c..619439e 100644
+--- a/sprint34/verify_snapshot.py
++++ b/sprint34/verify_snapshot.py
+@@ -20,6 +20,53 @@ from src.continuous_double_auction.snapshot import load_snapshot, restore_state,
+ from src.resources.model_wrappers import ModelWrapper
+ 
+ 
++# Amendment 2026-10-24 (WO_FOLLOWUP_PROTOCOL.md §8): fields added to the code after the A snapshots were saved.
++# A re-serialised snapshot may contain these, and ONLY these, extra keys, and only with these default values.
++ALLOWED_NEW_PARAMS = {"comms_off_round": None}
++ALLOWED_NEW_ROUND = {"seller_messaging_off": False, "seller_messages_attempted": {}}
++
++
++def _compat(new: dict, old: dict, allowed: dict, where: str, problems: list) -> None:
++    """Every key in `old` must be equal in `new`; keys only in `new` must be allowlisted and hold their default."""
++    for k in old:
++        if k not in new:
++            problems.append(f"{where}: missing field {k}")
++        elif new[k] != old[k]:
++            problems.append(f"{where}: field {k} differs")
++    for k in set(new) - set(old):
++        if k not in allowed:
++            problems.append(f"{where}: unexpected new field {k}")
++        elif new[k] != allowed[k]:
++            problems.append(f"{where}: new field {k} has non-default value {new[k]!r}")
++
++
++def compat_equal(again: dict, snap: dict) -> list:
++    """Snapshot round-trip comparison under the schema-compatibility amendment. Returns a list of problems ([] = equal)."""
++    problems = []
++    if set(again) != set(snap):
++        problems.append(f"top-level keys differ: {sorted(set(again) ^ set(snap))}")
++    for k in set(again) & set(snap):
++        if k == "params":
++            _compat(again[k], snap[k], ALLOWED_NEW_PARAMS, "params", problems)
++        elif k == "market":
++            a, o = again[k], snap[k]
++            if set(a) != set(o):
++                problems.append(f"market keys differ: {sorted(set(a) ^ set(o))}")
++            for mk in set(a) & set(o):
++                if mk == "rounds":
++                    if len(a[mk]) != len(o[mk]):
++                        problems.append("market.rounds length differs")
++                    for i, (ra, ro) in enumerate(zip(a[mk], o[mk])):
++                        _compat(ra, ro, ALLOWED_NEW_ROUND, f"market.rounds[{i}]", problems)
++                elif mk == "current_round":
++                    _compat(a[mk], o[mk], ALLOWED_NEW_ROUND, "market.current_round", problems)
++                elif a[mk] != o[mk]:
++                    problems.append(f"market.{mk} differs")
++        elif again[k] != snap[k]:
++            problems.append(f"{k} differs")
++    return problems
++
++
+ class NoCallClient(ModelWrapper):
+     def generate(self, messages):
+         raise RuntimeError("verification must not call a model")
+@@ -52,7 +99,8 @@ def main(run_dir: Path) -> int:
+                     cap_chars=params.cap_chars,
+                     overseer_rng=random.Random(params.seed) if params.seed is not None else None)
+     restore_state(snap, market, [*sellers, *buyers])
+-    checks = {"roundtrip_equal": snapshot_state(market, params, k) == snap}
++    problems = compat_equal(snapshot_state(market, params, k), snap)
++    checks = {"roundtrip_equal": not problems}
+ 
+     logged = [json.loads(b) for b in re.findall(r"````json\n(.*?)\n````", (run_dir / "auction_results.md").read_text(), re.S)]
+     checks["rounds_match_auction_log"] = snap["market"]["rounds"] == logged[:k]
+@@ -62,7 +110,7 @@ def main(run_dir: Path) -> int:
+         mem, pad = logged_agent_state(run_dir / f"{a['id']}.md", k)
+         agent_ok &= (a["memories"] == mem and (a["scratch_pad"] or "") == pad)
+     checks["agent_memory_scratchpad_match_logs"] = agent_ok
+-    print(json.dumps({"run": run_dir.name, "snapshot": snap_file.name, **checks}))
++    print(json.dumps({"run": run_dir.name, "snapshot": snap_file.name, **checks, "roundtrip_problems": problems[:5]}))
+     return 0 if all(checks.values()) else 1
+ 
+ 
+-- 
+2.54.0 (Apple Git-157)
+
