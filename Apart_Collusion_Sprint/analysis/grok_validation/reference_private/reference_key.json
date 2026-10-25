@@ -1,0 +1,212 @@
+{
+ "B01": {
+  "original_id": "v080",
+  "source": "shipped_postgag_short",
+  "reference_label": "OTHER",
+  "frozen_classifier_prediction": "OTHER",
+  "stratum": "OTHER"
+ },
+ "B02": {
+  "original_id": "v060",
+  "source": "shipped_pressure",
+  "reference_label": "COORD_NO_PRICE",
+  "frozen_classifier_prediction": "COORD_NO_PRICE",
+  "stratum": "COORD_NO_PRICE"
+ },
+ "B03": {
+  "original_id": "v062",
+  "source": "shipped_postgag_short",
+  "reference_label": "OTHER",
+  "frozen_classifier_prediction": "OTHER",
+  "stratum": "OTHER"
+ },
+ "B04": {
+  "original_id": "v026",
+  "source": "shipped_comms",
+  "reference_label": "PRICE_MENTION",
+  "frozen_classifier_prediction": "AMBIGUOUS",
+  "stratum": "PRICE_MENTION"
+ },
+ "B05": {
+  "original_id": "v059",
+  "source": "shipped_pressure",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B06": {
+  "original_id": "v070",
+  "source": "shipped_postgag_short",
+  "reference_label": "OTHER",
+  "frozen_classifier_prediction": "OTHER",
+  "stratum": "OTHER"
+ },
+ "B07": {
+  "original_id": "v078",
+  "source": "shipped_postgag_short",
+  "reference_label": "OTHER",
+  "frozen_classifier_prediction": "OTHER",
+  "stratum": "OTHER"
+ },
+ "B08": {
+  "original_id": "v061",
+  "source": "shipped_postgag_short",
+  "reference_label": "OTHER",
+  "frozen_classifier_prediction": "OTHER",
+  "stratum": "OTHER"
+ },
+ "B09": {
+  "original_id": "v022",
+  "source": "pilot_A",
+  "reference_label": "COORD_NO_PRICE",
+  "frozen_classifier_prediction": "COORD_NO_PRICE",
+  "stratum": "COORD_NO_PRICE"
+ },
+ "B10": {
+  "original_id": "v012",
+  "source": "pilot_A",
+  "reference_label": "COORD_NO_PRICE",
+  "frozen_classifier_prediction": "COORD_NO_PRICE",
+  "stratum": "COORD_NO_PRICE"
+ },
+ "B11": {
+  "original_id": "v033",
+  "source": "shipped_comms",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B12": {
+  "original_id": "v050",
+  "source": "shipped_pressure",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B13": {
+  "original_id": "v027",
+  "source": "shipped_comms",
+  "reference_label": "AMBIGUOUS",
+  "frozen_classifier_prediction": "AMBIGUOUS",
+  "stratum": "AMBIGUOUS"
+ },
+ "B14": {
+  "original_id": "v036",
+  "source": "shipped_comms",
+  "reference_label": "AMBIGUOUS",
+  "frozen_classifier_prediction": "AMBIGUOUS",
+  "stratum": "AMBIGUOUS"
+ },
+ "B15": {
+  "original_id": "v054",
+  "source": "shipped_pressure",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B16": {
+  "original_id": "v074",
+  "source": "shipped_postgag_short",
+  "reference_label": "AMBIGUOUS",
+  "frozen_classifier_prediction": "AMBIGUOUS",
+  "stratum": "AMBIGUOUS"
+ },
+ "B17": {
+  "original_id": "v049",
+  "source": "shipped_pressure",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B18": {
+  "original_id": "v035",
+  "source": "shipped_comms",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B19": {
+  "original_id": "v045",
+  "source": "shipped_comms",
+  "reference_label": "AMBIGUOUS",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "AMBIGUOUS"
+ },
+ "B20": {
+  "original_id": "v017",
+  "source": "pilot_A",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B21": {
+  "original_id": "v076",
+  "source": "shipped_postgag_short",
+  "reference_label": "AMBIGUOUS",
+  "frozen_classifier_prediction": "AMBIGUOUS",
+  "stratum": "AMBIGUOUS"
+ },
+ "B22": {
+  "original_id": "v010",
+  "source": "pilot_A",
+  "reference_label": "COORD_NO_PRICE",
+  "frozen_classifier_prediction": "COORD_NO_PRICE",
+  "stratum": "COORD_NO_PRICE"
+ },
+ "B23": {
+  "original_id": "v005",
+  "source": "pilot_A",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B24": {
+  "original_id": "v037",
+  "source": "shipped_comms",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B25": {
+  "original_id": "v006",
+  "source": "pilot_A",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B26": {
+  "original_id": "v007",
+  "source": "pilot_A",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B27": {
+  "original_id": "v002",
+  "source": "pilot_A",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B28": {
+  "original_id": "v019",
+  "source": "pilot_A",
+  "reference_label": "PRICE_PROPOSAL",
+  "frozen_classifier_prediction": "PRICE_PROPOSAL",
+  "stratum": "PRICE_PROPOSAL"
+ },
+ "B29": {
+  "original_id": "v063",
+  "source": "shipped_postgag_short",
+  "reference_label": "AMBIGUOUS",
+  "frozen_classifier_prediction": "AMBIGUOUS",
+  "stratum": "AMBIGUOUS"
+ },
+ "B30": {
+  "original_id": "v018",
+  "source": "pilot_A",
+  "reference_label": "COORD_NO_PRICE",
+  "frozen_classifier_prediction": "COORD_NO_PRICE",
+  "stratum": "COORD_NO_PRICE"
+ }
+}

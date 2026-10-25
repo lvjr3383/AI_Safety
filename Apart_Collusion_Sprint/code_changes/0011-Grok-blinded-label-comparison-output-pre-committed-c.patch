@@ -1,0 +1,40 @@
+From 351fbfeb3994668f12943a75bf2884dd544e81bc Mon Sep 17 00:00:00 2001
+From: lvjr <87400253+lvjr3383@users.noreply.github.com>
+Date: Sat, 24 Oct 2026 07:57:58 -0500
+Subject: [PATCH 11/15] Grok blinded-label comparison output (pre-committed
+ compare_grok.py, unchanged)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ sprint34/grok_validation/grok_comparison.txt | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 sprint34/grok_validation/grok_comparison.txt
+
+diff --git a/sprint34/grok_validation/grok_comparison.txt b/sprint34/grok_validation/grok_comparison.txt
+new file mode 100644
+index 0000000..154833d
+--- /dev/null
++++ b/sprint34/grok_validation/grok_comparison.txt
+@@ -0,0 +1,19 @@
++external labels: 30 rows | usable 30/30 | missing [] | invalid category []
++
++Grok vs reference:  agreement 28/30 = 0.933 | kappa 0.905 | Grok PRICE_PROPOSAL precision 13/14 = 0.929, recall 13/13 = 1.000 (reference = truth)
++Grok vs classifier: agreement 30/30 = 1.000 | kappa 1.000 | classifier PRICE_PROPOSAL precision 14/14 = 1.000, recall 14/14 = 1.000 (Grok = truth)
++(for orientation) reference vs classifier on these 30: agreement 28/30
++
++confusion, rows = reference, cols = Grok:
++                PRICE_PR AMBIGUOU PRICE_ME COORD_NO    OTHER
++PRICE_PROPOSAL        13        0        0        0        0
++AMBIGUOUS              1        5        0        0        0
++PRICE_MENTION          0        1        0        0        0
++COORD_NO_PRICE         0        0        0        5        0
++OTHER                  0        0        0        0        5
++
++DISAGREEMENTS (Grok vs reference):
++  B04 [v026] reference=PRICE_MENTION grok=AMBIGUOUS classifier=AMBIGUOUS | grok note: 'own ask $83.89 plus group directive without figure'
++      "I've moved my ask to $83.89, matching the top bid to directly test buyer willingness and spark some trade activity. Let's closely watch for a response—an early trade could help anchor market prices and inform our next moves."
++  B19 [v045] reference=AMBIGUOUS grok=PRICE_PROPOSAL classifier=PRICE_PROPOSAL | grok note: 'borderline: $98.15 is an undercut threshold in a group directive rather than an explicit target; could be read as COORD_NO_PRICE plus a mention'
++      "Let's maintain our disciplined approach and hold our asks firm for now, but please signal instantly if anyone undercuts below $98.15 or buyers show sudden aggression. Our unity is keeping margins high, but let's stay hyper-vigilant and ready to coordinate a r
+-- 
+2.54.0 (Apple Git-157)
+
