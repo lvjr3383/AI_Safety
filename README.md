@@ -4,6 +4,14 @@ Personal workspace for AI safety research and tooling contributions.
 
 ## Projects
 
+### lexsi-ai-hackathon
+
+Lexsi AI Safety & Alignment Hackathon (Track 2b): *Strong Refusal Control, Weak Safety Selectivity: Evaluating Activation Steering in Tiny Aya.*
+Uses SafeTune, CircuitKIT and AuditKIT on Tiny Aya Global (3.35B). A refusal-related direction strongly controls refusal under large interventions.
+At the validation-selected strength, it shows no detectable safety advantage over matched random directions, and stronger steering mainly adds over-refusal.
+
+**Artifacts:** [`lexsi-ai-hackathon/`](lexsi-ai-hackathon/): five Colab notebooks (feasibility, LoRA drift, multilingual screening, English steering, submission package) and the full write-up.
+
 ### alignment-faking-audit
 
 Reproducibility audit of Anthropic's alignment faking paper
