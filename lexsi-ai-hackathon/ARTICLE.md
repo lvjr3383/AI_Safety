@@ -1,15 +1,9 @@
----
-title: "Strong Refusal Control, Weak Safety Selectivity: Evaluating Activation Steering in Tiny Aya"
-thumbnail: https://huggingface.co/lvjr3383/tiny-aya-refusal-steering/resolve/main/figures/fig1_phase1_causal.png
-authors:
-- user: lvjr3383
----
 
 # Strong Refusal Control, Weak Safety Selectivity: Evaluating Activation Steering in Tiny Aya
 
 *Lexsi AI Safety & Alignment Hackathon, Track 2b (AI Safety and Correction). Model: Cohere Labs Tiny Aya Global (3.35B). Toolkits: SafeTune, CircuitKIT, AuditKIT.*
 
-**Artifacts:** [model collection](MODEL_COLLECTION_URL) · [dataset collection](DATASET_COLLECTION_URL) · [GitHub repo](https://github.com/lvjr3383/AI_Safety/tree/main/lexsi-ai-hackathon) · [model repo](https://huggingface.co/lvjr3383/tiny-aya-refusal-steering) (refusal direction, adapter, notebooks) · [evidence dataset](https://huggingface.co/datasets/lvjr3383/tiny-aya-refusal-steering-evidence) (gated: contains harmful prompts)
+**Artifacts:** [model collection](https://huggingface.co/collections/lvjr3383/tiny-aya-refusal-steering-models-6aed45ebfad026c22a4be093) · [dataset collection](https://huggingface.co/collections/lvjr3383/tiny-aya-refusal-steering-data-and-evidence-6aed45ec1143a5028ae5c611) · [GitHub repo](https://github.com/lvjr3383/AI_Safety/tree/main/lexsi-ai-hackathon) · [model repo](https://huggingface.co/lvjr3383/tiny-aya-refusal-steering) (refusal direction, adapter, notebooks) · [evidence dataset](https://huggingface.co/datasets/lvjr3383/tiny-aya-refusal-steering-evidence) (gated: contains harmful prompts)
 
 ## TL;DR
 

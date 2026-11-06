@@ -25,8 +25,8 @@ Gated models needed: `CohereLabs/tiny-aya-global`, `CohereLabs/aya-expanse-8b` (
 The notebooks here are the final code versions, without outputs. The executed copies (with outputs), the refusal direction,
 the LoRA adapter and all evidence (splits, generations, judge labels, reports and SHA-256 hashes) are in the Hugging Face collections:
 
-- Model collection: *link added at submission*
-- Dataset collection (gated, because it contains harmful prompts): *link added at submission*
+- Model collection: https://huggingface.co/collections/lvjr3383/tiny-aya-refusal-steering-models-6aed45ebfad026c22a4be093
+- Dataset collection (evidence dataset is gated because it contains harmful prompts): https://huggingface.co/collections/lvjr3383/tiny-aya-refusal-steering-data-and-evidence-6aed45ec1143a5028ae5c611
 
 Two notebooks received fixes after they ran: Phase 1 got reporting-only fixes (the template-length field and the circuit-overlap
 metric), and Phase 3B got the validation-hash check and the duplicate-label check. The experiment logic is unchanged.
