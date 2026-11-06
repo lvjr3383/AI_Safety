@@ -39,7 +39,4 @@ metric), and Phase 3B got the validation-hash check and the duplicate-label chec
 - Steering is an inference-time intervention, not a weight repair.
 - The CircuitKIT faithfulness result is exploratory (n=16).
 
-## AI assistance
-
-Implementation with Claude (Anthropic), methodology review with ChatGPT (OpenAI), independent review and Phase 3B
-Judge B with Grok (xAI). Research decisions, pre-registered thresholds and Phase 3A human labels by the author.
+AI coding and review assistants were used during development.

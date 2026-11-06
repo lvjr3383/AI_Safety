@@ -108,6 +108,4 @@ A refusal-related direction strongly influenced Tiny Aya's refusal behaviour und
 
 Everything is in the two repos: frozen splits with row IDs and dataset revisions, every generation, every judge label, frozen decision files with SHA-256 evidence hashes, the four executed notebooks, and an evidence manifest covering every file. Notebooks are resumable and configuration-hashed: a changed setting stops the run instead of reusing stale results. Pinned versions: `safetune==0.1.10`, `circuitkit==0.2.0`, `auditkit==1.1.3`, transformers 5.21, torch 2.11, on a Colab A100.
 
-## AI assistance
-
-I designed and ran this study with AI collaborators. Claude (Anthropic) wrote and debugged the notebooks. ChatGPT (OpenAI) reviewed methodology and claims. Grok (xAI) provided independent review and served as Judge B in Phase 3B. The research decisions, the pre-registered thresholds, and the Phase 3A human labels are mine.
+*AI coding and review assistants were used during development.*
