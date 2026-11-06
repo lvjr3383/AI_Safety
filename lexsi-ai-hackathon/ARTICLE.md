@@ -1,6 +1,6 @@
 ---
 title: "Strong Refusal Control, Weak Safety Selectivity: Evaluating Activation Steering in Tiny Aya"
-thumbnail: figures/fig1_phase1_causal.png
+thumbnail: https://huggingface.co/lvjr3383/tiny-aya-refusal-steering/resolve/main/figures/fig1_phase1_causal.png
 authors:
 - user: lvjr3383
 ---
@@ -9,7 +9,7 @@ authors:
 
 *Lexsi AI Safety & Alignment Hackathon, Track 2b (AI Safety and Correction). Model: Cohere Labs Tiny Aya Global (3.35B). Toolkits: SafeTune, CircuitKIT, AuditKIT.*
 
-**Artifacts:** [model collection](MODEL_COLLECTION_URL) · [dataset collection](DATASET_COLLECTION_URL) · [GitHub repo](GITHUB_URL) · [model repo](https://huggingface.co/lvjr3383/tiny-aya-refusal-steering) (refusal direction, adapter, notebooks) · [evidence dataset](https://huggingface.co/datasets/lvjr3383/tiny-aya-refusal-steering-evidence) (gated: contains harmful prompts)
+**Artifacts:** [model collection](MODEL_COLLECTION_URL) · [dataset collection](DATASET_COLLECTION_URL) · [GitHub repo](https://github.com/lvjr3383/AI_Safety/tree/main/lexsi-ai-hackathon) · [model repo](https://huggingface.co/lvjr3383/tiny-aya-refusal-steering) (refusal direction, adapter, notebooks) · [evidence dataset](https://huggingface.co/datasets/lvjr3383/tiny-aya-refusal-steering-evidence) (gated: contains harmful prompts)
 
 ## TL;DR
 
@@ -37,7 +37,7 @@ Four phases, each in its own resumable, configuration-hashed notebook. Every thr
 
 SafeTune extracted a difference-of-means refusal direction and selected layer 20 of 36 through its validation sweep. On held-out prompts (n=40 per set, keyword-scored):
 
-![Phase 1](figures/fig1_phase1_causal.png)
+![Phase 1](https://huggingface.co/lvjr3383/tiny-aya-refusal-steering/resolve/main/figures/fig1_phase1_causal.png)
 
 | Condition | Prompts | Refusal |
 |---|---|---|
@@ -53,7 +53,7 @@ CircuitKIT's attribution pointed to a cluster of components in layers 14–21 ar
 
 I fine-tuned with LoRA (rank 16, one epoch, 2,000 GSM8K examples) and evaluated the base model and three checkpoints on identical, frozen splits. Sixty JailbreakBench prompts that no earlier phase had inspected served as the primary held-out set.
 
-![Phase 2](figures/fig2_phase2_lora.png)
+![Phase 2](https://huggingface.co/lvjr3383/tiny-aya-refusal-steering/resolve/main/figures/fig2_phase2_lora.png)
 
 - Harmful refusal: **83.3% → 90.0%** (McNemar p=0.125). Four prompts flipped toward refusal and none flipped away.
 - Over-refusal on XSTest: 8.0% → 6.9%.
@@ -65,7 +65,7 @@ The pre-registered drift criterion was a drop of at least 10 points with p<0.05.
 
 I screened Chinese, Thai, Bengali and Swahili against English on MultiJail. Prompts overlapping Phase 1 calibration data were removed from every language. Non-English outputs were translated with NLLB-200 and judged by Aya Expanse 8B. Before trusting the judge, I labelled 20 outputs per language myself, without seeing the judge's labels, and checked translation quality independently.
 
-![Phase 3A](figures/fig3_phase3a_multilingual.png)
+![Phase 3A](https://huggingface.co/lvjr3383/tiny-aya-refusal-steering/resolve/main/figures/fig3_phase3a_multilingual.png)
 
 Translation passed in every language: chrF scores of 55–64 against MultiJail's human English, and all Google Translate spot checks were within tolerance. **The judge did not pass.** Its agreement with me (Cohen's κ, unsafe vs not unsafe) was 0.38 in English, 0.61 in Chinese, 0.49 in Thai, 0.08 in Bengali and 0.47 in Swahili. Only Chinese cleared the pre-registered threshold of 0.6. The frozen rule therefore stopped the multilingual branch (`NO_GO_JUDGE_INVALID_EN`), and I do not report the judge's multilingual unsafe rates as safety estimates. With 20 labels per language this is a failed validation, not proof that the judge is generally unreliable.
 
@@ -75,13 +75,13 @@ One result does not depend on the judge. Projected onto the English direction at
 
 I steered along the frozen Phase 1 direction at k ∈ {0.1, 0.2, 0.3, 0.5}, where k is a multiple of the Phase 1 harmful-vs-harmless gap. The strength was chosen on validation data only, using a rule frozen in advance: over-refusal may rise at most 5 points and math accuracy may drop at most 3 points; among passing strengths, take the highest harmful refusal.
 
-![Phase 3B validation](figures/fig4_phase3b_validation.png)
+![Phase 3B validation](https://huggingface.co/lvjr3383/tiny-aya-refusal-steering/resolve/main/figures/fig4_phase3b_validation.png)
 
 Only **k=0.1** passed. k=0.2 missed the over-refusal limit by one prompt, and k=0.5 raised over-refusal by 21 points while adding at most one refused harmful prompt out of 30.
 
 On the test set I compared k=0.1 with the base model and with **three random directions** at the same layer and strength, each at a right angle to the refusal direction. The primary outcome was the unsafe-response rate on the 60 never-inspected harmful prompts, judged independently by **WildGuard** (in the notebook) and **Grok** (externally). Both judges were blinded: opaque IDs, shuffled order, no condition information.
 
-![Phase 3B test](figures/fig5_phase3b_test.png)
+![Phase 3B test](https://huggingface.co/lvjr3383/tiny-aya-refusal-steering/resolve/main/figures/fig5_phase3b_test.png)
 
 | Condition (vs base) | Unsafe (WildGuard) | Unsafe (Grok) | Over-refusal (XSTest) | MGSM accuracy |
 |---|---|---|---|---|
