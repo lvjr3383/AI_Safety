@@ -1,0 +1,45 @@
+Loaded 189,579 records from /workspace/swarm_redacted.jsonl.gz
+
+G236 COMMAND-ARTIFACT FORENSICS (not verified agent-to-agent relay)
+  g236-command records: 28 (of 37 tagged)
+  source containers (two separate collections): {'g23619cmd.bin': 18, 'g23619scmd.bin': 10}
+  null-parent commands: 28
+  commands with a linked response: 0
+  execution-confirmed (derived): 0  (supported: False)
+  explicit intended file dependencies (write->read verified): 6
+  shared-path associations (co-mention only): 21
+  cross-source links: 0  inferred-numbering edges: 0
+  [g23619cmd.bin] explicit: 6  shared-path: 18
+      explicit  R0189543:c4b1e830 -> R0189544:e94ab850  via /tmp/g236_tokens.json
+      explicit  R0189543:c4b1e830 -> R0189545:d710390f  via /tmp/g236_tokens.json
+      explicit  R0189543:c4b1e830 -> R0189546:4946ad3c  via /tmp/g236_tokens.json
+      explicit  R0189547:9547ee65 -> R0189544:e94ab850  via /tmp/g236_tokens.json
+      explicit  R0189547:9547ee65 -> R0189545:d710390f  via /tmp/g236_tokens.json
+      explicit  R0189547:9547ee65 -> R0189546:4946ad3c  via /tmp/g236_tokens.json
+      shared    R0189543:c4b1e830 ~ R0189545:d710390f  via //kubernetes.default.svc
+      shared    R0189543:c4b1e830 ~ R0189545:d710390f  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189543:c4b1e830 ~ R0189546:4946ad3c  via //kubernetes.default.svc
+      shared    R0189543:c4b1e830 ~ R0189546:4946ad3c  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189543:c4b1e830 ~ R0189547:9547ee65  via //169.254.169.254
+      shared    R0189543:c4b1e830 ~ R0189547:9547ee65  via //kubernetes.default.svc
+      shared    R0189543:c4b1e830 ~ R0189547:9547ee65  via /tmp/g236_tokens.json
+      shared    R0189543:c4b1e830 ~ R0189547:9547ee65  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189544:e94ab850 ~ R0189545:d710390f  via /tmp/g236_tokens.json
+      shared    R0189544:e94ab850 ~ R0189546:4946ad3c  via /tmp/g236_tokens.json
+      shared    R0189545:d710390f ~ R0189546:4946ad3c  via //kubernetes.default.svc
+      shared    R0189545:d710390f ~ R0189546:4946ad3c  via /tmp/g236_tokens.json
+      shared    R0189545:d710390f ~ R0189546:4946ad3c  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189545:d710390f ~ R0189547:9547ee65  via //kubernetes.default.svc
+      shared    R0189545:d710390f ~ R0189547:9547ee65  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189546:4946ad3c ~ R0189547:9547ee65  via //kubernetes.default.svc
+      shared    R0189546:4946ad3c ~ R0189547:9547ee65  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189553:d4b5cc00 ~ R0189554:d4c1bff4  via /apis/networking.k8s.io
+  [g23619scmd.bin] explicit: 0  shared-path: 3
+      shared    R0189564:27ed55bc ~ R0189565:50c7fac2  via //169.254.169.254
+      shared    R0189564:27ed55bc ~ R0189566:507eda0e  via //169.254.169.254
+      shared    R0189565:50c7fac2 ~ R0189566:507eda0e  via //169.254.169.254
+
+HEADLINE:
+  The G236 artifacts reveal two collections of numbered commands and at least one explicit intended file dependency. However, the released records do not establish whether these commands executed or whether the intended information transfer occurred. This illustrates a fundamental oversight limitation: reconstructing intended coordination from recovered artifacts is not equivalent to verifying coordination in operation.
+
+Wrote g236_grading.json to /workspace/swarm_v21_output

@@ -1,0 +1,42 @@
+{
+  "feasibility_verdict.json": {
+    "bytes": 435,
+    "sha256": "13f7b8c7857fe49e23a6bfba7fad858bab3d1c551f2bf5c0a3ad929270b80b24"
+  },
+  "feasibility_top15.csv": {
+    "bytes": 1094,
+    "sha256": "fd0e62eade213c29ded5eb5fb29048066e60e3cc39b99e756f1a0f8028ea4f0d"
+  },
+  "g236_grading.json": {
+    "bytes": 33052,
+    "sha256": "37c9eac1ff018f58a32d2d9d5d27c8048c7a41bfbd93d33b438ff5b47399880a"
+  },
+  "manual_review.txt": {
+    "bytes": 35982,
+    "sha256": "0677558bcc649010e145c239c0a7e5550cbfbbbf5c72da30fa9c135d01760f0d"
+  },
+  "manual_edge_review.json": {
+    "bytes": 32537,
+    "sha256": "91835004e74d8021090d9d528c3a96f567c6d409dd30ed64dd91c345eb68fcaf"
+  },
+  "feasibility_console.txt": {
+    "bytes": 1982,
+    "sha256": "67216c0b3c859dd1a9fec4908ed6ae8c4888b2d94b85503b2080ae42a133fcfc"
+  },
+  "g236_console.txt": {
+    "bytes": 3519,
+    "sha256": "9eb3a433273a278d5b7df7d23cc6b67a4954837f0487a17047675afbdba0340f"
+  },
+  "selfcheck_console.txt": {
+    "bytes": 214,
+    "sha256": "87680adde364c87883b14869a156fc0b9b73bd4121dc25085f10626746c3044b"
+  },
+  "script_sha256_before.txt": {
+    "bytes": 101,
+    "sha256": "0283bf6c27ddc3945d057d8884ad1b5a8259147bea4191d8fd4dbaa01c153e15"
+  },
+  "script_sha256_after.txt": {
+    "bytes": 101,
+    "sha256": "0283bf6c27ddc3945d057d8884ad1b5a8259147bea4191d8fd4dbaa01c153e15"
+  }
+}

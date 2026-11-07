@@ -1,0 +1,14 @@
+{
+  "candidate_thread_keys": 445,
+  "note_on_candidate_keys": "lexical candidate folder keys, NOT verified Artifactory threads",
+  "best_thread": "zzFILE_GLIBA13SEP7_CAPWRAP_V1",
+  "best_score": 2,
+  "verdict": "FALL_BACK_G236",
+  "epoch_in_top15_by_count": false,
+  "checks_legend": [
+    "distinct non-placeholder stored names >= 2",
+    "records >= 5",
+    "folder-name epoch present",
+    "both write and read operation seen"
+  ]
+}

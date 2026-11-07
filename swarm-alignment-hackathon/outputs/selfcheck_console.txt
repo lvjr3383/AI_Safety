@@ -1,0 +1,1 @@
+selfcheck: PASS — v2.1 assertions held (write->read explicit dependency vs mention-only shared-path-association, escaped-quote + non-adjacent, derived execution-confirmed, count-ranked top15, no numbering edges)

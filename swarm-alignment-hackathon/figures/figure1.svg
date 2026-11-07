@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="560" viewBox="0 0 920 560" font-family="Helvetica, Arial, sans-serif">
+  <rect width="920" height="560" fill="#ffffff"/>
+  <text x="460" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#111">Figure 1 — G236 relationship map (two separate collections)</text>
+  <text x="460" y="56" text-anchor="middle" font-size="13" fill="#555">Every arrow is a static candidate from matching write/read constructs — not an observed shared file, transfer, or execution.</text>
+
+  <!-- Collection A box -->
+  <rect x="30" y="80" width="560" height="430" rx="10" fill="#f7f9fc" stroke="#9fb3c8" stroke-width="1.5"/>
+  <text x="48" y="108" font-size="15" font-weight="bold" fill="#243b53">Collection g23619cmd.bin — 18 commands</text>
+  <text x="48" y="128" font-size="11" fill="#486581">Referenced path (existence unverified): /tmp/g236_tokens.json · 2 writers, 3 readers, 6 candidate edges</text>
+
+  <!-- token file node -->
+  <rect x="238" y="266" width="144" height="66" rx="6" fill="#102a43" />
+  <text x="310" y="288" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">/tmp/g236_tokens.json</text>
+  <text x="310" y="306" text-anchor="middle" font-size="10" fill="#bcccdc">referenced artifact</text>
+  <text x="310" y="320" text-anchor="middle" font-size="10" fill="#bcccdc">(existence unverified)</text>
+
+  <!-- writers -->
+  <g>
+    <rect x="70" y="170" width="120" height="44" rx="6" fill="#d9e2ec" stroke="#334e68"/>
+    <text x="130" y="190" text-anchor="middle" font-size="12" font-weight="bold" fill="#102a43">cmd 1 (writer)</text>
+    <text x="130" y="205" text-anchor="middle" font-size="10" fill="#486581">R0189543</text>
+  </g>
+  <g>
+    <rect x="70" y="384" width="120" height="44" rx="6" fill="#d9e2ec" stroke="#334e68"/>
+    <text x="130" y="404" text-anchor="middle" font-size="12" font-weight="bold" fill="#102a43">cmd 5 (writer)</text>
+    <text x="130" y="419" text-anchor="middle" font-size="10" fill="#486581">R0189547</text>
+  </g>
+
+  <!-- readers -->
+  <g>
+    <rect x="430" y="150" width="120" height="44" rx="6" fill="#e6f4ea" stroke="#237a3a"/>
+    <text x="490" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d">cmd 2 (reader)</text>
+    <text x="490" y="185" text-anchor="middle" font-size="10" fill="#2f6b3c">R0189544</text>
+  </g>
+  <g>
+    <rect x="430" y="277" width="120" height="44" rx="6" fill="#e6f4ea" stroke="#237a3a"/>
+    <text x="490" y="297" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d">cmd 3 (reader)</text>
+    <text x="490" y="312" text-anchor="middle" font-size="10" fill="#2f6b3c">R0189545</text>
+  </g>
+  <g>
+    <rect x="430" y="404" width="120" height="44" rx="6" fill="#e6f4ea" stroke="#237a3a"/>
+    <text x="490" y="424" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d">cmd 4 (reader)</text>
+    <text x="490" y="439" text-anchor="middle" font-size="10" fill="#2f6b3c">R0189546</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#334e68"/>
+    </marker>
+    <marker id="arrowR" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#b42318"/>
+    </marker>
+  </defs>
+
+  <!-- writer1 -> token (write) -->
+  <line x1="190" y1="196" x2="250" y2="290" stroke="#334e68" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- writer5 -> token (write) -->
+  <line x1="190" y1="402" x2="250" y2="308" stroke="#334e68" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- forward reads: token -> cmd2/3/4 (solid) -->
+  <line x1="370" y1="292" x2="430" y2="178" stroke="#237a3a" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="370" y1="299" x2="430" y2="299" stroke="#237a3a" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="370" y1="306" x2="430" y2="420" stroke="#237a3a" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- reverse-number candidates cmd5 -> cmd2/3/4 (dashed red, direct) -->
+  <path d="M150,384 C150,250 300,150 430,165" fill="none" stroke="#b42318" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#arrowR)"/>
+  <path d="M190,400 C280,360 360,330 430,305" fill="none" stroke="#b42318" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#arrowR)"/>
+  <path d="M190,420 C300,450 360,440 430,432" fill="none" stroke="#b42318" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#arrowR)"/>
+
+  <!-- legend inside A -->
+  <text x="48" y="470" font-size="10" fill="#334e68">→ static dependency candidate (all 6 edges): matching write/read constructs only; no observed transfer or execution</text>
+  <text x="48" y="488" font-size="11" fill="#b42318">┈ reverse-number candidate (5→2,5→3,5→4): writer numbered after its reader; direction unestablished</text>
+
+  <!-- Collection B box -->
+  <rect x="610" y="80" width="280" height="430" rx="10" fill="#f7f9fc" stroke="#9fb3c8" stroke-width="1.5"/>
+  <text x="628" y="108" font-size="15" font-weight="bold" fill="#243b53">g23619scmd.bin</text>
+  <text x="628" y="128" font-size="13" fill="#486581">10 commands</text>
+  <text x="628" y="156" font-size="12" fill="#627d98">0 explicit-dependency</text>
+  <text x="628" y="174" font-size="12" fill="#627d98">candidates.</text>
+  <text x="628" y="200" font-size="12" fill="#627d98">3 shared-path</text>
+  <text x="628" y="218" font-size="12" fill="#627d98">associations — all</text>
+  <text x="628" y="236" font-size="12" fill="#627d98">//169.254.169.254</text>
+  <text x="628" y="254" font-size="12" fill="#627d98">(metadata URL, not a</text>
+  <text x="628" y="272" font-size="12" fill="#627d98">file). No information</text>
+  <text x="628" y="290" font-size="12" fill="#627d98">flow established.</text>
+
+  <text x="628" y="340" font-size="11" fill="#829ab1">No cross-collection</text>
+  <text x="628" y="356" font-size="11" fill="#829ab1">edges are created</text>
+  <text x="628" y="372" font-size="11" fill="#829ab1">(locked rule).</text>
+
+  <text x="30" y="540" font-size="11" fill="#829ab1">All 28 records grade: observation = intended-operation + execution-unknown; relationship edges = static candidates; execution-confirmed = 0.</text>
+</svg>

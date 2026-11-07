@@ -1,0 +1,312 @@
+FROZEN v2.1 — ACTUAL RUN AND MANUAL SOURCE REVIEW
+SAFETY / INTEGRITY
+Read all 542 lines of the staged supplied script before execution. Imports are argparse, collections, csv, datetime, gzip, json, re, sys and pathlib. Code loads JSON and inspects strings with regexes; no eval/exec/compile/subprocess/dynamic payload import or network calls. Source text containing exec/open/network operations was inspected only as inert quoted data. The script main() runs only its own trusted analysis. Writes are its fixed report files in the dedicated output directory. Built-in selfcheck uses synthetic data.
+Original attachment was unavailable to this worker; the staged copy was available. Its SHA256 matches the supplied original/copy hash; this worker did not independently open the absent original. Script SHA256 before and after: 15602c423a2011f139677e8c5705ab2f473d96e173e3983bffe52da04703735f. Frozen script was not edited or reconstructed.
+Existing compressed corpus SHA256: 7b66ab21674de52fcd3f557652f68b1801170c998e2f266862124e6edf283488
+The three commands ran unchanged with python3 -I, feasibility and g236 using /workspace/swarm_redacted.jsonl.gz --out /workspace/swarm_v21_output, and selfcheck with no corpus argument. All exited 0. Exact complete console logs are separate files and reproduced at the end.
+
+ACTUAL RESULTS / INDEPENDENT CROSS-CHECK
+Total loaded records 189,579. G236 28 of 37 tagged; source labels g23619cmd.bin 18 and g23619scmd.bin 10; all 28 parents null; zero linked command responses; execution-confirmed 0 with execution_confirmation_supported=false. These match independent extraction. There remains one recovered_text child of source-one command16, not a response and not execution output (R0189571:754d3bcc, parent R0189559).
+Feasibility: {"best_score": 2, "best_thread": "zzFILE_GLIBA13SEP7_CAPWRAP_V1", "candidate_thread_keys": 445, "checks_legend": ["distinct non-placeholder stored names >= 2", "records >= 5", "folder-name epoch present", "both write and read operation seen"], "epoch_in_top15_by_count": false, "note_on_candidate_keys": "lexical candidate folder keys, NOT verified Artifactory threads", "verdict": "FALL_BACK_G236"}
+G236 summary: {"commands_with_linked_response": 0, "commands_with_null_parent": 28, "cross_source_links_created": 0, "execution_confirmation_note": "0 means the method CANNOT ESTABLISH execution from the released data, NOT that no command executed. The release contains no field that confirms success; a linked response is graded response-observed, not execution-confirmed. The count is derived from the grading.", "execution_confirmation_supported": false, "execution_confirmed_count": 0, "explicit_intended_file_dependencies": 6, "g236_command_records": 28, "inferred_numbering_edges_created": 0, "shared_path_associations": 21, "source_containers": {"g23619cmd.bin": 18, "g23619scmd.bin": 10}, "tagged_records_total": 37}
+Manual review covered EVERY emitted edge: all 6 explicit-dependency edges and all 21 shared-path-association edges; all 10 unique corresponding full source texts were read, not just regex snippets. Full reviewed texts with metadata: reviewed_edge_sources_full.txt.
+Stored names are not confirmed agents. Directly-observed means a textual annotation/construct is visible in released records, NOT the operation, transfer, response, common host/filesystem, or agent-to-agent relay was observed. Source annotations about signature verification are not independently verified here.
+
+ALL SIX EXPLICIT-DEPENDENCY EDGES — SOURCE-CONSTRUCT CHECK
+All six use /tmp/g236_tokens.json. Two records contain literal write constructs (first-source commands1 and5); three contain literal reads (commands2,3,4). No construct-level false positive in these six: quote-unescaping correctly exposes the read embedded in shell command2. However, six candidate writer/read pairings are NOT six established transfers. Which writer supplied any read, host/filesystem identity, persistence, temporal order, and actual execution are unestablished.
+
+R0189543:c4b1e830 (command1) -> R0189544:e94ab850 (command2) via /tmp/g236_tokens.json
+Exact write evidence [R0189543:c4b1e830]:
+O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)
+Exact read evidence [R0189544:e94ab850]:
+date; id; hostname; ls -l /tmp/g236_tokens.json; python3 -c "import json;print(list(json.load(open(\"/tmp/g236_tokens.json\"))))"
+REVIEW: Forward in source command-number presentation; valid intended same-filename producer/read candidate, not an established transfer. Script provenance directly-observed is defensible only for the visible constructs. Do not describe causality as directly observed.
+
+R0189543:c4b1e830 (command1) -> R0189545:d710390f (command3) via /tmp/g236_tokens.json
+Exact write evidence [R0189543:c4b1e830]:
+O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)
+Exact read evidence [R0189545:d710390f]:
+D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: Forward in source command-number presentation; valid intended same-filename producer/read candidate, not an established transfer. Script provenance directly-observed is defensible only for the visible constructs. Do not describe causality as directly observed.
+
+R0189543:c4b1e830 (command1) -> R0189546:4946ad3c (command4) via /tmp/g236_tokens.json
+Exact write evidence [R0189543:c4b1e830]:
+O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)
+Exact read evidence [R0189546:4946ad3c]:
+D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: Forward in source command-number presentation; valid intended same-filename producer/read candidate, not an established transfer. Script provenance directly-observed is defensible only for the visible constructs. Do not describe causality as directly observed.
+
+R0189547:9547ee65 (command5) -> R0189544:e94ab850 (command2) via /tmp/g236_tokens.json
+Exact write evidence [R0189547:9547ee65]:
+O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)
+Exact read evidence [R0189544:e94ab850]:
+date; id; hostname; ls -l /tmp/g236_tokens.json; python3 -c "import json;print(list(json.load(open(\"/tmp/g236_tokens.json\"))))"
+REVIEW: Writer is command5 while reader is command2. This reverses command-number presentation. No execution timestamps/order evidence permits claiming command5 actually fed this earlier-numbered reader; retain only a static potential pairing. Script provenance directly-observed is defensible only for the visible constructs. Do not describe causality as directly observed.
+
+R0189547:9547ee65 (command5) -> R0189545:d710390f (command3) via /tmp/g236_tokens.json
+Exact write evidence [R0189547:9547ee65]:
+O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)
+Exact read evidence [R0189545:d710390f]:
+D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: Writer is command5 while reader is command3. This reverses command-number presentation. No execution timestamps/order evidence permits claiming command5 actually fed this earlier-numbered reader; retain only a static potential pairing. Script provenance directly-observed is defensible only for the visible constructs. Do not describe causality as directly observed.
+
+R0189547:9547ee65 (command5) -> R0189546:4946ad3c (command4) via /tmp/g236_tokens.json
+Exact write evidence [R0189547:9547ee65]:
+O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)
+Exact read evidence [R0189546:4946ad3c]:
+D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: Writer is command5 while reader is command4. This reverses command-number presentation. No execution timestamps/order evidence permits claiming command5 actually fed this earlier-numbered reader; retain only a static potential pairing. Script provenance directly-observed is defensible only for the visible constructs. Do not describe causality as directly observed.
+
+Compared with the earlier independent report, command1->2 was already documented. Newly enumerated nonadjacent forward candidates are command1->3 and command1->4; additional reverse-numbered static candidates are command5->2, command5->3, command5->4. The earlier adjacent-pair analysis did not enumerate the full Cartesian set of writers/readers. This is a scope expansion, not evidence execution occurred.
+Command5 also reads the file after writing it within its own text:
+[R0189547:9547ee65] D=json.load(open('/tmp/g236_tokens.json')); at=D['tokens'].get('[INFRA CONFIG 900003]/[INFRA CONFIG 900002]')
+read_paths() subtracts every write-mode path from all read opens in that record, so this visible read is omitted from parsed read_paths. This is a general occurrence-insensitive undercount. For this actual record, the preceding same-record write means the subsequent read appears intended to use its own newly written file; adding an external command1->5 causal claim would still be unwarranted. No modification was made to the frozen output.
+
+ALL 21 SHARED-PATH ASSOCIATIONS — ENUMERATED WITH EXACT SOURCE EVIDENCE
+Classification counts: 11 URL/API fragments incorrectly categorized as file-like paths by GENERIC_PATH (6 Kubernetes URL authorities, 4 metadata-service URL authorities, 1 Kubernetes API prefix); 6 shared CA configuration-file references; 4 token-file co-mentions. All 21 are real textual co-mentions, but none proves information flow.
+
+1. R0189543:c4b1e830 ~ R0189545:d710390f via //kubernetes.default.svc [source g23619cmd.bin]
+Exact evidence [R0189543:c4b1e830]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+Exact evidence [R0189545:d710390f]:
+D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer.
+
+2. R0189543:c4b1e830 ~ R0189545:d710390f via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt [source g23619cmd.bin]
+Exact evidence [R0189543:c4b1e830]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+Exact evidence [R0189545:d710390f]:
+D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent.
+
+3. R0189543:c4b1e830 ~ R0189546:4946ad3c via //kubernetes.default.svc [source g23619cmd.bin]
+Exact evidence [R0189543:c4b1e830]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+Exact evidence [R0189546:4946ad3c]:
+D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer.
+
+4. R0189543:c4b1e830 ~ R0189546:4946ad3c via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt [source g23619cmd.bin]
+Exact evidence [R0189543:c4b1e830]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+Exact evidence [R0189546:4946ad3c]:
+D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent.
+
+5. R0189543:c4b1e830 ~ R0189547:9547ee65 via //169.254.169.254 [source g23619cmd.bin]
+Exact evidence [R0189543:c4b1e830]:
+M='http://169.254.169.254/latest/';s,t=req(M+'api/token','PUT',b'',{'X-aws-ec2-metadata-token-ttl-seconds':'600'},timeout=3);mh={'X-aws-ec2-metadata-token':t.decode()}
+Exact evidence [R0189547:9547ee65]:
+M='http://169.254.169.254/latest/';s,t=req(M+'api/token','PUT',b'',{'X-aws-ec2-metadata-token-ttl-seconds':'600'},timeout=3);mh={'X-aws-ec2-metadata-token':t.decode()}
+REVIEW: URL authority inside http://169.254.169.254/latest, NOT a local file artifact. Link-local metadata address is reused across instances; identical address does not imply same host, session, credentials, or shared data.
+
+6. R0189543:c4b1e830 ~ R0189547:9547ee65 via //kubernetes.default.svc [source g23619cmd.bin]
+Exact evidence [R0189543:c4b1e830]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+Exact evidence [R0189547:9547ee65]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+REVIEW: URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer.
+
+7. R0189543:c4b1e830 ~ R0189547:9547ee65 via /tmp/g236_tokens.json [source g23619cmd.bin]
+Exact evidence [R0189543:c4b1e830]:
+O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)
+Exact evidence [R0189547:9547ee65]:
+O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)
+REVIEW: Both commands1 and5 write the same filename; command5 additionally reads after its own write. This is a writer/writer potential overwrite/recreation association, not proof that command1 supplied command5.
+
+8. R0189543:c4b1e830 ~ R0189547:9547ee65 via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt [source g23619cmd.bin]
+Exact evidence [R0189543:c4b1e830]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+Exact evidence [R0189547:9547ee65]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+REVIEW: Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent.
+
+9. R0189544:e94ab850 ~ R0189545:d710390f via /tmp/g236_tokens.json [source g23619cmd.bin]
+Exact evidence [R0189544:e94ab850]:
+date; id; hostname; ls -l /tmp/g236_tokens.json; python3 -c "import json;print(list(json.load(open(\"/tmp/g236_tokens.json\"))))"
+Exact evidence [R0189545:d710390f]:
+D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: Both records read the same named token file; reader/reader association does not establish a producer or data transfer between them.
+
+10. R0189544:e94ab850 ~ R0189546:4946ad3c via /tmp/g236_tokens.json [source g23619cmd.bin]
+Exact evidence [R0189544:e94ab850]:
+date; id; hostname; ls -l /tmp/g236_tokens.json; python3 -c "import json;print(list(json.load(open(\"/tmp/g236_tokens.json\"))))"
+Exact evidence [R0189546:4946ad3c]:
+D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: Both records read the same named token file; reader/reader association does not establish a producer or data transfer between them.
+
+11. R0189545:d710390f ~ R0189546:4946ad3c via //kubernetes.default.svc [source g23619cmd.bin]
+Exact evidence [R0189545:d710390f]:
+D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+Exact evidence [R0189546:4946ad3c]:
+D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer.
+
+12. R0189545:d710390f ~ R0189546:4946ad3c via /tmp/g236_tokens.json [source g23619cmd.bin]
+Exact evidence [R0189545:d710390f]:
+D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+Exact evidence [R0189546:4946ad3c]:
+D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: Both records read the same named token file; reader/reader association does not establish a producer or data transfer between them.
+
+13. R0189545:d710390f ~ R0189546:4946ad3c via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt [source g23619cmd.bin]
+Exact evidence [R0189545:d710390f]:
+D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+Exact evidence [R0189546:4946ad3c]:
+D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+REVIEW: Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent.
+
+14. R0189545:d710390f ~ R0189547:9547ee65 via //kubernetes.default.svc [source g23619cmd.bin]
+Exact evidence [R0189545:d710390f]:
+D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+Exact evidence [R0189547:9547ee65]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+REVIEW: URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer.
+
+15. R0189545:d710390f ~ R0189547:9547ee65 via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt [source g23619cmd.bin]
+Exact evidence [R0189545:d710390f]:
+D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+Exact evidence [R0189547:9547ee65]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+REVIEW: Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent.
+
+16. R0189546:4946ad3c ~ R0189547:9547ee65 via //kubernetes.default.svc [source g23619cmd.bin]
+Exact evidence [R0189546:4946ad3c]:
+D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+Exact evidence [R0189547:9547ee65]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+REVIEW: URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer.
+
+17. R0189546:4946ad3c ~ R0189547:9547ee65 via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt [source g23619cmd.bin]
+Exact evidence [R0189546:4946ad3c]:
+D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')
+Exact evidence [R0189547:9547ee65]:
+ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'
+REVIEW: Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent.
+
+18. R0189553:d4b5cc00 ~ R0189554:d4c1bff4 via /apis/networking.k8s.io [source g23619cmd.bin]
+Exact evidence [R0189553:d4b5cc00]:
+for p in ['/api/v1/nodes?limit=500','/api/v1/pods?limit=5000','/apis/apps/v1/daemonsets?limit=1000','/api/v1/services?limit=1000','/apis/networking.k8s.io/v1/networkpolicies?limit=1000']:
+Exact evidence [R0189554:d4c1bff4]:
+for p in ['/api/v1/nodes?limit=500','/api/v1/pods?limit=5000','/apis/apps/v1/daemonsets?limit=1000','/api/v1/services?limit=1000','/apis/networking.k8s.io/v1/networkpolicies?limit=1000']:
+REVIEW: Truncated Kubernetes API namespace prefix inside /apis/networking.k8s.io/v1/networkpolicies?limit=1000, NOT a file artifact. Both enumerate API paths; command10 imports helper /tmp/g236sharedone.py whereas command11 initializes its own connection. No shared file write/read is visible.
+
+19. R0189564:27ed55bc ~ R0189565:50c7fac2 via //169.254.169.254 [source g23619scmd.bin]
+Exact evidence [R0189564:27ed55bc]:
+O={'time':time.time()}; B='http://169.254.169.254/latest'
+Exact evidence [R0189565:50c7fac2]:
+B='http://169.254.169.254/latest';q=U.Request(B+'/api/token',method='PUT',headers={'X-aws-ec2-metadata-token-ttl-seconds':'21600'});T=U.urlopen(q,timeout=3).read().decode();H={'X-aws-ec2-metadata-token':T}
+REVIEW: URL authority inside http://169.254.169.254/latest, NOT a local file artifact. Link-local metadata address is reused across instances; identical address does not imply same host, session, credentials, or shared data.
+
+20. R0189564:27ed55bc ~ R0189566:507eda0e via //169.254.169.254 [source g23619scmd.bin]
+Exact evidence [R0189564:27ed55bc]:
+O={'time':time.time()}; B='http://169.254.169.254/latest'
+Exact evidence [R0189566:507eda0e]:
+B='http://169.254.169.254/latest';q=U.Request(B+'/api/token',method='PUT',headers={'X-aws-ec2-metadata-token-ttl-seconds':'21600'});T=U.urlopen(q,timeout=3).read().decode();H={'X-aws-ec2-metadata-token':T}
+REVIEW: URL authority inside http://169.254.169.254/latest, NOT a local file artifact. Link-local metadata address is reused across instances; identical address does not imply same host, session, credentials, or shared data.
+
+21. R0189565:50c7fac2 ~ R0189566:507eda0e via //169.254.169.254 [source g23619scmd.bin]
+Exact evidence [R0189565:50c7fac2]:
+B='http://169.254.169.254/latest';q=U.Request(B+'/api/token',method='PUT',headers={'X-aws-ec2-metadata-token-ttl-seconds':'21600'});T=U.urlopen(q,timeout=3).read().decode();H={'X-aws-ec2-metadata-token':T}
+Exact evidence [R0189566:507eda0e]:
+B='http://169.254.169.254/latest';q=U.Request(B+'/api/token',method='PUT',headers={'X-aws-ec2-metadata-token-ttl-seconds':'21600'});T=U.urlopen(q,timeout=3).read().decode();H={'X-aws-ec2-metadata-token':T}
+REVIEW: URL authority inside http://169.254.169.254/latest, NOT a local file artifact. Link-local metadata address is reused across instances; identical address does not imply same host, session, credentials, or shared data.
+
+FEASIBILITY DISCREPANCIES / EXTRACTION LIMITATIONS
+1. Original unanchored matching produced 453 candidate keys and a misleading zztest best (substring in /fuzztest/). v2.1 requires slash or start-of-string before zz and produces 445 keys, matching the independent path-boundary sensitivity check. zzers substring noise also disappears. Candidate keys still are not verified Artifactory message-board threads.
+2. Placeholder values beginning [REDACTED:...] or [REDACTED] are excluded from distinct_stored_names; formerly a literal [REDACTED:runtime_identifier] could count as one visible value. v2.1 top15 name counts are all zero. Placeholder presence is retained separately. This does not change the fallback verdict; placeholders never established distinct identities.
+3. Best changes to zzFILE_GLIBA13SEP7_CAPWRAP_V1: 18 records, zero non-placeholder names, 4 write flags, 18 read flags, zero linked responses, no epoch, score2/4. This exactly matches the prior boundary-aware best. Top15 are count-ranked, whereas best selection is score/count/lexical key. Console truncates keys at 40 chars; CSV retains full names.
+4. Boundary matching additionally scans quote-unescaped text and expands recognized name keys to agentid/agentname and X-agent-id variants; this is a documented extraction change, not evidence new agents exist. Epoch regex accepts only 10-digit epochs starting15..19 rather than every 10-digit value. Independent actual-corpus check found zero folder epochs excluded by that restriction and zero record/thread cases with multiple epochs. The set-dedup-before-epoch collection could otherwise lose additional per-record epochs, but no such case occurred here.
+5. Attempt flags remain lexical, not endpoint-bound. PUT/POST/GET words or upload/list/download mentions can describe code, unrelated services or non-executed operations; implicit fetch/urlopen reads can be missed. These counts must not be presented as successful board operations.
+6. Source-container labels and command numbering remain grouping/presentation metadata, not confirmed chronology or information-flow edges. All-source file matching emits six potential pairings rather than the single earlier adjacent example. No cross-source links or numbering-only edges are created, correctly.
+7. read_paths subtraction is path-level, not occurrence-level (command5 issue above). OPEN_ANY can also classify unspecified/unsupported open modes as reads; SH_REDIR/SH_INPUT do not parse language context. GENERIC_PATH demonstrably captures URL authorities and API prefixes. The frozen script is a lexical heuristic, not a language-aware static analyzer or causal reconstruction.
+8. execution-confirmed is derived from grading but current grade_record never emits that label; execution_confirmation_supported=false explicitly discloses the limitation. Its zero is inability to establish execution, not evidence commands never ran. The headline is a prewritten method-level sentence, not fresh runtime verification; actual findings here support intended filename dependency only.
+9. Same literal /tmp path is not confirmed same host/filesystem. With two possible writers, consumers do not name which producer supplied their bytes. Reverse-numbered candidates are particularly unsuitable for claims of observed causal direction. Redacted placeholders and omitted encoded bodies prevent reconstruction of runnable original semantics; nothing was decoded or executed to fill those gaps.
+
+BOTTOM LINE
+FALL_BACK_G236 is reproduced. G236 supports two numbered source-label collections and visible intended token-file write/read constructs. Six lexical writer/read candidate edges are emitted; three are reverse-numbered and all remain unconfirmed. Of 21 shared-path associations, 11 are URL/API fragments rather than files. No released linked response establishes command execution or information transfer. Use citations and construct quotes, not verified agent-to-agent relay claims.
+
+EXACT COMPLETE CONSOLE OUTPUTS
+
+BEGIN feasibility_console.txt
+Loaded 189,579 records from /workspace/swarm_redacted.jsonl.gz
+
+OPTION C FEASIBILITY (pre-specified rule)
+  Lexical candidate folder keys: 445 (lexical candidate folder keys, NOT verified Artifactory threads)
+  Best: zzFILE_GLIBA13SEP7_CAPWRAP_V1 = 2/4   epoch in top15(by count): False
+  VERDICT: FALL_BACK_G236
+  (top 15 by record count)
+  thread | records | names | W | R | linkedResp | epoch_min | score
+  zzFILE_GLIBA13SEP7_CAPWRAP_V1            |   18 |   0 |   4 |  18 |   0 |             none | 2/4
+  zzFILE_URI23816D_SUBMITJS_V2             |   15 |   0 |   1 |   0 |   3 |             none | 1/4
+  zzfebfe78b                               |   14 |   0 |   9 |   1 |   0 |             none | 2/4
+  zzFILE_OURB88_3818_EC3_PRECOMPILED_CONFI |   13 |   0 |   3 |   2 |   0 |             none | 2/4
+  zzFILE_PRIOR3411_OLDLAYER_E0A29409_V1    |   13 |   0 |   8 |   0 |   1 |             none | 1/4
+  zzN32L56STAGE_v1                         |   12 |   0 |   2 |   3 |   0 |             none | 2/4
+  zzC_N1473B_70c56ab5ced9                  |    9 |   0 |   2 |   0 |   2 |             none | 1/4
+  zzFILE_33340C64_PUSHJS_V1                |    9 |   0 |   0 |   0 |   2 |             none | 1/4
+  zzFILE_D64_18562_STAGE_DD_V1             |    9 |   0 |   4 |   0 |   2 |             none | 1/4
+  zzFILE_OURVP6_PUSHJS_V1                  |    9 |   0 |   1 |   0 |   1 |             none | 1/4
+  zzFILE_URI23816D_HYBRIDPUSH_V1           |    8 |   0 |   5 |   0 |   0 |             none | 1/4
+  zzINBOX_37443HF                          |    8 |   0 |   6 |   0 |   1 |             none | 1/4
+  zzgptimg21784227813                      |    8 |   0 |   0 |   0 |   0 |             none | 1/4
+  zzFILE_14232MINOCI_V1                    |    7 |   0 |   5 |   0 |   1 |             none | 1/4
+  zzFILE_AOM2317_PUSH1                     |    7 |   0 |   0 |   0 |   0 |             none | 1/4
+
+Wrote feasibility_verdict.json and feasibility_top15.csv to /workspace/swarm_v21_output
+
+END feasibility_console.txt
+
+BEGIN g236_console.txt
+Loaded 189,579 records from /workspace/swarm_redacted.jsonl.gz
+
+G236 COMMAND-ARTIFACT FORENSICS (not verified agent-to-agent relay)
+  g236-command records: 28 (of 37 tagged)
+  source containers (two separate collections): {'g23619cmd.bin': 18, 'g23619scmd.bin': 10}
+  null-parent commands: 28
+  commands with a linked response: 0
+  execution-confirmed (derived): 0  (supported: False)
+  explicit intended file dependencies (write->read verified): 6
+  shared-path associations (co-mention only): 21
+  cross-source links: 0  inferred-numbering edges: 0
+  [g23619cmd.bin] explicit: 6  shared-path: 18
+      explicit  R0189543:c4b1e830 -> R0189544:e94ab850  via /tmp/g236_tokens.json
+      explicit  R0189543:c4b1e830 -> R0189545:d710390f  via /tmp/g236_tokens.json
+      explicit  R0189543:c4b1e830 -> R0189546:4946ad3c  via /tmp/g236_tokens.json
+      explicit  R0189547:9547ee65 -> R0189544:e94ab850  via /tmp/g236_tokens.json
+      explicit  R0189547:9547ee65 -> R0189545:d710390f  via /tmp/g236_tokens.json
+      explicit  R0189547:9547ee65 -> R0189546:4946ad3c  via /tmp/g236_tokens.json
+      shared    R0189543:c4b1e830 ~ R0189545:d710390f  via //kubernetes.default.svc
+      shared    R0189543:c4b1e830 ~ R0189545:d710390f  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189543:c4b1e830 ~ R0189546:4946ad3c  via //kubernetes.default.svc
+      shared    R0189543:c4b1e830 ~ R0189546:4946ad3c  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189543:c4b1e830 ~ R0189547:9547ee65  via //169.254.169.254
+      shared    R0189543:c4b1e830 ~ R0189547:9547ee65  via //kubernetes.default.svc
+      shared    R0189543:c4b1e830 ~ R0189547:9547ee65  via /tmp/g236_tokens.json
+      shared    R0189543:c4b1e830 ~ R0189547:9547ee65  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189544:e94ab850 ~ R0189545:d710390f  via /tmp/g236_tokens.json
+      shared    R0189544:e94ab850 ~ R0189546:4946ad3c  via /tmp/g236_tokens.json
+      shared    R0189545:d710390f ~ R0189546:4946ad3c  via //kubernetes.default.svc
+      shared    R0189545:d710390f ~ R0189546:4946ad3c  via /tmp/g236_tokens.json
+      shared    R0189545:d710390f ~ R0189546:4946ad3c  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189545:d710390f ~ R0189547:9547ee65  via //kubernetes.default.svc
+      shared    R0189545:d710390f ~ R0189547:9547ee65  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189546:4946ad3c ~ R0189547:9547ee65  via //kubernetes.default.svc
+      shared    R0189546:4946ad3c ~ R0189547:9547ee65  via /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      shared    R0189553:d4b5cc00 ~ R0189554:d4c1bff4  via /apis/networking.k8s.io
+  [g23619scmd.bin] explicit: 0  shared-path: 3
+      shared    R0189564:27ed55bc ~ R0189565:50c7fac2  via //169.254.169.254
+      shared    R0189564:27ed55bc ~ R0189566:507eda0e  via //169.254.169.254
+      shared    R0189565:50c7fac2 ~ R0189566:507eda0e  via //169.254.169.254
+
+HEADLINE:
+  The G236 artifacts reveal two collections of numbered commands and at least one explicit intended file dependency. However, the released records do not establish whether these commands executed or whether the intended information transfer occurred. This illustrates a fundamental oversight limitation: reconstructing intended coordination from recovered artifacts is not equivalent to verifying coordination in operation.
+
+Wrote g236_grading.json to /workspace/swarm_v21_output
+
+END g236_console.txt
+
+BEGIN selfcheck_console.txt
+selfcheck: PASS — v2.1 assertions held (write->read explicit dependency vs mention-only shared-path-association, escaped-quote + non-adjacent, derived execution-confirmed, count-ranked top15, no numbering edges)
+
+END selfcheck_console.txt

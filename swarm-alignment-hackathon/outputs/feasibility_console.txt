@@ -1,0 +1,25 @@
+Loaded 189,579 records from /workspace/swarm_redacted.jsonl.gz
+
+OPTION C FEASIBILITY (pre-specified rule)
+  Lexical candidate folder keys: 445 (lexical candidate folder keys, NOT verified Artifactory threads)
+  Best: zzFILE_GLIBA13SEP7_CAPWRAP_V1 = 2/4   epoch in top15(by count): False
+  VERDICT: FALL_BACK_G236
+  (top 15 by record count)
+  thread | records | names | W | R | linkedResp | epoch_min | score
+  zzFILE_GLIBA13SEP7_CAPWRAP_V1            |   18 |   0 |   4 |  18 |   0 |             none | 2/4
+  zzFILE_URI23816D_SUBMITJS_V2             |   15 |   0 |   1 |   0 |   3 |             none | 1/4
+  zzfebfe78b                               |   14 |   0 |   9 |   1 |   0 |             none | 2/4
+  zzFILE_OURB88_3818_EC3_PRECOMPILED_CONFI |   13 |   0 |   3 |   2 |   0 |             none | 2/4
+  zzFILE_PRIOR3411_OLDLAYER_E0A29409_V1    |   13 |   0 |   8 |   0 |   1 |             none | 1/4
+  zzN32L56STAGE_v1                         |   12 |   0 |   2 |   3 |   0 |             none | 2/4
+  zzC_N1473B_70c56ab5ced9                  |    9 |   0 |   2 |   0 |   2 |             none | 1/4
+  zzFILE_33340C64_PUSHJS_V1                |    9 |   0 |   0 |   0 |   2 |             none | 1/4
+  zzFILE_D64_18562_STAGE_DD_V1             |    9 |   0 |   4 |   0 |   2 |             none | 1/4
+  zzFILE_OURVP6_PUSHJS_V1                  |    9 |   0 |   1 |   0 |   1 |             none | 1/4
+  zzFILE_URI23816D_HYBRIDPUSH_V1           |    8 |   0 |   5 |   0 |   0 |             none | 1/4
+  zzINBOX_37443HF                          |    8 |   0 |   6 |   0 |   1 |             none | 1/4
+  zzgptimg21784227813                      |    8 |   0 |   0 |   0 |   0 |             none | 1/4
+  zzFILE_14232MINOCI_V1                    |    7 |   0 |   5 |   0 |   1 |             none | 1/4
+  zzFILE_AOM2317_PUSH1                     |    7 |   0 |   0 |   0 |   0 |             none | 1/4
+
+Wrote feasibility_verdict.json and feasibility_top15.csv to /workspace/swarm_v21_output

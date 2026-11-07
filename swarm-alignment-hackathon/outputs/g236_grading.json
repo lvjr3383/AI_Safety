@@ -1,0 +1,1074 @@
+{
+  "summary": {
+    "tagged_records_total": 37,
+    "g236_command_records": 28,
+    "source_containers": {
+      "g23619cmd.bin": 18,
+      "g23619scmd.bin": 10
+    },
+    "commands_with_null_parent": 28,
+    "commands_with_linked_response": 0,
+    "execution_confirmed_count": 0,
+    "execution_confirmation_supported": false,
+    "execution_confirmation_note": "0 means the method CANNOT ESTABLISH execution from the released data, NOT that no command executed. The release contains no field that confirms success; a linked response is graded response-observed, not execution-confirmed. The count is derived from the grading.",
+    "explicit_intended_file_dependencies": 6,
+    "shared_path_associations": 21,
+    "cross_source_links_created": 0,
+    "inferred_numbering_edges_created": 0
+  },
+  "graded_records": [
+    {
+      "cite": "R0189543:c4b1e830",
+      "source_container": "g23619cmd.bin",
+      "command_number": 1,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189544:e94ab850",
+      "source_container": "g23619cmd.bin",
+      "command_number": 2,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189545:d710390f",
+      "source_container": "g23619cmd.bin",
+      "command_number": 3,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189546:4946ad3c",
+      "source_container": "g23619cmd.bin",
+      "command_number": 4,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189547:9547ee65",
+      "source_container": "g23619cmd.bin",
+      "command_number": 5,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189548:5dbe1472",
+      "source_container": "g23619cmd.bin",
+      "command_number": 6,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189549:24ea6261",
+      "source_container": "g23619cmd.bin",
+      "command_number": 7,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189550:2492f5d0",
+      "source_container": "g23619cmd.bin",
+      "command_number": 7,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189551:f56e763a",
+      "source_container": "g23619cmd.bin",
+      "command_number": 8,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189552:d3d6e4d7",
+      "source_container": "g23619cmd.bin",
+      "command_number": 9,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189553:d4b5cc00",
+      "source_container": "g23619cmd.bin",
+      "command_number": 10,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189554:d4c1bff4",
+      "source_container": "g23619cmd.bin",
+      "command_number": 11,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189555:a7dd142c",
+      "source_container": "g23619cmd.bin",
+      "command_number": 12,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189556:4c35a8ec",
+      "source_container": "g23619cmd.bin",
+      "command_number": 13,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189557:d9708dfd",
+      "source_container": "g23619cmd.bin",
+      "command_number": 14,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189558:8d087625",
+      "source_container": "g23619cmd.bin",
+      "command_number": 15,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189559:23b0359f",
+      "source_container": "g23619cmd.bin",
+      "command_number": 16,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189560:a35a6240",
+      "source_container": "g23619cmd.bin",
+      "command_number": 17,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189561:a998c180",
+      "source_container": "g23619scmd.bin",
+      "command_number": 1,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189562:59a6551c",
+      "source_container": "g23619scmd.bin",
+      "command_number": 2,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189563:3b13564c",
+      "source_container": "g23619scmd.bin",
+      "command_number": 3,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189564:27ed55bc",
+      "source_container": "g23619scmd.bin",
+      "command_number": 4,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189565:50c7fac2",
+      "source_container": "g23619scmd.bin",
+      "command_number": 5,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189566:507eda0e",
+      "source_container": "g23619scmd.bin",
+      "command_number": 6,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189567:a97b08f4",
+      "source_container": "g23619scmd.bin",
+      "command_number": 7,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189568:347f2a09",
+      "source_container": "g23619scmd.bin",
+      "command_number": 8,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189569:4c297873",
+      "source_container": "g23619scmd.bin",
+      "command_number": 9,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    },
+    {
+      "cite": "R0189570:5267f7d8",
+      "source_container": "g23619scmd.bin",
+      "command_number": 10,
+      "kind": "recovered_text",
+      "observation": [
+        {
+          "label": "intended-operation",
+          "provenance": "directly-observed",
+          "claim": "record text states a concrete operation"
+        },
+        {
+          "label": "execution-unknown",
+          "provenance": "directly-observed",
+          "claim": "no linked kind=response record present"
+        }
+      ]
+    }
+  ],
+  "graded_links": {
+    "g23619cmd.bin": [
+      {
+        "from": "R0189543:c4b1e830",
+        "to": "R0189544:e94ab850",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      {
+        "from": "R0189543:c4b1e830",
+        "to": "R0189545:d710390f",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      {
+        "from": "R0189543:c4b1e830",
+        "to": "R0189546:4946ad3c",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      {
+        "from": "R0189547:9547ee65",
+        "to": "R0189544:e94ab850",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      {
+        "from": "R0189547:9547ee65",
+        "to": "R0189545:d710390f",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      {
+        "from": "R0189547:9547ee65",
+        "to": "R0189546:4946ad3c",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189545:d710390f"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189545:d710390f"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//169.254.169.254",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189544:e94ab850",
+          "R0189545:d710390f"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189544:e94ab850",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189545:d710390f",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189545:d710390f",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189545:d710390f",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189545:d710390f",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189545:d710390f",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189546:4946ad3c",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189546:4946ad3c",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189553:d4b5cc00",
+          "R0189554:d4c1bff4"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/apis/networking.k8s.io",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      }
+    ],
+    "g23619scmd.bin": [
+      {
+        "between": [
+          "R0189564:27ed55bc",
+          "R0189565:50c7fac2"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//169.254.169.254",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189564:27ed55bc",
+          "R0189566:507eda0e"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//169.254.169.254",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      {
+        "between": [
+          "R0189565:50c7fac2",
+          "R0189566:507eda0e"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//169.254.169.254",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      }
+    ]
+  },
+  "memberships": {
+    "g23619cmd.bin": {
+      "relationship": "same-source",
+      "provenance": "directly-observed",
+      "members": [
+        "R0189543:c4b1e830",
+        "R0189544:e94ab850",
+        "R0189545:d710390f",
+        "R0189546:4946ad3c",
+        "R0189547:9547ee65",
+        "R0189548:5dbe1472",
+        "R0189549:24ea6261",
+        "R0189550:2492f5d0",
+        "R0189551:f56e763a",
+        "R0189552:d3d6e4d7",
+        "R0189553:d4b5cc00",
+        "R0189554:d4c1bff4",
+        "R0189555:a7dd142c",
+        "R0189556:4c35a8ec",
+        "R0189557:d9708dfd",
+        "R0189558:8d087625",
+        "R0189559:23b0359f",
+        "R0189560:a35a6240"
+      ],
+      "note": "shared source-container label; establishes grouping, not information flow"
+    },
+    "g23619scmd.bin": {
+      "relationship": "same-source",
+      "provenance": "directly-observed",
+      "members": [
+        "R0189561:a998c180",
+        "R0189562:59a6551c",
+        "R0189563:3b13564c",
+        "R0189564:27ed55bc",
+        "R0189565:50c7fac2",
+        "R0189566:507eda0e",
+        "R0189567:a97b08f4",
+        "R0189568:347f2a09",
+        "R0189569:4c297873",
+        "R0189570:5267f7d8"
+      ],
+      "note": "shared source-container label; establishes grouping, not information flow"
+    }
+  },
+  "orderings": {
+    "g23619cmd.bin": {
+      "kind": "ordering-metadata-not-edges",
+      "by_command_number": [
+        {
+          "cite": "R0189543:c4b1e830",
+          "command_number": 1
+        },
+        {
+          "cite": "R0189544:e94ab850",
+          "command_number": 2
+        },
+        {
+          "cite": "R0189545:d710390f",
+          "command_number": 3
+        },
+        {
+          "cite": "R0189546:4946ad3c",
+          "command_number": 4
+        },
+        {
+          "cite": "R0189547:9547ee65",
+          "command_number": 5
+        },
+        {
+          "cite": "R0189548:5dbe1472",
+          "command_number": 6
+        },
+        {
+          "cite": "R0189549:24ea6261",
+          "command_number": 7
+        },
+        {
+          "cite": "R0189550:2492f5d0",
+          "command_number": 7
+        },
+        {
+          "cite": "R0189551:f56e763a",
+          "command_number": 8
+        },
+        {
+          "cite": "R0189552:d3d6e4d7",
+          "command_number": 9
+        },
+        {
+          "cite": "R0189553:d4b5cc00",
+          "command_number": 10
+        },
+        {
+          "cite": "R0189554:d4c1bff4",
+          "command_number": 11
+        },
+        {
+          "cite": "R0189555:a7dd142c",
+          "command_number": 12
+        },
+        {
+          "cite": "R0189556:4c35a8ec",
+          "command_number": 13
+        },
+        {
+          "cite": "R0189557:d9708dfd",
+          "command_number": 14
+        },
+        {
+          "cite": "R0189558:8d087625",
+          "command_number": 15
+        },
+        {
+          "cite": "R0189559:23b0359f",
+          "command_number": 16
+        },
+        {
+          "cite": "R0189560:a35a6240",
+          "command_number": 17
+        }
+      ],
+      "note": "command numbering is presentation order; it is not evidence of a link"
+    },
+    "g23619scmd.bin": {
+      "kind": "ordering-metadata-not-edges",
+      "by_command_number": [
+        {
+          "cite": "R0189561:a998c180",
+          "command_number": 1
+        },
+        {
+          "cite": "R0189562:59a6551c",
+          "command_number": 2
+        },
+        {
+          "cite": "R0189563:3b13564c",
+          "command_number": 3
+        },
+        {
+          "cite": "R0189564:27ed55bc",
+          "command_number": 4
+        },
+        {
+          "cite": "R0189565:50c7fac2",
+          "command_number": 5
+        },
+        {
+          "cite": "R0189566:507eda0e",
+          "command_number": 6
+        },
+        {
+          "cite": "R0189567:a97b08f4",
+          "command_number": 7
+        },
+        {
+          "cite": "R0189568:347f2a09",
+          "command_number": 8
+        },
+        {
+          "cite": "R0189569:4c297873",
+          "command_number": 9
+        },
+        {
+          "cite": "R0189570:5267f7d8",
+          "command_number": 10
+        }
+      ],
+      "note": "command numbering is presentation order; it is not evidence of a link"
+    }
+  },
+  "headline": "The G236 artifacts reveal two collections of numbered commands and at least one explicit intended file dependency. However, the released records do not establish whether these commands executed or whether the intended information transfer occurred. This illustrates a fundamental oversight limitation: reconstructing intended coordination from recovered artifacts is not equivalent to verifying coordination in operation."
+}

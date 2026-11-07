@@ -1,0 +1,554 @@
+{
+  "explicit_edges_reviewed": [
+    {
+      "edge": {
+        "from": "R0189543:c4b1e830",
+        "to": "R0189544:e94ab850",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      "constructs_valid": true,
+      "ordering_direction": "forward-numbered",
+      "write_quote": "O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)",
+      "read_quote": "date; id; hostname; ls -l /tmp/g236_tokens.json; python3 -c \"import json;print(list(json.load(open(\\\"/tmp/g236_tokens.json\\\"))))\"",
+      "execution_or_transfer_confirmed": false,
+      "review": "Forward in source command-number presentation; valid intended same-filename producer/read candidate, not an established transfer."
+    },
+    {
+      "edge": {
+        "from": "R0189543:c4b1e830",
+        "to": "R0189545:d710390f",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      "constructs_valid": true,
+      "ordering_direction": "forward-numbered",
+      "write_quote": "O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)",
+      "read_quote": "D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "execution_or_transfer_confirmed": false,
+      "review": "Forward in source command-number presentation; valid intended same-filename producer/read candidate, not an established transfer."
+    },
+    {
+      "edge": {
+        "from": "R0189543:c4b1e830",
+        "to": "R0189546:4946ad3c",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      "constructs_valid": true,
+      "ordering_direction": "forward-numbered",
+      "write_quote": "O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)",
+      "read_quote": "D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "execution_or_transfer_confirmed": false,
+      "review": "Forward in source command-number presentation; valid intended same-filename producer/read candidate, not an established transfer."
+    },
+    {
+      "edge": {
+        "from": "R0189547:9547ee65",
+        "to": "R0189544:e94ab850",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      "constructs_valid": true,
+      "ordering_direction": "reverse-numbered",
+      "write_quote": "O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)",
+      "read_quote": "date; id; hostname; ls -l /tmp/g236_tokens.json; python3 -c \"import json;print(list(json.load(open(\\\"/tmp/g236_tokens.json\\\"))))\"",
+      "execution_or_transfer_confirmed": false,
+      "review": "Writer is command5 while reader is command2. This reverses command-number presentation. No execution timestamps/order evidence permits claiming command5 actually fed this earlier-numbered reader; retain only a static potential pairing."
+    },
+    {
+      "edge": {
+        "from": "R0189547:9547ee65",
+        "to": "R0189545:d710390f",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      "constructs_valid": true,
+      "ordering_direction": "reverse-numbered",
+      "write_quote": "O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)",
+      "read_quote": "D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "execution_or_transfer_confirmed": false,
+      "review": "Writer is command5 while reader is command3. This reverses command-number presentation. No execution timestamps/order evidence permits claiming command5 actually fed this earlier-numbered reader; retain only a static potential pairing."
+    },
+    {
+      "edge": {
+        "from": "R0189547:9547ee65",
+        "to": "R0189546:4946ad3c",
+        "relationship": "explicit-dependency",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "write_in_from": true,
+          "read_in_to": true
+        },
+        "observation": "intended-operation",
+        "note": "write in producer and read in consumer both verified; transfer/execution unconfirmed"
+      },
+      "constructs_valid": true,
+      "ordering_direction": "reverse-numbered",
+      "write_quote": "O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)",
+      "read_quote": "D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "execution_or_transfer_confirmed": false,
+      "review": "Writer is command5 while reader is command4. This reverses command-number presentation. No execution timestamps/order evidence permits claiming command5 actually fed this earlier-numbered reader; retain only a static potential pairing."
+    }
+  ],
+  "shared_associations_reviewed": [
+    {
+      "edge": {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189545:d710390f"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "URL-authority false file-path classification",
+      "quote_a": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "quote_b": "D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "review": "URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189545:d710390f"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "shared conventional configuration path",
+      "quote_a": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "quote_b": "D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "review": "Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "URL-authority false file-path classification",
+      "quote_a": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "quote_b": "D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "review": "URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "shared conventional configuration path",
+      "quote_a": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "quote_b": "D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "review": "Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//169.254.169.254",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "URL-authority false file-path classification",
+      "quote_a": "M='http://169.254.169.254/latest/';s,t=req(M+'api/token','PUT',b'',{'X-aws-ec2-metadata-token-ttl-seconds':'600'},timeout=3);mh={'X-aws-ec2-metadata-token':t.decode()}",
+      "quote_b": "M='http://169.254.169.254/latest/';s,t=req(M+'api/token','PUT',b'',{'X-aws-ec2-metadata-token-ttl-seconds':'600'},timeout=3);mh={'X-aws-ec2-metadata-token':t.decode()}",
+      "review": "URL authority inside http://169.254.169.254/latest, NOT a local file artifact. Link-local metadata address is reused across instances; identical address does not imply same host, session, credentials, or shared data."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "URL-authority false file-path classification",
+      "quote_a": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "quote_b": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "review": "URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "writer/writer and within-record self-read",
+      "quote_a": "O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)",
+      "quote_b": "O['token_keys']=list(tokens);save={'kt':kt,'node':node,'tokens':tokens,'imds':C};open('/tmp/g236_tokens.json','w').write(json.dumps(save));os.chmod('/tmp/g236_tokens.json',0o600)",
+      "review": "Both commands1 and5 write the same filename; command5 additionally reads after its own write. This is a writer/writer potential overwrite/recreation association, not proof that command1 supplied command5."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189543:c4b1e830",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "shared conventional configuration path",
+      "quote_a": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "quote_b": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "review": "Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189544:e94ab850",
+          "R0189545:d710390f"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "reader/reader shared filename",
+      "quote_a": "date; id; hostname; ls -l /tmp/g236_tokens.json; python3 -c \"import json;print(list(json.load(open(\\\"/tmp/g236_tokens.json\\\"))))\"",
+      "quote_b": "D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "review": "Both records read the same named token file; reader/reader association does not establish a producer or data transfer between them."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189544:e94ab850",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "reader/reader shared filename",
+      "quote_a": "date; id; hostname; ls -l /tmp/g236_tokens.json; python3 -c \"import json;print(list(json.load(open(\\\"/tmp/g236_tokens.json\\\"))))\"",
+      "quote_b": "D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "review": "Both records read the same named token file; reader/reader association does not establish a producer or data transfer between them."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189545:d710390f",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "URL-authority false file-path classification",
+      "quote_a": "D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "quote_b": "D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "review": "URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189545:d710390f",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/tmp/g236_tokens.json",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "reader/reader shared filename",
+      "quote_a": "D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "quote_b": "D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "review": "Both records read the same named token file; reader/reader association does not establish a producer or data transfer between them."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189545:d710390f",
+          "R0189546:4946ad3c"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "shared conventional configuration path",
+      "quote_a": "D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "quote_b": "D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "review": "Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189545:d710390f",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "URL-authority false file-path classification",
+      "quote_a": "D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "quote_b": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "review": "URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189545:d710390f",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "shared conventional configuration path",
+      "quote_a": "D=json.load(open('/tmp/g236_tokens.json'));K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "quote_b": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "review": "Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189546:4946ad3c",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//kubernetes.default.svc",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "URL-authority false file-path classification",
+      "quote_a": "D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "quote_b": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "review": "URL authority inside https://kubernetes.default.svc, NOT a local file artifact. Generic regex treats dots in hostname as a file extension. Shared default service address does not identify same cluster/host or data transfer."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189546:4946ad3c",
+          "R0189547:9547ee65"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "shared conventional configuration path",
+      "quote_a": "D=json.load(open('/tmp/g236_tokens.json'));t=D['tokens']['[INFRA CONFIG 900003]/[INFRA CONFIG 900002]'];K='https://kubernetes.default.svc';ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt')",
+      "quote_b": "ctx=ssl.create_default_context(cafile='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt');K='https://kubernetes.default.svc'",
+      "review": "Shared conventional CA configuration path passed via cafile=, not an artifact produced by either record. Even if libraries read it, no matching writer is visible. Same path in different containers/clusters may hold different certificates; host identity is absent."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189553:d4b5cc00",
+          "R0189554:d4c1bff4"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "/apis/networking.k8s.io",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "API-prefix false file-path classification",
+      "quote_a": "for p in ['/api/v1/nodes?limit=500','/api/v1/pods?limit=5000','/apis/apps/v1/daemonsets?limit=1000','/api/v1/services?limit=1000','/apis/networking.k8s.io/v1/networkpolicies?limit=1000']:",
+      "quote_b": "for p in ['/api/v1/nodes?limit=500','/api/v1/pods?limit=5000','/apis/apps/v1/daemonsets?limit=1000','/api/v1/services?limit=1000','/apis/networking.k8s.io/v1/networkpolicies?limit=1000']:",
+      "review": "Truncated Kubernetes API namespace prefix inside /apis/networking.k8s.io/v1/networkpolicies?limit=1000, NOT a file artifact. Both enumerate API paths; command10 imports helper /tmp/g236sharedone.py whereas command11 initializes its own connection. No shared file write/read is visible."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189564:27ed55bc",
+          "R0189565:50c7fac2"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//169.254.169.254",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "URL-authority false file-path classification",
+      "quote_a": "O={'time':time.time()}; B='http://169.254.169.254/latest'",
+      "quote_b": "B='http://169.254.169.254/latest';q=U.Request(B+'/api/token',method='PUT',headers={'X-aws-ec2-metadata-token-ttl-seconds':'21600'});T=U.urlopen(q,timeout=3).read().decode();H={'X-aws-ec2-metadata-token':T}",
+      "review": "URL authority inside http://169.254.169.254/latest, NOT a local file artifact. Link-local metadata address is reused across instances; identical address does not imply same host, session, credentials, or shared data."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189564:27ed55bc",
+          "R0189566:507eda0e"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//169.254.169.254",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "URL-authority false file-path classification",
+      "quote_a": "O={'time':time.time()}; B='http://169.254.169.254/latest'",
+      "quote_b": "B='http://169.254.169.254/latest';q=U.Request(B+'/api/token',method='PUT',headers={'X-aws-ec2-metadata-token-ttl-seconds':'21600'});T=U.urlopen(q,timeout=3).read().decode();H={'X-aws-ec2-metadata-token':T}",
+      "review": "URL authority inside http://169.254.169.254/latest, NOT a local file artifact. Link-local metadata address is reused across instances; identical address does not imply same host, session, credentials, or shared data."
+    },
+    {
+      "edge": {
+        "between": [
+          "R0189565:50c7fac2",
+          "R0189566:507eda0e"
+        ],
+        "relationship": "shared-path-association",
+        "provenance": "directly-observed",
+        "evidence": {
+          "artifact": "//169.254.169.254",
+          "basis": "both mention the path; no verified write->read"
+        },
+        "observation": "execution-unknown",
+        "note": "co-mention only; producer->consumer relationship NOT established"
+      },
+      "category": "URL-authority false file-path classification",
+      "quote_a": "B='http://169.254.169.254/latest';q=U.Request(B+'/api/token',method='PUT',headers={'X-aws-ec2-metadata-token-ttl-seconds':'21600'});T=U.urlopen(q,timeout=3).read().decode();H={'X-aws-ec2-metadata-token':T}",
+      "quote_b": "B='http://169.254.169.254/latest';q=U.Request(B+'/api/token',method='PUT',headers={'X-aws-ec2-metadata-token-ttl-seconds':'21600'});T=U.urlopen(q,timeout=3).read().decode();H={'X-aws-ec2-metadata-token':T}",
+      "review": "URL authority inside http://169.254.169.254/latest, NOT a local file artifact. Link-local metadata address is reused across instances; identical address does not imply same host, session, credentials, or shared data."
+    }
+  ],
+  "script_sha256": "15602c423a2011f139677e8c5705ab2f473d96e173e3983bffe52da04703735f",
+  "all_construct_edges_have_execution_confirmation": false
+}
