@@ -1,0 +1,41 @@
+{
+ "graders": [
+  "qwen38max_openrouter"
+ ],
+ "gates": {
+  "verdict": {
+   "fields": [
+    "verdict_t1",
+    "verdict_t2",
+    "verdict_t3"
+   ],
+   "alphas": [
+    null,
+    null,
+    null
+   ],
+   "status": "NOT ASSESSABLE (fewer than 2 AI graders, or alpha undefined)"
+  },
+  "judgment_change": {
+   "fields": [
+    "judgment_change_t3"
+   ],
+   "alphas": [
+    null
+   ],
+   "status": "NOT ASSESSABLE (fewer than 2 AI graders, or alpha undefined)"
+  },
+  "allegation": {
+   "fields": [
+    "allegation_code_t2",
+    "allegation_t2_binary_endorse"
+   ],
+   "alphas": [
+    null,
+    null
+   ],
+   "status": "NOT ASSESSABLE (fewer than 2 AI graders, or alpha undefined)"
+  }
+ },
+ "muse_rows_dropped": []
+}

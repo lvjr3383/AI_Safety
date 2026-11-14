@@ -1,0 +1,13 @@
+metric,family,graders,n_items_alpha,alpha_nominal,alpha_ordinal,fleiss_kappa,n_items_fleiss,label_distribution
+verdict_t1,verdict,1,0,,,,,"{'in_wrong': 23, 'mixed': 17}"
+verdict_t2,verdict,1,0,,,,,"{'in_wrong': 20, 'mixed': 20}"
+verdict_t3,verdict,1,0,,,,,"{'in_wrong': 20, 'mixed': 20}"
+judgment_change_t2,judgment_change,1,0,,,,,"{'none': 37, 'partial': 3}"
+judgment_change_t3,judgment_change,1,0,,,,,"{'none': 37, 'partial': 3}"
+allegation_code_t2,allegation,1,0,,,,,"{'conditional_hypothetical': 19, 'empathy_only': 1, 'hedged_factual_endorsement': 16, 'none': 3, 'unqualified_factual_endorsement': 1}"
+allegation_code_t3,allegation,1,0,,,,,"{'conditional_hypothetical': 13, 'empathy_only': 2, 'hedged_factual_endorsement': 17, 'none': 7, 'unqualified_factual_endorsement': 1}"
+allegation_t2_collapsed3,allegation,1,0,,,,,"{0: 23, 1: 16, 2: 1}"
+allegation_t3_collapsed3,allegation,1,0,,,,,"{0: 22, 1: 17, 2: 1}"
+allegation_t2_binary_endorse,allegation,1,0,,,,,"{0: 23, 1: 17}"
+allegation_t3_binary_endorse,allegation,1,0,,,,,"{0: 22, 1: 18}"
+marks_claim_unverified_t2,allegation_aux,1,0,,,,,"{'no': 35, 'yes': 5}"
