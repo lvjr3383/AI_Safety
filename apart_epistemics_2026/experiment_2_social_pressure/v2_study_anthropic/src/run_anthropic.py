@@ -15,7 +15,7 @@ Usage:
   python v2_study_anthropic/src/run_anthropic.py --authorized --cap 50       # full run (Jack's approval)
 """
 from __future__ import annotations
-import argparse, json, os, sys, time
+import argparse, json, os, sys, threading, time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
@@ -28,6 +28,7 @@ import run_v2                                                                   
 from common import BudgetGuard, BudgetExceeded, worst_case_cost, est_tokens, now_iso                          # frozen pilot
 
 STUDY = load(VA / "config/study_anthropic.json")
+_TL = threading.local()   # per-thread count of abandoned (deadline-expired) requests for the current turn
 PROV = STUDY["provider"]
 
 @dataclass
@@ -75,22 +76,35 @@ def parse_response(status, j):
             "block_types": [b.get("type") for b in blocks], "usage": j.get("usage") or {}}
     return text, info, None
 
-def _post(body):
+def _post_once(body, h, timeout):
     import requests
+    try:
+        r = requests.post(PROV["endpoint"], headers=h, json=body, timeout=timeout)
+        try: return r.status_code, r.json()
+        except ValueError: return r.status_code, {"raw": r.text[:300]}
+    except requests.RequestException as e:
+        return -1, {"error": {"type": "network", "message": type(e).__name__}}
+
+def _with_deadline(fn, deadline_s):
+    """Run fn() in a daemon thread; give up after deadline_s wall-clock seconds (addendum deviation 14: the per-read
+    socket timeout did not fire on 4 hung requests in the first launch). Returns (status, json) or (-2, deadline error)."""
+    box = {}
+    th = threading.Thread(target=lambda: box.update(res=fn()), daemon=True); th.start(); th.join(deadline_s)
+    return box.get("res") or (-2, {"error": {"type": "deadline", "message": f"no response within {deadline_s}s; request abandoned"}})
+
+def _post(body, deadline_s=None):
     key = os.environ.get(PROV["api_key_env"])
     if not key: raise RuntimeError(f"{PROV['api_key_env']} not set")
     h = {"x-api-key": key, "anthropic-version": PROV["anthropic_version"], "content-type": "application/json"}
-    tries = 0
+    deadline_s = deadline_s or PROV.get("request_deadline_s", 240)
+    tries = abandoned = 0
     while True:
         t0 = time.time()
-        try:
-            r = requests.post(PROV["endpoint"], headers=h, json=body, timeout=300); status = r.status_code
-            try: j = r.json()
-            except ValueError: j = {"raw": r.text[:300]}
-        except requests.RequestException as e:
-            status, j = -1, {"error": {"type": "network", "message": type(e).__name__}}
-        if status in PROV["transient_retry_statuses"] + [-1] and tries < PROV["transient_max_retries"]:
+        status, j = _with_deadline(lambda: _post_once(body, h, (30, deadline_s)), deadline_s)
+        if status == -2: abandoned += 1
+        if status in PROV["transient_retry_statuses"] + [-1, -2] and tries < PROV["transient_max_retries"]:
             tries += 1; time.sleep(min(60, 5 * 2 ** tries)); continue
+        _TL.abandoned = abandoned
         return status, j, time.time() - t0, tries
 
 def run_conversation(job, post, guard, attempt, paths: Paths, post_fn=_post):
@@ -108,17 +122,17 @@ def run_conversation(job, post, guard, attempt, paths: Paths, post_fn=_post):
         wc = worst_case_cost(est_tokens(sys_p + "".join(m["content"] for m in msgs)), cfg["max_tokens"], pin, pout)
         try: guard.reserve(wc)
         except BudgetExceeded as e: conv.update(status="paused_budget", error=str(e)); break
-        t0 = now_iso(); status, j, lat, retries = post_fn(body)
+        t0 = now_iso(); _TL.abandoned = 0; status, j, lat, retries = post_fn(body); abandoned = getattr(_TL, "abandoned", 0)
         text, info, err = parse_response(status, j)
         u = info.get("usage", {}); cost = cost_from_usage(model, u) if not err else 0.0
         guard.settle(wc, cost, {"kind": "target", "stage": job["stage"], "conv_id": job["conv_id"], "turn": t, "model": model,
-                                "attempt": attempt, "generation_id": info.get("generation_id"), "utc": now_iso(),
+                                "attempt": attempt, "generation_id": info.get("generation_id"), "utc": now_iso(), "abandoned_requests": abandoned,
                                 "input_tokens": u.get("input_tokens"), "output_tokens": u.get("output_tokens"),
                                 "cache_creation_input_tokens": u.get("cache_creation_input_tokens"),
                                 "cache_read_input_tokens": u.get("cache_read_input_tokens"), "price_basis": "list"})
         rec = {"conv_id": job["conv_id"], "attempt": attempt, "stage": job["stage"], "row_id": job["row_id"], "condition": job["condition"],
                "model_requested": model, "rep": job["rep"], "turn": t, "request_utc": t0, "latency_s": round(lat, 2),
-               "transient_retries": retries, "system_prompt": sys_p, "user_message": public_user,
+               "transient_retries": retries, "abandoned_requests": abandoned, "system_prompt": sys_p, "user_message": public_user,
                "response_model": info.get("response_model"), "provider": "anthropic", "generation_id": info.get("generation_id"),
                "finish_reason": info.get("stop_reason"), "block_types": info.get("block_types"), "response": text,
                "parsed_verdict": parse_verdict(text), "parsed_blame": parse_blame(text), "parsed_confidence": parse_confidence(text),
@@ -135,6 +149,25 @@ def run_conversation(job, post, guard, attempt, paths: Paths, post_fn=_post):
     conv["finished_utc"] = now_iso(); conv["cost_usd"] = round(sum(x.get("cost_usd") or 0 for x in conv["turns"]), 8)
     append(paths.convs, conv)
     return conv
+
+def recover_interrupted(paths: Paths):
+    """Close out attempts that have turn records but no conversation record (process stopped mid-conversation):
+    append a conversation record with status 'interrupted' so the attempt number is consumed and it is never
+    analysed; it is rerun as a new attempt with --retry-failed. Idempotent. Returns the recovered conv_ids."""
+    closed = {(c["conv_id"], c["attempt"]) for c in read_jsonl(paths.convs)}
+    open_ = {}
+    for t in read_jsonl(paths.turns):
+        k = (t["conv_id"], t["attempt"])
+        if k not in closed: open_.setdefault(k, []).append(t)
+    jobs = {j["conv_id"]: j for j in build_jobs(stage="main")} | {j["conv_id"]: j for j in smoke_jobs()}
+    for (cid, att), ts in open_.items():
+        job = jobs.get(cid, {"conv_id": cid})
+        append(paths.convs, {**job, "attempt": att, "status": "interrupted", "recovered_utc": now_iso(),
+                             "turns": [{k: t.get(k) for k in ("turn", "parsed_verdict", "parsed_blame", "parsed_confidence", "cost_usd",
+                                                              "input_tokens", "output_tokens", "finish_reason", "response_model")} for t in ts],
+                             "cost_usd": round(sum(t.get("cost_usd") or 0 for t in ts), 8),
+                             "error": "process stopped mid-conversation; in-flight request (if any) abandoned, its cost is not in the ledger"})
+    return [cid for cid, _ in open_]
 
 def smoke_jobs():
     """2 conversations per model: case #1 condition A rep 0, case #2 condition D rep 0 (both framings/guidance levels)."""
@@ -181,6 +214,10 @@ def main():
         if not verify_frozen(): sys.exit("frozen v2 protocol or addendum changed; refusing")
         if not a.authorized: sys.exit("full run requires --authorized (Jack's explicit approval after seeing the estimate)")
     if not ok: sys.exit("REFUSED: " + msg)
+    rec = recover_interrupted(paths)
+    if rec:
+        print(f"recovered {len(rec)} interrupted attempt(s): {rec}")
+        todo, done, att = plan(jobs, paths, a.retry_failed)
     import pandas as pd
     df = pd.read_csv(EXP / "data/raw/AITA-YTA.csv").rename(columns={"Unnamed: 0": "row_id"}).set_index("row_id")
     man = {c["row_id"]: c["prompt_sha256"] for c in cases()}

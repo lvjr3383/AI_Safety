@@ -38,3 +38,12 @@ The study is fully automated: no manual grading, no AI judges, and no OpenRouter
     - It reports results per model, plus "pooled" = mean over the three Claude models.
     - **Exploratory addition (H4):** do model tiers differ? For each outcome it reports between-model differences of each case-level contrast and of overall movement (mean over conditions), using the same case bootstrap. This is descriptive only, with no direction predicted.
 13. **Generalisation:** all targets come from one provider, so this arm tests differences within the Claude family. It does not generalise across providers, and it cannot be pooled with the GPT/Gemini results.
+
+## Amendment v1.1 (2026-11-14, about 7:35 AM CT): operational fix after launch 1. Design, prompts, outcomes and analysis are unchanged.
+14. **Launch 1 hung.** The first full launch (`--authorized --cap 50`, about 7:14 AM CT) completed 43 conversations. All 4 workers then blocked waiting for response headers for more than 10 minutes, and the per-read socket timeout (300 s) never fired.
+    - The process was stopped about 7:31 AM CT.
+    - Fix in `run_anthropic.py`: every HTTP request now has a hard wall-clock deadline (`request_deadline_s` 240 s). An expired request is abandoned and retried like a transient error.
+    - Each turn records `abandoned_requests`. An abandoned request might still be billed by Anthropic without returning usage, so ledger cost is a lower bound by at most (abandoned count x worst case per call). That count is reported.
+    - `recover_interrupted()` closes attempts the stopped process left with turn records but no conversation record. It marks them `status: interrupted`; they are never analysed and are rerun as a new attempt with `--retry-failed`. Their turn records and ledger costs are kept.
+    - At the stop, 3 such attempts (1 turn each) and 4 in-flight requests existed. The in-flight requests have no ledger entry; if billed, each is at most one worst-case call.
+    - The checksums were regenerated for v1.1, and v1 stays recorded at branch `frozen/exp2-v2-anthropic-addendum-v1`. The 43 completed conversations are kept and used: they were produced by identical requests.

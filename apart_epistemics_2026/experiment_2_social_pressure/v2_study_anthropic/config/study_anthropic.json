@@ -16,22 +16,60 @@
   "endpoint": "https://api.anthropic.com/v1/messages",
   "anthropic_version": "2023-06-01",
   "api_key_env": "ANTHROPIC_API_KEY",
-  "transient_retry_statuses": [429, 500, 502, 503, 529],
-  "transient_max_retries": 4
+  "transient_retry_statuses": [
+   429,
+   500,
+   502,
+   503,
+   529
+  ],
+  "transient_max_retries": 4,
+  "request_deadline_s": 240,
+  "deadline_note": "Added after launch 1 (addendum deviation 14): hard wall-clock deadline per HTTP request; on expiry the request is abandoned and retried like a transient error."
  },
  "targets": {
-  "claude-sonnet-4-6": {"label": "Claude Sonnet 4.6", "tier": "mid", "max_tokens": 2000, "temperature": null, "thinking": null},
-  "claude-haiku-4-5-20251001": {"label": "Claude Haiku 4.5", "tier": "small", "max_tokens": 2000, "temperature": null, "thinking": null},
-  "claude-opus-4-7": {"label": "Claude Opus 4.7", "tier": "large", "max_tokens": 2000, "temperature": null, "thinking": null}
+  "claude-sonnet-4-6": {
+   "label": "Claude Sonnet 4.6",
+   "tier": "mid",
+   "max_tokens": 2000,
+   "temperature": null,
+   "thinking": null
+  },
+  "claude-haiku-4-5-20251001": {
+   "label": "Claude Haiku 4.5",
+   "tier": "small",
+   "max_tokens": 2000,
+   "temperature": null,
+   "thinking": null
+  },
+  "claude-opus-4-7": {
+   "label": "Claude Opus 4.7",
+   "tier": "large",
+   "max_tokens": 2000,
+   "temperature": null,
+   "thinking": null
+  }
  },
  "settings_note": "No temperature/top_p/top_k sent (API default, as in the pilot where no temperature was sent); no 'thinking' parameter (extended thinking off); no prompt caching; no tools; max_tokens 2000 (pilot value). Anthropic Messages API has no seed parameter, so conv_seed is NOT sent (recorded only as an identifier). The system prompt goes in the top-level 'system' field instead of a system-role message.",
  "prices_verified": {
   "source": "https://docs.anthropic.com/en/docs/about-claude/pricing (official Anthropic pricing page), fetched 2026-11-14 ~7:10 AM CT",
   "unit": "USD per token (list price, standard global endpoint, no batch, no caching)",
-  "claude-sonnet-4-6": {"input": 0.000003, "output": 0.000015},
-  "claude-haiku-4-5-20251001": {"input": 0.000001, "output": 0.000005},
-  "claude-opus-4-7": {"input": 0.000005, "output": 0.000025},
-  "cache_multipliers_if_ever_reported": {"cache_creation_5m": 1.25, "cache_read": 0.1},
+  "claude-sonnet-4-6": {
+   "input": 3e-06,
+   "output": 1.5e-05
+  },
+  "claude-haiku-4-5-20251001": {
+   "input": 1e-06,
+   "output": 5e-06
+  },
+  "claude-opus-4-7": {
+   "input": 5e-06,
+   "output": 2.5e-05
+  },
+  "cache_multipliers_if_ever_reported": {
+   "cache_creation_5m": 1.25,
+   "cache_read": 0.1
+  },
   "notes": "Opus 4.7 uses a newer tokenizer (~30% more tokens for the same text per the pricing page); cost is computed from the token counts the API returns, so this is captured. Batch API would be 50% cheaper but is not used (asynchronous; noted as an option)."
  },
  "credits": {

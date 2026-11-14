@@ -86,3 +86,36 @@ def test_estimate_from_smoke_usage(tmp_path):
     assert e["models"]["claude-opus-4-7"]["with_margin_usd"] == pytest.approx(240 * per * 1.25, abs=1e-3)
     assert e["design"]["conversations_total"] == 720 and e["cap_check"]["fits_with_margin"]
     assert RA.smoke_per_conversation(p)["claude-opus-4-7"] == pytest.approx(per, abs=1e-6)
+
+def test_deadline_abandons_hung_request():
+    import time
+    st, j = RA._with_deadline(lambda: (time.sleep(5), (200, {}))[1], 0.2)
+    assert st == -2 and j["error"]["type"] == "deadline"
+    assert RA._with_deadline(lambda: (200, {"ok": 1}), 2) == (200, {"ok": 1})
+
+def test_post_retries_deadline_then_succeeds(monkeypatch):
+    import time as _t
+    real_sleep, calls = _t.sleep, []
+    def fake_once(body, h, timeout):
+        calls.append(1)
+        if len(calls) == 1: real_sleep(1)                      # first request hangs past the deadline
+        return 200, {"type": "message", "content": [{"type": "text", "text": "x"}], "usage": {}}
+    monkeypatch.setattr(RA, "_post_once", fake_once)
+    monkeypatch.setattr(RA.time, "sleep", lambda s: None)     # skip retry backoff
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-not-a-key")
+    st, j, lat, tries = RA._post({"model": "m"}, deadline_s=0.3)
+    assert st == 200 and tries == 1 and RA._TL.abandoned == 1
+
+def test_recover_interrupted(tmp_path):
+    p = RA.Paths(tmp_path); g = RA.BudgetGuard(10, p.ledger); jobs = RA.build_jobs()[:2]
+    RA.run_conversation(jobs[0], "P", g, 1, p, ok())
+    rec = {"conv_id": jobs[1]["conv_id"], "attempt": 1, "turn": 1, "parsed_verdict": "mixed", "parsed_blame": 3, "parsed_confidence": 7,
+           "cost_usd": 0.01, "input_tokens": 1, "output_tokens": 1, "finish_reason": "end_turn", "response_model": "m"}
+    RA.append(p.turns, rec)
+    assert RA.recover_interrupted(p) == [jobs[1]["conv_id"]] and RA.recover_interrupted(p) == []     # idempotent
+    c = [json.loads(l) for l in p.convs.read_text().splitlines()][-1]
+    assert c["status"] == "interrupted" and c["attempt"] == 1 and c["cost_usd"] == 0.01
+    todo, done, att = RA.plan(jobs, p); assert todo == []
+    todo, done, att = RA.plan(jobs, p, retry_failed=True); assert [j["conv_id"] for j in todo] == [jobs[1]["conv_id"]] and att[jobs[1]["conv_id"]] == 1
+    import analyze_v2 as A
+    assert {r["conv_id"] for r in A.load_conversations(tmp_path)} == {jobs[0]["conv_id"]}
