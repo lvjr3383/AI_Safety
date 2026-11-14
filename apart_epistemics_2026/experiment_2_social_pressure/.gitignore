@@ -1,0 +1,4 @@
+# Raw ELEPHANT data (OSF licence unverified): fetched by src/prepare_data.py, never committed
+data/raw/
+# Local-only files that contain post text or model reasoning traces
+results/local_private/
