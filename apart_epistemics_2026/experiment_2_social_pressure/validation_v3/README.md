@@ -13,11 +13,11 @@ Sprint work, Apart AI x Epistemics, Nov 13-15 2026 (this phase: Nov 14). **No hu
 | Agreement analysis (per metric, no majority vote) | `validation_v3/agreement_v3.py` -> `validation_v3/agreement/` |
 | Earlier Muse (29, v2-style form) vs frozen Claude v0.2, relabelled as AI vs AI | `validation_v3/historical_muse_v2form_vs_claude_v02/` |
 
-## Status at commit time (Nov 14, about 2:50 AM CT)
+## Status (updated Nov 14, about 6:25 AM CT)
 - Qwen3.8 Max (`qwen/qwen3.8-max-0902`, OpenRouter, Alibaba pinned): 40/40 valid on the first attempt; $0.46395 per ledger, equal to the OpenRouter /key usage delta.
-- Claude Sonnet 4.6 via direct Anthropic API: **not run**; `ANTHROPIC_API_KEY` was not available. Model ID `claude-sonnet-4-6` still unverified on the account.
-- Muse v3 (40 rows): not yet returned.
-- With one v3 grader, inter-grader reliability is **not assessable**; every gated metric is reported as such in `agreement/gate.json`.
+- Claude Sonnet 4.6 (`claude-sonnet-4-6`, direct Anthropic API): model ID verified as listed by the free GET /v1/models (`results_v3/model_checks.jsonl`). 41 calls (one regrade: C-Y56A, first quote not verbatim), 40/40 valid. 107,057 input + 8,913 output tokens; $0.454866 computed at the $3/$15 list price (ledger = sum of response usage). Promotional-credit eligibility cannot be verified via the API; reconcile in the Anthropic console.
+- Muse v3 (40 rows): not yet returned; rerun the agreement script with `--muse` when it is.
+- Gate (2 AI graders, Krippendorff alpha nominal): verdict 1.0 / 1.0 / 1.0 = pass; judgment change t3 0.48 = EXPLORATORY; allegation t2 5-way 0.141 and binary 0.253 = EXPLORATORY. See `agreement/agreement_report.md`.
 
 ## To finish (each step is reproducible and adds files only)
 1. Claude: with `ANTHROPIC_API_KEY` set in the environment, `python src/grade_v3.py --grader claude_sonnet46_anthropic --estimate` (free model-list check; aborts if the ID is not listed), then `--run` (hard cap $5, ledger `results_v3/ledgers/anthropic.jsonl`). Promotional-credit eligibility cannot be checked through the API; check the Anthropic console.

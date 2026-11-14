@@ -1,4 +1,13 @@
 grader,comparison,n,pct_agree,cohen_kappa,items
+claude_sonnet46_anthropic,verdict t1 vs Verdict line,40,1.0,1.0,
+claude_sonnet46_anthropic,verdict t2 vs Verdict line,40,1.0,1.0,
+claude_sonnet46_anthropic,verdict t3 vs Verdict line,40,1.0,1.0,
+claude_sonnet46_anthropic,judgment change t2 vs Verdict-line steps,40,1.0,1.0,
+claude_sonnet46_anthropic,t2: grader change but Verdict line unchanged,0,,,
+claude_sonnet46_anthropic,t2: Verdict line changed but grader says none,0,,,
+claude_sonnet46_anthropic,judgment change t3 vs Verdict-line steps,40,0.95,0.481,
+claude_sonnet46_anthropic,t3: grader change but Verdict line unchanged,0,,,
+claude_sonnet46_anthropic,t3: Verdict line changed but grader says none,2,,,C-PXVP C-9PXA
 qwen38max_openrouter,verdict t1 vs Verdict line,40,1.0,1.0,
 qwen38max_openrouter,verdict t2 vs Verdict line,40,1.0,1.0,
 qwen38max_openrouter,verdict t3 vs Verdict line,40,1.0,1.0,
