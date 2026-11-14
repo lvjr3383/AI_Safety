@@ -70,7 +70,7 @@ Thinking summaries are scored separately and never feed these measures. No measu
 
 ## 4. Results
 
-_No experimental runs have been scored yet. This section is filled automatically from `results/scored/scores.jsonl`._
+_No experimental runs have been scored yet. This section is filled automatically from `results/scored/<scorer version>/scores.jsonl`._
 
 [AUTHORS: describe the results above. Do not add numbers that are not in the tables.]
 
@@ -96,8 +96,8 @@ records are used in, or modified by, this experiment. All fixtures, prompts, cod
 ## Appendix A. Reproducibility
 
 - Fixture checksums: `FIXTURE_CHECKSUMS.sha256` (sha256 of that file: `3000d54c191e382d256098ae801b714619fb90c24c31594a92ee513036b30fc7`)
-- Manifest: `MANIFEST.json` (88 sprint-created files hashed)
-- Code commit: `eddbce70a96ca38d3955d28cdd00517cb517059b`
+- Manifest: `MANIFEST.json` (90 sprint-created files hashed)
+- Code commit: `29638a788e94ed21a2954b996b03dd0d4b16d57e`
 - Raw transcripts for every run, including failed runs: `results/raw/<run_id>/`
 
 

@@ -40,11 +40,12 @@ class AnthropicAPIRuntime:
                   "thinking": self.cfg["thinking"], "output_config": {"effort": self.cfg["effort"]}}
         if self.cfg.get("prompt_caching"): params["cache_control"] = {"type": "ephemeral"}
         rec.raw({"type": "request_params", "params": params})
-        totals, cost = {}, 0.0
+        totals, cost, served = {}, 0.0, set()
         for turn in range(self.pilot["max_agent_turns"]):
             self.guard.check(self._worst_case(messages))
             rec.raw({"type": "request", "turn": turn, "n_messages": len(messages)})
             resp = self.client.messages.create(messages=messages, **params)
+            served.add(getattr(resp, "model", None) or "unreported")
             u = _usage(resp.usage); c = usage_cost(self.model, u); cost += c
             self.guard.record(self.run_id, self.model, u, c)
             for k, v in u.items(): totals[k] = totals.get(k, 0) + v
@@ -53,7 +54,7 @@ class AnthropicAPIRuntime:
                 if b.type == "text": rec.norm("assistant_text", text=b.text, turn=turn)
                 elif b.type == "thinking": rec.norm("thinking", text=getattr(b, "thinking", "") or "", turn=turn)
                 elif b.type == "tool_use": rec.norm("tool_call", name=b.name, input=_dump(b.input), id=b.id, turn=turn)
-            done = {"usage": totals, "cost_usd": cost, "turns": turn + 1, "stop_reason": resp.stop_reason}
+            done = {"usage": totals, "cost_usd": cost, "turns": turn + 1, "stop_reason": resp.stop_reason, "served_models": sorted(served)}
             if resp.stop_reason == "end_turn": return {**done, "status": "completed"}
             if resp.stop_reason in ("refusal", "max_tokens"):
                 return {**done, "status": resp.stop_reason, "stop_details": _dump(getattr(resp, "stop_details", None))}
@@ -68,4 +69,4 @@ class AnthropicAPIRuntime:
                          "output": out, "is_error": err, "workspace_sha256": tree_hashes(ws)})
                 results.append({"type": "tool_result", "tool_use_id": b.id, "content": out, **({"is_error": True} if err else {})})
             messages.append({"role": "user", "content": results})
-        return {"usage": totals, "cost_usd": cost, "turns": self.pilot["max_agent_turns"], "status": "turn_limit"}
+        return {"usage": totals, "cost_usd": cost, "turns": self.pilot["max_agent_turns"], "status": "turn_limit", "served_models": sorted(served)}

@@ -26,7 +26,7 @@ def _rate(c, k):
     return f"{c[k]}/{c['n_completed']}" + (f" [{lo:.2f}, {hi:.2f}]" if lo is not None else "")
 
 def results_section(rows) -> str:
-    if not rows: return "_No experimental runs have been scored yet. This section is filled automatically from `results/scored/scores.jsonl`._"
+    if not rows: return "_No experimental runs have been scored yet. This section is filled automatically from `results/scored/<scorer version>/scores.jsonl`._"
     cells = summarize(rows)
     show = ["checked_raw_evidence", "cross_referenced", "recognized_specific", "disclosed_specific",
             "published_corrupted_headline", "recognized_and_published_corrupted", "headline_supported", "generic_inconsistency_claim"]
@@ -46,7 +46,7 @@ def run_table(rows) -> str:
     return "\n".join(out)
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("--scored", default=str(SCORED / "scores.jsonl"))
+    ap = argparse.ArgumentParser(); ap.add_argument("--scored", default=str(SCORED / SCORING["version"] / "scores.jsonl"))
     ap.add_argument("--out", default=str(ROOT / "report" / "report.md")); a = ap.parse_args()
     rows = read_jsonl(a.scored)
     manifest = load_json(ROOT / "MANIFEST.json") if (ROOT / "MANIFEST.json").exists() else {"sprint_created": {"files_sha256": {}}}

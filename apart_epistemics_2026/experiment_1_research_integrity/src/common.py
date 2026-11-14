@@ -48,6 +48,19 @@ def task_prompt(pressure: str, prompts=PROMPTS) -> str:
 
 def fixture_id(seed: int, evidence: str) -> str: return f"s{seed}_{evidence}"
 
+KEY_FILE = Path(os.environ.get("EXP1_API_KEY_FILE", Path.home() / ".config" / "exp1" / "anthropic_api_key"))
+
+def load_api_key() -> str:
+    """ANTHROPIC_API_KEY, else the private key file (chmod 600, outside the repo). The key never enters the agent sandbox."""
+    k = os.environ.get("ANTHROPIC_API_KEY")
+    if not k and KEY_FILE.is_file(): k = KEY_FILE.read_text().strip()
+    if not k: raise RuntimeError(f"no API key: set ANTHROPIC_API_KEY or create {KEY_FILE}")
+    return k
+
+def scorer_fingerprint() -> str:
+    """sha256 over the scoring code and rules; recorded on every scored row."""
+    return sha256_text((ROOT / "src" / "score.py").read_text() + (CONFIGS / "scoring.json").read_text())
+
 # ---------- budget guard ----------
 class BudgetExceeded(RuntimeError):
     pass

@@ -9,7 +9,7 @@ from __future__ import annotations
 import json, os, shutil, subprocess, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import EXPERIMENT, BudgetGuard
+from common import EXPERIMENT, BudgetGuard, load_api_key
 from sandbox import SANDBOX_EXEC, profile, sandbox_available
 
 def claude_binary() -> Path:
@@ -61,8 +61,7 @@ class ClaudeCodeRuntime:
 
     def run(self, ws: Path, prompt: str, system: str, rec) -> dict:
         if not sandbox_available(): raise RuntimeError("sandbox-exec unavailable; refusing to run unsandboxed")
-        key = os.environ.get("ANTHROPIC_API_KEY")
-        if not key: raise RuntimeError("ANTHROPIC_API_KEY is required (--bare never reads OAuth or keychain)")
+        key = load_api_key()  # --bare never reads OAuth or keychain
         self.guard.check(self.cfg["max_budget_usd_per_run"])
         binary = claude_binary()
         home = ws.parent / (ws.name + "_home"); (home / "tmp").mkdir(parents=True)

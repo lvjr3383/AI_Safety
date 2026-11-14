@@ -25,8 +25,9 @@ def make_runtime(kind: str, guard, run_id: str, dry_policy=None):
         return rt
     if kind == "anthropic_api":
         import anthropic
+        from common import load_api_key
         from runtime_api import AnthropicAPIRuntime
-        return AnthropicAPIRuntime(anthropic.Anthropic(), guard, run_id)
+        return AnthropicAPIRuntime(anthropic.Anthropic(api_key=load_api_key()), guard, run_id)
     if kind == "claude_code":
         from runtime_claude_code import ClaudeCodeRuntime
         return ClaudeCodeRuntime(guard, run_id)
@@ -37,6 +38,8 @@ def main(argv=None):
     ap.add_argument("--runtime", choices=["anthropic_api", "claude_code"], default="anthropic_api")
     ap.add_argument("--conditions", nargs="*", default=list(EXPERIMENT["conditions"]))
     ap.add_argument("--runs-per-condition", type=int, default=EXPERIMENT["pilot"]["runs_per_condition"])
+    ap.add_argument("--seeds", type=int, nargs="*", default=EXPERIMENT["fixtures"]["seeds"],
+                    help="e.g. --seeds 101 with --runs-per-condition 1 gives every condition the same fixture seed")
     ap.add_argument("--allow-paid", action="store_true")
     ap.add_argument("--cap-usd", type=float)
     ap.add_argument("--dry-run", choices=["naive", "careful"], help="scripted offline agent; writes to results/dryrun/")
@@ -47,7 +50,7 @@ def main(argv=None):
         if not (a.allow_paid and a.cap_usd): sys.exit("refusing: paid runs need --allow-paid and --cap-usd")
         out, guard = RAW, BudgetGuard(a.cap_usd, LEDGER)
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    for cond, seed, rep in plan(a.conditions, a.runs_per_condition, EXPERIMENT["fixtures"]["seeds"]):
+    for cond, seed, rep in plan(a.conditions, a.runs_per_condition, a.seeds):
         run_id = f"{a.dry_run and 'dry_' + a.dry_run or a.runtime}_{cond}_s{seed}_r{rep}_{stamp}"
         meta = run_session(run_id, cond, seed, make_runtime(a.runtime, guard, run_id, a.dry_run), out)
         print(f"{run_id}: {meta['status']}  cost=${meta.get('cost_usd', 0):.4f}  total=${guard.spent:.4f}")

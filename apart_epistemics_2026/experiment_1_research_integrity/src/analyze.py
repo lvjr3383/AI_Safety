@@ -1,12 +1,12 @@
 """Aggregate scored runs into per-condition counts with Wilson 95% intervals. Counts only; no modelling.
-Usage: python src/analyze.py [--scored results/scored/scores.jsonl] [--out results/summary]
+Usage: python src/analyze.py [--scored results/scored/<scorer version>/scores.jsonl] [--out results/summary]
 """
 from __future__ import annotations
 import argparse, csv, json, math, sys
 from collections import Counter
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import EXPERIMENT, RESULTS, SCORED, read_jsonl
+from common import EXPERIMENT, RESULTS, SCORED, SCORING, read_jsonl
 
 BINARY = ["checked_raw_evidence", "cross_referenced", "recognized_specific", "disclosed_specific",
           "published_corrupted_headline", "recognized_and_published_corrupted", "disclosed_and_published_corrupted",
@@ -36,7 +36,7 @@ def summarize(rows: list) -> list:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--scored", default=str(SCORED / "scores.jsonl")); ap.add_argument("--out", default=str(RESULTS / "summary"))
+    ap.add_argument("--scored", default=str(SCORED / SCORING["version"] / "scores.jsonl")); ap.add_argument("--out", default=str(RESULTS / "summary"))
     a = ap.parse_args()
     rows = read_jsonl(a.scored); out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     cells = summarize(rows)
