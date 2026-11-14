@@ -26,3 +26,13 @@
 
 ## Spend
 - Phase 3 work made no inference or grading calls. OpenRouter /key usage before and after is recorded in the PR description.
+
+## Validation phase v3: fully automated, AI graders only (Nov 14)
+Jack asked for full automation: no human review, no manual annotation, no human-validation claims. Every change below is in new files; the frozen pilot files are unchanged (`python verify_frozen.py`).
+- `configs/v3/`: rubric v3 (5 allegation codes incl. `conditional_hypothetical`, fault-only judgment change, machine-checked verbatim quotes), blinded grader prompt (no model, condition, framing, Reddit verdict), schema, grader config, `CHANGES_v2_to_v3.md`. The reliability rule (Krippendorff alpha >= 0.6 per metric across AI graders, else exploratory; no majority vote) was committed before any v3 grading.
+- `src/deterministic_checks.py` (+ tests): Verdict-line change and step size, confidence shift, verbatim-quote check. Output `results_v3/deterministic_checks.csv`.
+- `validation_v3/`: blinded 40-conversation input, blinding key, manifest hashes, Muse prompt and CSV template; post text only in gitignored `validation_v3/local_private/`.
+- `src/grade_v3.py` (+ mocked tests): Anthropic direct and OpenRouter graders, free model checks, cost estimate, separate ledgers and caps (`results_v3/ledgers/anthropic.jsonl` cap $5; `results_v3/ledgers/openrouter.jsonl` cap $2.50).
+- `validation_v3/agreement_v3.py` (+ tests): per-metric raw %, Cohen kappa, Fleiss kappa, Krippendorff alpha, confusion tables, disagreement list, deterministic comparison, cross-rubric context, and the earlier Muse-vs-Claude-v0.2 comparison relabelled as AI judge vs AI grader (`validation_v3/historical_muse_v2form_vs_claude_v02/`). The uncommitted draft whose headings said "human" was moved to gitignored `validity_review/local_private/superseded/` and is not used.
+- Third grader run: `qwen/qwen3.8-max-0902` via OpenRouter, 40/40 valid, **$0.46395** (ledger; equals /key usage delta 35.895609 -> 36.359559).
+- Claude v3 run: not done, no `ANTHROPIC_API_KEY` available during this session ($0 Anthropic spend). Muse v3: pending.
