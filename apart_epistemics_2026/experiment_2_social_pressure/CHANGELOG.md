@@ -63,3 +63,27 @@ Separate arm in `v2_study_anthropic/`. Pilot, v3 grading, and the frozen v2 prot
 - Tests: `v2_study_anthropic/tests/` (17 pass).
 - Smoke test (6 conversations, list price, separate ledger `results/smoke/ledger_anthropic.jsonl`): Sonnet $0.04422, Haiku $0.016434, Opus $0.099985, total **$0.160639**. All 18 Verdict/Blame/Confidence lines parsed.
 - Full-run estimate (smoke mean x 240 per model x 1.25): Sonnet $6.63, Haiku $2.47, Opus $15.00, **total $24.10**. This fits the proposed $50 cap.
+
+## Experiment 2 v2: Anthropic-only extension, full run and analysis (Nov 14)
+Separate arm in `v2_study_anthropic/`. Pilot, v3 grading, and the frozen v2 protocol remain unchanged. No OpenRouter calls, no AI judges, and no manual grading.
+
+### Amendment v1.1 (operational, before / during the run)
+Documented in `PROTOCOL_ADDENDUM.md` deviation 14. Design, prompts, outcomes and analysis are unchanged. After launch 1 hung waiting for response headers (the 300 s socket timeout did not fire), `run_anthropic.py` gained a 240 s wall-clock request deadline (`request_deadline_s`). Expired requests are abandoned and retried like transient errors; `abandoned_requests` is recorded. `recover_interrupted()` marks incomplete attempts `interrupted` (not analysed) and `--retry-failed` reruns them as a new attempt. Checksums were regenerated; v1 remains at `frozen/exp2-v2-anthropic-addendum-v1`.
+
+### Full run
+- Command: `python v2_study_anthropic/src/run_anthropic.py --authorized --cap 50 --retry-failed` (resumable). Jack authorized the run.
+- **720 / 720** unique main-run conversations complete (30 cases x 4 conditions x 3 models x 2 reps). Every cell has one latest complete attempt with three parsed turns. Missing outcomes: 0. Non-text blocks: 0. Unparsed Verdict / Blame / Confidence lines: 0.
+- Raw log: 730 conversation rows (720 complete + 10 interrupted attempt-1 rows from hangs, later completed as attempt 2). Turn calls: 2172, all `end_turn`. Transient retries: 32. Abandoned requests: 32 (ledger cost is a lower bound by at most abandoned count x worst-case per call, if Anthropic billed those).
+- List-price cost from `results/ledger_anthropic.jsonl` (API token usage x official prices; `price_basis=list`): Haiku 4.5 **$1.918986**, Sonnet 4.6 **$5.254320**, Opus 4.7 **$12.384225**, **total $19.557531**, under the $50 cap.
+
+### Analysis (frozen `src/analyze_anthropic.py` / `v2_study/src/analyze_v2.py`)
+Case-level means (reps averaged), case-bootstrap 95% CIs (B=10000, seed 20261116), no p-values. `results/analysis/` and `results/analysis_exclude_ceiling/`. Presentation figures and tables from `src/report_anthropic.py` (after the freeze; writes into `results/analysis/`).
+- Ceiling: 122 / 720 conversations (16.9%) already `not_in_wrong` at turn 1 (kept in the primary analysis). Blame at 0 at t1: 0%. Verdict movement was rare: 9 / 720 (1.2%) moved toward the push by t3; 17 / 720 (2.4%) moved away; 694 unchanged. Sonnet never moved toward the push (0 / 240).
+- Primary pooled contrasts (n=30 cases), honesty = (B+D)/2 - (A+C)/2, framing = (C+D)/2 - (A+B)/2:
+  - H1 honesty, `moved_toward_push_t3`: **-0.0194** CI **[-0.0361, -0.0028]** (excludes 0, predicted direction). `verdict_move_t3`: 0.0222 CI [-0.0083, 0.0556] (includes 0). `conf_change_t3`: 0.025 CI [-0.0528, 0.1083] (includes 0).
+  - H2 framing: `moved_toward_push_t3` 0.0028 CI [-0.0111, 0.0167]; `verdict_move_t3` 0.0111 CI [-0.0083, 0.0333]; `conf_change_t3` 0.0861 CI [0.0, 0.175]. All include 0.
+  - H3 interaction (exploratory): all three primary pooled CIs include 0.
+- Sensitivity (`--exclude-ceiling`, 598 conversations; pooled n=22 cases because a case is dropped if any model lacks a complete ABCD cell): honesty `moved_toward_push_t3` **-0.0189** CI **[-0.0379, -0.0038]** (still excludes 0); other pooled primary CIs include 0.
+- H4 (exploratory, between-model differences of case-level contrasts and of overall movement): most contrast differences have CIs that include 0. Overall mean `verdict_move_t3` is lower for Haiku than Opus (**-0.0458** CI **[-0.0917, -0.0042]**). Overall mean `moved_toward_push_t3` is higher for Opus than Sonnet (**0.025** CI **[0.0083, 0.05]**). Overall mean `conf_change_t3` differs across all three pairs (Haiku lower than Opus and Sonnet; Opus lower than Sonnet); CIs exclude 0. This arm is within the Claude family only.
+- Caveat unchanged: movement under pressure is not necessarily dishonesty.
+- `python v2_study_anthropic/verify_addendum.py` and `python v2_study/verify_protocol.py` pass. `pytest` for `v2_study_anthropic/tests` and `v2_study/tests`: 41 passed.
