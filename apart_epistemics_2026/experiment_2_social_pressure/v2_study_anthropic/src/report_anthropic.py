@@ -16,7 +16,18 @@ R = VA / "results"; FIG = R / "analysis"; TAB = R / "analysis"
 LABEL = {"claude-haiku-4-5-20251001": "Haiku 4.5", "claude-sonnet-4-6": "Sonnet 4.6", "claude-opus-4-7": "Opus 4.7"}
 ORDER = ["claude-haiku-4-5-20251001", "claude-sonnet-4-6", "claude-opus-4-7"]
 COND = {"A": "A ordinary", "B": "B ordinary+honesty", "C": "C evaluation", "D": "D evaluation+honesty"}
-def rd(p): return [json.loads(l) for l in open(p)] if Path(p).exists() else []
+def rd(p):
+    p = Path(p)
+    if p.exists():
+        return [json.loads(l) for l in open(p)]
+    gz = Path(str(p) + ".gz")
+    if gz.exists():
+        import gzip
+        return [json.loads(l) for l in gzip.open(gz, "rt")]
+    meta = p.with_name("turns_metadata.jsonl") if p.name == "turns.jsonl" else p.with_name(p.stem + "_metadata" + p.suffix)
+    if meta.exists():
+        return [json.loads(l) for l in open(meta)]
+    return []
 def rcsv(p): return list(csv.DictReader(open(p))) if Path(p).exists() else []
 def f(x, n=3): return "" if x in (None, "") else f"{float(x):.{n}f}"
 
@@ -43,7 +54,7 @@ def run_stats():
                                "input_tokens": sum(x.get("input_tokens") or 0 for x in lm), "output_tokens": sum(x.get("output_tokens") or 0 for x in lm),
                                "cost_usd": round(sum(x["cost_usd"] or 0 for x in lm), 6)}
     out["ledger_total_usd"] = round(sum(x["cost_usd"] or 0 for x in led), 6)
-    resp = [t for t in turns if t.get("response")]
+    resp = [t for t in turns if t.get("response") or t.get("parsed_verdict") is not None or t.get("finish_reason")]
     out["parse"] = {"turns_with_response": len(resp), "verdict_unparsed": sum(t["parsed_verdict"] == "unparsed" for t in resp),
                     "blame_missing": sum(t["parsed_blame"] is None for t in resp), "confidence_missing": sum(t["parsed_confidence"] is None for t in resp)}
     out["abandoned_requests_total"] = sum(t.get("abandoned_requests") or 0 for t in turns)
@@ -87,7 +98,7 @@ def fig_condition(cmeans, outcome, ylabel, path):
         ax.bar(xs, ys, w, yerr=[el, eh], capsize=3, label=COND[cond])
     ax.set_xticks(range(len(ORDER))); ax.set_xticklabels([LABEL[m] for m in ORDER]); ax.axhline(0, color="k", lw=0.6)
     ax.set_ylabel(ylabel); ax.legend(fontsize=8, ncol=2); ax.set_title(f"{ylabel} by condition (case-level means, 95% case-bootstrap CI)", fontsize=9)
-    fig.tight_layout(); fig.savefig(path, dpi=150); plt.close(fig)
+    fig.tight_layout(); fig.savefig(path, dpi=150); fig.savefig(Path(path).with_suffix(".svg")); plt.close(fig)
 
 def fig_forest(effects, path, title):
     rows = [r for r in effects if r["primary"] == "True"]
@@ -110,7 +121,7 @@ def fig_forest(effects, path, title):
         for s in scopes: yt.append(y); yl.append(f"{k} | {LABEL.get(s, s)}"); y += 1
         y += 0.5
     axes[0].set_yticks(yt); axes[0].set_yticklabels(yl, fontsize=7); axes[0].invert_yaxis()
-    fig.suptitle(title, fontsize=10); fig.tight_layout(); fig.savefig(path, dpi=150); plt.close(fig)
+    fig.suptitle(title, fontsize=10); fig.tight_layout(); fig.savefig(path, dpi=150); fig.savefig(Path(path).with_suffix(".svg")); plt.close(fig)
 
 def fig_initial(fc, path):
     fig, ax = plt.subplots(figsize=(6, 3.8)); cats = [c for c in ["in_wrong", "mixed", "not_in_wrong", "unparsed"] if any(fc.get(m, {}).get("initial_verdict", {}).get(c, 0) for m in ORDER)]; bottom = [0] * len(ORDER)
@@ -118,7 +129,7 @@ def fig_initial(fc, path):
         vals = [fc.get(m, {}).get("initial_verdict", {}).get(c, 0) for m in ORDER]
         ax.bar([LABEL[m] for m in ORDER], vals, bottom=bottom, label=c); bottom = [a + b for a, b in zip(bottom, vals)]
     ax.set_ylabel("conversations"); ax.set_title("Initial (turn-1) verdict per model (not_in_wrong = ceiling)", fontsize=9); ax.legend(fontsize=8)
-    fig.tight_layout(); fig.savefig(path, dpi=150); plt.close(fig)
+    fig.tight_layout(); fig.savefig(path, dpi=150); fig.savefig(Path(path).with_suffix(".svg")); plt.close(fig)
 
 def fig_trajectory(convs, key, ylabel, path, fault=False):
     fig, axes = plt.subplots(1, 3, figsize=(11, 3.6), sharey=True)
@@ -132,7 +143,7 @@ def fig_trajectory(convs, key, ylabel, path, fault=False):
             ax.plot([1, 2, 3], ys, marker="o", label=COND[cond])
         ax.set_title(LABEL[m], fontsize=9); ax.set_xticks([1, 2, 3]); ax.set_xlabel("turn")
     axes[0].set_ylabel(ylabel); axes[-1].legend(fontsize=7); fig.suptitle(f"Mean {ylabel} by turn (conversation means, descriptive)", fontsize=9)
-    fig.tight_layout(); fig.savefig(path, dpi=150); plt.close(fig)
+    fig.tight_layout(); fig.savefig(path, dpi=150); fig.savefig(Path(path).with_suffix(".svg")); plt.close(fig)
 
 def md_table(rows, cols, hdr=None):
     s = "| " + " | ".join(hdr or cols) + " |\n|" + "---|" * len(cols) + "\n"
