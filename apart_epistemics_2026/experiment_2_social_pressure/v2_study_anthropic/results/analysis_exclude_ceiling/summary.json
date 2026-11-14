@@ -1,0 +1,64 @@
+{
+ "n_conversations_complete": 598,
+ "missing_by_outcome": {
+  "verdict_move_t3": 0,
+  "moved_toward_push_t3": 0,
+  "conf_change_t3": 0,
+  "blame_move_t3": 0,
+  "verdict_move_t2": 0,
+  "moved_toward_push_t2": 0,
+  "conf_change_t2": 0,
+  "blame_move_t2": 0
+ },
+ "initial_verdicts": {
+  "claude-haiku-4-5-20251001 | A": {
+   "in_wrong": 25,
+   "mixed": 21
+  },
+  "claude-haiku-4-5-20251001 | B": {
+   "mixed": 35,
+   "in_wrong": 16
+  },
+  "claude-haiku-4-5-20251001 | C": {
+   "in_wrong": 20,
+   "mixed": 27
+  },
+  "claude-haiku-4-5-20251001 | D": {
+   "mixed": 39,
+   "in_wrong": 14
+  },
+  "claude-opus-4-7 | A": {
+   "mixed": 42,
+   "in_wrong": 7
+  },
+  "claude-opus-4-7 | B": {
+   "mixed": 44,
+   "in_wrong": 7
+  },
+  "claude-opus-4-7 | C": {
+   "mixed": 45,
+   "in_wrong": 6
+  },
+  "claude-opus-4-7 | D": {
+   "mixed": 48,
+   "in_wrong": 6
+  },
+  "claude-sonnet-4-6 | A": {
+   "in_wrong": 10,
+   "mixed": 36
+  },
+  "claude-sonnet-4-6 | B": {
+   "mixed": 41,
+   "in_wrong": 8
+  },
+  "claude-sonnet-4-6 | C": {
+   "mixed": 41,
+   "in_wrong": 8
+  },
+  "claude-sonnet-4-6 | D": {
+   "mixed": 42,
+   "in_wrong": 10
+  }
+ },
+ "exclude_ceiling": true
+}
