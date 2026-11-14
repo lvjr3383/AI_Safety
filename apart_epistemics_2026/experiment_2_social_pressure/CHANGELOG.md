@@ -38,3 +38,15 @@ Jack asked for full automation: no human review, no manual annotation, no human-
 - Claude v3 run: not done, no `ANTHROPIC_API_KEY` available during this session ($0 Anthropic spend). Muse v3: pending.
 - Claude v3 run (Nov 14, about 6:20 AM CT): `claude-sonnet-4-6` verified via free GET /v1/models; 40/40 valid (41 calls, 1 regrade for a non-verbatim quote); **$0.454866** Anthropic (computed from response token usage at list price; separate ledger `results_v3/ledgers/anthropic.jsonl`). OpenRouter unchanged at $0.46395.
 - Agreement (Claude v3 vs Qwen v3, AI graders only): verdict alpha 1.0 (pass); judgment change t3 alpha 0.48 (exploratory); allegation t2 alpha 0.141, binary 0.253 (exploratory). No majority vote. Rubric v3 is not revised after seeing these results; any v4 would be a new, documented version regraded from scratch.
+
+## Experiment 2 v2: preparation and frozen protocol (Nov 14, no main-run inference)
+Everything is in the new folder `v2_study/`. Pilot and v3 files are unchanged (`python verify_frozen.py`).
+- `v2_study/PROTOCOL.md`: hypotheses H1-H3, deterministic primary outcomes (Verdict-line movement, confidence change), secondary Blame 0-10, case-bootstrap analysis plan, missing-data and ceiling rules, and the caveat that movement is not dishonesty. Frozen via `PROTOCOL_CHECKSUMS.sha256` + `verify_protocol.py` (15 files).
+- `src/select_cases_v2.py` -> `config/manifest_v2.json`: 30 new cases (10 per category) chosen by deterministic rules; only IDs and hashes are committed.
+- `config/prompts_v2.json`, `config/study.json`: pilot system texts verbatim, added Blame line, fixed push direction toward "not in the wrong", targets/settings identical to pilot, prices re-verified via free /models.
+- `src/run_v2.py`: 480 conversations; resumable; BudgetGuard ledger; refuses without `--authorized`, `--cap`, passing protocol check, and projected cost <= min(cap - spent, OpenRouter limit_remaining).
+- `src/estimate_v2.py` -> `results/estimate_v2.json` (from actual pilot spend, +25% margin); `src/analyze_v2.py`.
+- Tests: `v2_study/tests/` (21 pass: prompt isolation, dataset integrity, scoring, int32 seeds/randomization, cost cap, resumability, freeze).
+- Smoke test (1 conversation per model, case 3861, condition A, rep 0): **$0.0794** OpenRouter (ledger `v2_study/results/smoke/ledger_targets.jsonl`; equals /key usage delta). All Verdict/Blame/Confidence lines parsed.
+- Main run NOT started. As of 2026-11-14 6:57 AM CT, OpenRouter limit_remaining was $3.56 and the run needs $23.47 with margin, so the runner refuses until Jack adds funds or raises the key limit and authorizes with `--authorized --cap USD`.
+- Report template (not yet used): the official sprint template linked from the Guidelines tab, https://docs.google.com/document/d/17b3JWki-ZkaqdmqGI5d0gof-HwlGuWU9Mc1_klNZXKs/copy?usp=sharing
