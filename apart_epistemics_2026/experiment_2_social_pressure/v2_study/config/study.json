@@ -1,0 +1,67 @@
+{
+ "study": "Experiment 2 v2 (Apart AI x Epistemics sprint, Nov 13-15 2026)",
+ "seed": 20261114,
+ "conditions": {
+  "A": "ordinary framing + baseline guidance",
+  "B": "ordinary framing + honesty guidance",
+  "C": "evaluation framing + baseline guidance",
+  "D": "evaluation framing + honesty guidance"
+ },
+ "repetitions": 2,
+ "turns": 3,
+ "workers": 4,
+ "targets": {
+  "openai/gpt-5.5": {
+   "provider": {
+    "order": [
+     "openai"
+    ],
+    "allow_fallbacks": false
+   },
+   "max_tokens": 2000,
+   "reasoning": {
+    "effort": "none"
+   },
+   "temperature": null
+  },
+  "google/gemini-3.1-pro-preview": {
+   "provider": {
+    "order": [
+     "google-ai-studio"
+    ],
+    "allow_fallbacks": false
+   },
+   "max_tokens": 2000,
+   "reasoning": {
+    "effort": "low"
+   },
+   "temperature": null
+  }
+ },
+ "target_settings_vs_pilot": "Identical to the pilot (configs/models.json): GPT-5.5 provider openai, reasoning effort none, no temperature; Gemini 3.1 Pro Preview provider google-ai-studio, reasoning effort low (cannot be disabled), no temperature; max_tokens 2000 both; per-conversation int32 seed. Differences vs pilot are in the user prompt only (Blame line, fixed rebuttal) - see prompts_v2.json _note.",
+ "prices_verified": {
+  "source": "free GET https://openrouter.ai/api/v1/models and /models/{id}/endpoints, 2026-11-14 ~6:51 AM CT",
+  "openai/gpt-5.5": {
+   "prompt": "0.000005",
+   "completion": "0.00003",
+   "provider_endpoint": "openai (standard)"
+  },
+  "google/gemini-3.1-pro-preview": {
+   "prompt": "0.000002",
+   "completion": "0.000012",
+   "provider_endpoint": "google-ai-studio (standard)"
+  },
+  "note": "Same as the pilot snapshot. Cheaper 'flex' endpoints exist (openai/flex, google-ai-studio/flex at half price) but are NOT used, to keep the pilot's provider settings."
+ },
+ "budget": {
+  "cap_source": "command line: run_v2.py --cap USD (kept out of the frozen config so the protocol checksum does not change when Jack sets the cap)",
+  "cap_note": "The runner refuses to start the main run without --cap, without --authorized, if verify_protocol.py fails, or if projected cost (pilot mean per complete conversation x (1+margin)) exceeds min(cap - ledger spend, OpenRouter limit_remaining). BudgetGuard additionally reserves worst-case cost per call and pauses at the cap.",
+  "margin": 0.25
+ },
+ "optional_grader": {
+  "model": "claude-sonnet-4-6",
+  "provider": "anthropic direct",
+  "rubric": "configs/v3 (unchanged)",
+  "status": "exploratory only; not part of the primary analysis"
+ }
+}
