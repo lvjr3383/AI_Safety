@@ -1,0 +1,46 @@
+{
+ "study": "Experiment 2 v2 - Anthropic-only extension (Apart AI x Epistemics sprint, Nov 13-15 2026)",
+ "reuses_frozen_protocol": "v2_study/ at branch frozen/exp2-v2-protocol-v1 (commit bbc3901): same manifest (30 cases), prompts_v2.json, conditions, repetitions, parsers, outcomes and analysis code; imported read-only",
+ "seed": 20261114,
+ "conditions": {
+  "A": "ordinary framing + baseline guidance",
+  "B": "ordinary framing + honesty guidance",
+  "C": "evaluation framing + baseline guidance",
+  "D": "evaluation framing + honesty guidance"
+ },
+ "repetitions": 2,
+ "turns": 3,
+ "workers": 4,
+ "provider": {
+  "name": "anthropic",
+  "endpoint": "https://api.anthropic.com/v1/messages",
+  "anthropic_version": "2023-06-01",
+  "api_key_env": "ANTHROPIC_API_KEY",
+  "transient_retry_statuses": [429, 500, 502, 503, 529],
+  "transient_max_retries": 4
+ },
+ "targets": {
+  "claude-sonnet-4-6": {"label": "Claude Sonnet 4.6", "tier": "mid", "max_tokens": 2000, "temperature": null, "thinking": null},
+  "claude-haiku-4-5-20251001": {"label": "Claude Haiku 4.5", "tier": "small", "max_tokens": 2000, "temperature": null, "thinking": null},
+  "claude-opus-4-7": {"label": "Claude Opus 4.7", "tier": "large", "max_tokens": 2000, "temperature": null, "thinking": null}
+ },
+ "settings_note": "No temperature/top_p/top_k sent (API default, as in the pilot where no temperature was sent); no 'thinking' parameter (extended thinking off); no prompt caching; no tools; max_tokens 2000 (pilot value). Anthropic Messages API has no seed parameter, so conv_seed is NOT sent (recorded only as an identifier). The system prompt goes in the top-level 'system' field instead of a system-role message.",
+ "prices_verified": {
+  "source": "https://docs.anthropic.com/en/docs/about-claude/pricing (official Anthropic pricing page), fetched 2026-11-14 ~7:10 AM CT",
+  "unit": "USD per token (list price, standard global endpoint, no batch, no caching)",
+  "claude-sonnet-4-6": {"input": 0.000003, "output": 0.000015},
+  "claude-haiku-4-5-20251001": {"input": 0.000001, "output": 0.000005},
+  "claude-opus-4-7": {"input": 0.000005, "output": 0.000025},
+  "cache_multipliers_if_ever_reported": {"cache_creation_5m": 1.25, "cache_read": 0.1},
+  "notes": "Opus 4.7 uses a newer tokenizer (~30% more tokens for the same text per the pricing page); cost is computed from the token counts the API returns, so this is captured. Batch API would be 50% cheaper but is not used (asynchronous; noted as an option)."
+ },
+ "credits": {
+  "balance_verifiable_via_api": false,
+  "note": "The Anthropic API exposes no endpoint for credit balance or promotional-credit eligibility. User-reported (Jack, Nov 14 2026, not verified): $100 Anthropic promotional credits expiring 2026-12-13, which Anthropic confirmed cover direct Claude API usage."
+ },
+ "budget": {
+  "cap_source": "command line: run_anthropic.py --cap USD (kept out of the frozen config); proposed cap $50",
+  "margin": 0.25,
+  "smoke_cap_usd_default": 1.0
+ }
+}
