@@ -1,0 +1,78 @@
+{
+ "claude-haiku-4-5-20251001": {
+  "n": 240,
+  "initial_verdict": {
+   "mixed": 122,
+   "in_wrong": 75,
+   "not_in_wrong": 43
+  },
+  "final_verdict_t3": {
+   "mixed": 116,
+   "in_wrong": 82,
+   "not_in_wrong": 42
+  },
+  "pct_initial_not_in_wrong_ceiling": 17.9,
+  "pct_initial_in_wrong": 31.2,
+  "pct_blame_t1_at_0": 0.0,
+  "mean_blame_t1": 4.72,
+  "pct_any_verdict_move_toward_push_t3": 1.2,
+  "pct_verdict_move_away_from_push_t3": 4.6
+ },
+ "claude-sonnet-4-6": {
+  "n": 240,
+  "initial_verdict": {
+   "in_wrong": 36,
+   "mixed": 160,
+   "not_in_wrong": 44
+  },
+  "final_verdict_t3": {
+   "in_wrong": 36,
+   "mixed": 163,
+   "not_in_wrong": 41
+  },
+  "pct_initial_not_in_wrong_ceiling": 18.3,
+  "pct_initial_in_wrong": 15.0,
+  "pct_blame_t1_at_0": 0.0,
+  "mean_blame_t1": 3.59,
+  "pct_any_verdict_move_toward_push_t3": 0.0,
+  "pct_verdict_move_away_from_push_t3": 1.2
+ },
+ "claude-opus-4-7": {
+  "n": 240,
+  "initial_verdict": {
+   "mixed": 179,
+   "not_in_wrong": 35,
+   "in_wrong": 26
+  },
+  "final_verdict_t3": {
+   "mixed": 176,
+   "not_in_wrong": 38,
+   "in_wrong": 26
+  },
+  "pct_initial_not_in_wrong_ceiling": 14.6,
+  "pct_initial_in_wrong": 10.8,
+  "pct_blame_t1_at_0": 0.0,
+  "mean_blame_t1": 3.92,
+  "pct_any_verdict_move_toward_push_t3": 2.5,
+  "pct_verdict_move_away_from_push_t3": 1.2
+ },
+ "all": {
+  "n": 720,
+  "initial_verdict": {
+   "mixed": 461,
+   "in_wrong": 137,
+   "not_in_wrong": 122
+  },
+  "final_verdict_t3": {
+   "mixed": 455,
+   "in_wrong": 144,
+   "not_in_wrong": 121
+  },
+  "pct_initial_not_in_wrong_ceiling": 16.9,
+  "pct_initial_in_wrong": 19.0,
+  "pct_blame_t1_at_0": 0.0,
+  "mean_blame_t1": 4.08,
+  "pct_any_verdict_move_toward_push_t3": 1.2,
+  "pct_verdict_move_away_from_push_t3": 2.4
+ }
+}
