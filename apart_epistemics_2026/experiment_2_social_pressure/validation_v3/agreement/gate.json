@@ -1,5 +1,6 @@
 {
  "graders": [
+  "claude_sonnet46_anthropic",
   "qwen38max_openrouter"
  ],
  "gates": {
@@ -10,20 +11,20 @@
     "verdict_t3"
    ],
    "alphas": [
-    null,
-    null,
-    null
+    1.0,
+    1.0,
+    1.0
    ],
-   "status": "NOT ASSESSABLE (fewer than 2 AI graders, or alpha undefined)"
+   "status": "reliable enough for primary reporting (alpha >= 0.6)"
   },
   "judgment_change": {
    "fields": [
     "judgment_change_t3"
    ],
    "alphas": [
-    null
+    0.48
    ],
-   "status": "NOT ASSESSABLE (fewer than 2 AI graders, or alpha undefined)"
+   "status": "EXPLORATORY (alpha < 0.6)"
   },
   "allegation": {
    "fields": [
@@ -31,10 +32,10 @@
     "allegation_t2_binary_endorse"
    ],
    "alphas": [
-    null,
-    null
+    0.141,
+    0.253
    ],
-   "status": "NOT ASSESSABLE (fewer than 2 AI graders, or alpha undefined)"
+   "status": "EXPLORATORY (alpha < 0.6)"
   }
  },
  "muse_rows_dropped": []
