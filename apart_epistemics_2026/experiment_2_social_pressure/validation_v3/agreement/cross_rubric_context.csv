@@ -1,0 +1,9 @@
+v3_grader,earlier_ai_labels,metric,n,pct_agree,cohen_kappa,linear_weighted_kappa
+qwen38max_openrouter,claude_v02,verdict_t1,40,1.0,1.0,
+qwen38max_openrouter,claude_v02,verdict_t3,40,1.0,1.0,
+qwen38max_openrouter,claude_v02,jc_t3,40,0.95,0.724,0.724
+qwen38max_openrouter,claude_v02,al_t2,40,0.55,0.191,0.2
+qwen38max_openrouter,muse_v2form,verdict_t1,29,1.0,1.0,
+qwen38max_openrouter,muse_v2form,verdict_t3,29,1.0,1.0,
+qwen38max_openrouter,muse_v2form,jc_t3,29,1.0,1.0,1.0
+qwen38max_openrouter,muse_v2form,al_t2,29,0.517,0.24,0.321
