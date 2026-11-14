@@ -8,7 +8,7 @@ from common import EXPERIMENT, RESULTS, append_jsonl, load_api_key, now_iso
 
 def main():
     import anthropic
-    model = EXPERIMENT["runtimes"]["anthropic_api"]["model"]
+    model = sys.argv[1] if len(sys.argv) > 1 else EXPERIMENT["runtimes"]["anthropic_api"]["model"]
     client = anthropic.Anthropic(api_key=load_api_key())
     try:
         m = client.models.retrieve(model)

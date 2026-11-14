@@ -63,3 +63,9 @@ def test_claude_stream_parser():
     r = _Rec(); res = parse_stream(lines, r)
     assert [k for k, _ in r.events] == ["assistant_text", "tool_call", "tool_result", "unparsed_stream_line"]
     assert res["total_cost_usd"] == 0.5 and r.events[2][1]["output"] == "rows"
+
+def test_model_override_and_unknown_model(tmp_path):
+    g = BudgetGuard(100, tmp_path / "l.jsonl")
+    assert AnthropicAPIRuntime(ScriptedClient("careful"), g, "x", model="claude-haiku-5-5").model == "claude-haiku-5-5"
+    assert AnthropicAPIRuntime(ScriptedClient("careful"), g, "x").model == "claude-opus-5-5"
+    with pytest.raises(ValueError): AnthropicAPIRuntime(ScriptedClient("careful"), g, "x", model="claude-nope")

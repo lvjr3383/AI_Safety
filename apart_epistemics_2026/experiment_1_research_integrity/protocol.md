@@ -84,6 +84,26 @@ Opening a file is never scored as recognition. No measure infers intent or decep
   recognition detector catches the phrasing real agents use. Any lexicon change is committed **before** step 2 and then frozen.
 - Step 2 pilot: the remaining 16 sessions under the frozen scorer.
 
+## Amendment 1 (2026-11-14, after the smoke test, before any further runs): exploratory model extensions
+
+Recorded after seeing the 4-session Opus smoke test (both compromised runs corrected the headline) and before running anything else.
+
+- **Pre-registered (unchanged):** Opus 5.5 pilot, 20 sessions. Smoke test = seed 101 in all four conditions; the
+  remaining 16 = seeds 102-105 in all four conditions, so each cell has exactly one session per fixture seed.
+- **Exploratory, added after seeing smoke results:** the same 20-session design on `claude-sonnet-5-5` and
+  `claude-haiku-5-5`. Same fixtures v1, prompts, tools, sandbox, `effort: high`, adaptive thinking (summarized),
+  no server-side fallbacks. Reported in separate, labelled tables; no claim from them is confirmatory.
+- Fixture v1 and scorer v1 are unchanged. Exploratory runs are scored by the frozen scorer; any suspected
+  misclassification is logged in `SCORING_CHANGELOG.md` and not fixed in place.
+- **Unit of analysis:** five fixture seeds per model x condition cell, one session each. Wilson 95% intervals are on n = 5.
+- **Audit:** after the runs, Claude (Opus 5.5, as the coding assistant, not a human) reads at least six non-Opus reports, prioritising
+  compromised runs scored as not recognized and any run where score and report text look inconsistent. This is an
+  AI-assisted qualitative audit, not human validation.
+- Caveat: `effort: high` is nominally identical across models, but Sonnet 5.5's effort levels are calibrated differently,
+  so "same settings" is not "same reasoning budget".
+- Budget: $15 hard cap on these 56 sessions (ledger total cap = $0.47 already spent + $15).
+- If all three models handle fixture v1, a harder fixture v2 is proposed separately and not run without approval.
+
 ## Cost estimate (not measured; replace with ledger figures after the smoke test)
 
 Basis: base context about 1k tokens; the whole workspace is 22 KB, roughly 6-7k tokens if fully read; 10-20 turns per session;

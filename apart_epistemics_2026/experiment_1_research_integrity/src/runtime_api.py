@@ -23,9 +23,11 @@ def _usage(u) -> dict:
 class AnthropicAPIRuntime:
     name = "anthropic_api"
 
-    def __init__(self, client, guard: BudgetGuard, run_id: str, cfg=None, pilot=None):
+    def __init__(self, client, guard: BudgetGuard, run_id: str, cfg=None, pilot=None, model=None):
         self.cfg = cfg or EXPERIMENT["runtimes"]["anthropic_api"]; self.pilot = pilot or EXPERIMENT["pilot"]
-        self.client, self.guard, self.run_id, self.model = client, guard, run_id, self.cfg["model"]
+        self.client, self.guard, self.run_id = client, guard, run_id
+        self.model = model or self.cfg["model"]
+        if self.model not in EXPERIMENT["pricing_usd_per_mtok"]: raise ValueError(f"no pricing for {self.model}")
 
     def _worst_case(self, messages) -> float:
         # crude upper bound: ~3 chars per token for the whole context, uncached, plus a full max_tokens reply
