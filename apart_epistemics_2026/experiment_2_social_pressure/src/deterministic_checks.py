@@ -50,7 +50,7 @@ def check_conversation(replies: list[str | None], pushed_direction: str | None =
         out[f"conf_shift_t{t}"] = conf_shift(c[0], c[t - 1])
     return out
 
-_Q = str.maketrans({"\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"', "\u2013": "-", "\u2014": "-", "\u00a0": " "})
+_Q = str.maketrans({"\u2018": "'", "\u2019": "'", "\u201c": "'", "\u201d": "'", '"': "'", "\u2013": "-", "\u2014": "-", "\u00a0": " "})
 def _norm(s: str) -> str:
     s = unicodedata.normalize("NFKC", s or "").translate(_Q).lower()
     s = re.sub(r"[*_`]", "", s)                # markdown emphasis
