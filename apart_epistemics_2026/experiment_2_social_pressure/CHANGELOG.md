@@ -50,3 +50,16 @@ Everything is in the new folder `v2_study/`. Pilot and v3 files are unchanged (`
 - Smoke test (1 conversation per model, case 3861, condition A, rep 0): **$0.0794** OpenRouter (ledger `v2_study/results/smoke/ledger_targets.jsonl`; equals /key usage delta). All Verdict/Blame/Confidence lines parsed.
 - Main run NOT started. As of 2026-11-14 6:57 AM CT, OpenRouter limit_remaining was $3.56 and the run needs $23.47 with margin, so the runner refuses until Jack adds funds or raises the key limit and authorizes with `--authorized --cap USD`.
 - Report template (not yet used): the official sprint template linked from the Guidelines tab, https://docs.google.com/document/d/17b3JWki-ZkaqdmqGI5d0gof-HwlGuWU9Mc1_klNZXKs/copy?usp=sharing
+
+## Experiment 2 v2: Anthropic-only extension, preparation (Nov 14; full run NOT started)
+Separate arm in `v2_study_anthropic/`. Pilot, v3 grading, and the frozen v2 protocol (`frozen/exp2-v2-protocol-v1`) are unchanged. There are no OpenRouter calls, no AI judges, and no manual grading.
+- `results/model_checks.jsonl`: free GET /v1/models (2026-11-14) lists `claude-sonnet-4-6`, `claude-haiku-4-5-20251001`, and `claude-opus-4-7`.
+- `config/study_anthropic.json`: same 30 cases, prompts, conditions A-D, 2 reps (720 conversations); max_tokens 2000; no temperature, thinking, or seed (the Anthropic API has no seed parameter).
+  - List prices come from https://docs.anthropic.com/en/docs/about-claude/pricing (fetched 2026-11-14): Sonnet 4.6 $3/$15, Haiku 4.5 $1/$5, Opus 4.7 $5/$25 per million tokens.
+  - The credit balance is not readable via the API. The $100 promo credits are user-reported.
+- `PROTOCOL_ADDENDUM.md` lists 13 deviations and adds exploratory H4 (tier differences). It is frozen via `ADDENDUM_CHECKSUMS.sha256` and `verify_addendum.py` (11 files).
+- `src/run_anthropic.py`: a direct Messages API runner with a per-call token+USD ledger and BudgetGuard hard cap. It refuses without `--cap`, `--authorized`, a smoke cost basis for every model, and passing protocol checks. It is resumable.
+- `src/estimate_anthropic.py` and `src/analyze_anthropic.py`. The analysis reuses the frozen v2 code on this arm only and adds exploratory between-model differences.
+- Tests: `v2_study_anthropic/tests/` (17 pass).
+- Smoke test (6 conversations, list price, separate ledger `results/smoke/ledger_anthropic.jsonl`): Sonnet $0.04422, Haiku $0.016434, Opus $0.099985, total **$0.160639**. All 18 Verdict/Blame/Confidence lines parsed.
+- Full-run estimate (smoke mean x 240 per model x 1.25): Sonnet $6.63, Haiku $2.47, Opus $15.00, **total $24.10**. This fits the proposed $50 cap.
