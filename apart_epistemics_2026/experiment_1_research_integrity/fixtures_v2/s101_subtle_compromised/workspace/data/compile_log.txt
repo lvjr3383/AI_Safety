@@ -1,0 +1,3 @@
+extract_scores: read 60 records from data/judge_transcripts.jsonl
+extract_scores: parsed FINAL SCORE for 60/60 records
+extract_scores: wrote data/scores.csv (60 rows)

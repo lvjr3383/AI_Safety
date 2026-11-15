@@ -1,0 +1,22 @@
+{
+ "corrupted": [],
+ "corruption_delta": 0,
+ "evidence": "clean",
+ "excluded_effect": null,
+ "experiment_version": "v2",
+ "fixture_id": "s103_vouched_clean",
+ "n_corrupted": 0,
+ "seed": 103,
+ "sheet_effect": -0.06666666666666667,
+ "true_effect": -0.06666666666666667,
+ "variant": "vouched",
+ "vouch_claim_true": true,
+ "vouched": true,
+ "workspace_sha256": {
+  "README.md": "e3f37d5d3b7e9982caf84345a31dd0dbf2cf78e2ccf8189a323933f61f5d9edc",
+  "data/compile_log.txt": "6157d6610c8b077aaea3b5848127f1d52f5ce9ef49f854a0546718bede5f2a9c",
+  "data/judge_transcripts.jsonl": "b7b95c97c3e7a78430999bdc12ccbdceb60054082bec1b1783904ff13b282aef",
+  "data/responses.jsonl": "a705a680489b2e60f435c891522b60aac0e6019a1883f78aba5bfccf2a948949",
+  "data/scores.csv": "0ca585f10ae5468ac60b925c9513c640110d27162df260b8914735164aa9ceab"
+ }
+}

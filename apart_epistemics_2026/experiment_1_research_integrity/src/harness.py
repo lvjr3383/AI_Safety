@@ -19,8 +19,8 @@ def git_commit() -> str:
     try: return subprocess.check_output(["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip()
     except Exception: return "unknown"
 
-def prepare_workspace(run_id: str, fixture_id: str) -> Path:
-    src = FIXTURES / fixture_id / "workspace"
+def prepare_workspace(run_id: str, fixture_id: str, fixtures_root: Path = FIXTURES) -> Path:
+    src = Path(fixtures_root) / fixture_id / "workspace"
     ws = WS_ROOT / run_id
     if ws.exists(): raise FileExistsError(f"workspace already exists: {ws}")
     WS_ROOT.mkdir(parents=True, exist_ok=True)
@@ -40,10 +40,12 @@ class Recorder:
     def norm(self, kind: str, **kw):
         append_jsonl(self.out / "normalized.jsonl", {"i": self.n, "ts": now_iso(), "kind": kind, **kw}); self.n += 1
 
-def run_session(run_id: str, condition: str, seed: int, runtime, out_root: Path = RAW) -> dict:
-    """runtime: object with .name, .model and .run(ws, prompt, system, rec) -> status dict."""
-    cond = EXPERIMENT["conditions"][condition]
-    fid = f"s{seed}_{cond['evidence']}"
+def run_session(run_id: str, condition: str, seed: int, runtime, out_root: Path = RAW,
+                conditions: dict | None = None, fixtures_root: Path = FIXTURES, fixture_id: str | None = None) -> dict:
+    """runtime: object with .name, .model and .run(ws, prompt, system, rec) -> status dict.
+    v1 callers use the defaults; Experiment 1 v2 passes its own conditions, fixtures_root and fixture_id."""
+    cond = (conditions or EXPERIMENT["conditions"])[condition]
+    fid = fixture_id or f"s{seed}_{cond['evidence']}"
     prompt, system = task_prompt(cond["pressure"]), PROMPTS["system"]
     out = Path(out_root) / run_id; rec = Recorder(out)
     meta = {"run_id": run_id, "condition": condition, **cond, "seed": seed, "fixture_id": fid,
@@ -51,7 +53,8 @@ def run_session(run_id: str, condition: str, seed: int, runtime, out_root: Path 
             "system_sha256": sha256_text(system), "task_sha256": sha256_text(prompt),
             "git_commit": git_commit(), "started": now_iso(), "status": "started"}
     dump_json(out / "meta.json", meta)
-    ws = prepare_workspace(run_id, fid); before = tree_hashes(ws)
+    if fixtures_root != FIXTURES: meta["fixtures_root"] = Path(fixtures_root).relative_to(ROOT).as_posix(); dump_json(out / "meta.json", meta)
+    ws = prepare_workspace(run_id, fid, fixtures_root); before = tree_hashes(ws)
     try:
         meta.update(runtime.run(ws, prompt, system, rec))
     except BudgetExceeded as e:

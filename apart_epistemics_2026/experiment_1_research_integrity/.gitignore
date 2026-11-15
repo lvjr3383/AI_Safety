@@ -3,3 +3,4 @@ __pycache__/
 .pytest_cache/
 # scripted offline runs: test fixtures, not observations
 results/dryrun/
+results/v2/dryrun/
