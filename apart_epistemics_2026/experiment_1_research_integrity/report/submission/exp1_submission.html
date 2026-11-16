@@ -10,7 +10,7 @@
 :root { --ink: #111; --muted: #444; --rule: #111; --head-bg: #eeeeee; --link: #1a4fbf; }
 @page { size: Letter; margin: 1in 1in 0.9in 1in; }
 html { background: #fff; }
-body { font-family: "Crimson Pro", "Iowan Old Style", Baskerville, Georgia, serif; font-size: 12.2pt; line-height: 1.42; color: var(--ink); background: #fff; margin: 0; }
+body { font-family: "Crimson Pro", "Iowan Old Style", Baskerville, Georgia, serif; font-size: 11pt; line-height: 1.28; color: var(--ink); background: #fff; margin: 0; }
 h1, h2, h3 { font-family: "Libre Baskerville", Baskerville, Georgia, serif; font-weight: 400; color: var(--ink); }
 h1.title { font-weight: 700; font-size: 20pt; line-height: 1.3; text-align: center; margin: 0.3in 0 0; }
 .rule-top { border-top: 5px solid var(--rule); margin-top: 0.15in; }
@@ -18,22 +18,22 @@ h1.title { font-weight: 700; font-size: 20pt; line-height: 1.3; text-align: cent
 .author { text-align: center; font-size: 12.5pt; line-height: 1.35; }
 .prepared { text-align: center; font-weight: 700; margin-top: 0.3in; line-height: 1.35; }
 h2.abstract-h { text-align: center; font-weight: 700; font-size: 14pt; margin: 0.28in 0 0.1in; }
-.abstract { font-style: italic; margin: 0 0.6in; text-align: justify; hyphens: auto; font-size: 11.8pt; line-height: 1.36; }
+.abstract { font-style: italic; margin: 0 0.6in; text-align: justify; hyphens: auto; font-size: 11.4pt; line-height: 1.3; }
 .footnote { font-size: 10pt; padding-top: 4px; }
 .footnote::before { content: ''; display: block; border-top: 1px solid var(--ink); width: 2.2in; margin-bottom: 4px; }
 .footnote-block { margin-top: auto; padding-top: 0.2in; }
 .titlepage { display: flex; flex-direction: column; min-height: 9.0in; page-break-after: always; break-after: page; }
 .pagehead { border-top: 1.5px solid var(--rule); margin-bottom: 0.35in; }
-h2 { font-size: 16pt; margin: 0.3in 0 0.1in; }
-h3 { font-size: 13pt; color: var(--muted); margin: 0.2in 0 0.06in; }
-p { margin: 0 0 0.12in; }
+h2 { font-size: 14pt; margin: 0.18in 0 0.08in; }
+h3 { font-size: 12pt; color: var(--muted); margin: 0.2in 0 0.06in; }
+p { margin: 0 0 0.09in; }
 sup { font-size: 0.7em; }
 a { color: var(--link); }
 .contrib { font-weight: 700; }
 ol.contrib-list { margin: 0.05in 0 0.15in; }
 ol.contrib-list li { margin-bottom: 4px; }
-table { border-collapse: collapse; width: 100%; margin: 0.08in 0 0.18in; font-size: 10.6pt; line-height: 1.3; page-break-inside: avoid; break-inside: avoid; }
-th, td { border: 1px solid var(--ink); padding: 4px 6px; text-align: left; vertical-align: top; }
+table { border-collapse: collapse; width: 100%; margin: 0.08in 0 0.18in; font-size: 9.4pt; line-height: 1.2; page-break-inside: avoid; break-inside: avoid; }
+th, td { border: 1px solid var(--ink); padding: 3px 4px; text-align: left; vertical-align: top; }
 th { background: var(--head-bg); font-weight: 600; }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .caption { font-style: italic; margin: 0.05in 0 0.18in; }
@@ -89,12 +89,10 @@ reported as, and it supported a published-looking causal claim. Here we test a c
 receives a compiled score sheet that disagrees with the raw transcripts it was supposedly built from. Both files are in
 its workspace, and it has the tools to compare them. Does it publish the corrupted headline? And does a statement that
 the sheet was already verified stop it from checking?</p>
-<p>We keep apart four things that are easy to conflate: having the <em>opportunity</em> to check, <em>identifying</em>
+<p>We measure four separate steps: having the <em>opportunity</em> to check, <em>identifying</em>
 a specific inconsistency, <em>disclosing</em> it to the reader, and <em>correcting</em> the number. We measure what agents
 did and wrote. We do not infer trust, belief or intent.</p>
-<p class="contrib">We contribute a reproducible, sandboxed test of whether research agents publish corrupted results, 150 sessions
-across three Claude models, and a clear separation between the pre-registered pilot and the exploratory extensions added after seeing results.
-We also state what this ceiling-level result cannot tell us.</p>
+<p class="contrib">The study includes 150 sandboxed sessions across three Claude models. The protocol, fixtures and scoring code are available for reproduction. Only the first 20 sessions were pre-registered; the remaining 130 were exploratory.</p>
 <ol class="contrib-list">
   <li>A fixture family in which corrupted and clean versions differ only in specified files, with byte-level tests and frozen checksums.</li>
   <li>Deterministic outcome measures that separate opportunity, recognition, disclosure and correction, with two frozen scorer versions and AI-assisted audits.</li>
@@ -169,7 +167,7 @@ under three assumptions (Figure 1). The Newcombe intervals for between-arm compa
 <p>All 150 sessions completed and were served by the requested model, with no refusals, fallbacks or harness errors. Every automatic
 integrity check passed in all 90 v2 sessions (Appendix A). Table 3 pools each arm over models and pressure (n = 30). Every model had identical
 counts in every arm under scorer v2 (10 of 10 or 0 of 10). Table A1 shows v1 cells under scorer v1, where one Opus report is missed.
-Pressure made no difference in any arm.</p>
+No primary-outcome difference was observed between the pressure conditions.</p>
 <div class="keep"><p class="tcaption">Table 3. Outcomes by arm, pooled over models and pressure (scorer v2). Sessions with the outcome / sessions, Wilson 95% intervals (sessions treated as independent; see Figure 1).</p>
 <table><tr><th class=''>Arm</th><th class='num'>n</th><th class='num'>Cross-referenced</th><th class='num'>Recognized</th><th class='num'>Disclosed</th><th class='num'><strong>Published corrupted</strong></th><th class='num'>Headline supported</th></tr><tr><td class=''>v1 clean</td><td class='num'>30</td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td><td class='num'>–</td><td class='num'>–</td><td class='num'>–</td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td></tr><tr><td class=''>v1 compromised</td><td class='num'>30</td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td><td class='num'><strong>0/30 <span style='color:#555'>[0.00, 0.11]</span></strong></td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td></tr><tr><td class=''>Subtle compromised</td><td class='num'>30</td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td><td class='num'><strong>0/30 <span style='color:#555'>[0.00, 0.11]</span></strong></td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td></tr><tr><td class=''>Vouched clean</td><td class='num'>30</td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td><td class='num'>–</td><td class='num'>–</td><td class='num'>–</td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td></tr><tr><td class=''>Vouched compromised</td><td class='num'>30</td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td><td class='num'><strong>0/30 <span style='color:#555'>[0.00, 0.11]</span></strong></td><td class='num'>30/30 <span style='color:#555'>[0.89, 1.00]</span></td></tr></table></div>
 <p><strong>No corrupted headline was published.</strong> None of the 90 compromised sessions reported the sheet value. All 90 reported the
@@ -240,7 +238,7 @@ still cross-referenced. By the scorer, which under-counts citations, Opus and So
 </figure>
 <p class="caption">Figure 1. Upper 95% (Wilson) bound on the per-session probability of publishing the corrupted headline, by arm, pooled over models.
 The observed rate is 0 in every arm. The bound depends on what is treated as independent: sessions (n = 30 per arm, 90 overall), distinct
-compromised fixtures (5 per arm, 15 overall) or base studies (5). The true dependence lies between these extremes.</p>
+compromised fixtures (5 per arm, 15 overall) or base studies (5). These are sensitivity calculations under different independence assumptions, not an estimated range for the true failure rate.</p>
 <p><strong>Comparisons.</strong> Every pre-specified difference was exactly zero: vouched vs v1 compromised, subtle vs v1 compromised, vouched vs v1 clean,
 and deadline vs normal. On the primary outcome, the Newcombe intervals were about ±0.11 for the arm comparisons (30 vs 30) and ±0.20 for pressure (15 vs 15),
 and they are narrower than a clustered analysis would give. Since every cell sits at 0% or 100%, these intervals cannot rank the models or estimate a pressure effect.</p>
@@ -278,14 +276,13 @@ statement about a favourable condition, not about agents in general. Within that
 <ul>
   <li>Code, fixtures, raw transcripts, scores and analysis: <span class="url"><a href="https://github.com/lvjr3383/AI_Safety/tree/apart-exp1-research-integrity/apart_epistemics_2026/experiment_1_research_integrity">https://github.com/lvjr3383/AI_Safety/tree/apart-exp1-research-integrity/apart_epistemics_2026/experiment_1_research_integrity</a></span></li>
   <li>Pull request: <span class="url"><a href="https://github.com/lvjr3383/AI_Safety/pull/5">https://github.com/lvjr3383/AI_Safety/pull/5</a></span></li>
-  <li>Data commit for this draft: <code>5194fea85f8e</code></li>
+  <li>Data commit for this draft: <code>138cdd65ea73</code></li>
   <li>Protocols: <code>protocol.md</code> (v1, Amendment 1) and <code>protocol_v2.md</code>. Freeze record: <code>FREEZE_v2.json</code>. Fixture checksums: <code>FIXTURE_CHECKSUMS.sha256</code> and <code>FIXTURE_CHECKSUMS_v2.sha256</code>.</li>
   <li>All data are synthetic, generated by <code>src/generate_fixtures.py</code> and <code>src/generate_fixtures_v2.py</code>.</li>
 </ul>
 
-<h2>Author Contributions (optional)</h2>
-<p>Jack Lakkapragada conceived and directed the study, specified the research questions, approved each design decision and budget, and takes
-responsibility for the final manuscript. AI tools were used for implementation, execution, analysis and drafting, as disclosed below.</p>
+<h2>Author Contributions</h2>
+<p>Jack Lakkapragada conceived and directed the study, set the research questions, approved the experimental design and budget, and takes responsibility for the interpretation and final submission.</p>
 
 <h2>References</h2>
 <ol class="refs">
@@ -343,10 +340,7 @@ no recruitment, and no human validation. Agents ran in a sandbox with no network
 before publication.</p>
 
 <h2>LLM Usage Statement</h2>
-<p>Claude Code (Claude Opus 5.5), under the author's direction, built the harness, fixtures and scorers. It also ran all 150 sessions, performed the
-AI-assisted audits, produced the tables and figure, and drafted this manuscript. ChatGPT assisted with design review and with framing decisions during the study and
-the write-up. The models under test were Claude Opus 5.5, Sonnet 5.5 and Haiku 5.5. All reported numbers are generated from the repository's results files.
-AI audits are not human validation. The author is responsible for all final claims and the submission.</p>
+<p>Under the author's direction, Claude Code (Opus 5.5) supported implementation, experiment execution, analysis, figures and manuscript drafting. ChatGPT assisted with design review and manuscript editing. Claude also performed the report audits, which are AI judgments rather than human validation. Reported numbers come from the committed results and analysis code. The author takes responsibility for the final claims and submission.</p>
 
 </body>
 </html>

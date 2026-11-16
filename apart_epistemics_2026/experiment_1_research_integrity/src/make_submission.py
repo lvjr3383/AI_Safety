@@ -175,6 +175,9 @@ def main():
     for k, v in subs.items(): text = text.replace("{{" + k + "}}", str(v))
     assert "{{" not in text, "unfilled placeholder"
     (OUT / "exp1_submission.html").write_text(text)
+    if "--html-only" in sys.argv:
+        print("HTML generated; all data assertions passed")
+        return
     pdf = OUT / "exp1_submission.pdf"
     subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer", "--run-all-compositor-stages-before-draw",
                     "--virtual-time-budget=15000", f"--print-to-pdf={pdf}", (OUT / "exp1_submission.html").as_uri()],
