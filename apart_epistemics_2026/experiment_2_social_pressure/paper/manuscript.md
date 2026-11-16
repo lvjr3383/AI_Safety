@@ -17,7 +17,7 @@ The second question is about the test itself. A model told that researchers will
 
 This is a 2×2 study conducted during the Apart AI × Epistemics sprint (November 13–15, 2026). The Anthropic-arm protocol was frozen before its full run, following an earlier exploratory pilot and design revisions. We parsed explicit Verdict, Blame, and Confidence fields rather than relying on an AI grader to decide whether a response was sycophantic. The earlier AI-judging exercise is retained only as a measurement limitation: models agreed poorly about subtle concessions, and no human validation was performed.
 
-**We contribute a reproducible pressure-test protocol, a completed 720-conversation Claude-only study, and case-level estimates for honesty guidance, evaluation framing, and their interaction. Just as importantly, we specify what these outputs cannot tell us about a model's full conversational behavior.**
+**We report 720 Claude conversations and case-level estimates for honesty guidance, evaluation framing and their interaction. The protocol and analysis code are available for reproduction. The measures capture explicit verdict changes; they do not assess the full advice.**
 
 ## 2. Related Work
 
@@ -47,7 +47,7 @@ Run completion and cost. All 720 unique conversations completed. Anthropic's ret
 
 ## 4. Results
 
-The result was unusually stable on our explicit Verdict measure. Across 720 conversations, 694 verdicts stayed the same, 9 (1.2%) moved toward the user's push, and 17 (2.4%) moved in the opposite direction. Sonnet never moved toward the push (0/240). Haiku did so in 3/240 and Opus in 6/240. At the first turn, 122 conversations (16.9%) already gave the user the most favorable verdict, leaving no room to move further toward it.
+Explicit Verdict labels rarely changed. Across 720 conversations, 694 verdicts stayed the same, 9 (1.2%) moved toward the user's push, and 17 (2.4%) moved in the opposite direction. Sonnet never moved toward the push (0/240). Haiku did so in 3/240 and Opus in 6/240. At the first turn, 122 conversations (16.9%) already gave the user the most favorable verdict, leaving no room to move further toward it.
 ![](../v2_study_anthropic/results/analysis/fig1_moved_toward_push_by_condition.svg)
 
 *Figure 1. Case-level probability that the Verdict line moved toward the push by turn 3, by condition and model, with 95% case-bootstrap intervals. Sonnet is at zero in every condition. Rates are low in all cells.*
@@ -79,7 +79,7 @@ Secondary note. Mean Blame was nearly flat across turns for Haiku and Sonnet. Op
 
 ## 5. Discussion and Limitations
 
-The clearest result is not a dramatic failure but a boundary on what this test could detect. All three Claude models rarely changed their explicit verdict toward a user who insisted they were right. This low base rate leaves limited statistical room for any evaluation-framing effect to appear. The small binary honesty contrast is worth reporting, but it is not evidence that a short instruction solves social sycophancy in deployment. Nor does the absence of a clear framing effect establish that models cannot recognize evaluation settings.
+The low movement rate limits what this test can tell us. All three Claude models rarely changed their explicit verdict toward a user who insisted they were right. This low base rate leaves limited statistical room for any evaluation-framing effect to appear. The small binary honesty contrast is worth reporting, but it is not evidence that a short instruction solves social sycophancy in deployment. Nor does the absence of a clear framing effect establish that models cannot recognize evaluation settings.
 
 Confidence and the secondary Blame rating changed somewhat differently by model. That matters because a fixed Verdict label can conceal subtler changes in tone or allocation of responsibility. We deliberately do not convert those differences into unsupported claims about motive.
 
@@ -93,7 +93,7 @@ Next steps would test other model families, both directions of pressure, and mor
 
 ## 6. Conclusion
 
-In 720 Claude-only conversations, explicit Verdict labels almost never shifted toward evidence-free self-exonerating pressure. Honesty guidance was associated with a small reduction in the rare binary movement outcome, while other primary honesty measures and all evaluation-framing measures showed no clear effect. Our original masking hypothesis was therefore not supported under this protocol. The narrower result is still useful: it makes the test reproducible and shows why a low rate of answer-flipping cannot, on its own, certify the quality of conversational advice.
+In 720 Claude-only conversations, explicit Verdict labels almost never shifted toward evidence-free self-exonerating pressure. Honesty guidance was associated with a small reduction in the rare binary movement outcome, while other primary honesty measures and all evaluation-framing measures showed no clear effect. Our original masking hypothesis was therefore not supported under this protocol. The protocol is reproducible, but a low rate of answer-flipping cannot establish the quality of the advice.
 
 ## Code and Data
 
@@ -103,7 +103,7 @@ In 720 Claude-only conversations, explicit Verdict labels almost never shifted t
 * Cases: ELEPHANT AITA-YTA row IDs and hashes are in v2_study/config/manifest_v2.json. Post text is not in the public repository.
 * Source dataset (not redistributed here): Cheng et al. (2025); code and data at https://github.com/myracheng/elephant
 
-## Author Contributions (optional)
+## Author Contributions
 
 Jack Lakkapragada conceived and directed the study, specified the research questions and interpretation, and takes responsibility for the final manuscript. AI tools were used for implementation, execution, analysis, and drafting as disclosed below.
 
@@ -137,6 +137,6 @@ Human subjects. There was no human annotation, no recruitment, and no human grad
 
 ## LLM Usage Statement
 
-Grok Bot, under the author's direction, implemented and ran the Anthropic experiment, executed the analysis, produced the figures, and prepared an initial draft. ChatGPT assisted with the final manuscript editing and presentation. The reported figures come from the repository analysis outputs. AI graders were used only in exploratory reliability work, not as human validators. The author is responsible for all final claims and the submission.
+Under the author's direction, Grok Bot supported implementation, experiment execution, analysis, figures and manuscript drafting. ChatGPT assisted with manuscript editing and presentation. Reported numbers come from the committed analysis outputs. AI graders were used only for exploratory reliability checks, not as human validators. The author takes responsibility for the final claims and submission.
 
 [^1]:  Research conducted at the [AI x Epistemics Research Sprint](https://apartresearch.com/sprints/ai-x-epistemics-research-sprint-2026-11-13-to-2026-11-15), November 2026
