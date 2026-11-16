@@ -4,6 +4,12 @@ Personal workspace for AI safety research and tooling contributions.
 
 ## Projects
 
+### apart_epistemics_2026
+
+Apart AI x Epistemics Research Sprint (13-15 Nov 2026): two separate entries. Experiment 1, *When the Evidence Is Available: Testing Research Agents Against Corrupted and Falsely Verified Results* (150 sandboxed sessions). Experiment 2, *Does Evaluation Awareness Mask Social Sycophancy?* (720 Claude conversations).
+
+**Artifacts:** [`apart_epistemics_2026/`](apart_epistemics_2026/): papers, protocols, results and reproduction commands for both experiments.
+
 ### lexsi-ai-hackathon
 
 Lexsi AI Safety & Alignment Hackathon (Track 2b): *Strong Refusal Control, Weak Safety Selectivity: Evaluating Activation Steering in Tiny Aya.*
