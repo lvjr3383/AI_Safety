@@ -4,7 +4,7 @@ Apart AI x Epistemics Research Sprint 2026. Created during the sprint and kept s
 (`../experiment_2_social_pressure/`, on its own branch) and from the pre-existing AI Village investigation
 (`historical_reference/`).
 
-**Status: infrastructure only. No agent sessions have been run, so there are no results.**
+**Status: complete.** 150 sandboxed sessions across three Claude models (v1: 60 sessions in `results/`; v2: 90 sessions in `results/v2/`). Only the first 20 sessions were pre-registered; the remaining 130 are exploratory. No compromised session (0 of 90) published the corrupted headline. Submission paper (Apart Track 2: Trust Infrastructure): [`report/submission/exp1_submission.pdf`](report/submission/exp1_submission.pdf), built from [`report/submission/template.html`](report/submission/template.html) by `src/make_submission.py` (`--html-only` writes the HTML and runs all data assertions without macOS Chrome). The original infrastructure description below is kept for provenance.
 
 An agent gets a synthetic label-swap judging study and must write a report with a headline label effect. In
 compromised fixtures the compiled score sheet has 10 inflated rows that the raw judge transcripts contradict.
