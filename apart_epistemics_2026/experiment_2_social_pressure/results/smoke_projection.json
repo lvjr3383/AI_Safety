@@ -1,0 +1,9 @@
+{
+ "computed_local_time": "2026-11-14 01:27 CT",
+ "smoke": {"design": "pilot case 1 (row 3439), condition A, rep 0, both targets; identical to pilot protocol, so both conversations count toward the 40",
+           "gpt_5_5_conversation_cost_usd": 0.037315, "gemini_3_1_pro_conversation_cost_usd": 0.041702,
+           "grader_cost_per_conversation_usd": [0.017247, 0.018081], "smoke_total_ledger_usd": 0.1143},
+ "projection_remaining": {"method": "19 more conversations per target at smoke cost + grading all 40 under the revised grader template at smoke grader cost x1.1 (longer posts)",
+                          "central_usd": 2.279, "conservative_x1.5_usd": 3.418},
+ "projected_total_usd": {"central": 2.393, "conservative": 3.532}, "cap_usd": 5.50, "decision": "continue (projected total <= cap)"
+}

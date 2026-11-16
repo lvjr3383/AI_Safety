@@ -1,0 +1,2 @@
+{"when": "before_run", "usage_usd": 36.359559152, "limit_usd": 40, "limit_remaining_usd": 3.6404408479999972, "checked_utc": "2026-11-14T12:55:19.695142+00:00"}
+{"when": "after_run", "usage_usd": 36.396694152, "limit_usd": 40, "limit_remaining_usd": 3.603305847999998, "checked_utc": "2026-11-14T12:56:09.637646+00:00"}

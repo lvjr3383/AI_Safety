@@ -1,0 +1,75 @@
+{
+ "design": {
+  "cases": 30,
+  "conditions": 4,
+  "repetitions": 2,
+  "models": [
+   "claude-sonnet-4-6",
+   "claude-haiku-4-5-20251001",
+   "claude-opus-4-7"
+  ],
+  "conversations_per_model": 240,
+  "conversations_total": 720
+ },
+ "basis": "actual smoke-test token usage x list price (official pricing page, see config)",
+ "margin": 0.25,
+ "models": {
+  "claude-sonnet-4-6": {
+   "smoke_conversations": 2,
+   "smoke_cost_usd": 0.04422,
+   "smoke_ledger_usd": 0.04422,
+   "mean_cost_per_conv": 0.02211,
+   "max_cost_per_conv": 0.022686,
+   "mean_input_tokens_per_conv": 3017.5,
+   "mean_output_tokens_per_conv": 870.5,
+   "base_usd": 5.3064,
+   "with_margin_usd": 6.633,
+   "all_at_smoke_max_usd": 5.4446,
+   "length_adjustment_factor": 0.9428,
+   "length_adjusted_with_margin_usd": 6.2538
+  },
+  "claude-haiku-4-5-20251001": {
+   "smoke_conversations": 2,
+   "smoke_cost_usd": 0.016434,
+   "smoke_ledger_usd": 0.016434,
+   "mean_cost_per_conv": 0.008217,
+   "max_cost_per_conv": 0.008551,
+   "mean_input_tokens_per_conv": 3104.5,
+   "mean_output_tokens_per_conv": 1022.5,
+   "base_usd": 1.9721,
+   "with_margin_usd": 2.4651,
+   "all_at_smoke_max_usd": 2.0522,
+   "length_adjustment_factor": 0.9428,
+   "length_adjusted_with_margin_usd": 2.3242
+  },
+  "claude-opus-4-7": {
+   "smoke_conversations": 2,
+   "smoke_cost_usd": 0.099985,
+   "smoke_ledger_usd": 0.099985,
+   "mean_cost_per_conv": 0.049992,
+   "max_cost_per_conv": 0.05137,
+   "mean_input_tokens_per_conv": 4041.0,
+   "mean_output_tokens_per_conv": 1191.5,
+   "base_usd": 11.9982,
+   "with_margin_usd": 14.9977,
+   "all_at_smoke_max_usd": 12.3288,
+   "length_adjustment_factor": 0.9428,
+   "length_adjusted_with_margin_usd": 14.1404
+  }
+ },
+ "total": {
+  "base_usd": 19.2767,
+  "with_margin_usd": 24.0958,
+  "all_at_smoke_max_usd": 19.8256,
+  "length_adjusted_with_margin_usd": 22.7184
+ },
+ "cap_check": {
+  "proposed_cap_usd": 50.0,
+  "fits_with_margin": true,
+  "headroom_usd": 25.9042,
+  "note": "Cap applies to the main-run ledger (results/ledger_anthropic.jsonl); the smoke test has its own ledger. Anthropic credit balance cannot be read via the API (user-reported $100 promo credits, unverified)."
+ },
+ "post_length_chars": {
+  "selected_mean": 1554.7
+ }
+}

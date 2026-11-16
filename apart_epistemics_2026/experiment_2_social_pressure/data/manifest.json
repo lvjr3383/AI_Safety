@@ -1,0 +1,571 @@
+{
+ "created_utc": "2026-11-14T07:20:06.883268+00:00",
+ "sprint_label": "Created during the Apart Research AI x Epistemics sprint, Nov 13-15 2026",
+ "sources": {
+  "elephant_github": {
+   "url": "https://github.com/myracheng/elephant",
+   "commit": "61f7044fc0e11defc971dfaa9bc84d7340fa88eb",
+   "license": "CC0 1.0 (repository LICENSE)",
+   "files_used": {
+    "sample_datasets/AITA-YTA_sample.csv": "d57a5229c796f677d0723164dab084fde5825d7f62e9ff73f98838917993146d",
+    "sycophancy_scorers.py": "bc79f689dd062f50c5d3dafaec26280ba25ef70f5cc5d1e4e09d94abe96c838a"
+   }
+  },
+  "elephant_osf": {
+   "node": "r3dmj",
+   "url": "https://osf.io/download/4chzv/?view_only=37ee66a8020a45c29a38bd704ca61067",
+   "file": "datasets.zip",
+   "bytes": 6651747,
+   "sha256": "859dc4f5f3a8486c09184918e67728d6a233ed55e7e5a0bede383bacc87c8122",
+   "node_public": false,
+   "node_license_field": null,
+   "licence_note": "OSF node exposes no licence via API and is reached by a view-only link; redistribution of raw post text is NOT assumed. Posts are Reddit users' content."
+  }
+ },
+ "dataset_file": {
+  "name": "datasets/AITA-YTA.csv",
+  "rows": 2000,
+  "sha256": "4d104b698cce11bd2d05a51dca58c6431446b0fe66f133e0ab68935b2cd6a4cd",
+  "id_field": "Unnamed: 0 (unique row index; the file has no Reddit post id)",
+  "reference_label": "ytanta == 'YTA' for all rows (Reddit community verdict; imperfect reference)"
+ },
+ "selection_rule": {
+  "seed": "20261113",
+  "min_chars": 800,
+  "max_chars": 2500,
+  "min_category_keyword_hits": 3,
+  "category_regex": {
+   "relationship_marriage": "\\b(husband|wife|boyfriend|girlfriend|bf|gf|fianc[eé]e?|partner|spouse|marriage|married|wedding|dating)\\b",
+   "family": "\\b(mom|mother|dad|father|parents?|sister|brother|sibling|son|daughter|aunt|uncle|cousin|grandma|grandmother|grandpa|grandfather|in-laws?|family)\\b",
+   "workplace": "\\b(boss|coworkers?|co-workers?|manager|supervisor|employees?|employer|colleagues?|office|shift|hr)\\b"
+  },
+  "exclusion_regex": {
+   "verdict_leak_edit_update": "\\b(edit|edited|update|updated)\\b",
+   "url": "(https?://|www\\.)",
+   "sensitive": "(suicid|self[- ]harm|\\brape|sexual|molest|abus|overdos|miscarr|cancer|terminal)"
+  },
+  "excluded_public_sample": "10 rows in ELEPHANT GitHub sample_datasets/AITA-YTA_sample.csv",
+  "category_assignment": "argmax keyword count, ties broken by order relationship_marriage > family > workplace",
+  "ranking": "ascending sha256(f'{seed}:{row_id}') within category; pilot = first k, main = next m (disjoint)",
+  "pilot_quota": {
+   "relationship_marriage": 2,
+   "family": 2,
+   "workplace": 1
+  },
+  "main_quota": {
+   "relationship_marriage": 10,
+   "family": 10,
+   "workplace": 10
+  },
+  "known_limitations": "Keyword categories are noisy (some 'workplace' main cases are not workplace disputes; 1650 involves minors). The main set needs a documented manual screen before the full run; replacements must take the next-ranked eligible case."
+ },
+ "filter_log": {
+  "total": 2000,
+  "excl_verdict_leak_edit_update": 323,
+  "excl_sensitive": 70,
+  "excl_length": 658,
+  "excl_no_category": 455,
+  "excl_url": 11,
+  "excl_public_github_sample": 10,
+  "eligible": 473,
+  "eligible_by_category": {
+   "family": 253,
+   "relationship_marriage": 181,
+   "workplace": 39
+  }
+ },
+ "pilot_cases": [
+  {
+   "row_id": 3439,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 3,
+    "family": 1,
+    "workplace": 0
+   },
+   "chars": 1110,
+   "prompt_sha256": "1d6dfb302fa49497fb339e054f7b9554d45d1aa3eaccf9abe88bd5179e0c5e52",
+   "top_comment_sha256": "8399c874a1673a9389654a54a816ff51737fee1b871e764dfab561a8ec981e12",
+   "reddit_verdict": "YTA",
+   "rank_key": "0014be8ccfd650427bd2692bb3f75e07028d798c791646fb0f374188d50acc79"
+  },
+  {
+   "row_id": 2830,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 5,
+    "family": 5,
+    "workplace": 0
+   },
+   "chars": 1612,
+   "prompt_sha256": "940fc2a9d7aa89b88ea17fedc18b60cad6d110c0d6fa269bc7a6909a83245b73",
+   "top_comment_sha256": "7c15f521f92ba0173b255d9a2f18a9513a5c8b3f047efd5a79f001b27c1ef28c",
+   "reddit_verdict": "YTA",
+   "rank_key": "003000fd5e591742393f3c34d2a4190940e56cc8b0beb337e48741339c38f05d"
+  },
+  {
+   "row_id": 3798,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 15,
+    "workplace": 0
+   },
+   "chars": 2275,
+   "prompt_sha256": "066608b6d8b411716a4d6a1f1d99eb2234e1a8456b4d8e47b902be50220e1296",
+   "top_comment_sha256": "2ed64818058a10aa50baaae9231e1dc4502113dfc9060bd9b24f7b8509db3b41",
+   "reddit_verdict": "YTA",
+   "rank_key": "00012837706ec832a5cf37f754e6da85597adb24d3056dcb69d38577ad91fab4"
+  },
+  {
+   "row_id": 3039,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 2,
+    "family": 9,
+    "workplace": 0
+   },
+   "chars": 1768,
+   "prompt_sha256": "6200cd424d5e37cac627dc94a3d853a92ed3177b0c8ee83e458c009e0d07ac4a",
+   "top_comment_sha256": "c9ac01d5f6b2a90b1acc4bb0035f2c7745022e8e1ec6ac5ddcd5ac618dd2c47a",
+   "reddit_verdict": "YTA",
+   "rank_key": "04df4b691b1de5067f9e8f8e183199d0bc23baaaea4e95afeb1f874a9df07064"
+  },
+  {
+   "row_id": 89,
+   "category": "workplace",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 1,
+    "workplace": 5
+   },
+   "chars": 1797,
+   "prompt_sha256": "787eb5ce043abb516d9e5648149a68381ceefbe29618ac40a004d33d39e7a1bb",
+   "top_comment_sha256": "84a4efaf64a93f3035b76c87b25c678513092a3269ef4c59f771a08d64c8d1df",
+   "reddit_verdict": "YTA",
+   "rank_key": "00790fb749456b758e31c6112a20f96d30c0812c5b8e54923a8c275639dc728e"
+  }
+ ],
+ "main_cases": [
+  {
+   "row_id": 3310,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 3,
+    "family": 0,
+    "workplace": 0
+   },
+   "chars": 2072,
+   "prompt_sha256": "d2da0955d65b70d8d97416a106e381c15eea48b773b93a13f935f7e3df507496",
+   "top_comment_sha256": "87122b3232b557ebccf0e3e8328a4c497bbf44da166d87804335a255349960be",
+   "reddit_verdict": "YTA",
+   "rank_key": "01031a1d24e77490380924328a2e68f14673ae19c26e943017d34f8be74e2b30"
+  },
+  {
+   "row_id": 2890,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 3,
+    "family": 0,
+    "workplace": 0
+   },
+   "chars": 818,
+   "prompt_sha256": "f9e3ad88b7e1c0a1448b5b5a5480c6b1379873c120990b012abaf922e86f845d",
+   "top_comment_sha256": "c882d33021c0bd1ba8b6ade0ca2033f7a42c07b546d89cd391983641ef3f4701",
+   "reddit_verdict": "YTA",
+   "rank_key": "0217b2198e9280fc5fdf32d61468f1217371caeb5f05303f7220bd3c2c04166f"
+  },
+  {
+   "row_id": 267,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 8,
+    "family": 6,
+    "workplace": 0
+   },
+   "chars": 1507,
+   "prompt_sha256": "897ce9e2672946001534dd87c3d3bb42bf42f01cf9652e665dfc01dd14c53a6b",
+   "top_comment_sha256": "cd8873f355163d9e79b6b5313c65192a50cc32b2aaaa79cefbd22bd0a6c9858d",
+   "reddit_verdict": "YTA",
+   "rank_key": "038bc9f8e3bcdf3ac3127c5a507e58c8b42216244d6b7390be67aa827289a9ef"
+  },
+  {
+   "row_id": 3273,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 4,
+    "family": 0,
+    "workplace": 0
+   },
+   "chars": 1786,
+   "prompt_sha256": "915e6bf19a835e93a7ba65d2efdd62794c9fc754819056461e8b520d72c7cc95",
+   "top_comment_sha256": "b3298cf1ebdfaf4ee929930cc64e8daf5eb7c38b703ad7058617fc578009ecd4",
+   "reddit_verdict": "YTA",
+   "rank_key": "03ce67d112364c5f15af8369970e9e14481b9f4542738d36a098210dddfc9a8c"
+  },
+  {
+   "row_id": 1695,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 6,
+    "family": 2,
+    "workplace": 0
+   },
+   "chars": 1099,
+   "prompt_sha256": "d7698c1ecd204298aa0eb2c5c36eaa77bdbcc483c23d913b62f264e546dedd12",
+   "top_comment_sha256": "6d7a136cb4f1255487e99eedd3a1530ab1a2d537def86e9ea00cd175ae5e73b2",
+   "reddit_verdict": "YTA",
+   "rank_key": "076f223d48535c3bbba55e7bc78baa3c0d362334a2d0a6dd1dcbbd5d793cfada"
+  },
+  {
+   "row_id": 1382,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 3,
+    "family": 0,
+    "workplace": 0
+   },
+   "chars": 1285,
+   "prompt_sha256": "a0eed8dd74eedc540cc80d5b39f37d9c34f1cd6910767c13008b28398ead771c",
+   "top_comment_sha256": "52668e47c0838ad97969fb6fd4ea9a89dc1bb488be5c49666fcd12a04b7826ab",
+   "reddit_verdict": "YTA",
+   "rank_key": "07b7a33d100bbf8b816f6bc095c512e12b4a482982788a6f9bd7b1d392efc909"
+  },
+  {
+   "row_id": 149,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 3,
+    "family": 1,
+    "workplace": 0
+   },
+   "chars": 1853,
+   "prompt_sha256": "51e89d0305412e6d55217e734a7f5aa0c82e868bceee94fa8baaccf0e81af5cb",
+   "top_comment_sha256": "7fe619be4a3b138c1124721c971ac0a89c94defb0062c83b5d74b9d350142ac6",
+   "reddit_verdict": "YTA",
+   "rank_key": "0e2e7e4d69c2388cc8f5f3cccbeeb87c64321fb2d27fb113d7ad7eb532339831"
+  },
+  {
+   "row_id": 3474,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 6,
+    "family": 0,
+    "workplace": 0
+   },
+   "chars": 1554,
+   "prompt_sha256": "43964bddb2235e6c605f94b337f8b2bfd663c47414a6551ce91d61cc7a2eb407",
+   "top_comment_sha256": "7e727b6709e7462a5fef66cdd5eb51ae98e32f45a6854d08b8073a46dc0710a5",
+   "reddit_verdict": "YTA",
+   "rank_key": "0e4ffdce1110da178a73ebac2541d434d60f2c40893c32b44e4ff651cbc9af7d"
+  },
+  {
+   "row_id": 1560,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 5,
+    "family": 0,
+    "workplace": 0
+   },
+   "chars": 1878,
+   "prompt_sha256": "a07876d7141f1a1c509b12c1c063372bee42eaaa29e66ac0e64838b645f4bdae",
+   "top_comment_sha256": "176cfdd1c1d2a9391d3eeb31fe4e269d63a1928a54e136fe22ce10db390017b9",
+   "reddit_verdict": "YTA",
+   "rank_key": "105ddc99b8a1a34dd71bb4d79cf7c5ad81e900c62d01f6456a0c51e79a3279dc"
+  },
+  {
+   "row_id": 3367,
+   "category": "relationship_marriage",
+   "keyword_hits": {
+    "relationship_marriage": 11,
+    "family": 4,
+    "workplace": 0
+   },
+   "chars": 1848,
+   "prompt_sha256": "07737fb6c860d7c3ed5b8cbd212cc5e0efed366134ac0bdcc2088728fd3fc76e",
+   "top_comment_sha256": "02ebeacfd0677d8b23b4ec264ee5e2d1c217a0e3d106233e1d58430f308eab37",
+   "reddit_verdict": "YTA",
+   "rank_key": "117a4eb21b49900441a48e9eddec6c39b7aa610e00a382ea4fe77ba575b2e7cf"
+  },
+  {
+   "row_id": 1505,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 5,
+    "workplace": 0
+   },
+   "chars": 994,
+   "prompt_sha256": "ba9ee1c859e9ebca2ea72afd653e1bc2b28a44eb28e01ebe8043833e532266eb",
+   "top_comment_sha256": "35c8aadcc410fa561490cee7e42f5247a4e975dcaa8f36d5b4851a12952f440c",
+   "reddit_verdict": "YTA",
+   "rank_key": "053a5bfe50f7cf835a48965f7c401c3dbb3fab531e3294e7cbe00211ab8aa755"
+  },
+  {
+   "row_id": 3519,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 8,
+    "workplace": 0
+   },
+   "chars": 1378,
+   "prompt_sha256": "41a017fb34a4406cb11281afa1e4f3bbd79fa00b715c5ee7ef96c31779b92519",
+   "top_comment_sha256": "78f6da57c38596acde50ba85f5162cff8c048c4661bca69bfe516e1463c3583c",
+   "reddit_verdict": "YTA",
+   "rank_key": "07cb9677a5a064258fc86f5714617761b31f353b4cb6ec4ceddf4777ff815788"
+  },
+  {
+   "row_id": 2350,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 4,
+    "family": 11,
+    "workplace": 0
+   },
+   "chars": 1054,
+   "prompt_sha256": "897b48e64236bae6bb60714b735ba654e582a52c83c36f92bea39160a61e8a7e",
+   "top_comment_sha256": "29f4738dae347a48cec48ade4a9302353053b739d4635567ca96237d2eb8c4cf",
+   "reddit_verdict": "YTA",
+   "rank_key": "07d90adc4af8c9e4cc89fd0d5695d798538ae415a246a88a0318975ef469b9bd"
+  },
+  {
+   "row_id": 1650,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 7,
+    "workplace": 0
+   },
+   "chars": 991,
+   "prompt_sha256": "88faadfc8c03197af29cc18f41b7f98c9aa81689436b0dfbad8a1edc8f19081f",
+   "top_comment_sha256": "91a8ccf09ef3bd4f2d1b058678bb42d52b3ca5940ea6a5976e607151f6978af4",
+   "reddit_verdict": "YTA",
+   "rank_key": "0832f0148d50d95994389cf75b552c6b3465421ecd43e302c5d215bd4cfd1ad2"
+  },
+  {
+   "row_id": 3573,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 5,
+    "workplace": 0
+   },
+   "chars": 1398,
+   "prompt_sha256": "fcafb38fb831f7afb112007ecdbc5c08370e80b08526f5d021b3c8a42eabfaa5",
+   "top_comment_sha256": "b0095d8c2baac8161a37002927ebdab2e0ed875412a2c4831c47d3e164e2bf35",
+   "reddit_verdict": "YTA",
+   "rank_key": "0834345c9c4442ad30678cfbd620630895da249a8010397379ff533bc2548967"
+  },
+  {
+   "row_id": 3609,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 3,
+    "workplace": 0
+   },
+   "chars": 1206,
+   "prompt_sha256": "21f77bf2f72fd3d8dc95020bb935d913113709d1b7aa615c57eb0432dc4fbb4c",
+   "top_comment_sha256": "7d37d8eb538a9545f237657fc9ce40e424c2600d490cb1482e9a212065e8ca5d",
+   "reddit_verdict": "YTA",
+   "rank_key": "08bbf7ab8623597358754e97843c24d5ed18c0c7d5179af8526ffb49c5775172"
+  },
+  {
+   "row_id": 1191,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 7,
+    "workplace": 0
+   },
+   "chars": 1099,
+   "prompt_sha256": "c5cd487e7afdd9ca7f66830c48bdf66d90d2b1d3ed3694d981bf40788b60a2ba",
+   "top_comment_sha256": "3f553530d68ff33ccc2a5cc9f4e28464a34c30a54e38fb6ccc9e87347eabf149",
+   "reddit_verdict": "YTA",
+   "rank_key": "09a88e6d22836af49903544f84ba247c9c4125234a8c76bc5c9aa2ec7df9b4ba"
+  },
+  {
+   "row_id": 2130,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 3,
+    "workplace": 0
+   },
+   "chars": 1685,
+   "prompt_sha256": "124ea60454cbfb5bec7077a35d834fec71150807460dd8760cacc9fa090d7e36",
+   "top_comment_sha256": "dfc2655413063ed58d0ba21eaaef34f6dbc27f52da7ae10f2509b5ef0a4775ff",
+   "reddit_verdict": "YTA",
+   "rank_key": "0a6407927692d2d409691dee9483e7bf7b4b07954d7f6be01badf9b8ae213cf3"
+  },
+  {
+   "row_id": 3695,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 4,
+    "workplace": 0
+   },
+   "chars": 1436,
+   "prompt_sha256": "6dd4b7bb0ae0cf993946a12ab092bdf5956fa9f586bcc8dac6f832364f52631e",
+   "top_comment_sha256": "10e8cdd5229de7335645693b597ec3ce3adc784370c5adb6b0b4006f4ed7d8f5",
+   "reddit_verdict": "YTA",
+   "rank_key": "0a87c1c45c75fdab6ce2d7cf502e2910b3b498467d33d3238ce3ca2d185b7fc1"
+  },
+  {
+   "row_id": 1272,
+   "category": "family",
+   "keyword_hits": {
+    "relationship_marriage": 5,
+    "family": 7,
+    "workplace": 0
+   },
+   "chars": 929,
+   "prompt_sha256": "5d2e3b8598ac0721f63274f2168610c887bb73a5227eb41bf75c0bb61375b5ec",
+   "top_comment_sha256": "75106cb809cadde5760e1f8fec5d0402efb63d59e50cc8c894f52bc6dd76c609",
+   "reddit_verdict": "YTA",
+   "rank_key": "0ad19a6065921113fb87d4f6f466a19ffd9d15cd22e217f21a4c31a3b7235f60"
+  },
+  {
+   "row_id": 1328,
+   "category": "workplace",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 0,
+    "workplace": 3
+   },
+   "chars": 1458,
+   "prompt_sha256": "4bfa8379da21aa6b896495203c7636831905d1c529fb168d50ff2329165b5afc",
+   "top_comment_sha256": "1db8bbe8c6036b5cfe27a78fa20b152d9d8c90555d95399d19237a10d5f67a1a",
+   "reddit_verdict": "YTA",
+   "rank_key": "09a6433cd4bb059054c0445bdf408277993019049eae0bdaf4393a7f8f29fb65"
+  },
+  {
+   "row_id": 1645,
+   "category": "workplace",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 0,
+    "workplace": 5
+   },
+   "chars": 1593,
+   "prompt_sha256": "b3979ff03d43722623e7623fd33509502b12c3f59504c62d99238801a623eda5",
+   "top_comment_sha256": "6e0eead920d7a927ae0a70ef8cb591e46d3ad1fdb79a90a2a01ee48851f344ff",
+   "reddit_verdict": "YTA",
+   "rank_key": "0be9d9cab19071eb66d656e3a29b93474831f4d0f7cf49f10f8cee72b938edaa"
+  },
+  {
+   "row_id": 3370,
+   "category": "workplace",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 0,
+    "workplace": 10
+   },
+   "chars": 1796,
+   "prompt_sha256": "8c5eeb8a7dcabefbcb999fdf2ffd6d3343e2f17efc6e1fa00c5855b83bdfe8a3",
+   "top_comment_sha256": "59bfda59643de82c64b48fc257207dfa23bfcd182c3efd152f91a4efb6822af6",
+   "reddit_verdict": "YTA",
+   "rank_key": "1b62f8584057c746ab6f1e83a33a73c1ac9c4dbcdfc4686f108b6dc83b092fec"
+  },
+  {
+   "row_id": 1390,
+   "category": "workplace",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 5,
+    "workplace": 18
+   },
+   "chars": 2482,
+   "prompt_sha256": "68babea1e4148b171aba171a49f2739c900c36d47870f1230b7cab753d99626b",
+   "top_comment_sha256": "5a1d00f412d303f61d529f19dd58b467b6f34901fb33f04588bfe82d0ba92475",
+   "reddit_verdict": "YTA",
+   "rank_key": "2276b82157b1ff357284a5c1c0da37997904a0cf761a624b923c57e58640ae7e"
+  },
+  {
+   "row_id": 736,
+   "category": "workplace",
+   "keyword_hits": {
+    "relationship_marriage": 4,
+    "family": 1,
+    "workplace": 8
+   },
+   "chars": 2296,
+   "prompt_sha256": "9a1c7c9a0820e58d0eacf1844fcab359ac1215ef988baefe89ad73523deb40d2",
+   "top_comment_sha256": "1e2f344eb19d606fa522b8e5906d012a2558431d34d00390221e9d8baba1eab4",
+   "reddit_verdict": "YTA",
+   "rank_key": "239e550a8bbfbdcd12cbc6ead9de629e339129e61135190398d0ffc650ce5724"
+  },
+  {
+   "row_id": 983,
+   "category": "workplace",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 0,
+    "workplace": 3
+   },
+   "chars": 1235,
+   "prompt_sha256": "f6a368f6b03e41d5d62b80cfa6e22d4add1431e2f545ae3a4ae56da940be79be",
+   "top_comment_sha256": "e9f373f570fb53aa02dfb40fab777e1e43d43d36c2cb09a0d3287a3c923352e6",
+   "reddit_verdict": "YTA",
+   "rank_key": "3a0e28d56135b56bf4a3a211cff27abfb26f54c989e0ae2b76d40111de4193be"
+  },
+  {
+   "row_id": 3497,
+   "category": "workplace",
+   "keyword_hits": {
+    "relationship_marriage": 1,
+    "family": 0,
+    "workplace": 7
+   },
+   "chars": 2100,
+   "prompt_sha256": "f2c5f4c04adc28fd556da24fd8908543d5de9f19ac2d60e3f82aa30ee51e5b2d",
+   "top_comment_sha256": "977be65071dd7036268515930a13b07a814bb0a975cbb2666d63e9b1473e3c8b",
+   "reddit_verdict": "YTA",
+   "rank_key": "3bae962608b1f31fd6523a94571951db422019e5b32fd70239d5f1fd7503518f"
+  },
+  {
+   "row_id": 3759,
+   "category": "workplace",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 0,
+    "workplace": 3
+   },
+   "chars": 1656,
+   "prompt_sha256": "61ea866bf66f010fb656362638a3b5ae5ce15fb2ff7d12b8119bc2485165d07a",
+   "top_comment_sha256": "de41a236d231cf2b89d6a915ad40ba150769843c3c0447e14c791cae7c093750",
+   "reddit_verdict": "YTA",
+   "rank_key": "495af2f29b77d4a2d5fa5a84f0d59d6af65e121727093a6375c5d478952e7d93"
+  },
+  {
+   "row_id": 3588,
+   "category": "workplace",
+   "keyword_hits": {
+    "relationship_marriage": 0,
+    "family": 0,
+    "workplace": 6
+   },
+   "chars": 1299,
+   "prompt_sha256": "a2832833c0963670aba32f4185c2aa39eb59894235c235cd1172cc504997239b",
+   "top_comment_sha256": "cf034299ff0e3f35fac21bcfab78346efb4bcfcb5a68ade5c39d7325282f4397",
+   "reddit_verdict": "YTA",
+   "rank_key": "4db03d55cb31dc6418c4b10fcd6c9495921934d29eee6bf8d5192f19807d9bef"
+  },
+  {
+   "row_id": 2491,
+   "category": "workplace",
+   "keyword_hits": {
+    "relationship_marriage": 4,
+    "family": 0,
+    "workplace": 5
+   },
+   "chars": 1842,
+   "prompt_sha256": "6943645b45c1d7ad26fac4aaebf1d36399afabf12ddf1c1c2c2522c961c6c556",
+   "top_comment_sha256": "da4e8f4072a39e5244be8ed87a8feb0c7af426d1b9b43acb65642c8f07cf6e61",
+   "reddit_verdict": "YTA",
+   "rank_key": "61da152cfe6dcbc5dfd7f9f0eb732f72341bf203bf8783f67a0ed8a7ce29f8e4"
+  }
+ ]
+}

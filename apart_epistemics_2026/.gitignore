@@ -1,0 +1,19 @@
+# Shared ignore rules for the Apart AI x Epistemics sprint folders.
+# (Experiment 2's own .gitignore is part of its frozen pilot snapshot and is left unchanged.)
+
+# Private transcripts / post text: never commit
+**/local_private/
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Virtualenvs and caches
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
