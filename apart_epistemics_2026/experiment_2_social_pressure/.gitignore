@@ -1,20 +1,4 @@
-# Raw ELEPHANT data (licence unverified): fetched locally, never committed
+# Raw ELEPHANT data (OSF licence unverified): fetched by src/prepare_data.py, never committed
 data/raw/
-
-# Local-only files that contain post text, model reasoning traces, or secrets
+# Local-only files that contain post text or model reasoning traces
 results/local_private/
-.env
-.env.*
-*.pem
-*.key
-
-# Virtualenv and caches
-.venv/
-venv/
-__pycache__/
-.pytest_cache/
-*.pyc
-.DS_Store
-
-# Nested private transcript folders (also listed in frozen subfolder gitignores)
-**/local_private/

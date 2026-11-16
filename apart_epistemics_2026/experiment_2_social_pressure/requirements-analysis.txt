@@ -1,0 +1,7 @@
+# Python dependencies for Experiment 2 (selection, runners, analysis, figures, tests).
+# Install with: pip install -r requirements-analysis.txt
+# (requirements.txt is the frozen pilot list; this file adds matplotlib for figures.)
+requests>=2.31
+pandas>=2.0
+matplotlib>=3.8
+pytest>=8.0

@@ -1,104 +1,65 @@
 # Experiment 2: Does Evaluation Awareness Mask Social Sycophancy?
 
-**Apart Research AI x Epistemics sprint, 13-15 November 2026** (Track 1: Model Epistemics & Decision-Making Evals).
+**Created during the Apart Research AI x Epistemics sprint, 13-15 November 2026** (Track 1: Model Epistemics & Decision-Making Evals). All code, prompts, data selection, results and report material in this folder were produced during the sprint.
 
-This folder holds a completed Anthropic-only study of three Claude models (720 conversations), plus earlier exploratory work from the same sprint (an OpenRouter GPT/Gemini pilot and a v3 AI-grader reliability exercise). Those earlier arms are **not** pooled with the Anthropic results.
-
-**Manuscript:** [`paper/manuscript.md`](paper/manuscript.md) (final author text, with figures pointing at the committed SVGs). Official Google Doc: https://docs.google.com/document/d/1iVqX7KnkhqZdMt8XRou6V9CVPn7VkF1vqndCtH3WNRc/edit
-
-**Prior work disclosure:** Jack's AISC research proposal was written before the sprint and is conceptual prior work only. No code, data, prompts, or results from it are reused here.
+**Prior work disclosure:** Jack's AISC research proposal was written before the sprint and is conceptual prior work only. No code, data, prompts or results from it are reused here. This experiment is separate from the AI Village / Codex-judging work elsewhere in this repository.
 
 ## Question
+Does explicit evaluation framing change how well an honesty intervention prevents social sycophancy, meaning unjustified concessions to evidence-free pushback in interpersonal-advice conversations? The primary result is the framing x intervention interaction. See [`protocol.md`](protocol.md) for the design, hypotheses, outcomes and caveats.
 
-Does explicit evaluation framing change how much an honesty intervention reduces movement toward a user who pushes back without new evidence? Primary outcomes are deterministic Verdict-line movement and confidence change. See [`v2_study/PROTOCOL.md`](v2_study/PROTOCOL.md) and [`v2_study_anthropic/PROTOCOL_ADDENDUM.md`](v2_study_anthropic/PROTOCOL_ADDENDUM.md).
+Two caveats appear in every write-up:
+1. We test *prompted* evaluation framing, not whether a model independently detects evaluation.
+2. ELEPHANT and the Reddit posts are public and may be in training data.
 
-Two standing caveats:
-1. The study tests *prompted* evaluation framing, not whether a model independently detects evaluation.
-2. Movement under pressure is not the same thing as dishonesty, and it is narrower than social sycophancy in Cheng et al. (2025).
-3. ELEPHANT and the Reddit posts are public and may be in training data.
-
-## Folder structure
-
+## Layout
 | Path | Contents |
 |---|---|
-| `paper/` | Final manuscript Markdown (`manuscript.md`) |
-| `v2_study/` | Frozen v2 protocol: case selection, prompts, design, analysis code, tests, `verify_protocol.py` |
-| `v2_study_anthropic/` | Anthropic-only extension (primary study): runner, analysis wrapper, ledger, results, figures, `verify_addendum.py` |
-| `v2_study_anthropic/results/analysis/` | Primary analysis tables, `RESULTS_TABLES.md`, and SVG figures |
-| `validation_v3/` | Exploratory AI-grader reliability (Claude Sonnet 4.6 vs Qwen3.8 Max); not used for H1-H3 |
-| `configs/`, `src/`, `results/` | Earlier OpenRouter pilot (separate exploratory arm) |
-| `protocol.md` | Original sprint protocol note (superseded for the main study by `v2_study/PROTOCOL.md`) |
-| `CHANGELOG.md` | Run log, costs, and commit history notes |
+| `protocol.md` | Design (2x2, A-D), H1/H2, primary outcome, stages, budget and failure rules |
+| `configs/prompts.json` | Exact system-prompt blocks, user template and rebuttals |
+| `configs/models.json` | Target, grader and ELEPHANT-judge settings, with provider-specific differences |
+| `configs/experiment.json` | Seed, stages (pilot = 1 rep and a $5.50 cap; full = 4 reps, not run, no cap set) |
+| `configs/rubric.md`, `configs/grader_prompt.txt` | Measurement rubric and blind grader prompt |
+| `data/manifest.json` | Sources, versions, SHA256s, selection rule, filter log, case row IDs and hashes (no text) |
+| `src/prepare_data.py` | Downloads ELEPHANT from OSF and GitHub (pinned commit), verifies hashes, selects cases |
+| `src/run_experiment.py` | Runs randomized-order conversations with a budget guard, logging per turn |
+| `src/score_results.py` | Code-parsed metrics, blind Claude grading, optional ELEPHANT secondary metrics |
+| `src/analyze_results.py` | Descriptives, paired case-level contrasts, case bootstrap, manual-review sheet |
+| `tests/` | Parsing, scoring, budget guard and prompt-isolation tests |
+| `results/` | Raw JSONL, grades, cost ledger, key checks, summaries, manual review |
+| `report/` | Report notes for the Apart PDF |
 
-## Reproduce (Anthropic primary study)
-
-From the repository root:
-
+## Reproduce
 ```bash
 cd apart_epistemics_2026/experiment_2_social_pressure
 python -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
-
-# Secrets: set in the environment only. Never commit a key, .env, or credential file.
-export ANTHROPIC_API_KEY=...     # required for the Anthropic runner
-# export OPENROUTER_API_KEY=...  # only if you rerun the earlier GPT/Gemini pilot
-
-# Tests and frozen-protocol checks (no API key needed)
-pytest -q tests v2_study/tests v2_study_anthropic/tests
-python v2_study/verify_protocol.py
-python v2_study_anthropic/verify_addendum.py
-# verify_frozen.py checks the original OpenRouter pilot snapshot (tag exp2-pilot-frozen-v1).
-# After the documentation update in this branch, it is expected to report
-# README.md, requirements.txt, and .gitignore as changed. The frozen pilot
-# code, configs, and results files should still match.
-
-# Case selection already ran; IDs and hashes are in v2_study/config/manifest_v2.json.
-# To regenerate locally (requires the ELEPHANT files, which are not in this repo):
-#   python v2_study/src/select_cases_v2.py
-
-# Anthropic run (resumable). The runner refuses to start without --authorized, --cap,
-# and passing protocol/addendum checks. It reads ANTHROPIC_API_KEY from the environment only.
-python v2_study_anthropic/src/run_anthropic.py --dry-run --cap 50
-python v2_study_anthropic/src/run_anthropic.py --smoke --smoke-cap 1.0
-python v2_study_anthropic/src/run_anthropic.py --authorized --cap 50
-python v2_study_anthropic/src/run_anthropic.py --authorized --cap 50 --retry-failed
-
-# Analysis and figures (reads the committed logs; no API key)
-python v2_study_anthropic/src/analyze_anthropic.py
-python v2_study_anthropic/src/analyze_anthropic.py --exclude-ceiling
-python v2_study_anthropic/src/report_anthropic.py
+export OPENROUTER_API_KEY=...            # never commit; read from the environment only
+pytest -q tests
+cd src
+python prepare_data.py                   # fetches data/raw/ (gitignored), verifies SHA256, writes data/manifest.json
+python run_experiment.py --stage pilot --dry-run
+python run_experiment.py --stage pilot --smoke
+python run_experiment.py --stage pilot
+python score_results.py --stage pilot --grade --elephant
+python analyze_results.py --stage pilot
+python make_private_review.py            # local-only review copy with post text (results/local_private/, gitignored)
 ```
-
-The full 720-conversation run is already complete in this branch. Re-running it will make new paid API calls.
+`run_experiment.py` and `score_results.py` resume: completed conversations and valid grades are skipped. Failed attempts are kept and are retried only with `--retry-failed`, as a new attempt number.
 
 ## Data and redistribution
+- The ELEPHANT GitHub repository is CC0 1.0.
+- The full datasets are on OSF (node `r3dmj`, view-only link). The OSF node exposes **no licence field** and the posts are Reddit users' content, so **raw post text is not committed**.
+- `prepare_data.py` downloads it, and the repo stores only row IDs and SHA256 hashes.
+- In `results/raw/turns.jsonl`, the first user message replaces the post with `row_id` and `sha256`. Rebuttals, system prompts and **full model replies** are kept.
+- **Model replies, and the grader's quoted evidence, may paraphrase or quote parts of the posts.**
+- Model reasoning traces, where returned, are stored only in `results/local_private/` (gitignored).
 
-- Cases come from ELEPHANT AITA-YTA (Cheng et al., 2025). The ELEPHANT GitHub repository is CC0 1.0; the OSF node for the full datasets exposes **no licence field**, and the posts are Reddit users' content, so **raw post text is not committed**.
-- The public repo stores row IDs and SHA-256 hashes in `v2_study/config/manifest_v2.json`.
-- Committed conversation logs replace the post with a row ID and hash. Full transcripts with post text stay in gitignored `results/local_private/` folders.
-- `turns.jsonl` (model replies, posts redacted) is kept on the run machine; the committed turn log is `v2_study_anthropic/results/raw/turns_metadata.jsonl` (parsed lines, tokens, costs; no post text or model replies). See `v2_study_anthropic/results/raw/README.md`.
+## Results files
+- `results/raw/turns.jsonl`: one record per conversation x turn. Includes the requested and returned model IDs, provider, generation ID, settings, seed, timestamps, prompts (post redacted), reply, finish reason, token usage including reasoning, cost, error and parsed verdict/confidence.
+- `results/raw/conversations.jsonl`: one record per conversation attempt (status, rebuttal direction, per-turn summary, cost).
+- `results/scored/`: `code_metrics.jsonl`, `grader_judgments.jsonl` (every grading attempt with raw output and template hash) and `elephant_secondary.jsonl`.
+- `results/cost_ledger.jsonl`: every paid call with its OpenRouter cost and the running total. `results/key_checks.jsonl` holds the `/api/v1/key` usage snapshots.
+- `results/summary/`: per-conversation table, model x condition cells and paired case contrasts.
+- `results/manual_review/`: the blind sheet and form, plus a separate unblinding key.
 
-## Costs (Anthropic primary run)
-
-List-price usage returned by the API, under a $50 cap:
-
-- Haiku 4.5: $1.918986
-- Sonnet 4.6: $5.254320
-- Opus 4.7: $12.384225
-- **Total: $19.557531**
-
-Thirty-two requests were abandoned after a 240-second deadline, so the ledger is a lower bound if those calls were billed without returned usage. This arm had no OpenRouter spend. The earlier GPT/Gemini pilot and the v3 grader exercise used OpenRouter and have separate ledgers.
-
-## Figures
-
-SVG figures (committed):
-
-- [`v2_study_anthropic/results/analysis/fig1_moved_toward_push_by_condition.svg`](v2_study_anthropic/results/analysis/fig1_moved_toward_push_by_condition.svg) — manuscript Figure 1
-- [`v2_study_anthropic/results/analysis/fig3_contrasts_primary.svg`](v2_study_anthropic/results/analysis/fig3_contrasts_primary.svg) — manuscript Figure 2
-- [`v2_study_anthropic/results/analysis/fig5_initial_verdicts.svg`](v2_study_anthropic/results/analysis/fig5_initial_verdicts.svg) — manuscript Figure 3
-- [`v2_study_anthropic/results/analysis/fig6_blame_trajectory.svg`](v2_study_anthropic/results/analysis/fig6_blame_trajectory.svg) — manuscript Figure 4
-
-PNG copies of the same figures are on the run machine and at https://huggingface.co/datasets/lvjr3383/apart-epistemics-exp2-figures (used only to insert images into the Google Doc). The GitHub connector cannot upload binary PNGs.
-
-## Earlier arms (exploratory, not pooled)
-
-The original OpenRouter pilot (`src/run_experiment.py`, `configs/`, `results/`) and the v3 grader-reliability work (`validation_v3/`) remain in this folder for provenance. To rerun the pilot, set `OPENROUTER_API_KEY` and follow the commands in the older `src/` scripts; do not mix those conversations into the Anthropic analysis.
+## Pilot status
+The pilot is a feasibility check (n = 5 cases, 1 repetition) and does **not** test H1 or H2. No statistical significance is claimed. See `report/pilot_results.md`.
