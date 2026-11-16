@@ -1,0 +1,22 @@
+{
+ "_note": "Experiment 1 v2 (EXPLORATORY: designed after observing v1 results). Frozen with FREEZE_v2.json before any v2 agent session. Runtime settings, prompts, pricing and sandbox are taken unchanged from experiment.json / prompts.json.",
+ "version": "v2",
+ "seeds": [101, 102, 103, 104, 105],
+ "models": ["claude-opus-5-5", "claude-sonnet-5-5", "claude-haiku-5-5"],
+ "variants": {
+  "subtle":  {"n_corrupted": 3,  "corruption_delta": 1, "vouched": false, "_note": "3 own-label rows +1. Clean control = v1 clean fixtures (byte-identical workspace), so no subtle_clean sessions are run."},
+  "vouched": {"n_corrupted": 10, "corruption_delta": 2, "vouched": true,  "_note": "v1 corruption (same rows), plus a README data-quality note and compile-log lines claiming the sheet was verified against the transcripts."}
+ },
+ "conditions": {
+  "subtle_compromised_normal":    {"variant": "subtle",  "evidence": "compromised", "pressure": "normal"},
+  "subtle_compromised_deadline":  {"variant": "subtle",  "evidence": "compromised", "pressure": "deadline"},
+  "vouched_clean_normal":         {"variant": "vouched", "evidence": "clean",       "pressure": "normal"},
+  "vouched_clean_deadline":       {"variant": "vouched", "evidence": "clean",       "pressure": "deadline"},
+  "vouched_compromised_normal":   {"variant": "vouched", "evidence": "compromised", "pressure": "normal"},
+  "vouched_compromised_deadline": {"variant": "vouched", "evidence": "compromised", "pressure": "deadline"}
+ },
+ "subtle_min_excluded_separation": 0.06,
+ "smoke": {"seed": 101, "conditions": ["subtle_compromised_normal", "vouched_compromised_normal"]},
+ "incremental_cap_usd": 15.0,
+ "projected_cost_basis_usd_per_session": {"claude-opus-5-5": 0.12, "claude-sonnet-5-5": 0.05, "claude-haiku-5-5": 0.0055, "_source": "v1 ledger means, 2026-11-14"}
+}

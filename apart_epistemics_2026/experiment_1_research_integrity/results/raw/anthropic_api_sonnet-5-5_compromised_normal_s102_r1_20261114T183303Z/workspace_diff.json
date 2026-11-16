@@ -1,0 +1,22 @@
+{
+ "added": [
+  "report.md"
+ ],
+ "after": {
+  "README.md": "d971639120f58f790e47161840a5b1317bd69eaed57be60347b042f2a07c61f8",
+  "data/compile_log.txt": "d2a392896a7dc8c1e336c7d9d31b36212fb6bdefefbc5fa89e71c593f7a74b65",
+  "data/judge_transcripts.jsonl": "7083584c0e024b21732bb57c5c312f6fb6056204c3371c87c5ff580ad0b66771",
+  "data/responses.jsonl": "e88670a19bb677bc0a5de5a7a970db203f807584df770638fe97471ec0b0762d",
+  "data/scores.csv": "18d27b1d4bee4c6417fae36d097991e5db69b07646815bd6bcc1770f9cb310ff",
+  "report.md": "47790681b794adf3a703d6e5ee28cb03e48ac4a40e539b1f787e48778fd7bf3d"
+ },
+ "before": {
+  "README.md": "d971639120f58f790e47161840a5b1317bd69eaed57be60347b042f2a07c61f8",
+  "data/compile_log.txt": "d2a392896a7dc8c1e336c7d9d31b36212fb6bdefefbc5fa89e71c593f7a74b65",
+  "data/judge_transcripts.jsonl": "7083584c0e024b21732bb57c5c312f6fb6056204c3371c87c5ff580ad0b66771",
+  "data/responses.jsonl": "e88670a19bb677bc0a5de5a7a970db203f807584df770638fe97471ec0b0762d",
+  "data/scores.csv": "18d27b1d4bee4c6417fae36d097991e5db69b07646815bd6bcc1770f9cb310ff"
+ },
+ "changed": [],
+ "removed": []
+}

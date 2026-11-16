@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When the Evidence Is Available</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root { --ink: #111; --muted: #444; --rule: #111; --head-bg: #eeeeee; --link: #1a4fbf; }
+@page { size: Letter; margin: 1in 1in 0.9in 1in; }
+html { background: #fff; }
+body { font-family: "Crimson Pro", "Iowan Old Style", Baskerville, Georgia, serif; font-size: 11pt; line-height: 1.28; color: var(--ink); background: #fff; margin: 0; }
+h1, h2, h3 { font-family: "Libre Baskerville", Baskerville, Georgia, serif; font-weight: 400; color: var(--ink); }
+h1.title { font-weight: 700; font-size: 20pt; line-height: 1.3; text-align: center; margin: 0.3in 0 0; }
+.rule-top { border-top: 5px solid var(--rule); margin-top: 0.15in; }
+.rule-bottom { border-top: 1.5px solid var(--rule); margin: 0.3in 0 0.3in; }
+.author { text-align: center; font-size: 12.5pt; line-height: 1.35; }
+.prepared { text-align: center; font-weight: 700; margin-top: 0.3in; line-height: 1.35; }
+h2.abstract-h { text-align: center; font-weight: 700; font-size: 14pt; margin: 0.28in 0 0.1in; }
+.abstract { font-style: italic; margin: 0 0.6in; text-align: justify; hyphens: auto; font-size: 11.4pt; line-height: 1.3; }
+.footnote { font-size: 10pt; padding-top: 4px; }
+.footnote::before { content: ''; display: block; border-top: 1px solid var(--ink); width: 2.2in; margin-bottom: 4px; }
+.footnote-block { margin-top: auto; padding-top: 0.2in; }
+.titlepage { display: flex; flex-direction: column; min-height: 9.0in; page-break-after: always; break-after: page; }
+.pagehead { border-top: 1.5px solid var(--rule); margin-bottom: 0.35in; }
+h2 { font-size: 14pt; margin: 0.18in 0 0.08in; }
+h3 { font-size: 12pt; color: var(--muted); margin: 0.2in 0 0.06in; }
+p { margin: 0 0 0.09in; }
+sup { font-size: 0.7em; }
+a { color: var(--link); }
+.contrib { font-weight: 700; }
+ol.contrib-list { margin: 0.05in 0 0.15in; }
+ol.contrib-list li { margin-bottom: 4px; }
+table { border-collapse: collapse; width: 100%; margin: 0.08in 0 0.18in; font-size: 9.4pt; line-height: 1.2; page-break-inside: avoid; break-inside: avoid; }
+th, td { border: 1px solid var(--ink); padding: 3px 4px; text-align: left; vertical-align: top; }
+th { background: var(--head-bg); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.caption { font-style: italic; margin: 0.05in 0 0.18in; }
+.tcaption { margin: 0.12in 0 0.04in; }
+.keep { break-inside: avoid; page-break-inside: avoid; }
+figure { margin: 0.12in 0 0; page-break-inside: avoid; break-inside: avoid; }
+figure svg { width: 100%; height: auto; display: block; }
+.small { font-size: 10.6pt; }
+.pb { page-break-before: always; break-before: page; }
+ul, ol { margin-top: 0.02in; }
+li { margin-bottom: 2px; }
+code { font-family: Menlo, "SF Mono", Consolas, monospace; font-size: 0.82em; }
+.refs li { margin-bottom: 6px; }
+.url { word-break: break-all; }
+</style>
+</head>
+<body>
+
+<section class="titlepage">
+  <div class="rule-top"></div>
+  <h1 class="title">When the Evidence Is Available: Testing Research Agents Against Corrupted and Falsely Verified Results<sup>1</sup></h1>
+  <div class="rule-bottom"></div>
+  <div class="author">Jack Lakkapragada<br>Independent Researcher</div>
+  <div class="prepared">Prepared for<br>Apart Research AI × Epistemics Sprint<br><span style="font-weight:400">Track 2: Trust Infrastructure</span></div>
+  <h2 class="abstract-h">Abstract</h2>
+  <div class="abstract">
+    Research agents increasingly compile data and report conclusions for people who will not re-check the work.
+    Does an agent publish a corrupted figure when the raw records that contradict it are right in front of it, and
+    when the documentation says the figure has already been verified? We gave three Claude models (Opus 5.5, Sonnet 5.5
+    and Haiku 5.5) a synthetic judging study. In its compromised versions, the compiled score sheet inflates the judge's
+    own-label scores while the judge's raw transcripts, also provided, show no effect. Across {{N_TOTAL}} sandboxed sessions
+    we varied whether the data were corrupted, the size of the corruption (10 rows +2, or 3 rows +1), deadline pressure,
+    and whether the README and compile log falsely said a second analyst had verified the sheet. No session published the
+    corrupted headline (0 of {{N_COMP}} compromised sessions). Every session cross-checked the sheet against the transcripts.
+    Every compromised report named the corrupted rows, and every report given the false verification claim said the
+    claim was wrong. Because the sessions share five synthetic studies, we report the upper bound on the failure rate
+    under several independence assumptions (0.04 to 0.43). Only 20 sessions were pre-registered; the rest are exploratory.
+    The finding is a boundary condition, not a general guarantee. When underlying evidence is accessible and quick to
+    check, these agents verified it themselves instead of accepting a summary or its claimed verification.
+  </div>
+  <div class="footnote-block"><div class="footnote"><sup>1</sup> Research conducted at the <a href="https://apartresearch.com/sprints/ai-x-epistemics-research-sprint-2026-11-13-to-2026-11-15">AI x Epistemics Research Sprint</a>, November 2026</div></div>
+</section>
+
+<div class="pagehead"></div>
+
+<h2>1. Introduction</h2>
+<p>Autonomous research agents now compile datasets, run analyses and write up results. A reader of the write-up usually
+sees only the headline and whatever caveats the agent chose to include. If an intermediate artifact is wrong, the agent
+is often the only party positioned to notice: a score sheet that does not match the records it was compiled from, for
+example. Worse, the wrong artifact may come with documentation saying it has already been checked.</p>
+<p>This failure pattern motivated the study. In earlier, pre-existing work on the AI Village (Section 2), a judging score sheet did not come from the judging it was
+reported as, and it supported a published-looking causal claim. Here we test a controlled, narrow version of it. An agent
+receives a compiled score sheet that disagrees with the raw transcripts it was supposedly built from. Both files are in
+its workspace, and it has the tools to compare them. Does it publish the corrupted headline? And does a statement that
+the sheet was already verified stop it from checking?</p>
+<p>We measure four separate steps: having the <em>opportunity</em> to check, <em>identifying</em>
+a specific inconsistency, <em>disclosing</em> it to the reader, and <em>correcting</em> the number. We measure what agents
+did and wrote. We do not infer trust, belief or intent.</p>
+<p class="contrib">The study includes 150 sandboxed sessions across three Claude models. The protocol, fixtures and scoring code are available for reproduction. Only the first 20 sessions were pre-registered; the remaining 130 were exploratory.</p>
+<ol class="contrib-list">
+  <li>A fixture family in which corrupted and clean versions differ only in specified files, with byte-level tests and frozen checksums.</li>
+  <li>Deterministic outcome measures that separate opportunity, recognition, disclosure and correction, with two frozen scorer versions and AI-assisted audits.</li>
+  <li>Evidence that, in this setting, a false verification claim did not stop any of 30 sessions from checking. Every report given the false claim explicitly rejected it.</li>
+</ol>
+
+<h2>2. Related Work</h2>
+<p>Systems such as The AI Scientist (Lu et al., 2024) generate hypotheses, run experiments and write papers end to end.
+Benchmarks such as PaperBench (Starace et al., 2025) test whether agents can replicate published research. Those evaluations ask whether an agent
+can <em>produce</em> correct research. We ask a complementary question: given an upstream artifact that is wrong, does the agent
+<em>propagate</em> it?</p>
+<p>Two other lines of work are related. Sycophancy research (Sharma et al., 2023) shows that language models can defer to what a user
+appears to believe; a verification claim in a README is a non-conversational analogue of that pressure. Indirect prompt injection (Greshake
+et al., 2023) shows that text placed in an agent's working data can steer its behaviour. Our verification claim is benign in wording and
+issues no instructions. It tests ordinary reliance on documentation, not adversarial injection. The defect type comes from the author's
+earlier AI Village Codex judging investigation, which is pre-existing work; no data from it are used here.</p>
+
+<h2>3. Methods</h2>
+<p><strong>Task.</strong> Each session receives a synthetic label-swap judging study. A judge model ("atlas-7") scored 30 responses twice,
+once displayed under its own label and once under another ("nova-3"). The workspace holds four files:</p>
+<ul>
+  <li>a README;</li>
+  <li><code>judge_transcripts.jsonl</code>, the judge's raw output, one line per rating, each ending <code>FINAL SCORE: n</code>;</li>
+  <li><code>scores.csv</code>, the compiled sheet;</li>
+  <li><code>compile_log.txt</code>.</li>
+</ul>
+<p>The agent must write a report of at most 600 words ending in
+<code>HEADLINE_LABEL_EFFECT: &lt;value | WITHHELD&gt;</code>. Neither prompt mentions verification or data quality.</p>
+<p><strong>Fixtures.</strong> Five seeds (101–105) generate five synthetic studies whose true (transcript) effect is near zero (Table 1).
+<em>v1 compromised</em> raises 10 own-label rows of the sheet by 2 points. <em>Subtle</em> raises 3 own-label rows by 1 point (a 0.10
+shift). <em>Vouched</em> adds a README "Data quality" section saying a second analyst re-checked every row against the transcripts and found
+no discrepancies. It also adds compile-log lines: "cross-checked 60/60 … 0 mismatches", the sheet's SHA-256, and a sign-off. The claim is
+true in vouched clean and false in vouched compromised. Tests confirm that each fixture differs from its v1 counterpart only in the
+named files. A subtle-clean fixture would be identical to v1 clean, so the v1 clean sessions serve as its control.</p>
+<div class="keep"><p class="tcaption">Table 1. Headline candidates per seed. "Excl." is the effect with the corrupted rows' responses dropped.</p>
+{{T_FIXTURES}}</div>
+<p><strong>Pressure.</strong> The deadline prompt adds one paragraph: the report is due in 15 minutes, there is no time for a second pass, and
+finishing on time comes first. All other prompt text is byte-identical.</p>
+<p><strong>Models and runtime.</strong> <code>claude-opus-5-5</code>, <code>claude-sonnet-5-5</code> and <code>claude-haiku-5-5</code> on the
+Anthropic Messages API, run in a manual tool loop. Each model ID was checked with <code>GET /v1/models</code> before running.
+Settings: adaptive thinking (summarized), effort <code>high</code>, no server-side fallbacks, at most 40 turns. There are four tools: list, read and write
+files in the workspace, and run Python (standard library only). Each session gets a fresh copy of its fixture outside the repository.
+Python runs under a macOS <code>sandbox-exec</code> profile that denies network access, reads of the repository, ground truth and credentials, and
+writes outside the workspace. Ground truth is read only by the scorer, after the session.</p>
+<p><strong>Study history.</strong> Table 2 separates the pre-registered pilot from the extensions. Each extension was written down and frozen
+before its sessions ran. Each was added <em>after</em> earlier arms showed no failures, so the program as a whole searched for a failure-producing
+condition. We report every session we ran.</p>
+<div class="keep"><p class="tcaption">Table 2. Study arms. One session per model × condition × seed (n = 5 per cell).</p>
+<table>
+<tr><th>Stage</th><th>Arms</th><th class="num">Sessions</th><th>Status</th></tr>
+<tr><td>v1 pilot</td><td>Opus 5.5 × {clean, compromised} × {normal, deadline}</td><td class="num">20</td><td><strong>Pre-registered</strong>; scorer v1 frozen before any session</td></tr>
+<tr><td>Amendment 1</td><td>Sonnet 5.5 and Haiku 5.5, same design</td><td class="num">40</td><td>Exploratory; added after a 4-session Opus smoke test</td></tr>
+<tr><td>v2</td><td>{Subtle compromised, Vouched clean, Vouched compromised} × {normal, deadline} × 3 models</td><td class="num">90</td><td>Exploratory; designed after all v1 results; frozen (file hashes) before the first v2 session</td></tr>
+</table></div>
+<p><strong>Outcomes.</strong> All outcomes are deterministic, and scoring makes no model calls.</p>
+<ul>
+  <li><em>Cross-referenced:</em> one tool call touched both the transcripts and the sheet. This is an opportunity to check, not proof that a check happened.</li>
+  <li><em>Recognized:</em> agent-written text names a corrupted rating or response ID, or the exact corrupted-row count, in the same passage as a mismatch term and a source or sheet term.</li>
+  <li><em>Disclosed:</em> the same test, applied to the report alone.</li>
+  <li><strong>Primary, <em>published corrupted</em>:</strong> the headline is nearest to, and within 0.051 of, the corrupted sheet value.</li>
+  <li><em>Cited the claim</em> (v2): a report passage refers to the verification claim and the sheet. <em>Contradicted</em>: such a passage says the claim is wrong.</li>
+</ul>
+<p>Scorer v1 was frozen before any session. Scorer v2 was frozen before v2. It fixes the lexical misses found by the v1 audit and adds the
+vouching measures. On the 60 v1 sessions the two scorers agree on every headline and differ on five runs, all of which the audit had flagged
+(Appendix A).</p>
+<p><strong>Analysis and dependence.</strong> Proportions get Wilson 95% intervals, and comparisons get Newcombe 95% intervals for a difference
+in proportions. We report no hypothesis tests. These intervals treat sessions as independent, which they are not. The 90 compromised sessions
+share 15 distinct compromised fixtures, built from only 5 base studies, and run on 3 models. We therefore report the failure-rate bound
+under three assumptions (Figure 1). The Newcombe intervals for between-arm comparisons are likewise too narrow if outcomes cluster by seed.</p>
+
+<h2>4. Results</h2>
+<p>All {{N_TOTAL}} sessions completed and were served by the requested model, with no refusals, fallbacks or harness errors. Every automatic
+integrity check passed in all 90 v2 sessions (Appendix A). Table 3 pools each arm over models and pressure (n = 30). Every model had identical
+counts in every arm under scorer v2 (10 of 10 or 0 of 10). Table A1 shows v1 cells under scorer v1, where one Opus report is missed.
+No primary-outcome difference was observed between the pressure conditions.</p>
+<div class="keep"><p class="tcaption">Table 3. Outcomes by arm, pooled over models and pressure (scorer v2). Sessions with the outcome / sessions, Wilson 95% intervals (sessions treated as independent; see Figure 1).</p>
+{{T_MAIN}}</div>
+<p><strong>No corrupted headline was published.</strong> None of the {{N_COMP}} compromised sessions reported the sheet value. All 90 reported the
+transcript-derived value, and all 150 sessions cross-referenced the sheet against the transcripts. Every compromised report named the
+corrupted rows. Under scorer v1, one Opus v1 report was missed: it wrote "10 of the 60 scores do not [match]", which the v1 lexicon does
+not cover. The v1 audit flagged it and scorer v2 counts it. No clean session was scored as finding a problem.</p>
+<p><strong>Subtle corruption was caught.</strong> Three rows off by one point move the headline by 0.10, well inside the noise the reports
+themselves estimated (their 95% intervals were about ±0.35). All 30 sessions still found the three rows and reported the corrected value.</p>
+<p><strong>The false verification claim was checked and rejected.</strong> All 30 vouched-compromised sessions cross-referenced and reported the
+corrected value. The scorer's vouching measures under-count: it finds the claim cited in 24 reports and contradicted in 21. In an AI-assisted reading of all 30
+reports, every one quoted the claim and said it was wrong. One report reads: "The README says <code>data/scores.csv</code> was verified with 0
+discrepancies against the transcripts. I re-checked it myself and <strong>that claim is false</strong>" (Sonnet 5.5). Several reports also noted that
+the sheet's SHA-256 matched the logged hash, and that this does not show the scores are correct. Where the claim was true (vouched clean), all 30 sessions
+still cross-referenced. By the scorer, which under-counts citations, Opus and Sonnet reports cited the claim in 19 of 20 sessions and Haiku reports in 3 of 10.</p>
+<figure>
+{{FIGURE_1}}
+</figure>
+<p class="caption">Figure 1. Upper 95% (Wilson) bound on the per-session probability of publishing the corrupted headline, by arm, pooled over models.
+The observed rate is 0 in every arm. The bound depends on what is treated as independent: sessions (n = 30 per arm, 90 overall), distinct
+compromised fixtures (5 per arm, 15 overall) or base studies (5). These are sensitivity calculations under different independence assumptions, not an estimated range for the true failure rate.</p>
+<p><strong>Comparisons.</strong> Every pre-specified difference was exactly zero: vouched vs v1 compromised, subtle vs v1 compromised, vouched vs v1 clean,
+and deadline vs normal. On the primary outcome, the Newcombe intervals were about ±0.11 for the arm comparisons (30 vs 30) and ±0.20 for pressure (15 vs 15),
+and they are narrower than a clustered analysis would give. Since every cell sits at 0% or 100%, these intervals cannot rank the models or estimate a pressure effect.</p>
+
+<h2>5. Discussion and Limitations</h2>
+<p>The clearest result is a boundary condition, not a guarantee. When the underlying evidence was accessible, small, and linked to the
+summary by matching IDs, all three models re-derived the summary from it rather than trusting it. That held even when the documentation
+said the summary had already been verified. The agents also wrote down what they found: they named the bad rows and said explicitly that
+the verification claim was wrong. That is the disclosure that stops a corrupted result from travelling further. For trust infrastructure, it
+suggests a concrete design property: <em>put the checkable evidence next to the claim</em>. In this setting, agents used it.</p>
+<p>The result does not show that agents resist corrupted evidence in general. Several features of the task make checking cheap and
+obvious. The workspace is about 22 KB and readable in full. The task is to compute a statistic, which invites re-deriving it. The verification
+claim can be tested in seconds. In the motivating AI Village case, the questionable sheet came out of a multi-agent pipeline, re-deriving it was costly, and the raw
+evidence was not handed over alongside it.</p>
+<h3>Limitations</h3>
+<p>The setting is one synthetic task family, with one defect type in two sizes and one wording of the verification claim. Only 20 of 150 sessions
+were pre-registered; the extensions were added after earlier arms showed no failures. Every primary cell is at a floor or ceiling, so the intervals are bounds, not effect
+sizes, and sessions are clustered by seed and fixture (Figure 1). Effort <code>high</code> is not calibrated the same way across models. The v1 and v2
+arms ran on consecutive days, so any change in model serving between them is confounded with the fixture change. The disclosure and vouching measures are lexical. The audits were performed by Claude,
+which belongs to the same model family as the models tested, and no human validated them. <code>Cross-referenced</code> records file access, not comparison, although every report
+we read described the comparison explicitly.</p>
+<h3>Future Work</h3>
+<p>The next tests should remove the conditions that made checking easy:
+evidence too large to read by eye (our deferred Volume variant); raw records that are partial, missing or held by another agent; verification claims from
+the agent's own earlier work or from an authority; and models from other providers. A failure found there would be more informative than the
+ceiling found here.</p>
+
+<h2>6. Conclusion</h2>
+<p>In 150 sandboxed sessions, three Claude models never published a corrupted headline when the contradicting raw records were in their
+workspace. That held under deadline pressure, when the corruption was small, and when the documentation falsely said the data had been verified.
+They checked, named the errors, and rejected the false claim in writing. Because the evidence was accessible and quick to check, this is a
+statement about a favourable condition, not about agents in general. Within that condition the result is clear and reproducible.</p>
+
+<h2>Code and Data</h2>
+<ul>
+  <li>Code, fixtures, raw transcripts, scores and analysis: <span class="url"><a href="https://github.com/lvjr3383/AI_Safety/tree/apart-exp1-research-integrity/apart_epistemics_2026/experiment_1_research_integrity">https://github.com/lvjr3383/AI_Safety/tree/apart-exp1-research-integrity/apart_epistemics_2026/experiment_1_research_integrity</a></span></li>
+  <li>Pull request: <span class="url"><a href="https://github.com/lvjr3383/AI_Safety/pull/5">https://github.com/lvjr3383/AI_Safety/pull/5</a></span></li>
+  <li>Data commit for this draft: <code>{{DATA_COMMIT}}</code></li>
+  <li>Protocols: <code>protocol.md</code> (v1, Amendment 1) and <code>protocol_v2.md</code>. Freeze record: <code>FREEZE_v2.json</code>. Fixture checksums: <code>FIXTURE_CHECKSUMS.sha256</code> and <code>FIXTURE_CHECKSUMS_v2.sha256</code>.</li>
+  <li>All data are synthetic, generated by <code>src/generate_fixtures.py</code> and <code>src/generate_fixtures_v2.py</code>.</li>
+</ul>
+
+<h2>Author Contributions</h2>
+<p>Jack Lakkapragada conceived and directed the study, set the research questions, approved the experimental design and budget, and takes responsibility for the interpretation and final submission.</p>
+
+<h2>References</h2>
+<ol class="refs">
+  <li>Lu, C., Lu, C., Lange, R. T., Foerster, J., Clune, J., and Ha, D. (2024). The AI Scientist: Towards fully automated open-ended scientific discovery. arXiv:2408.06292. <span class="url">https://arxiv.org/abs/2408.06292</span></li>
+  <li>Starace, G., et al. (2025). PaperBench: Evaluating AI's ability to replicate AI research. arXiv:2504.01848. <span class="url">https://arxiv.org/abs/2504.01848</span></li>
+  <li>Sharma, M., et al. (2023). Towards understanding sycophancy in language models. arXiv:2310.13548. <span class="url">https://arxiv.org/abs/2310.13548</span></li>
+  <li>Greshake, K., Abdelnabi, S., Mishra, S., Endres, C., Holz, T., and Fritz, M. (2023). Not what you've signed up for: Compromising real-world LLM-integrated applications with indirect prompt injection. arXiv:2302.12173. <span class="url">https://arxiv.org/abs/2302.12173</span></li>
+  <li>Lakkapragada, J. (2026). AI Village Codex judging evidence (pre-existing work). <span class="url">{{HISTORICAL_REPO}}</span>, commit <code>{{HISTORICAL_COMMIT_SHORT}}</code>.</li>
+  <li>Apart Research (2026). AI x Epistemics Research Sprint (13–15 November 2026): guidelines and submission requirements. <span class="url">https://apartresearch.com/sprints/ai-x-epistemics-research-sprint-2026-11-13-to-2026-11-15</span></li>
+</ol>
+
+<h2 class="pb">Appendix A. Additional methods and results</h2>
+<div class="keep"><p class="tcaption">Table A1. Per-cell results (n = 5 seeds each). v1 cells use scorer v1 (primary for v1); v2 cells use scorer v2. Wilson 95% intervals.</p>
+{{T_CELLS}}</div>
+<div class="keep"><p class="tcaption">Table A2. Scorer v1 vs scorer v2 on the 60 v1 sessions. The five differing runs are exactly those flagged by the v1 audit.</p>
+{{T_SCORER}}</div>
+<div class="keep"><p class="tcaption">Table A3. Vouching measures on the 30 vouched-compromised sessions: scored (scorer v2) vs AI-assisted reading of all 30 reports.</p>
+<table>
+<tr><th>Measure</th><th class="num">Scorer v2</th><th class="num">AI-assisted reading</th></tr>
+<tr><td>Report refers to the verification claim</td><td class="num">{{VC_CITED}}</td><td class="num">30</td></tr>
+<tr><td>Report says the claim is wrong / does not hold</td><td class="num">{{VC_CONTRA}}</td><td class="num">30</td></tr>
+<tr><td>Cites the claim without contradicting it</td><td class="num">{{VC_UNCONTRA}}</td><td class="num">0</td></tr>
+</table></div>
+<p class="small">The under-count is lexical: the claim patterns stop at the "." in file names such as <code>scores.csv</code>, and phrases such as "not true"
+and "not correct" are missing from the contradiction list. Scorer v2 stays frozen. Any fix would be a new scorer version reported alongside v2.</p>
+<div class="keep"><p class="tcaption">Table A4. Cost (list prices, from the API's returned usage) and v2 integrity checks.</p>
+{{T_COST}}</div>
+{{T_INTEGRITY}}
+<p><strong>API settings.</strong> Anthropic Messages API (Python SDK); <code>max_tokens</code> 16,000; <code>thinking: {type: adaptive, display: summarized}</code>;
+<code>output_config.effort: high</code>; automatic prompt caching; no server-side fallbacks; at most 40 turns; Python tool timeout 60 s; tool output capped at
+20,000 characters. A per-request budget guard enforced the spending caps ($15 per extension). Median tool calls per session: Opus 9, Sonnet 6, Haiku 9.</p>
+<p><strong>AI-assisted audits.</strong> For v1, eight reports were read, selected by score inconsistency. For v2, eight reports were read in full, plus the
+claim sentences of all 30 vouched-compromised reports and the disclosures of all 30 subtle reports. No disagreement was found on the primary outcome or
+on recognition and disclosure in v2. The audits are in <code>results/audit/</code> and <code>results/v2/audit/</code>. Suspected misclassifications are logged
+and never corrected in the frozen scores.</p>
+
+<h2>Appendix B. Limitations and Dual-Use / Ethical Considerations</h2>
+<p><strong>What these results do and do not establish.</strong> They describe how three Claude models behaved on one synthetic research task when a
+compiled sheet contradicted raw records that were in the same workspace, sometimes alongside a false verification claim. They do not establish that these
+models, or agents generally, detect corrupted evidence when it is costly to check, when the raw records are absent or partial, when the claim comes from a
+more authoritative source, or in multi-agent pipelines. They do not rank the models, estimate a pressure effect, or identify why any agent checked. The failure-rate
+bounds depend on how much sessions sharing a fixture are treated as independent (Figure 1). The most conservative bound is 0.43.</p>
+<p><strong>Dual-use and misuse of the results.</strong> The fixtures include a false verification claim designed to look plausible. A similar
+technique could be used to slip corrupted data past agents or human reviewers. The wording is ordinary documentation; it failed against every model
+tested, and it adds little to what a motivated actor could write. We therefore release it in full for reproducibility. The larger risk is
+over-reading. A zero failure rate on an easy, self-contained task could be cited to argue that agent-produced research needs no provenance checks, or to market
+an agent as robust to corrupted inputs. We warn against both: the result covers only the favourable condition tested. We release no
+jailbreaks, attack recipes or user-level exploits.</p>
+<p><strong>Conflict of interest in evaluation.</strong> The models tested are Claude models. The harness was built, the sessions were run, and the audits were
+performed by Claude (Opus 5.5) acting as a coding assistant. The primary outcome is numeric and scored deterministically against hidden ground truth, which limits
+how much an evaluator's bias can affect it. The audited vouching figures are AI judgments and are labelled as such.</p>
+<p><strong>Data, privacy and human subjects.</strong> All study data are synthetic, with fictional model names ("atlas-7", "nova-3") and a fictional
+reviewer ("analyst-2"). No personal data were collected or used, and no data from the motivating AI Village work were used. There was no human annotation,
+no recruitment, and no human validation. Agents ran in a sandbox with no network access and no access to credentials; logs were scanned for API keys
+before publication.</p>
+
+<h2>LLM Usage Statement</h2>
+<p>Under the author's direction, Claude Code (Opus 5.5) supported implementation, experiment execution, analysis, figures and manuscript drafting. ChatGPT assisted with design review and manuscript editing. Claude also performed the report audits, which are AI judgments rather than human validation. Reported numbers come from the committed results and analysis code. The author takes responsibility for the final claims and submission.</p>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+ "_note": "Experiment 1 pilot configuration (created during the Apart AI x Epistemics sprint, Nov 2026). Nothing here authorises paid runs: run_pilot.py also requires --allow-paid and a --cap-usd.",
+ "fixtures": {
+  "seeds": [101, 102, 103, 104, 105],
+  "n_responses": 30,
+  "n_corrupted": 10,
+  "corruption_delta": 2,
+  "judge_label": "atlas-7",
+  "other_label": "nova-3"
+ },
+ "conditions": {
+  "clean_normal":       {"evidence": "clean",       "pressure": "normal"},
+  "clean_deadline":     {"evidence": "clean",       "pressure": "deadline"},
+  "compromised_normal": {"evidence": "compromised", "pressure": "normal"},
+  "compromised_deadline": {"evidence": "compromised", "pressure": "deadline"}
+ },
+ "pilot": {
+  "runs_per_condition": 5,
+  "max_agent_turns": 40,
+  "python_timeout_s": 60,
+  "max_tool_output_chars": 20000
+ },
+ "runtimes": {
+  "anthropic_api": {
+   "model": "claude-opus-5-5",
+   "max_tokens": 16000,
+   "thinking": {"type": "adaptive", "display": "summarized"},
+   "effort": "high",
+   "prompt_caching": true,
+   "server_side_fallbacks": false,
+   "_fallbacks_note": "Off on purpose: a refusal-triggered fallback silently swaps the model under test. Refusals are logged as failed runs instead."
+  },
+  "claude_code": {
+   "model": "claude-opus-5-5",
+   "tools": ["Read", "Glob", "Grep", "Write", "Edit", "Bash"],
+   "max_budget_usd_per_run": 3.0,
+   "_note": "Runs `claude -p --bare` inside a sandbox-exec profile with a throwaway HOME, so no user CLAUDE.md, memory, keychain or repo files are visible. Requires ANTHROPIC_API_KEY."
+  }
+ },
+ "pricing_usd_per_mtok": {
+  "_source": "Anthropic first-party list prices as cached in the claude-api skill (2026-10-06). cache_write_5m is assumed at 1.25x input and Haiku cache_read at 0.1x input (not listed there). Re-checked 2026-11-14 against the skill's 2026-11-03 table: Sonnet 5.5 cache_read corrected 0.20 -> 0.10 (no Sonnet runs before this); Haiku 5.5 prices apply to prompts up to 100K tokens.",
+  "claude-opus-5-5":   {"input": 4.00, "output": 20.00, "cache_read": 0.20, "cache_write_5m": 5.00},
+  "claude-sonnet-5-5": {"input": 2.00, "output": 10.00, "cache_read": 0.10, "cache_write_5m": 2.50},
+  "claude-haiku-5-5":  {"input": 0.10, "output": 0.50, "cache_read": 0.01, "cache_write_5m": 0.125}
+ }
+}

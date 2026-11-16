@@ -1,0 +1,32 @@
+{
+ "config": {
+  "corruption_delta": 2,
+  "judge_label": "atlas-7",
+  "n_corrupted": 10,
+  "n_responses": 30,
+  "other_label": "nova-3",
+  "seeds": [
+   101,
+   102,
+   103,
+   104,
+   105
+  ]
+ },
+ "corrupted": [],
+ "evidence": "clean",
+ "excluded_effect": null,
+ "fixture_id": "s101_clean",
+ "generator_attempts": 1,
+ "n_corrupted": 0,
+ "seed": 101,
+ "sheet_effect": -0.03333333333333333,
+ "true_effect": -0.03333333333333333,
+ "workspace_sha256": {
+  "README.md": "d971639120f58f790e47161840a5b1317bd69eaed57be60347b042f2a07c61f8",
+  "data/compile_log.txt": "d2a392896a7dc8c1e336c7d9d31b36212fb6bdefefbc5fa89e71c593f7a74b65",
+  "data/judge_transcripts.jsonl": "cf3a52979d44c74a48ff39fb14b43038a153a2c9bab3b2f83b85f27790eb5941",
+  "data/responses.jsonl": "b7369ab71f4fcc01d00fed974b6bb002bf1ef41752172bf0b5fd6549947f4a64",
+  "data/scores.csv": "7276225db738d4cf430712498d453c8db9f7f62e66b1e567d7d94a0c6067bd4b"
+ }
+}
