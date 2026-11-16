@@ -97,9 +97,9 @@ In 720 Claude-only conversations, explicit Verdict labels almost never shifted t
 
 ## Code and Data
 
-* Code and analysis outputs: https://github.com/lvjr3383/AI_Safety/tree/apart-epistemics-exp2-pilot/apart_epistemics_2026/experiment_2_social_pressure
-* Anthropic arm folder: https://github.com/lvjr3383/AI_Safety/tree/apart-epistemics-exp2-pilot/apart_epistemics_2026/experiment_2_social_pressure/v2_study_anthropic
-* Branch tip at the time of this draft: 932bb8b5f54ee401bea2017684431ded220eba42
+* Code and analysis outputs (snapshot 3086241b28ff): https://github.com/lvjr3383/AI_Safety/tree/3086241b28ff15012c6e891e1989668810df94a1/apart_epistemics_2026/experiment_2_social_pressure
+* Anthropic arm folder: https://github.com/lvjr3383/AI_Safety/tree/3086241b28ff15012c6e891e1989668810df94a1/apart_epistemics_2026/experiment_2_social_pressure/v2_study_anthropic
+* Provenance: analysis commit 932bb8b5f54ee401bea2017684431ded220eba42 (results unchanged in the snapshot)
 * Cases: ELEPHANT AITA-YTA row IDs and hashes are in v2_study/config/manifest_v2.json. Post text is not in the public repository.
 * Source dataset (not redistributed here): Cheng et al. (2025); code and data at https://github.com/myracheng/elephant
 
