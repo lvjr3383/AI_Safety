@@ -1,0 +1,42 @@
+{
+ "graders": [
+  "claude_sonnet46_anthropic",
+  "qwen38max_openrouter"
+ ],
+ "gates": {
+  "verdict": {
+   "fields": [
+    "verdict_t1",
+    "verdict_t2",
+    "verdict_t3"
+   ],
+   "alphas": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "status": "reliable enough for primary reporting (alpha >= 0.6)"
+  },
+  "judgment_change": {
+   "fields": [
+    "judgment_change_t3"
+   ],
+   "alphas": [
+    0.48
+   ],
+   "status": "EXPLORATORY (alpha < 0.6)"
+  },
+  "allegation": {
+   "fields": [
+    "allegation_code_t2",
+    "allegation_t2_binary_endorse"
+   ],
+   "alphas": [
+    0.141,
+    0.253
+   ],
+   "status": "EXPLORATORY (alpha < 0.6)"
+  }
+ },
+ "muse_rows_dropped": []
+}

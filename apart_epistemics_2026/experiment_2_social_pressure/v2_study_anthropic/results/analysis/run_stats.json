@@ -1,0 +1,48 @@
+{
+ "attempts_total": 730,
+ "attempt_status": {
+  "complete": 720,
+  "interrupted": 10
+ },
+ "conversations_attempted": 720,
+ "conversations_complete": 720,
+ "conversations_never_completed": 0,
+ "turn_calls": 2172,
+ "turn_calls_with_transient_retries": 32,
+ "transient_retries_total": 32,
+ "stop_reasons": {
+  "end_turn": 2172
+ },
+ "non_text_blocks": 0,
+ "per_model": {
+  "claude-haiku-4-5-20251001": {
+   "complete": 240,
+   "calls": 721,
+   "input_tokens": 727881,
+   "output_tokens": 238221,
+   "cost_usd": 1.918986
+  },
+  "claude-sonnet-4-6": {
+   "complete": 240,
+   "calls": 725,
+   "input_tokens": 710710,
+   "output_tokens": 208146,
+   "cost_usd": 5.25432
+  },
+  "claude-opus-4-7": {
+   "complete": 240,
+   "calls": 726,
+   "input_tokens": 965635,
+   "output_tokens": 302242,
+   "cost_usd": 12.384225
+  }
+ },
+ "ledger_total_usd": 19.557531,
+ "parse": {
+  "turns_with_response": 2172,
+  "verdict_unparsed": 0,
+  "blame_missing": 0,
+  "confidence_missing": 0
+ },
+ "abandoned_requests_total": 32
+}

@@ -1,0 +1,57 @@
+{
+ "_note": "v3 automated validation graders (Apart AI x Epistemics sprint, Nov 13-15 2026). All graders are AI; none is human. Separate ledgers and caps per provider for this phase.",
+ "common": {
+  "temperature": 0,
+  "max_tokens": 4000
+ },
+ "graders": {
+  "claude_sonnet46_anthropic": {
+   "provider": "anthropic",
+   "endpoint": "https://api.anthropic.com/v1/messages",
+   "anthropic_version": "2023-06-01",
+   "model": "claude-sonnet-4-6",
+   "api_key_env": "ANTHROPIC_API_KEY",
+   "model_id_status": "To be verified with free GET https://api.anthropic.com/v1/models before any call; run aborts if not listed.",
+   "price_usd_per_token": {
+    "input": 3e-06,
+    "output": 1.5e-05
+   },
+   "price_status": "Public list price $3 / $15 per million tokens. Anthropic returns token usage, not cost: cost is computed and must be reconciled in the Anthropic console. Promotional credit eligibility cannot be verified through the API.",
+   "extended_thinking": false,
+   "max_tokens": 1500,
+   "ledger": "results_v3/ledgers/anthropic.jsonl",
+   "cap_usd": 5.0
+  },
+  "qwen38max_openrouter": {
+   "provider": "openrouter",
+   "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+   "model": "qwen/qwen3.8-max-0902",
+   "api_key_env": "OPENROUTER_API_KEY",
+   "routing": {
+    "order": [
+     "alibaba"
+    ],
+    "allow_fallbacks": false
+   },
+   "reasoning": {
+    "effort": "low"
+   },
+   "seed": 20261114,
+   "why_this_model": "Strong non-Claude, non-target model from a lab (Alibaba Qwen) that makes neither target (OpenAI GPT-5.5, Google Gemini 3.1 Pro) nor the Claude grader; first-party provider pinned; supports temperature, seed and structured outputs.",
+   "price_usd_per_token": {
+    "input": 2e-06,
+    "output": 6e-06
+   },
+   "price_status": "Verified 2026-11-14 (UTC-6) via free GET https://openrouter.ai/api/v1/models and /models/qwen/qwen3.8-max-0902/endpoints: prompt $0.000002, completion $0.000006 per token, provider Alibaba. Actual cost taken from OpenRouter usage.cost per call.",
+   "ledger": "results_v3/ledgers/openrouter.jsonl",
+   "cap_usd": 2.5
+  },
+  "muse_external": {
+   "provider": "manual paste by Jack into Muse (external AI judge)",
+   "model": "Muse (exact underlying model not exposed to us)",
+   "input": "validation_v3/local_private/MUSE_INPUT_ALL_IN_ONE.md (gitignored)",
+   "output": "validation_v3/muse_v3_output.csv (expected; optional)",
+   "note": "Muse already saw 29 of these 40 conversations in the earlier v2-style pass, so its v3 labels are not fully independent of that pass."
+  }
+ }
+}

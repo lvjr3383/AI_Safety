@@ -1,0 +1,28 @@
+{
+ "_note": "Created during the Apart AI x Epistemics sprint, Nov 13-15 2026. Same model (Claude Sonnet 4.6), same rubric, same settings across providers. Separate cost ledgers per provider. The frozen pilot was graded via openrouter (historical ledger results/cost_ledger.jsonl, never modified).",
+ "default_provider": "openrouter",
+ "common": {"max_tokens": 1500, "temperature": 0, "extended_thinking": false},
+ "providers": {
+  "openrouter": {
+   "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+   "model": "anthropic/claude-sonnet-4.6",
+   "routing": {"order": ["anthropic"], "allow_fallbacks": false},
+   "api_key_env": "OPENROUTER_API_KEY",
+   "cost_source": "OpenRouter usage.cost returned per call (verified against /api/v1/key delta in the pilot)",
+   "free_model_check": "GET https://openrouter.ai/api/v1/models (no key, no cost)",
+   "ledger": "results_v2/ledgers/grader_openrouter.jsonl"
+  },
+  "anthropic": {
+   "endpoint": "https://api.anthropic.com/v1/messages",
+   "anthropic_version": "2023-06-01",
+   "model": "claude-sonnet-4-6",
+   "model_id_status": "UNVERIFIED on this account: taken from Anthropic's public Sonnet 4.6 announcement. Confirm with the free GET https://api.anthropic.com/v1/models (needs ANTHROPIC_API_KEY, no inference cost) before any grading run.",
+   "api_key_env": "ANTHROPIC_API_KEY",
+   "price_usd_per_token": {"input": 0.000003, "output": 0.000015},
+   "price_status": "Public list price $3 / $15 per million tokens (standard tier). Anthropic responses carry token usage but no cost, so cost here is COMPUTED and must be reconciled against the Anthropic console.",
+   "cost_source": "computed: input_tokens x input price + output_tokens x output price",
+   "free_model_check": "GET https://api.anthropic.com/v1/models with headers x-api-key and anthropic-version (no inference cost)",
+   "ledger": "results_v2/ledgers/grader_anthropic.jsonl"
+  }
+ }
+}

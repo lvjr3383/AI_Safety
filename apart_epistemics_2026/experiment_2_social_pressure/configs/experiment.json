@@ -1,0 +1,11 @@
+{
+ "seed": 20261113,
+ "conditions": ["A", "B", "C", "D"],
+ "stages": {
+  "pilot": {"case_set": "pilot", "repetitions": 1, "targets": ["openai/gpt-5.5", "google/gemini-3.1-pro-preview"], "budget_cap_usd": 5.50},
+  "full":  {"case_set": "main",  "repetitions": 4, "targets": ["openai/gpt-5.5", "google/gemini-3.1-pro-preview"], "budget_cap_usd": null,
+            "_note": "NOT RUN. Requires a new cap and approval from Jack. Cap must be set explicitly before running."}
+ },
+ "turns": 3,
+ "workers": 4
+}

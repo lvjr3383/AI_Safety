@@ -1,0 +1,169 @@
+{
+ "seed": 20261117,
+ "n": 40,
+ "grader_prompt_v3_sha256": "b3e5ecf0686e8fe13dde88be589ce06e397bd74eb2a723a6bbab4d8306753241",
+ "items": [
+  {
+   "blind_id": "C-295D",
+   "grader_input_sha256": "cf0e2be9ba8f67cb02b8344e608ec58cb8886e219ea60355e495853067bcc4ed"
+  },
+  {
+   "blind_id": "C-2ZN5",
+   "grader_input_sha256": "68ed4c93288e5c821de4c4663db17198ea764d1d42619d469a9612086096a046"
+  },
+  {
+   "blind_id": "C-LNGJ",
+   "grader_input_sha256": "85d000e103666e9e736a87ca6666c351d45d7c61ef076a6866bd16519e60fbeb"
+  },
+  {
+   "blind_id": "C-XB42",
+   "grader_input_sha256": "909d19b7bd303df00469f7631399c10c7f9f8693f7b6413244024d8daa830950"
+  },
+  {
+   "blind_id": "C-NHKA",
+   "grader_input_sha256": "95ff8d2c4b3c73f01aea0cb4a461ea6cae2d84ed77d9831bc4715134cf4bd7eb"
+  },
+  {
+   "blind_id": "C-WMSL",
+   "grader_input_sha256": "a8fade167d5f2cb6c42f4f983ec24e58e8c36f08f1ef548dfaf3c2f37f8112c6"
+  },
+  {
+   "blind_id": "C-HMSU",
+   "grader_input_sha256": "4fbb0992c13ca5606a7fed201cf242e46204fc812c9725471d5b5a3aff28c445"
+  },
+  {
+   "blind_id": "C-H38M",
+   "grader_input_sha256": "a4296fbe6bf81c5280ff276346c69acc529c90c92229c0080c0b0b9e7154951a"
+  },
+  {
+   "blind_id": "C-WSDZ",
+   "grader_input_sha256": "b7c676f4e76a9f76b36a92473d03857f2fd3ce85a59c615184574a91e167fb67"
+  },
+  {
+   "blind_id": "C-9VLN",
+   "grader_input_sha256": "2872ef3aeb2a6b3299be4a2694a62a7d23a7b361f7138b8f257d5e52bb467e07"
+  },
+  {
+   "blind_id": "C-QUSM",
+   "grader_input_sha256": "f17be11fdabdb5969ae5d6320d8f119519e47981c0951ac848dac13d2068e89d"
+  },
+  {
+   "blind_id": "C-SPXB",
+   "grader_input_sha256": "1972a7afdb91d1e25f2a37ad14ce3992d8cf6b1fbf44eab2944e4eec79a5dbd0"
+  },
+  {
+   "blind_id": "C-YUU8",
+   "grader_input_sha256": "1eb8e51975f47e249989c72a8a8dd849f582dbafb0641d4df4471b52e3bd9476"
+  },
+  {
+   "blind_id": "C-PXVP",
+   "grader_input_sha256": "edd248dd7d106fa1543d501419cba94883711697c73e9f0b637df22bc0f46b8b"
+  },
+  {
+   "blind_id": "C-JVJR",
+   "grader_input_sha256": "1cbb0f2a7fe4288a3ddbf4a3a751f3ca80aed4c556632bb88a9ece9ff50b0a1b"
+  },
+  {
+   "blind_id": "C-LP99",
+   "grader_input_sha256": "6354330cfce78bd1acc01515814a1c23d03049b0ba6eb8b5ef6b4c33dad247bb"
+  },
+  {
+   "blind_id": "C-KBQN",
+   "grader_input_sha256": "ed65700c055269321713cc38d22180c40000e33c1d7df2ceaddf0554c6bc7719"
+  },
+  {
+   "blind_id": "C-LVXE",
+   "grader_input_sha256": "f1e9b1c27f0f234f5b3a027d364d04c1fd06098deb9a4b370843de5b7d0b9101"
+  },
+  {
+   "blind_id": "C-G9FL",
+   "grader_input_sha256": "1c12700c14798608749b7a17fb6e11319293b50d753a76ef94e5fec95e45c4b4"
+  },
+  {
+   "blind_id": "C-MHSM",
+   "grader_input_sha256": "a12f4fed443d32ce195cc46f2987f25505af6d129894cae8613b1bb34655935b"
+  },
+  {
+   "blind_id": "C-F8NK",
+   "grader_input_sha256": "990d70dd4a5759bc547f8af499a34a600d6bb058b3b1ce4d29e7b51bb7d8645f"
+  },
+  {
+   "blind_id": "C-NFHC",
+   "grader_input_sha256": "7f41295ac98d770681d65a5794d1f86abae9723d814b7233357dba30595f540c"
+  },
+  {
+   "blind_id": "C-ELYY",
+   "grader_input_sha256": "53fd8890d7356c306e7993ba8179a4acdc5c3aa5aac7d5db36b4446fae12021b"
+  },
+  {
+   "blind_id": "C-Y56A",
+   "grader_input_sha256": "d766a5c4f6aaa31af4d4b030dfcbe40d271eec8fde37e169e0bc79f85d04190d"
+  },
+  {
+   "blind_id": "C-JMHU",
+   "grader_input_sha256": "6f6170532fd6e8891cc7619c46a6003a052ed88390dfd6ad2524091425d286db"
+  },
+  {
+   "blind_id": "C-UD4Z",
+   "grader_input_sha256": "2826ad7c633d4062e70c3a8753a7a1c3fb0443e194f7bf41c2bb1d3cac3676e8"
+  },
+  {
+   "blind_id": "C-R426",
+   "grader_input_sha256": "f39ecbbadb711dff3132df972d6128294034158873e035966ccf4c07a893c6f6"
+  },
+  {
+   "blind_id": "C-HL3V",
+   "grader_input_sha256": "e22c1bad4ba21bb885aa29777cdc0baeac5a736f8ffcd4c2860a8bbc8a27869b"
+  },
+  {
+   "blind_id": "C-TWPP",
+   "grader_input_sha256": "c78908915525eecfc76f1910a1a725aa6be16287105e9e27b32d951ddd8d14e2"
+  },
+  {
+   "blind_id": "C-Y7DA",
+   "grader_input_sha256": "a3dc6f6dedcbd00f677ef5dc0759eef19b4bb653dbe7636ad7738196242ec52f"
+  },
+  {
+   "blind_id": "C-KS92",
+   "grader_input_sha256": "85c5e407875c06d553bdfe8e683cfc8940afabd951343499f47a423a52b35f21"
+  },
+  {
+   "blind_id": "C-QE8W",
+   "grader_input_sha256": "da79cbaab2afbb6b8b4d30b0174dfcdb63627e93043eedecbac96eb3d46a3e6a"
+  },
+  {
+   "blind_id": "C-BS34",
+   "grader_input_sha256": "ae2e98ef47d759b4f3a8c65bbc1ee2878b853ccc7e64d90f89741f1d5eb65d80"
+  },
+  {
+   "blind_id": "C-EEFH",
+   "grader_input_sha256": "c6c5aff43c47b8f6578349b91d427e44bd0cd78c0e04bd21097e9b52223fd6a9"
+  },
+  {
+   "blind_id": "C-666T",
+   "grader_input_sha256": "06cbe15c6dc1daeb37b7e0fe4d6b4cfdd76d49d570d31880a52ee0cbed7d153f"
+  },
+  {
+   "blind_id": "C-9PXA",
+   "grader_input_sha256": "08493e4273dac520090dfb43a829a5ac9d4aef1bcd193be9b9c3e83b6bb4d128"
+  },
+  {
+   "blind_id": "C-NW9Y",
+   "grader_input_sha256": "01ccb6f0350b163f582057f3adbf290bdac5e5f1797885364867b8e09cee95fd"
+  },
+  {
+   "blind_id": "C-UFXD",
+   "grader_input_sha256": "389074cdc694bbe36ea127e0098b74ddb9bfd8afac9d315324bbc5a92a80a5ee"
+  },
+  {
+   "blind_id": "C-CRW3",
+   "grader_input_sha256": "26e6e776493b691d24b04fd958ca472133697faacf8a6a6fe645f42bfffec656"
+  },
+  {
+   "blind_id": "C-BKV7",
+   "grader_input_sha256": "b2c83d8e3c71623c5420e488132e40f02fa1bebe34e0a13cde8e735a7776a108"
+  }
+ ],
+ "muse_input_sha256": "a7e3d46b04f4c484bbbb3e61fc2860b30e8c34818bf15371eaf602e3aa33bb02",
+ "muse_input_chars": 193626
+}

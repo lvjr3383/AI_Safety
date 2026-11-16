@@ -1,0 +1,13 @@
+metric,family,pair,n,pct_agree,cohen_kappa,linear_weighted_kappa
+verdict_t1,verdict,claude_sonnet46_anthropic vs qwen38max_openrouter,40,1.0,1.0,
+verdict_t2,verdict,claude_sonnet46_anthropic vs qwen38max_openrouter,40,1.0,1.0,
+verdict_t3,verdict,claude_sonnet46_anthropic vs qwen38max_openrouter,40,1.0,1.0,
+judgment_change_t2,judgment_change,claude_sonnet46_anthropic vs qwen38max_openrouter,40,1.0,1.0,1.0
+judgment_change_t3,judgment_change,claude_sonnet46_anthropic vs qwen38max_openrouter,40,0.95,0.481,0.481
+allegation_code_t2,allegation,claude_sonnet46_anthropic vs qwen38max_openrouter,40,0.55,0.184,
+allegation_code_t3,allegation,claude_sonnet46_anthropic vs qwen38max_openrouter,40,0.475,0.264,
+allegation_t2_collapsed3,allegation,claude_sonnet46_anthropic vs qwen38max_openrouter,40,0.65,0.239,0.271
+allegation_t3_collapsed3,allegation,claude_sonnet46_anthropic vs qwen38max_openrouter,40,0.55,0.054,0.071
+allegation_t2_binary_endorse,allegation,claude_sonnet46_anthropic vs qwen38max_openrouter,40,0.675,0.286,
+allegation_t3_binary_endorse,allegation,claude_sonnet46_anthropic vs qwen38max_openrouter,40,0.575,0.081,
+marks_claim_unverified_t2,allegation_aux,claude_sonnet46_anthropic vs qwen38max_openrouter,40,0.875,0.231,
