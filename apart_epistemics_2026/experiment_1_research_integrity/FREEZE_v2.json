@@ -1,0 +1,27 @@
+{
+ "files_sha256": {
+  "FIXTURE_CHECKSUMS_v2.sha256": "30efc0a4be4d73b48f04a47a285911326f87c7e231704053ad13bd3ccc6462fe",
+  "configs/experiment.json": "5ea0b0deb38465b2f140dfca4fccdcd9b06fcff35bac54db5283bb3121593ccb",
+  "configs/experiment_v2.json": "5ace8b5e96a443e385aa7ac031e23d0eb076f3915d5068d2c3fa4f52ea7df42a",
+  "configs/prompts.json": "ca6f73ed928ecc6667595d0a428c7bed30bda341cba961382fc6b0b36fbd0878",
+  "configs/scoring_v2.json": "ccb4d791252c3da745976c4cbf66c59bcb211b52c14039cc8069225967add9e9",
+  "protocol_v2.md": "8ddec455fb037d4030d946039e1f366396b54d9970dcc7f6a5c26aa5b40616e8",
+  "src/analyze_v2.py": "6ad070c5ca27f84275d1df56c66c20af6851c1ab19d68ed1a8b2ca9695693646",
+  "src/common.py": "397edc2a6cbfd673ce876ae2a97f21568dd2b16c8ac6f451c47601a1f5b4cdc7",
+  "src/generate_fixtures_v2.py": "584e86818747f65091681809b6c01773c521e71c94d176a98bb8bcd3b98c08cb",
+  "src/harness.py": "b4c7cd68f6983fa3a3413c18c8e379e229c0b216c4eb1e71911fee8140cdeb95",
+  "src/run_v2.py": "5a830a9878c9b75b2c71115decee9a9ce4c51d079060ea0806b18c2755793449",
+  "src/runtime_api.py": "a5b9795711af08b973bca39e02f418a840072db2a1b97aa0b14477957ae62eb4",
+  "src/sandbox.py": "ba484e277b5edfb267eb52e011e9c82c012656aadb21e718df9f2ab8ae4400f5",
+  "src/score.py": "9f3e49d8e0abc0d13443ed60b50d4da1c9930d905908a9b46ad1802d237ace69",
+  "src/score_v2.py": "91ec927a434b1e233be7d4e5b8a55387cd927db04391cd896317b61297c86aa1"
+ },
+ "frozen_at": "2026-11-15T13:05:00.968292+00:00",
+ "history": [
+  {
+   "frozen_at": "2026-11-15T13:05:00.968292+00:00",
+   "note": "initial v2 freeze, before any v2 agent session"
+  }
+ ],
+ "note": "initial v2 freeze, before any v2 agent session"
+}

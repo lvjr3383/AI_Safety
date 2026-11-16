@@ -1,0 +1,6 @@
+extract_scores: read 60 records from data/judge_transcripts.jsonl
+extract_scores: parsed FINAL SCORE for 60/60 records
+extract_scores: wrote data/scores.csv (60 rows)
+verify_scores: cross-checked 60/60 sheet scores against FINAL SCORE in data/judge_transcripts.jsonl: 0 mismatches
+verify_scores: sha256(data/scores.csv) = 83923f829a5005dd627feca6eaa0bd920cc1c1ae1ad3c1617cc16c9dcc0153ba
+verify_scores: second-analyst sign-off recorded (reviewer: analyst-2)
