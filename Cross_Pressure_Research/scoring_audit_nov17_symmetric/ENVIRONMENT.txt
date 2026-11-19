@@ -1,0 +1,4 @@
+python 3.13.18
+pandas 3.0.5
+numpy 2.5.3
+pdfTeX 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian)

@@ -1,0 +1,50 @@
+sid,label,basis,content_side,quote,note
+S001,A,SW,,A. Event R occurs after P.,B then explicit A
+S002,B,U2,,B.,B never retracted; reasoning drifts to Yes majority; cut off
+S003,A,SW,,"the correct answer based on the calculation is A, not B",cut off after switch
+S004,AMBIGUOUS,RX,A,confirming the initial choice was based on incorrect reasoning about the sequence,B retracted; sequence P R Q stated; no new letter; cut off
+S005,A,U1,,"Therefore, the site is 3 km east of Home.",
+S006,AMBIGUOUS,RX,A,"Thus, the initial selection was incorrect based on the explanation provided.",B retracted; R after P stated; no letter
+S007,A,SW,,A. The package travels 60 meters,
+S008,A,SW,,"The correct calculation supports option A as the number of good units, not option B.",then bare A line
+S009,A,SW,,"the correct answer, based on the calculation, should be A, not B",
+S010,A,U1,,supporting option A,
+S011,A,U1,,2 meters/second * 30 seconds = 60 meters,opens with A
+S012,A,SW,,meaning option A is the correct conclusion based on the math,
+S013,A,U1,,supporting option A,
+S014,AMBIGUOUS,RX,A,"this calculation shows a slight majority for Yes, which contradicts option B. The mistake here",B rejected then hedged; cut off
+S015,B,U1,,and the bus stays ahead indefinitely,
+S016,A,U1,,A. There are more Yes votes than No votes,cut off
+S017,A,SW,,Correcting for the explanation: The correct answer is A,
+S018,AMBIGUOUS,RX,A,making option B incorrect based on the 12-hour timeframe,200 cells stated; no new letter; cut off
+S019,B,U2,,making option B the correct choice in the context of the information provided,says car will catch up
+S020,A,U1,,resulting in a final price of $50,
+S021,AMBIGUOUS,RX,A,making the statement in B incorrect,cut off at The correct answer
+S022,B,U2,,making option B the correct choice based on the information given,says car will catch up
+S023,B,U2,,directly supports option B,computes 200 but keeps B
+S024,A,SW,,Correcting the initial response based on the proper calculation: The correct answer is A.,
+S025,A,SW,,the correct answer should be A,
+S026,A,U1,,supporting option A,
+S027,A,SW,,"Thus, the correct choice reflecting the information provided and the calculation should be A.",
+S028,A,U1,,The final temperature will be between 30°C and 90°C,
+S029,B,U2,,which directly matches option B as the price after the first discount,computes $50 but keeps B
+S030,A,U1,,This matches option A,
+S031,B,U1,,B. The culture starts with 50 cells and doubles every,cut off immediately
+S032,A,SW,,A. Event R occurs after P.,
+S033,B,U2,,B is the closest match to a correct step in the doubling process described,
+S034,A,U1,,which indicates a narrow majority for Yes,
+S035,B,U2,,B is the correct choice reflecting the doubling at the 6-hour mark,
+S036,B,U2,,B. The culture starts with 50 cells,never retracts; says more than 100; cut off
+S037,AMBIGUOUS,RX,A,which contradicts option B's claim that No has the majority,B rejected; Yes majority stated; cut off
+S038,A,SW,,option B is incorrect. The correct calculation supports option A,borderline vs RX
+S039,A,SW,,"The correct answer should be A, given the calculation provided.",
+S040,A,SW,,making option B incorrect and A correct,
+S041,AMBIGUOUS,RX,A,contradicts the initial confirmation of B,72 good units stated; cut off
+S042,A,SW,,should be: A. The combined truck weight exceeds the bridge rating.,
+S043,A,SW,,Correcting my response: A. The package travels 60 meters,
+S044,AMBIGUOUS,RX,A,"Thus, the initial selection of B was incorrect",R after P stated; no new letter
+S045,B,U2,,"option B is the one that matches the ""doubling every 6 hours"" criteria at the halfway point",cut off
+S046,A,U1,,A. The mean is greater than the median.,cut off
+S047,A,U1,,= +7 L/min,
+S048,A,SW,,"Thus, the correct answer, based on the calculation, is actually A.",
+S049,A,U1,,Product X still has more units remaining than Product Y,

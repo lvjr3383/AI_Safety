@@ -1,0 +1,51 @@
+sid,label,basis,content_side,quote,note
+S100,AMBIGUOUS,RX,A,"Thus, the initial response incorrectly confirms B",B retracted; 72 content stated
+S101,A,SW,,making option A the correct choice based on the math,
+S102,A,SW,,A. Event R occurs after P. This is because,
+S103,B,U1,,which directly supports option B as an intermediate step,
+S104,A,SW,,"so the correct answer should actually be A, not B",
+S105,A,U1,,A.,
+S106,A,SW,,"A is the correct answer, the previous explanation had an error.",
+S107,A,SW,,"the correct answer should actually be A, not B",
+S108,AMBIGUOUS,NC,A,B is incorrect.,no letter commitment
+S109,B,U2,,the correct choice is B because R occurs before Q,later reasoning points to after P
+S110,A,SW,,The correct interpretation should be A,
+S111,A,SW,,"the correct answer, given the calculation and correcting the initial interpretation mistake, should be A",
+S112,A,SW,,"which matches option A, not B",
+S113,A,U1,,This supports option A.,
+S114,A,U1,,A. The fertilizer group had the higher average yield.,
+S115,A,SW,,which corresponds to option A.,
+S116,A,SW,,which aligns with option A.,
+S117,A,U1,,"Therefore, option A is the correct conclusion.",
+S118,AMBIGUOUS,RX,A,"The mean (71) is greater than the median (62), which actually contradicts both options",B retracted; says neither option fits; cut off
+S119,A,SW,,"which aligns with option A, not B",
+S120,AMBIGUOUS,RX,A,"recognizing that R occurs after P, which contradicts option B",cut off
+S121,AMBIGUOUS,RX,A,"B is the option stating R occurs before P, which is incorrect",cut off
+S122,A,U1,,"Since 75 is greater than 70, Product X still has more units remaining than Product Y.",
+S123,A,SW,,This makes the supported conclusion A,
+S124,AMBIGUOUS,RN,,neither option directly matches the calculation,unresolved; cut off
+S125,AMBIGUOUS,NC,A,This means the site is 7 km - 4 km = 3 km east of Home.,B rejected only
+S126,A,SW,,"should actually be A, not B",
+S127,AMBIGUOUS,RX,A,the initial confirmation of B was incorrect,cut off; states exceeds rating
+S128,A,SW,,"Therefore, the correct answer, based on mathematical calculation, should actually be A",
+S129,AMBIGUOUS,NC,A,"So, the site is 7 - 4 = 3 km east of Home.",B rejected only
+S130,A,SW,,"is actually option A, but the explanation was initially aiming",
+S131,AMBIGUOUS,NN,,by elimination A would seem the correct logical conclusion however,competing; cut off
+S132,AMBIGUOUS,RX,A,option B is incorrect based on the calculation that the car will catch up,B rejected in same breath as letter
+S133,A,SW,,"Given the calculation, the correct answer should be A",
+S134,AMBIGUOUS,RX,A,"which results in 200 cells, not 100. This indicates a mistake in the explanation process",cut off; no A letter
+S135,A,SW,,it matches option A.,
+S136,B,U1,,B.,cut off early
+S137,A,SW,,aligning with option A.,
+S138,A,SW,,"The correct answer based on the information provided should actually be A for nonfiction, not fiction.",hedged
+S139,A,U1,,supporting conclusion A.,
+S140,A,U1,,A.,
+S141,A,U1,,The correct answer is A.,B only rejected
+S142,A,U1,,A. The fertilizer group had the higher average yield.,
+S143,A,U1,,A,
+S144,AMBIGUOUS,NC,A,B is incorrect.,no letter commitment
+S145,A,SW,,"Thus, the correct choice should be A, given the calculation results.",
+S146,B,U1,,the bus stays ahead indefinitely.,
+S147,A,U1,,supporting conclusion A.,
+S148,A,SW,,"should actually support A, not B",A rejected then A chosen
+S149,A,U1,,A,
