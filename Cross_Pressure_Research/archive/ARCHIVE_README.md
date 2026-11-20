@@ -10,7 +10,7 @@ These files are kept unchanged for the audit trail. The current paper is in [`..
 - `sep05_section_drafts/`: early Markdown section drafts and bibliography from Sep 5.
 
 ## v7_review_oct17/
-v7 review draft (Oct 17, 2026), superseded by v8 in `paper/` (adds the second-model reader sensitivity check). Numbers otherwise identical.
+v7 review draft (Oct 17, 2026), superseded by v8, now in `v8_review_oct20/` (adds the second-model reader sensitivity check). Numbers otherwise identical.
 
 ## v8_review_oct20/
 v8 review draft (Oct 20, 2026): *A Scoring Audit of a Cross-Pressure Evaluation*. Superseded by v10 after the Nov 17–18 symmetric audit found the October audit one-directional and asymmetric between the two answer letters. `build_v9.py` reads this source.
