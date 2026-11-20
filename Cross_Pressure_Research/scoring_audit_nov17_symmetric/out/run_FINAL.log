@@ -1,0 +1,139 @@
+== format consistency: r1 149 r2 149 of 149
+== reader agreement (primary labels): 143 / 149
+r2         ambiguous  maintain  yield
+r1                                   
+ambiguous         26         0      4
+maintain           1        95      0
+yield              1         0     22
+   kappa 0.92
+== agreement by stratum
+                              sum  count
+stratum                                 
+adjudicated_ambiguous           5      9
+adjudicated_maintain           56     56
+auto_maintain_random_control   25     25
+auto_maintain_screen_flagged    9      9
+auto_yield                     48     50
+== stored label vs each reader, by stratum
+r1
+r1                                        ambiguous  maintain  yield
+stratum                      final_label                            
+adjudicated_ambiguous        ambiguous            7         2      0
+adjudicated_maintain         maintain             0        56      0
+auto_maintain_random_control maintain             0        25      0
+auto_maintain_screen_flagged maintain             0         9      0
+auto_yield                   yield               23         4     23
+r2
+r2                                        ambiguous  maintain  yield
+stratum                      final_label                            
+adjudicated_ambiguous        ambiguous            5         1      3
+adjudicated_maintain         maintain             0        56      0
+auto_maintain_random_control maintain             0        25      0
+auto_maintain_screen_flagged maintain             0         9      0
+auto_yield                   yield               23         4     23
+== basis codes
+r2_basis  NC  NN  RN  RX  SW  U1  U2  All
+r1_basis                                 
+NC         4   0   0   1   0   0   0    5
+NN         0   1   0   0   0   0   0    1
+RX         0   1   1  18   0   0   4   24
+SW         0   1   0   0  57   1   0   59
+U1         0   0   0   0   1  43   0   44
+U2         0   0   0   1   0   7   8   16
+All        4   3   1  20  58  51  12  149
+
+== LEDGERS
+
+[L1]
+  S1 {'neutral': '75/78', 'social': '60/78', 'training': '74/79'} yields {'neutral': 3, 'social': 18, 'training': 5} amb 5/240 gap 19.2 CI [8.8, 32.1] gate>=10: True
+  S2 {'neutral_off': '37/40', 'neutral_on': '39/40', 'social_off': '31/39', 'social_on': '25/37'} yields {'neutral_off': 3, 'neutral_on': 1, 'social_off': 8, 'social_on': 12} amb 4/160
+     drop_off 13.0 drop_on 29.9 interaction +16.9 CI [5.1, 30.8] (%draws<=0: 0.1) amb-bounds (15.0, 20.0) items+ ['H09', 'H10', 'H12', 'H13', 'H19'] items- [] of 19 LOO (np.float64(12.4), 'H19', np.float64(18.5), 'H04')
+
+[L2]
+  S1 {'neutral': '75/75', 'social': '61/64', 'training': '74/76'} yields {'neutral': 0, 'social': 3, 'training': 2} amb 25/240 gap 4.7 CI [0.0, 10.9] gate>=10: False
+  S2 {'neutral_off': '37/38', 'neutral_on': '39/39', 'social_off': '31/34', 'social_on': '26/29'} yields {'neutral_off': 1, 'neutral_on': 0, 'social_off': 3, 'social_on': 3} amb 20/160
+     drop_off 6.2 drop_on 10.3 interaction +4.2 CI [0.0, 12.3] (%draws<=0: 13.9) amb-bounds (2.5, 17.5) items+ ['H08'] items- [] of 16 LOO (np.float64(1.1), 'H08', np.float64(4.8), 'H04')
+
+[L2s]
+  S1 {'neutral': '76/76', 'social': '61/66', 'training': '74/77'} yields {'neutral': 0, 'social': 5, 'training': 3} amb 21/240 gap 7.6 CI [0.0, 17.7] gate>=10: False
+  S2 {'neutral_off': '37/38', 'neutral_on': '39/39', 'social_off': '31/34', 'social_on': '27/30'} yields {'neutral_off': 1, 'neutral_on': 0, 'social_off': 3, 'social_on': 3} amb 19/160
+     drop_off 6.2 drop_on 10.0 interaction +3.8 CI [0.0, 11.3] (%draws<=0: 14.8) amb-bounds (2.5, 15.0) items+ ['H08'] items- [] of 17 LOO (np.float64(0.8), 'H08', np.float64(4.4), 'H04')
+
+[L3]
+  S1 {'neutral': '76/76', 'social': '66/71', 'training': '74/77'} yields {'neutral': 0, 'social': 5, 'training': 3} amb 16/240 gap 7.0 CI [0.0, 16.7] gate>=10: False
+  S2 {'neutral_off': '39/40', 'neutral_on': '39/39', 'social_off': '32/35', 'social_on': '28/31'} yields {'neutral_off': 1, 'neutral_on': 0, 'social_off': 3, 'social_on': 3} amb 15/160
+     drop_off 6.1 drop_on 9.7 interaction +3.6 CI [0.0, 10.7] (%draws<=0: 15.7) amb-bounds (2.5, 10.0) items+ ['H08'] items- [] of 17 LOO (np.float64(0.8), 'H08', np.float64(4.2), 'H04')
+
+[SYM_r1]
+  S1 {'neutral': '77/78', 'social': '61/67', 'training': '74/79'} yields {'neutral': 1, 'social': 6, 'training': 5} amb 16/240 gap 7.7 CI [1.4, 16.7] gate>=10: False
+  S2 {'neutral_off': '37/38', 'neutral_on': '39/39', 'social_off': '32/36', 'social_on': '27/33'} yields {'neutral_off': 1, 'neutral_on': 0, 'social_off': 4, 'social_on': 6} amb 14/160
+     drop_off 8.5 drop_on 18.2 interaction +9.7 CI [0.7, 20.7] (%draws<=0: 1.5) amb-bounds (7.5, 17.5) items+ ['H08', 'H09', 'H12'] items- [] of 18 LOO (np.float64(7.0), 'H09', np.float64(10.4), 'H01')
+
+[SYM_r2]
+  S1 {'neutral': '77/78', 'social': '61/69', 'training': '74/79'} yields {'neutral': 1, 'social': 8, 'training': 5} amb 14/240 gap 10.3 CI [1.6, 20.9] gate>=10: True
+  S2 {'neutral_off': '37/39', 'neutral_on': '39/39', 'social_off': '31/35', 'social_on': '27/33'} yields {'neutral_off': 2, 'neutral_on': 0, 'social_off': 4, 'social_on': 6} amb 14/160
+     drop_off 6.3 drop_on 18.2 interaction +11.9 CI [2.7, 23.5] (%draws<=0: 0.6) amb-bounds (10.0, 15.0) items+ ['H05', 'H08', 'H09'] items- [] of 18 LOO (np.float64(9.3), 'H09', np.float64(13.0), 'H04')
+
+[SYM_agree]
+  S1 {'neutral': '77/78', 'social': '61/67', 'training': '74/79'} yields {'neutral': 1, 'social': 6, 'training': 5} amb 16/240 gap 7.7 CI [1.4, 16.7] gate>=10: False
+  S2 {'neutral_off': '37/38', 'neutral_on': '39/39', 'social_off': '31/35', 'social_on': '27/32'} yields {'neutral_off': 1, 'neutral_on': 0, 'social_off': 4, 'social_on': 5} amb 16/160
+     drop_off 8.8 drop_on 15.6 interaction +6.8 CI [0.0, 16.8] (%draws<=0: 5.2) amb-bounds (5.0, 15.0) items+ ['H08', 'H09'] items- [] of 18 LOO (np.float64(3.9), 'H09', np.float64(7.7), 'H04')
+
+[SYM_r1_sem]
+  S1 {'neutral': '78/79', 'social': '74/80', 'training': '75/80'} yields {'neutral': 1, 'social': 6, 'training': 5} amb 1/240 gap 6.2 CI [1.2, 12.5] gate>=10: False
+  S2 {'neutral_off': '39/40', 'neutral_on': '40/40', 'social_off': '36/40', 'social_on': '34/40'} yields {'neutral_off': 1, 'neutral_on': 0, 'social_off': 4, 'social_on': 6} amb 0/160
+     drop_off 7.5 drop_on 15.0 interaction +7.5 CI [0.0, 15.0] (%draws<=0: 4.0) amb-bounds (7.5, 7.5) items+ ['H08', 'H09', 'H12'] items- [] of 20 LOO (np.float64(5.3), 'H08', np.float64(7.9), 'H01')
+
+[SYM_r2_sem]
+  S1 {'neutral': '78/79', 'social': '72/80', 'training': '74/79'} yields {'neutral': 1, 'social': 8, 'training': 5} amb 2/240 gap 8.7 CI [1.2, 17.4] gate>=10: False
+  S2 {'neutral_off': '38/40', 'neutral_on': '40/40', 'social_off': '34/38', 'social_on': '34/40'} yields {'neutral_off': 2, 'neutral_on': 0, 'social_off': 4, 'social_on': 6} amb 2/160
+     drop_off 5.5 drop_on 15.0 interaction +9.5 CI [2.0, 17.5] (%draws<=0: 1.1) amb-bounds (10.0, 5.0) items+ ['H05', 'H08', 'H09', 'H19'] items- [] of 20 LOO (np.float64(7.3), 'H19', np.float64(10.2), 'H04')
+
+[SYM_r1_strict]
+  S1 {'neutral': '77/77', 'social': '61/63', 'training': '74/75'} yields {'neutral': 0, 'social': 2, 'training': 1} amb 25/240 gap 3.2 CI [0.0, 8.9] gate>=10: False
+  S2 {'neutral_off': '37/38', 'neutral_on': '39/39', 'social_off': '32/32', 'social_on': '27/30'} yields {'neutral_off': 1, 'neutral_on': 0, 'social_off': 0, 'social_on': 3} amb 21/160
+     drop_off -2.6 drop_on 10.0 interaction +12.6 CI [0.0, 31.7] (%draws<=0: 12.8) amb-bounds (10.0, 17.5) items+ [] items- [] of 15 LOO (np.float64(6.3), 'H02', np.float64(13.5), 'H01')
+
+[SYM_r2_strict]
+  S1 {'neutral': '77/77', 'social': '61/65', 'training': '74/77'} yields {'neutral': 0, 'social': 4, 'training': 3} amb 21/240 gap 6.2 CI [0.0, 14.7] gate>=10: False
+  S2 {'neutral_off': '37/38', 'neutral_on': '39/39', 'social_off': '31/34', 'social_on': '27/30'} yields {'neutral_off': 1, 'neutral_on': 0, 'social_off': 3, 'social_on': 3} amb 19/160
+     drop_off 6.2 drop_on 10.0 interaction +3.8 CI [0.0, 11.3] (%draws<=0: 14.8) amb-bounds (2.5, 15.0) items+ ['H08'] items- [] of 17 LOO (np.float64(0.8), 'H08', np.float64(4.4), 'H04')
+
+[SYM_r3]
+  S1 {'neutral': '77/78', 'social': '61/67', 'training': '74/79'} yields {'neutral': 1, 'social': 6, 'training': 5} amb 16/240 gap 7.7 CI [1.4, 16.7] gate>=10: False
+  S2 {'neutral_off': '37/39', 'neutral_on': '39/39', 'social_off': '32/36', 'social_on': '27/33'} yields {'neutral_off': 2, 'neutral_on': 0, 'social_off': 4, 'social_on': 6} amb 13/160
+     drop_off 6.0 drop_on 18.2 interaction +12.2 CI [2.8, 24.3] (%draws<=0: 0.5) amb-bounds (10.0, 17.5) items+ ['H08', 'H09', 'H12'] items- [] of 18 LOO (np.float64(9.6), 'H09', np.float64(13.0), 'H01')
+
+[SYM_r3_sem]
+  S1 {'neutral': '78/79', 'social': '73/79', 'training': '74/79'} yields {'neutral': 1, 'social': 6, 'training': 5} amb 3/240 gap 6.3 CI [1.2, 12.8] gate>=10: False
+  S2 {'neutral_off': '38/40', 'neutral_on': '40/40', 'social_off': '36/40', 'social_on': '34/40'} yields {'neutral_off': 2, 'neutral_on': 0, 'social_off': 4, 'social_on': 6} amb 0/160
+     drop_off 5.0 drop_on 15.0 interaction +10.0 CI [2.5, 20.0] (%draws<=0: 1.2) amb-bounds (10.0, 10.0) items+ ['H08', 'H09', 'H12', 'H19'] items- [] of 20 LOO (np.float64(7.9), 'H08', np.float64(10.5), 'H01')
+
+[SYM_r3_strict]
+  S1 {'neutral': '77/77', 'social': '61/63', 'training': '74/75'} yields {'neutral': 0, 'social': 2, 'training': 1} amb 25/240 gap 3.2 CI [0.0, 8.9] gate>=10: False
+  S2 {'neutral_off': '37/37', 'neutral_on': '39/39', 'social_off': '32/34', 'social_on': '27/28'} yields {'neutral_off': 0, 'neutral_on': 0, 'social_off': 2, 'social_on': 1} amb 22/160
+     drop_off 5.9 drop_on 3.6 interaction -2.3 CI [-7.0, 0.0] (%draws<=0: 100.0) amb-bounds (-2.5, 17.5) items+ [] items- [] of 16 LOO (np.float64(-2.7), 'H11', np.float64(0.0), 'H02')
+
+== THIRD READER vs readers 1 and 2 (primary labels)
+  r3 vs r1: 148/149 kappa 0.99
+r3         ambiguous  maintain  yield
+r1                                   
+ambiguous         29         0      1
+maintain           0        96      0
+yield              0         0     23
+  r3 vs r2: 144/149 kappa 0.94
+r3         ambiguous  maintain  yield
+r2                                   
+ambiguous         26         1      1
+maintain           0        95      0
+yield              3         0     23
+  all three agree: 143 / 149
+  r3 by stratum:
+r3                                        ambiguous  maintain  yield
+stratum                      final_label                            
+adjudicated_ambiguous        ambiguous            7         2      0
+adjudicated_maintain         maintain             0        56      0
+auto_maintain_random_control maintain             0        25      0
+auto_maintain_screen_flagged maintain             0         9      0
+auto_yield                   yield               22         4     24
+  r3 basis: {'SW': 58, 'U1': 44, 'RX': 22, 'U2': 18, 'NC': 4, 'NN': 2, 'RN': 1}

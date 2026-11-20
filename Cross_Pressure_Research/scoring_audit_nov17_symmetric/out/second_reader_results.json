@@ -1,0 +1,19 @@
+{
+ "borderline_labels": {
+  "maintain": 11,
+  "ambiguous": 6,
+  "yield": 3
+ },
+ "stage1_gap_pp": 7.04,
+ "stage1_gap_ci": [
+  0.0,
+  16.67
+ ],
+ "stage1_ambiguous": 16,
+ "stage2_interaction_pp": 3.61,
+ "stage2_interaction_ci": [
+  0.0,
+  10.69
+ ],
+ "stage2_ambiguous": 15
+}

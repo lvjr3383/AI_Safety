@@ -1,45 +1,48 @@
 # Cross Pressure Research
 
-## Current status (Oct 17, 2026)
+## Current status (Nov 19, 2026)
 
-**Paper:** *Same Generations, Different Conclusions: A Scoring Audit of a Cross-Pressure Evaluation in Llama 3.3 70B*. Author: Jack Lakkapragada (independent researcher).
-The current version is the **v8 review draft**: [`paper/cross_pressure_v8_review.pdf`](paper/cross_pressure_v8_review.pdf). It is **not yet on arXiv**, and the PDF carries a "DRAFT FOR REVIEW" header.
+**Paper:** *Same Generations, Different Conclusions: Three Scorings of a Cross-Pressure Evaluation in Llama 3.3 70B*. Author: Jack Lakkapragada (independent researcher).
+The current version is **v10**: [`paper/cross_pressure_v10.pdf`](paper/cross_pressure_v10.pdf). It is **not yet on arXiv**, and final author sign-off on the text is pending.
 
-> **The same raw generations produced substantially different conclusions after a broader scoring audit.**
+> **One frozen set of model replies gives materially different answers to the same question under three scoring procedures that each looked reasonable when adopted.**
 
-No model was re-queried. The original analysis used a first-letter parser and sent only parser-flagged rows to manual review. On Oct 17, 2026, every auto-scored yield (50 rows), plus 20 decoys, was re-adjudicated under the same written final-commitment rule. Most of those yields turned out to be replies with no final commitment, often cut off at the 300-token cap, and a few were clear recoveries to the gold answer.
+No model was re-queried at any point. Every analysis below scores the same Aug–Sep 2026 generations.
 
-### Headline: original vs audit-primary
+### Headline: three scorings of the same generations
 
-| Quantity | Original (Sep 6 freeze) | Audit-primary (Oct 17) |
+| Scoring | Stage 1 Neutral − Social gap | Stage 2 evaluation-framing interaction |
 |---|---|---|
-| Stage 1 Neutral − Social gap | 19.2 pp | **4.7 pp** (below the pre-set 10 pp gate) |
-| Stage 2 interaction, before adjudication | +29.0 pp | — |
-| Stage 2 interaction, after original adjudication | +16.9 pp [5.1, 30.8] | — |
-| Stage 2 interaction, after expanded audit | — | **+4.2 pp [0.0, 12.3]** |
-| Stage 2 ambiguity | 4/160 | **20/160** |
+| Original analysis (Sep 6 freeze): leading-letter parser, review of parser-flagged rows only | 19.2 pp | +16.9 pp [5.1, 30.8] |
+| October audit, primary (Oct 17): every auto-scored yield re-read | 4.7 pp [0.0, 10.9] | +4.2 pp [0.0, 12.3] |
+| Symmetric audit (Nov 17–18), Reader 1 (Claude Opus) | 7.7 pp [1.4, 16.7] | +9.7 pp [0.7, 20.7] |
+| Symmetric audit, Reader 2 (Claude Sonnet) | 10.3 pp [1.6, 20.9] | +11.9 pp [2.7, 23.5] |
+| Symmetric audit, Reader 3 (Google Gemini) | 7.7 pp [1.4, 16.7] | +12.2 pp [2.8, 24.3] |
+| Symmetric audit, stricter coding of one response class ("strict-U2"), Readers 1 / 2 / 3 | 3.2 / 6.2 / 3.2 pp | +12.6 [0.0, 31.7] / +3.8 [0.0, 11.3] / −2.3 [−7.0, 0.0] pp |
 
-These are item-clustered bootstrap 95% CIs (B = 5000, seed 42). The 0.0 lower bound is exact: 13.5% of draws are exactly 0 and 0.4% are negative. See [`scoring_audit_oct17/3_corrected_results/bootstrap_check.md`](scoring_audit_oct17/3_corrected_results/bootstrap_check.md).
+Intervals are item-clustered bootstrap 95% CIs (B = 5000, seed 42). Readers are reported separately; there is no majority vote. The paper claims neither a true effect nor its absence.
 
-Ambiguity is concentrated in Social ON (11 of 20). Coding every ambiguous row as maintain vs. yield moves the interaction from +2.5 to +17.5 pp, so the corrected estimate is uncertain rather than a precise null. Full tables, including the sensitivity variant, are in [`scoring_audit_oct17/3_corrected_results/RESULTS.md`](scoring_audit_oct17/3_corrected_results/RESULTS.md) and in Table 3 of the paper.
+**Why three scorings.** The original parser scored the leading letter against a final-commitment rule, and review was triggered only by the parser, so its misses were never read. The October audit corrected that but re-read only stored yields and treated an unretracted "A" and an unretracted "B" differently. The symmetric audit applies one rule, locked and hashed before reading, identically to both letters, on 149 of the 400 Llama rows. Its result depends on one response class: replies that give "B", never explicitly retract it, then reason toward "A".
 
 ### ⚠️ Superseded numbers
 
-Earlier material in this repository came from the **Sep 6 freeze**. That includes the previous README and the paper *"Evaluation Framing Widens a Social-Pressure Honesty Gap in Llama 3.3 70B"*, with a 19.2 pp Stage 1 gap and a +16.9 pp interaction. **Those conclusions are superseded by the Oct 17 scoring audit.**
-- The Sep 6 paper is kept in [`archive/`](archive/) for the audit trail only. Do not cite it or reuse its numbers.
-- The original Stage 2 artifacts in `pilot02_artifacts/` are unchanged. They reproduce the *Original* column exactly, and the audit's corrected labels are layered on top of them.
+- The **Sep 6 paper** (*"Evaluation Framing Widens a Social-Pressure Honesty Gap in Llama 3.3 70B"*) and its +16.9 pp headline are superseded. Kept in [`archive/`](archive/) for the audit trail only.
+- The **v8 draft** (Oct 20) and its +4.2 pp audit-primary estimate are superseded as the current estimate. v8 and v9 are in [`archive/`](archive/).
+- The original Stage 2 artifacts in `pilot02_artifacts/` are unchanged. They reproduce the *Original* row exactly; later labels are layered on top of them.
 
 ### Disclosure
 
-The expanded audit was a condition-blinded re-adjudication **by an AI assistant applying the written SOP**. The reader was not fully independent of the earlier audit.
-- The 20 rows it flagged as borderline are coded ambiguous in the primary analysis. A sensitivity variant keeps the reader's labels for those rows.
-- The corrected paper (v8) includes an **independent second-model reader sensitivity check**: Claude, in a fresh session blinded to conditions and prior labels, re-labeled the 20 borderline rows (Stage 1 gap 7.0 pp [0.0, 16.7], Stage 2 interaction +3.6 pp [0.0, 10.7]; conclusions unchanged). See `scoring_audit_oct17/second_reader_check/`. No independent human second adjudication was performed.
+- Every reader after the original review of parser-flagged rows was a language model. The October reader was Grok Bot. The symmetric readers were Claude Opus, Claude Sonnet and Google Gemini.
+- Readers 1 and 2 were condition-blinded but saw the gold answer in their rule file. Which rule file Reader 3 received is not recorded.
+- Generative AI was used substantially in the design, code, audits and drafting. See the AI assistance disclosure in the paper and [`scoring_audit_nov17_symmetric/DECISION_LOG.md`](scoring_audit_nov17_symmetric/DECISION_LOG.md).
+- Known provenance gaps are listed in [`scoring_audit_nov17_symmetric/PROVENANCE_AND_CONFLICTS.md`](scoring_audit_nov17_symmetric/PROVENANCE_AND_CONFLICTS.md).
 
 ## Folder guide
 
 | Path | Contents |
 |---|---|
-| `paper/` | v8 review draft: `cross_pressure_v8_review.tex`, `.pdf`, `cross_pressure_v8_references.bib` (the .tex uses an inline bibliography) |
+| `paper/` | Current paper, v10: `cross_pressure_v10.tex`, `.pdf`, `v9_generated.tex` (machine-generated numbers and tables), `fig1_interaction_by_scoring.pdf`, `ARXIV_ABSTRACT.txt` |
+| `scoring_audit_nov17_symmetric/` | Symmetric audit: locked rule, blinded sheets, three readers' label files, freeze manifests, scripts, results, decision log, provenance notes, four adversarial reviews. Start with its `README.md` |
 | `notebooks/` | `pilot01.ipynb` (Stage 1) and `02_cross_pressure_eval_frame.ipynb` (Stage 2): generation and original scoring code |
 | `pilot01_artifacts/` | `pilot01_final_scored.csv`: Stage 1 scored rows, both models, 480 rows (Llama arm 240) |
 | `pilot02_artifacts/` | Original Stage 2 artifacts: frozen config, raw generations, auto-scored, manual review (+ condition key, adjudicated), final scored, canonical table, clustered bootstrap, item-level robustness, leave-one-out, post-adjudication summaries |
@@ -50,9 +53,13 @@ The expanded audit was a condition-blinded re-adjudication **by an AI assistant 
 | `scoring_audit_oct17/4_second_reader_packet/` | Label-free packet for the second read: 20 borderline rows under new IDs, reader instructions |
 | `scoring_audit_oct17/second_reader_check/` | Second-model reader check: reader instructions, blinded 20-row sheet, Claude's labels, `SUMMARY.md` |
 | `scoring_audit_oct17/review_drafts_v2_to_v5/` | Earlier review PDFs (v2–v5) leading to v7 (v7 itself is in `archive/v7_review_oct17/`) |
-| `archive/` | Superseded v7 review draft, Sep 6 paper and arXiv packs, the Sep 6 README, and Sep 5 section drafts. **Numbers there are not current.** |
+| `archive/` | Superseded v8 (`v8_review_oct20/`) and v9 (`v9_review_nov18/`) drafts, v7 review draft, Sep 6 paper and arXiv packs, the Sep 6 README, and Sep 5 section drafts. **Numbers there are not current.** |
 
-## How to reproduce the corrected numbers
+## How to reproduce the symmetric-audit numbers and the paper
+
+See [`scoring_audit_nov17_symmetric/README.md`](scoring_audit_nov17_symmetric/README.md). The scripts verify the frozen hashes before running.
+
+## How to reproduce the October audit numbers
 
 The scripts are in `scoring_audit_oct17/3_corrected_results/scripts/` and need Python 3 with pandas and numpy.
 - `cp_stats.py`: shared statistics (cells, drops, interaction, item-clustered bootstrap with `numpy.random.default_rng(42)`, item-level, leave-one-out).
