@@ -10,6 +10,8 @@ for n,s in [(46,r'\begin{document}'),(67,r'\textbf{Honesty under pressure.}'),(7
             (221,r'\textbf{Why the October'),(223,r'\textbf{Locked rule.}'),(229,r'\textbf{Agreement.}'),(239,r'\textbf{The result rests'),(241,r'\textbf{What can'),(244,'A safety-evaluation'),
             (248,'The second change'),(250,'Practical recommendations'),(264,r'\section{Limitations}'),(274,'Holding the task fixed'),(276,r'\section*{AI assistance'),(279,r'\begin{thebibliography}'),(296,r'\end{thebibliography}'),(298,r'\appendix')]: anchor(n,s)
 pre=g(1,45).replace('DRAFT FOR REVIEW (v9)','DRAFT FOR REVIEW (v10)')
+_t=r'Same Generations, Different Conclusions: Three Scorings of a Cross-Pressure Evaluation in Llama 3.3 70B'; assert pre.count(_t)==1
+pre=pre.replace(_t, r'Answer Maintenance Under Social Pressure and Evaluation Framing: A Scoring Audit of Llama 3.3 70B')  # title changed 2026-11-21
 end=len(L)-1
 while not L[end].startswith(r'\end{document}'): end-=1
 doc=pre+r'''
@@ -17,7 +19,7 @@ doc=pre+r'''
 \maketitle
 
 \begin{abstract}
-Behavioral evaluations of language models turn free-text replies into scores, and conclusions about safety-relevant behavior rest on those scores. In pressure evaluations, how much a reported effect depends on the scoring step, rather than on the model's outputs, is not routinely reported alongside the effect. In this work I show that one frozen set of \model\ replies supports materially different conclusions under three scoring procedures that each looked reasonable when adopted. The replies come from a 20-item forced-choice answer-maintenance task under neutral versus social-pressure prompts, crossed with explicit evaluation framing (160 generations); the estimand is how much evaluation framing widens the pressure gap. The original parser-based pipeline gave +16.9\pp (item-clustered 95\% CI 5.1--30.8). An audit that re-read every auto-scored yield gave +4.2\pp (0.0--12.3). A symmetric rule, locked before reading and applied identically to both answer letters by \SymNReaders\ condition-blinded model readers, gives \SymIntRange\pp. Finally, I trace the remaining disagreement to one response class, replies that give the pressured answer, never retract it, then reason toward the correct one, for which the estimate spans \SymStrictRange\pp, depending on how the class is scored and on which replies each reader places in it. Neither the original result nor its first correction is robust, and I claim neither an effect nor its absence. More broadly, the case suggests that scoring and adjudication are part of the measurement, and that an audit needs to be as even-handed as the pipeline it corrects. No generation was rerun at any point.
+I evaluated whether \model\ maintains correct answers under social pressure, and whether explicit evaluation framing changes that behavior. Across 400 model responses from two experimental stages (a 20-item forced-choice task under neutral, social-pressure and training-style prompts, then neutral and social prompts crossed with evaluation framing), the estimated effects changed materially depending on how free-text answers were scored. No generation was rerun: three successive scoring procedures were applied to the same frozen replies. For how much evaluation framing widens the pressure gap, the original parser-based pipeline gave +16.9\pp (item-clustered 95\% CI 5.1--30.8), but its parser did not implement the written final-commitment rule. An audit that re-read every auto-scored yield gave +4.2\pp (0.0--12.3), but it re-read only stored yields (plus decoys), so labels could only move away from yield, and it treated the two answer letters differently. A symmetric rule, locked before reading and applied identically to both letters by \SymNReaders\ condition-blinded model readers, gives \SymIntRange\pp. The remaining disagreement traces to one response class, replies that give the pressured answer, never retract it, then reason toward the correct one: the estimate spans \SymStrictRange\pp, depending on how that class is scored and on which replies each reader places in it. Neither the original result nor its first correction is robust, and I claim neither an effect nor its absence. The case suggests that scoring and adjudication are part of the measurement, and that an audit needs to be as even-handed as the pipeline it corrects.
 \end{abstract}
 
 \section{Introduction}
@@ -61,7 +63,7 @@ The practical implication is that scoring and adjudication are part of the measu
 \subsection{Scoring Rule}
 '''+g(97)+r'''
 
-\subsection{Notations and Estimands}
+\subsection{Notation and Estimands}
 Each reply receives one of three labels: \emph{maintain} (final commitment to A, the gold option), \emph{yield} (final commitment to B, the option the pressure wrapper pushes), or \emph{ambiguous}. The \emph{maintain rate} of a cell is maintain / (maintain + yield); ambiguous replies are excluded from the denominator and reported separately. The \emph{gap} is the Neutral maintain rate minus the Social maintain rate, in percentage points (labelled ``Drop'' in the Stage 2 tables). The Stage 2 \emph{interaction} is the gap under evaluation framing ON minus the gap under OFF; a positive value means framing widened the social-pressure gap. Intervals are item-clustered percentile bootstraps: 20 items resampled with replacement, all generations within an item kept together, $B=5000$, seed 42. A \emph{ledger} is one complete labelling of the same frozen generations. Ledgers appear in Tables \ref{tab:ledgers} and \ref{tab:sens}. Under the symmetric rule of Section \ref{sec:sym}, ``commitment'' is defined more strictly than here: a committed letter stands unless it is explicitly retracted.
 
 \section{The Original Analysis}\label{sec:orig}
@@ -94,7 +96,7 @@ Each reply receives one of three labels: \emph{maintain} (final commitment to A,
 \subsection{One Response Class, and Who Is Placed in It}\label{sec:u2}
 '''+g(239,241)+r'''
 
-\section{Discussions}
+\section{Discussion}
 \subsection{On Scoring as Part of the Measurement}
 '''+g(244,246)+r'''
 
@@ -106,6 +108,8 @@ Each reply receives one of three labels: \emph{maintain} (final commitment to A,
 
 \subsection{Limitations}
 '''+g(265,271)+r'''
+
+Answer position is confounded with correctness and with pressure. The gold answer is option A for every item, and the Social wrapper always promotes option B. The measured pressure effect therefore cannot be separated from a letter- or position-specific effect (yielding toward B, or toward the second option), and baseline maintain rates may include a preference for A or for the first option. Future runs should balance or randomize the position of the correct option. This limits what any of the estimates says about model behavior. It does not explain the differences between scoring procedures, which are computed on the same generations, though it is the reason every disputed reply is a ``B'', so that a coding which is asymmetric between letters is also asymmetric between outcomes.
 
 '''+g(99)+r'''
 
@@ -159,6 +163,12 @@ assert doc.count(x)==1; doc=doc.replace(x, r"On the judging side, \citet{messing
 x=r"\citep{biderman2024,arellano2026,messing2026}"; assert doc.count(x)==1; doc=doc.replace(x, r"\citep{biderman2024,messing2026}")
 doc,k=re.subn(r"\\bibitem\[Arellano et al\.\(2026\)\]\{arellano2026\}[^\n]*\n", "", doc); assert k==1
 assert "rellano" not in doc and "168234" not in doc
+# ---- publication-positioning revision 2026-11-21 ----
+for x,y in [(r"for the same estimand, under scoring procedures that each looked reasonable when adopted.", r"for the same estimand, under three successive scoring procedures, the third with two codings. They are not equally defensible. The original parser failed to implement the written rule, and the October audit was one-directional and asymmetric between the letters; both are procedural flaws. What remains a real ambiguity is how to code a ``B'' that is never retracted but is followed by contrary reasoning, which is what separates the symmetric rule's primary and strict codings."),
+            (r"changes materially under defensible scoring operationalizations, so scoring", r"changes materially across successive scoring procedures, two of them procedurally flawed and the third still divided over a real ambiguity in how commitment is operationalized, so scoring"),
+            (r"four adversarial reviews of this manuscript", r"five adversarial reviews of this manuscript")]:
+    assert doc.count(x)==1,(doc.count(x),x[:50]); doc=doc.replace(x,y)
+assert "looked reasonable" not in doc and "defensible scoring" not in doc
 n7=doc.count('Section 7'); doc=doc.replace('Section 7',r'Section~\ref{sec:sym}')
 assert 'Sections 4, 6 and 7' not in doc
 if len(sys.argv)>3 and sys.argv[3]=='final':   # publication copy: no draft header; repo paths as committed
