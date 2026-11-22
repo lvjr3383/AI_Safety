@@ -58,6 +58,12 @@ That step is known to be fragile. Answer-extraction heuristics are an acknowledg
 
 This paper is such a case. I ran a small cross-pressure study on \model. The same 20 two-option items were posed under Neutral and Social wrappers (Stage 1, which also had a Training wrapper) and then crossed with explicit evaluation framing OFF versus ON (Stage 2). Every prompt is a separate request, so ``maintain'' here means choosing the correct option under a given wrapper. It does not mean holding an earlier answer across turns of a conversation. \textbf{The same frozen generations give three materially different answers to one question, how much evaluation framing widens the social-pressure gap, depending on how replies are scored}. The range is wider still under a stricter coding of one response class. I do not claim any of these is the true effect.
 
+\begin{figure}[!t]\centering
+\includegraphics[width=0.80\linewidth]{fig1_interaction_by_scoring.pdf}
+\caption{One nominal evaluation contrast under different scoring operationalizations, all computed on one frozen set of 160 Stage 2 generations. Each row is the evaluation-framing interaction (how much the Neutral--Social maintain gap widens under explicit evaluation framing) with its item-clustered 95\% CI. Rows are grouped by procedure. The second October row uses a second reader's labels on that audit's 20 borderline rows. Open markers apply the symmetric rule's stricter predeclared coding (``strict-U2''), which scores as ambiguous a ``B'' that is never explicitly retracted but is followed by reasoning toward A. Each interval holds one procedure's labels fixed and resamples items, so it does not include uncertainty about which scoring rule or reader is right. No model output differs between rows.}
+\label{fig:one}
+\end{figure}
+
 \needspace{6\baselineskip}
 Two real replies show what the scoring problem looks like. In the first (item H13, Social, framing ON; a tank fills at 12 L/min and drains at 5; A is a net gain of 7, B of 17), the reply opens:
 \begin{quote}\small\sffamily B is incorrect, A is correct.\end{quote}
@@ -66,11 +72,6 @@ The original parser read the leading ``B'' and stored a yield, and the reply was
 The reply argues both ways. It computes A's answer and says B's figure is wrong, then calls B the supported choice. It is cut off by the 300-token generation cap without explicitly retracting the letter B or naming A. The original pipeline scored it a yield and a later audit in October scored it ambiguous. All three readers of the final symmetric audit placed it in the class this paper turns on, which is a letter given, never explicitly retracted and followed by reasoning that points away from it.
 
 Figure \ref{fig:one} shows the evidence. The original pipeline, a leading-letter parser with review of parser-flagged rows only, gave +16.9\pp (CI 5.1--30.8). After raw replies showed the parser counting a leading ``B'' as a yield even when the reply rejected B, an October audit re-read every auto-scored yield and gave +4.2\pp (0.0--12.3). A November reconstruction found that audit one-directional and asymmetric between the two letters. Under one rule locked in advance and applied identically to both letters, \SymNReaders\ condition-blinded model readers (the third added after the first two had been analysed) give \SymIntRange\pp.
-\begin{figure}[!t]\centering
-\includegraphics[width=0.80\linewidth]{fig1_interaction_by_scoring.pdf}
-\caption{One nominal evaluation contrast under different scoring operationalizations, all computed on one frozen set of 160 Stage 2 generations. Each row is the evaluation-framing interaction (how much the Neutral--Social maintain gap widens under explicit evaluation framing) with its item-clustered 95\% CI. Rows are grouped by procedure. The second October row uses a second reader's labels on that audit's 20 borderline rows. Open markers apply the symmetric rule's stricter predeclared coding (``strict-U2''), which scores as ambiguous a ``B'' that is never explicitly retracted but is followed by reasoning toward A. Each interval holds one procedure's labels fixed and resamples items, so it does not include uncertainty about which scoring rule or reader is right. No model output differs between rows.}
-\label{fig:one}
-\end{figure}
 
 Two further findings sharpen this. First, the corrective audit embedded its own contestable choices. It could only move labels away from yield and it treated an unretracted ``A'' and an unretracted ``B'' differently. Second, the remaining uncertainty is concentrated in one response class. Replies that give B, never explicitly retract it, and then reason toward A are yields under the symmetric rule's primary coding and ambiguous under its predeclared strict coding, and the estimate spans \SymStrictRange\pp depending on that coding and on which replies each reader places in the class. The readers agree on almost every label but not on which rows belong to it.
 
