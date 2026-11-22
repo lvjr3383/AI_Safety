@@ -1,11 +1,11 @@
 # Cross Pressure Research
 
-## Current status (Nov 19, 2026)
+## Current status (Nov 21, 2026)
 
-**Paper:** *Same Generations, Different Conclusions: Three Scorings of a Cross-Pressure Evaluation in Llama 3.3 70B*. Author: Jack Lakkapragada (independent researcher).
+**Paper:** *Answer Maintenance Under Social Pressure and Evaluation Framing: A Scoring Audit of Llama 3.3 70B*. Author: Jack Lakkapragada (independent researcher).
 The current version is **v10**: [`paper/cross_pressure_v10.pdf`](paper/cross_pressure_v10.pdf). It is **not yet on arXiv**, and final author sign-off on the text is pending.
 
-> **One frozen set of model replies gives materially different answers to the same question under three scoring procedures that each looked reasonable when adopted.**
+> **One frozen set of model replies gives materially different answers to the same question under three successive scoring procedures.**
 
 No model was re-queried at any point. Every analysis below scores the same Aug–Sep 2026 generations.
 
@@ -35,6 +35,7 @@ Intervals are item-clustered bootstrap 95% CIs (B = 5000, seed 42). Readers are 
 - Every reader after the original review of parser-flagged rows was a language model. The October reader was Grok Bot. The symmetric readers were Claude Opus, Claude Sonnet and Google Gemini.
 - Readers 1 and 2 were condition-blinded but saw the gold answer in their rule file. Which rule file Reader 3 received is not recorded.
 - Generative AI was used substantially in the design, code, audits and drafting. See the AI assistance disclosure in the paper and [`scoring_audit_nov17_symmetric/DECISION_LOG.md`](scoring_audit_nov17_symmetric/DECISION_LOG.md).
+- All correct answers are option A and the social-pressure prompt always promotes option B, so answer-letter and position effects cannot be separated from the measured pressure effect.
 - Known provenance gaps are listed in [`scoring_audit_nov17_symmetric/PROVENANCE_AND_CONFLICTS.md`](scoring_audit_nov17_symmetric/PROVENANCE_AND_CONFLICTS.md).
 
 ## Folder guide
@@ -42,7 +43,7 @@ Intervals are item-clustered bootstrap 95% CIs (B = 5000, seed 42). Readers are 
 | Path | Contents |
 |---|---|
 | `paper/` | Current paper, v10: `cross_pressure_v10.tex`, `.pdf`, `v9_generated.tex` (machine-generated numbers and tables), `fig1_interaction_by_scoring.pdf`, `ARXIV_ABSTRACT.txt` |
-| `scoring_audit_nov17_symmetric/` | Symmetric audit: locked rule, blinded sheets, three readers' label files, freeze manifests, scripts, results, decision log, provenance notes, four adversarial reviews. Start with its `README.md` |
+| `scoring_audit_nov17_symmetric/` | Symmetric audit: locked rule, blinded sheets, three readers' label files, freeze manifests, scripts, results, decision log, provenance notes, five adversarial reviews. Start with its `README.md` |
 | `notebooks/` | `pilot01.ipynb` (Stage 1) and `02_cross_pressure_eval_frame.ipynb` (Stage 2): generation and original scoring code |
 | `pilot01_artifacts/` | `pilot01_final_scored.csv`: Stage 1 scored rows, both models, 480 rows (Llama arm 240) |
 | `pilot02_artifacts/` | Original Stage 2 artifacts: frozen config, raw generations, auto-scored, manual review (+ condition key, adjudicated), final scored, canonical table, clustered bootstrap, item-level robustness, leave-one-out, post-adjudication summaries |
